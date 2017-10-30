@@ -150,6 +150,37 @@ export default class DracoNode {
         this.event('InitPushNotifications', 'True');
     }
 
+    async validateNickname(nickname, takesuggested = false) {
+        await this.event('ValidateNickname', nickname);
+        const response = await this.call('AuthService', 'validateNickname', [ nickname ]);
+        if (response && response.error === 4 && takesuggested) {
+            // already exist
+            return await this.validateNickname(response.suggestedNickname, true);
+        }
+        return response;
+    }
+
+    async acceptTos() {
+        this.event('LicenceShown');
+        this.event('LicenceAccepted');
+    }
+
+    async register(nickname) {
+        this.event('Register', 'DEVICE', nickname);
+        const response = await this.call('AuthService', 'register', [
+            new objects.AuthData({ authType: 0, profileId: this.clientInfo.iOsVendorIdentifier }),
+            nickname,
+            this.clientInfo,
+            new objects.FRegistrationInfo({ regType: 'dv' }),
+        ]);
+
+        this.user.id = response.info.userId;
+
+        this.event('ServerAuthSuccess', this.user.id);
+
+        return response;
+    }
+
     async getUserItems() {
         return this.call('ItemService', 'getUserItems', null);
     }

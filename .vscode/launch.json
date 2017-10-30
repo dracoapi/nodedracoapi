@@ -4,8 +4,21 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Test",
-            "program": "${workspaceRoot}/src/example/one.ts",
+            "name": "One",
+            "program": "${workspaceRoot}/src/examples/one.ts",
+            "cwd": "${workspaceRoot}",
+            "outFiles": [ "${workspaceRoot}/bin/**/*.js" ],
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "env": {
+                "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "CreateUser",
+            "program": "${workspaceRoot}/src/examples/createUser.ts",
             "cwd": "${workspaceRoot}",
             "outFiles": [ "${workspaceRoot}/bin/**/*.js" ],
             "sourceMaps": true,

@@ -24,8 +24,7 @@ async function main() {
     await draco.init();
     console.log('Get user items');
     const items = await draco.getUserItems();
-    console.log('Get map objects...');
-    const map = await draco.getMapUpdate(48.8628407, 2.3286178);
+    console.log(JSON.stringify(items, null, 2));
     console.log('Done.');
 }
 main()
