@@ -6,6 +6,7 @@ const serializer_1 = require("./draco/serializer");
 const deserializer_1 = require("./draco/deserializer");
 class User {
 }
+exports.User = User;
 class DracoNode {
     constructor(options) {
         this.cookies = request.jar();
@@ -20,13 +21,14 @@ class DracoNode {
                 'Client-Version': '6935',
             },
             encoding: null,
+            gzip: true,
             jar: this.cookies,
             simple: false,
             resolveWithFullResponse: true,
         });
-        this.cookies.setCookie(request.cookie('path', '/'), 'https://us.draconiusgo.com');
-        this.cookies.setCookie(request.cookie('Path', '/'), 'https://us.draconiusgo.com');
-        this.cookies.setCookie(request.cookie('domain', '.draconiusgo.com'), 'https://us.draconiusgo.com');
+        this.cookies.setCookie(request.cookie('path=/'), 'https://us.draconiusgo.com');
+        this.cookies.setCookie(request.cookie('Path=/'), 'https://us.draconiusgo.com');
+        this.cookies.setCookie(request.cookie('domain=.draconiusgo.com'), 'https://us.draconiusgo.com');
         this.clientInfo = new objects.FClientInfo({
             platform: 'IPhonePlayer',
             platformVersion: 'iOS 10.3.3',
@@ -58,8 +60,6 @@ class DracoNode {
     async call(service, method, body) {
         const serializer = new serializer_1.default();
         const buffer = serializer.serialize(body);
-        // const bufferStream = new stream.PassThrough();
-        // bufferStream.end(buffer);
         const formData = {
             'service': service,
             'method': method,
@@ -98,6 +98,7 @@ class DracoNode {
     }
     async boot(clientinfo) {
         this.user.id = clientinfo.userId;
+        this.user.deviceId = clientinfo.deviceId;
         this.clientInfo.iOsVendorIdentifier = clientinfo.deviceId;
         for (const key in clientinfo) {
             if (this.clientInfo.hasOwnProperty(key)) {
@@ -112,7 +113,7 @@ class DracoNode {
         const response = await this.call('AuthService', 'trySingIn', [
             new objects.AuthData({
                 authType: 0,
-                profileId: this.clientInfo.iOsVendorIdentifier,
+                profileId: this.user.deviceId,
             }),
             this.clientInfo,
             new objects.FRegistrationInfo({
@@ -126,11 +127,38 @@ class DracoNode {
         return response;
     }
     async init() {
-        this.event('LoadingScreenPercent', '100');
-        this.event('CreateAvatarByType', 'MageMale');
-        this.event('LoadingScreenPercent', '100');
-        this.event('AvatarUpdateView', this.user.avatar.toString());
-        this.event('InitPushNotifications', 'True');
+        await this.event('LoadingScreenPercent', '100');
+        await this.event('CreateAvatarByType', 'MageMale');
+        await this.event('LoadingScreenPercent', '100');
+        await this.event('AvatarUpdateView', this.user.avatar.toString());
+        await this.event('InitPushNotifications', 'True');
+    }
+    async validateNickname(nickname) {
+        await this.event('ValidateNickname', nickname);
+        return await this.call('AuthService', 'validateNickname', [nickname]);
+    }
+    async acceptTos() {
+        await this.event('LicenceShown');
+        await this.event('LicenceAccepted');
+    }
+    async register(nickname) {
+        this.user.nickname = nickname;
+        this.event('Register', 'DEVICE', nickname);
+        const response = await this.call('AuthService', 'register', [
+            new objects.AuthData({ authType: 0, profileId: this.user.deviceId }),
+            nickname,
+            this.clientInfo,
+            new objects.FRegistrationInfo({ regType: 'dv' }),
+        ]);
+        this.user.id = response.info.userId;
+        await this.event('ServerAuthSuccess', this.user.id);
+        return response;
+    }
+    async setAvatar(avatar) {
+        this.user.avatar = +avatar;
+        await this.event('AvatarPlayerGenderRace', '1', '1');
+        await this.event('AvatarPlayerSubmit', avatar.toString());
+        return await this.call('PlayerService', 'saveUserSettings', [+avatar]);
     }
     async getUserItems() {
         return this.call('ItemService', 'getUserItems', null);

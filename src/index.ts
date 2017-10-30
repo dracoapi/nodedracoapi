@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import * as stream from 'stream';
 import * as long from 'long';
 import * as request from 'request-promise-native';
@@ -5,8 +6,10 @@ import * as objects from './draco/objects';
 import Serializer from './draco/serializer';
 import Deserializer from './draco/deserializer';
 
-class User {
+export class User {
     id: string;
+    deviceId: string;
+    nickname: string;
     avatar: number;
 }
 
@@ -29,13 +32,14 @@ export default class DracoNode {
                 'Client-Version': '6935',
             },
             encoding: null,
+            gzip: true,
             jar: this.cookies,
             simple: false,
             resolveWithFullResponse: true,
         });
-        this.cookies.setCookie(request.cookie('path', '/'), 'https://us.draconiusgo.com');
-        this.cookies.setCookie(request.cookie('Path', '/'), 'https://us.draconiusgo.com');
-        this.cookies.setCookie(request.cookie('domain', '.draconiusgo.com'), 'https://us.draconiusgo.com');
+        this.cookies.setCookie(request.cookie('path=/'), 'https://us.draconiusgo.com');
+        this.cookies.setCookie(request.cookie('Path=/'), 'https://us.draconiusgo.com');
+        this.cookies.setCookie(request.cookie('domain=.draconiusgo.com'), 'https://us.draconiusgo.com');
 
         this.clientInfo = new objects.FClientInfo({
             platform: 'IPhonePlayer',
@@ -69,8 +73,6 @@ export default class DracoNode {
     async call(service: string, method: string, body: any) {
         const serializer = new Serializer();
         const buffer = serializer.serialize(body);
-        // const bufferStream = new stream.PassThrough();
-        // bufferStream.end(buffer);
         const formData = {
             'service': service,
             'method': method,
@@ -82,13 +84,13 @@ export default class DracoNode {
                 },
             },
         };
+
         const response = await this.request.post({
             url: 'https://us.draconiusgo.com/serviceCall',
             formData,
             headers: {
                 dcportal: this.dcportal,
             },
-
         });
 
         if (response.headers['dcportal']) this.dcportal = response.headers['dcportal'];
@@ -113,6 +115,7 @@ export default class DracoNode {
 
     async boot(clientinfo) {
         this.user.id = clientinfo.userId;
+        this.user.deviceId = clientinfo.deviceId;
         this.clientInfo.iOsVendorIdentifier = clientinfo.deviceId;
         for (const key in clientinfo) {
             if (this.clientInfo.hasOwnProperty(key)) {
@@ -128,7 +131,7 @@ export default class DracoNode {
         const response = await this.call('AuthService', 'trySingIn', [
             new objects.AuthData({
                 authType: 0, // device
-                profileId: this.clientInfo.iOsVendorIdentifier,
+                profileId: this.user.deviceId,
             }),
             this.clientInfo,
             new objects.FRegistrationInfo({
@@ -143,11 +146,44 @@ export default class DracoNode {
     }
 
     async init() {
-        this.event('LoadingScreenPercent', '100');
-        this.event('CreateAvatarByType', 'MageMale');
-        this.event('LoadingScreenPercent', '100');
-        this.event('AvatarUpdateView', this.user.avatar.toString());
-        this.event('InitPushNotifications', 'True');
+        await this.event('LoadingScreenPercent', '100');
+        await this.event('CreateAvatarByType', 'MageMale');
+        await this.event('LoadingScreenPercent', '100');
+        await this.event('AvatarUpdateView', this.user.avatar.toString());
+        await this.event('InitPushNotifications', 'True');
+    }
+
+    async validateNickname(nickname) {
+        await this.event('ValidateNickname', nickname);
+        return await this.call('AuthService', 'validateNickname', [ nickname ]);
+    }
+
+    async acceptTos() {
+        await this.event('LicenceShown');
+        await this.event('LicenceAccepted');
+    }
+
+    async register(nickname) {
+        this.user.nickname = nickname;
+        this.event('Register', 'DEVICE', nickname);
+        const response = await this.call('AuthService', 'register', [
+            new objects.AuthData({ authType: 0, profileId: this.user.deviceId }),
+            nickname,
+            this.clientInfo,
+            new objects.FRegistrationInfo({ regType: 'dv' }),
+        ]);
+
+        this.user.id = response.info.userId;
+        await this.event('ServerAuthSuccess', this.user.id);
+
+        return response;
+    }
+
+    async setAvatar(avatar) {
+        this.user.avatar = +avatar;
+        await this.event('AvatarPlayerGenderRace', '1', '1');
+        await this.event('AvatarPlayerSubmit', avatar.toString());
+        return await this.call('PlayerService', 'saveUserSettings', [ +avatar ]);
     }
 
     async getUserItems() {
