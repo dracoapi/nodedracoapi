@@ -2,14 +2,14 @@ import * as fs from 'fs';
 import DracoNode from '../index';
 
 function generateDeviceId() {
-    return '00000000-0000-4000-8000-000000000000'.replace(/0/g, () => (0 | Math.random() * 16).toString(16));
+    return '00000000-0000-4000-8000-000000000000'.replace(/0/g, () => (0 | Math.random() * 16).toString(16)).toUpperCase();
 }
 
 function generateNickname() {
     const chars = 'abcdefghijklmnopqrstuvwxyz';
     let name = '';
-    for(let i = 0; i < 8; i++) {
-        name += chars[Math.floor(Math.random()*chars.length)];
+    for (let i = 0; i < 8; i++) {
+        name += chars[Math.floor(Math.random() * chars.length)];
     }
     return name;
 }
@@ -18,8 +18,8 @@ async function main() {
     console.log('Starting...');
 
     const draco = new DracoNode({
-        // proxy: 'http://localhost:8888',
-        proxy: 'http://165.227.32.113:3128',
+        proxy: 'http://localhost:8888',
+        // proxy: 'http://165.227.32.113:3128',
     });
 
     console.log('Ping...');
@@ -49,7 +49,7 @@ async function main() {
 
     console.log('Register account...');
     await draco.register(nickname);
-    
+
     console.log('Set avatar...');
     response = await draco.setAvatar(271891);
 

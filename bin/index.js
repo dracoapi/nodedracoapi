@@ -21,13 +21,14 @@ class DracoNode {
                 'Client-Version': '6935',
             },
             encoding: null,
+            gzip: true,
             jar: this.cookies,
             simple: false,
             resolveWithFullResponse: true,
         });
-        this.cookies.setCookie(request.cookie('path', '/'), 'https://us.draconiusgo.com');
-        this.cookies.setCookie(request.cookie('Path', '/'), 'https://us.draconiusgo.com');
-        this.cookies.setCookie(request.cookie('domain', '.draconiusgo.com'), 'https://us.draconiusgo.com');
+        this.cookies.setCookie(request.cookie('path=/'), 'https://us.draconiusgo.com');
+        this.cookies.setCookie(request.cookie('Path=/'), 'https://us.draconiusgo.com');
+        this.cookies.setCookie(request.cookie('domain=.draconiusgo.com'), 'https://us.draconiusgo.com');
         this.clientInfo = new objects.FClientInfo({
             platform: 'IPhonePlayer',
             platformVersion: 'iOS 10.3.3',
@@ -97,6 +98,7 @@ class DracoNode {
     }
     async boot(clientinfo) {
         this.user.id = clientinfo.userId;
+        this.user.deviceId = clientinfo.deviceId;
         this.clientInfo.iOsVendorIdentifier = clientinfo.deviceId;
         for (const key in clientinfo) {
             if (this.clientInfo.hasOwnProperty(key)) {
@@ -111,7 +113,7 @@ class DracoNode {
         const response = await this.call('AuthService', 'trySingIn', [
             new objects.AuthData({
                 authType: 0,
-                profileId: this.clientInfo.iOsVendorIdentifier,
+                profileId: this.user.deviceId,
             }),
             this.clientInfo,
             new objects.FRegistrationInfo({
@@ -143,7 +145,7 @@ class DracoNode {
         this.user.nickname = nickname;
         this.event('Register', 'DEVICE', nickname);
         const response = await this.call('AuthService', 'register', [
-            new objects.AuthData({ authType: 0, profileId: this.clientInfo.iOsVendorIdentifier }),
+            new objects.AuthData({ authType: 0, profileId: this.user.deviceId }),
             nickname,
             this.clientInfo,
             new objects.FRegistrationInfo({ regType: 'dv' }),

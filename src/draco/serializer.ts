@@ -139,15 +139,18 @@ export default class Serializer {
             if (data.length === 0) {
                 this.writeByte(0);
             } else {
-                if ((typeof data[0]) === 'number') {
-                    this.writeByte(3);
-                    this.writeByte(3); // int[]
-                    this.writeStaticArray(data, true);
-                } else {
-                    this.writeByte(2);
-                    this.writeByte(4); // object
-                    this.writeStaticArray(data, false);
-                }
+                this.writeByte(2);
+                this.writeByte(4); // object
+                this.writeStaticArray(data, false);
+                // if ((typeof data[0]) === 'number') {
+                //     this.writeByte(3);
+                //     this.writeByte(3); // int[]
+                //     this.writeStaticArray(data, true);
+                // } else {
+                //     this.writeByte(2);
+                //     this.writeByte(4); // object
+                //     this.writeStaticArray(data, false);
+                // }
             }
         } else {
             let type = -1;
@@ -175,6 +178,6 @@ export default class Serializer {
     }
     serialize(data) {
         this.writeDynamicObject(data);
-        return this.buffer;
+        return this.buffer.slice(0, this.idx);
     }
 }
