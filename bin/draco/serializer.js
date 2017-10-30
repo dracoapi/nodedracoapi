@@ -154,7 +154,8 @@ class Serializer {
             else {
                 if ((typeof data[0]) === 'number') {
                     this.writeByte(3);
-                    throw new Error('writeDynamicObject');
+                    this.writeByte(3); // int[]
+                    this.writeStaticArray(data, true);
                 }
                 else {
                     this.writeByte(2);

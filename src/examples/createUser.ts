@@ -51,9 +51,12 @@ async function main() {
     await draco.register(nickname);
     
     console.log('Set avatar...');
-    await draco.setAvatar(271891);
+    response = await draco.setAvatar(271891);
 
+    console.log('Save data into user.json');
     fs.writeFileSync('user.json', JSON.stringify(draco.user, null, 2), 'utf8');
+
+    console.log('Done.');
 }
 
 main()

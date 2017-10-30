@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import * as stream from 'stream';
 import * as long from 'long';
 import * as request from 'request-promise-native';
@@ -70,8 +71,6 @@ export default class DracoNode {
     async call(service: string, method: string, body: any) {
         const serializer = new Serializer();
         const buffer = serializer.serialize(body);
-        // const bufferStream = new stream.PassThrough();
-        // bufferStream.end(buffer);
         const formData = {
             'service': service,
             'method': method,
@@ -83,13 +82,13 @@ export default class DracoNode {
                 },
             },
         };
+
         const response = await this.request.post({
             url: 'https://us.draconiusgo.com/serviceCall',
             formData,
             headers: {
                 dcportal: this.dcportal,
             },
-
         });
 
         if (response.headers['dcportal']) this.dcportal = response.headers['dcportal'];
@@ -178,10 +177,10 @@ export default class DracoNode {
     }
 
     async setAvatar(avatar) {
-        this.user.avatar = avatar;
+        this.user.avatar = +avatar;
         await this.event('AvatarPlayerGenderRace', '1', '1');
-        await this.event('AvatarPlayerSubmit', this.user.avatar.toString());
-        return await this.call('PlayerService', 'saveUserSettings', [ this.user.avatar ]);
+        await this.event('AvatarPlayerSubmit', avatar.toString());
+        return await this.call('PlayerService', 'saveUserSettings', [ +avatar ]);
     }
 
     async getUserItems() {

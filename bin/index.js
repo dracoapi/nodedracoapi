@@ -59,8 +59,6 @@ class DracoNode {
     async call(service, method, body) {
         const serializer = new serializer_1.default();
         const buffer = serializer.serialize(body);
-        // const bufferStream = new stream.PassThrough();
-        // bufferStream.end(buffer);
         const formData = {
             'service': service,
             'method': method,
@@ -155,10 +153,10 @@ class DracoNode {
         return response;
     }
     async setAvatar(avatar) {
-        this.user.avatar = avatar;
+        this.user.avatar = +avatar;
         await this.event('AvatarPlayerGenderRace', '1', '1');
-        await this.event('AvatarPlayerSubmit', this.user.avatar.toString());
-        return await this.call('PlayerService', 'saveUserSettings', [this.user.avatar]);
+        await this.event('AvatarPlayerSubmit', avatar.toString());
+        return await this.call('PlayerService', 'saveUserSettings', [+avatar]);
     }
     async getUserItems() {
         return this.call('ItemService', 'getUserItems', null);
