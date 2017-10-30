@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const request = require("request-promise-native");
 const objects = require("./draco/objects");
+const constants = require("./draco/constants");
 const serializer_1 = require("./draco/serializer");
 const deserializer_1 = require("./draco/deserializer");
 class User {
@@ -112,7 +113,7 @@ class DracoNode {
         await this.event('TrySingIn', 'DEVICE');
         const response = await this.call('AuthService', 'trySingIn', [
             new objects.AuthData({
-                authType: 0,
+                authType: constants.AuthType.DEVICE,
                 profileId: this.user.deviceId,
             }),
             this.clientInfo,
@@ -126,7 +127,7 @@ class DracoNode {
         }
         return response;
     }
-    async init() {
+    async load() {
         await this.event('LoadingScreenPercent', '100');
         await this.event('CreateAvatarByType', 'MageMale');
         await this.event('LoadingScreenPercent', '100');
@@ -145,7 +146,10 @@ class DracoNode {
         this.user.nickname = nickname;
         this.event('Register', 'DEVICE', nickname);
         const response = await this.call('AuthService', 'register', [
-            new objects.AuthData({ authType: 0, profileId: this.user.deviceId }),
+            new objects.AuthData({
+                authType: constants.AuthType.DEVICE,
+                profileId: this.user.deviceId
+            }),
             nickname,
             this.clientInfo,
             new objects.FRegistrationInfo({ regType: 'dv' }),
@@ -169,7 +173,7 @@ class DracoNode {
     async getUserCreatures() {
         return this.call('UserCreatureService', 'getUserCreatures', []);
     }
-    async getMapUpdate(latitude, longitude) {
+    async getMapUpdate(latitude, longitude, horizontalAccuracy = 20) {
         return this.call('MapService', 'getUpdate', [
             new objects.FUpdateRequest({
                 clientRequest: new objects.FClientRequest({
@@ -178,10 +182,10 @@ class DracoNode {
                     coords: new objects.GeoCoords({
                         latitude,
                         longitude,
-                        horizontalAccuracy: 20,
+                        horizontalAccuracy,
                     }),
                 }),
-                clientPlatform: 1,
+                clientPlatform: constants.ClientPlatform.IOS,
                 tilesCache: new Map(),
             }),
         ]);

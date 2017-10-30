@@ -2,6 +2,16 @@ import * as long from 'long';
 import * as objects from './objects';
 import { classIds, primitiveIds } from './classes';
 
+function findTypeId(data) {
+    let type = (typeof data).toString();
+    if (type === 'number') type = 'int';
+    else if (type === 'boolean') type = 'bool';
+    for (const key in classIds) {
+        if (classIds[key] === type) return key;
+    }
+    throw new Error('unable to find type of: ' + data);
+}
+
 export default class Serializer {
     buffer: Buffer;
     idx: number;
@@ -38,6 +48,9 @@ export default class Serializer {
     }
     writeInt64(val: long) {
         this.ensureBuffer();
+        if (!(val instanceof long)) {
+            val = long.fromValue(val);
+        }
         this.writeInt32(val.high);
         this.writeInt32(val.low);
     }
@@ -69,17 +82,31 @@ export default class Serializer {
     }
     writeStaticArray(data: any[], staticobject = false) {
         this.writeLength(data.length);
-        const array = [];
         for (let i = 0; i < data.length; i++) {
             this.writeObject(data[i], staticobject);
         }
-        return array;
     }
     writeStaticList(data, staticobject = false) {
         this.writeStaticArray(data, staticobject);
     }
-    writeStaticHashSet(data, staticobject = false) {
-        return this.writeStaticArray(data, staticobject);
+    writeDynamicList(data: any[], isstatic = false) {
+        if (data === null || data === undefined) {
+            this.writeByte(0);
+        } else {
+            // if (data.length === 0) {
+            //     this.writeByte(4);
+            // } else {
+            //     this.writeByte(findTypeId(data[0]));
+            // }
+            this.writeByte(4);
+            this.writeStaticArray(data, isstatic);
+        }
+    }
+    writeStaticHashSet(data: Set<any>, staticobject = false) {
+        this.writeLength(data.size);
+        for (const item of data) {
+            this.writeObject(item, staticobject);
+        }
     }
     writeDynamicMap(data, static1 = false, static2 = false) {
         if (data == null) {

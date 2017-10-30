@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import { FNicknameValidationError } from '../draco/constants';
 import DracoNode from '../index';
 
 function generateDeviceId() {
@@ -19,7 +20,6 @@ async function main() {
 
     const draco = new DracoNode({
         proxy: 'http://localhost:8888',
-        // proxy: 'http://165.227.32.113:3128',
     });
 
     console.log('Ping...');
@@ -37,7 +37,7 @@ async function main() {
     console.log('Generate nickname...');
     let nickname = generateNickname();
     let response = await draco.validateNickname(nickname);
-    while (response != null && response.error === 4) {
+    while (response != null && response.error === FNicknameValidationError.DUPLICATE) {
         nickname = response.suggestedNickname;
         response = await this.validateNickname(nickname);
     }
@@ -53,8 +53,13 @@ async function main() {
     console.log('Set avatar...');
     response = await draco.setAvatar(271891);
 
-    console.log('Save data into user.json');
-    fs.writeFileSync('user.json', JSON.stringify(draco.user, null, 2), 'utf8');
+    console.log('Save data into users.json...');
+    let users = [];
+    if (fs.existsSync('users.json')) {
+        users = JSON.parse(fs.readFileSync('users.json', 'utf8'));
+    }
+    users.push(draco.user);
+    fs.writeFileSync('users.json', JSON.stringify(users, null, 2), 'utf8');
 
     console.log('Done.');
 }

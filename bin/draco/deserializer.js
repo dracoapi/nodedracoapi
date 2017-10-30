@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const long = require("long");
 const objects = require("./objects");
+const constants = require("./constants");
 const classes_1 = require("./classes");
 class Deserializer {
     constructor(buffer) {
@@ -9,10 +10,17 @@ class Deserializer {
         this.idx = 0;
     }
     readBoolean() {
-        return this.readByte() !== 0;
+        return this.buffer[this.idx++] !== 0;
+    }
+    readSByte() {
+        const val = this.buffer.readInt8(this.idx);
+        this.idx++;
+        return val;
     }
     readByte() {
-        return this.buffer[this.idx++];
+        const val = this.buffer.readUInt8(this.idx);
+        this.idx++;
+        return val;
     }
     readShort() {
         const val = this.buffer.readInt16BE(this.idx);
@@ -54,8 +62,8 @@ class Deserializer {
         return num;
     }
     readUtf8String() {
-        const num = this.buffer[this.idx++];
-        const num2 = this.buffer[this.idx++];
+        const num = this.readByte();
+        const num2 = this.readByte();
         const len = (num << 8) + (num2 << 0);
         const value = this.buffer.slice(this.idx, this.idx + len).toString('utf8');
         this.idx += len;
@@ -70,28 +78,39 @@ class Deserializer {
         return array;
     }
     readDynamicArray(staticobject = false) {
-        if (this.buffer[this.idx] === 2) {
-            this.idx++;
-            const id = this.buffer[this.idx++].toString();
-            const type = classes_1.classIds[id];
+        const id = this.readSByte();
+        if (id === 2) {
+            const classId = this.readSByte().toString();
+            const type = classes_1.classIds[classId];
             return this.readStaticArray(type, staticobject);
         }
-        else if (this.buffer[this.idx] === 3) {
-            this.idx++;
-            const id = this.buffer[this.idx++].toString();
-            const type = classes_1.primitiveIds[id];
+        else if (id === 3) {
+            const classId = this.readSByte().toString();
+            const type = classes_1.primitiveIds[classId];
             return this.readStaticArray(type, true);
         }
+        else {
+            throw new Error('readDynamicArray');
+        }
+    }
+    readDynamicList(type, isstatic = false) {
+        if (this.readByte() === 0)
+            return null;
+        return this.readStaticList(type, isstatic);
     }
     readStaticList(type, staticobject = false) {
         return this.readStaticArray(type, staticobject);
     }
     readStaticHashSet(type, staticobject = false) {
-        return this.readStaticArray(type, staticobject);
+        const ln = this.readLength();
+        const set = new Set();
+        for (let i = 0; i < ln; i++) {
+            set.add(this.readObject(type, staticobject));
+        }
+        return set;
     }
     readDynamicMap(type1, type2, static1 = false, static2 = false) {
-        const isnull = this.readByte();
-        if (isnull)
+        if (this.readSByte() === 0)
             return null;
         else
             return this.readStaticMap(type1, type2, static1, static2);
@@ -121,10 +140,10 @@ class Deserializer {
     readStaticObject(type) {
         let match;
         if (type === 'bool') {
-            return this.buffer[this.idx++] !== 0;
+            return this.readBoolean();
         }
         else if (type === 'sbyte') {
-            return this.buffer[this.idx++];
+            return this.readSByte();
         }
         else if (type === 'short') {
             return this.readShort();
@@ -149,7 +168,7 @@ class Deserializer {
         else if ((match = /List<(.+)>/.exec(type))) {
             return this.readStaticList(match[1], false);
         }
-        else if (objects.enums.indexOf(type) >= 0) {
+        else if (constants[type]) {
             return this.readByte();
         }
         else if (objects[type]) {
@@ -163,16 +182,16 @@ class Deserializer {
         }
     }
     readDynamicObject() {
-        if (this.buffer[this.idx] === 0) {
-            this.idx++;
+        const id = this.readSByte();
+        if (id === 0) {
             return null;
         }
-        else if (this.buffer[this.idx] === 2 || this.buffer[this.idx] === 3) {
+        else if (id === 2 || id === 3) {
+            this.idx--;
             return this.readDynamicArray();
         }
         else {
-            const id = this.buffer[this.idx++].toString();
-            const type = classes_1.classIds[id];
+            const type = classes_1.classIds[id.toString()];
             return this.readStaticObject(type);
         }
     }

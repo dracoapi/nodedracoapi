@@ -3,6 +3,7 @@ import * as stream from 'stream';
 import * as long from 'long';
 import * as request from 'request-promise-native';
 import * as objects from './draco/objects';
+import * as constants from './draco/constants';
 import Serializer from './draco/serializer';
 import Deserializer from './draco/deserializer';
 
@@ -130,7 +131,7 @@ export default class DracoNode {
         await this.event('TrySingIn', 'DEVICE');
         const response = await this.call('AuthService', 'trySingIn', [
             new objects.AuthData({
-                authType: 0, // device
+                authType: constants.AuthType.DEVICE,
                 profileId: this.user.deviceId,
             }),
             this.clientInfo,
@@ -145,7 +146,7 @@ export default class DracoNode {
         return response;
     }
 
-    async init() {
+    async load() {
         await this.event('LoadingScreenPercent', '100');
         await this.event('CreateAvatarByType', 'MageMale');
         await this.event('LoadingScreenPercent', '100');
@@ -167,7 +168,10 @@ export default class DracoNode {
         this.user.nickname = nickname;
         this.event('Register', 'DEVICE', nickname);
         const response = await this.call('AuthService', 'register', [
-            new objects.AuthData({ authType: 0, profileId: this.user.deviceId }),
+            new objects.AuthData({
+                authType: constants.AuthType.DEVICE,
+                profileId: this.user.deviceId
+            }),
             nickname,
             this.clientInfo,
             new objects.FRegistrationInfo({ regType: 'dv' }),
@@ -198,7 +202,7 @@ export default class DracoNode {
         return this.call('UserCreatureService', 'getUserCreatures', []);
     }
 
-    async getMapUpdate(latitude: number, longitude: number) {
+    async getMapUpdate(latitude: number, longitude: number, horizontalAccuracy = 20) {
         return this.call('MapService', 'getUpdate', [
             new objects.FUpdateRequest({
                 clientRequest: new objects.FClientRequest({
@@ -207,10 +211,10 @@ export default class DracoNode {
                     coords: new objects.GeoCoords({
                         latitude,
                         longitude,
-                        horizontalAccuracy: 20,
+                        horizontalAccuracy,
                     }),
                 }),
-                clientPlatform: 1, // Gen.ClientPlatform.IOS,
+                clientPlatform: constants.ClientPlatform.IOS,
                 tilesCache: new Map<objects.FTile, long>(),
             }),
         ]);
