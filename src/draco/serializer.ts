@@ -3,7 +3,7 @@ import * as objects from './objects';
 import { classIds, primitiveIds } from './classes';
 
 function findTypeId(data) {
-    let type = (typeof data);
+    let type = (typeof data).toString();
     if (type === 'number') type = 'int';
     else if (type === 'boolean') type = 'bool';
     for (const key in classIds) {
@@ -48,6 +48,9 @@ export default class Serializer {
     }
     writeInt64(val: long) {
         this.ensureBuffer();
+        if (!(val instanceof long)) {
+            val = long.fromValue(val);
+        }
         this.writeInt32(val.high);
         this.writeInt32(val.low);
     }

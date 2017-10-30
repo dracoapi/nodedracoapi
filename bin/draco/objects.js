@@ -940,7 +940,7 @@ class FCreadexEntry {
     }
     serialize(serializer) {
         serializer.writeInt32(this.caughtQuantity);
-        serializer.writeStaticList(this.chain, true);
+        serializer.writeDynamicList(this.chain, true);
         serializer.writeByte(this.element);
         serializer.writeByte(this.name);
         serializer.writeBoolean(this.seen);
@@ -948,7 +948,7 @@ class FCreadexEntry {
     }
     deserialize(deserializer) {
         this.caughtQuantity = deserializer.readInt32();
-        this.chain = deserializer.readStaticList('FCreadexChain', true);
+        this.chain = deserializer.readDynamicList('FCreadexChain', true);
         this.element = deserializer.readByte();
         this.name = deserializer.readByte();
         this.seen = deserializer.readBoolean();
@@ -993,7 +993,7 @@ class FDailyQuest {
         serializer.writeDynamicObject(this.elementType);
         serializer.writeDynamicObject(this.id);
         serializer.writeInt32(this.nextDailyQuestIn);
-        serializer.writeStaticList(this.pitstopPath, true);
+        serializer.writeDynamicList(this.pitstopPath, true);
         serializer.writeInt32(this.progress);
         serializer.writeDynamicObject(this.type);
     }
@@ -1002,7 +1002,7 @@ class FDailyQuest {
         this.elementType = deserializer.readDynamicObject();
         this.id = deserializer.readDynamicObject();
         this.nextDailyQuestIn = deserializer.readInt32();
-        this.pitstopPath = deserializer.readStaticList('IdAndCoords', true);
+        this.pitstopPath = deserializer.readDynamicList('IdAndCoords', true);
         this.progress = deserializer.readInt32();
         this.type = deserializer.readDynamicObject();
     }
@@ -1649,12 +1649,12 @@ class FQuestUpdate {
     serialize(serializer) {
         serializer.writeDynamicObject(this.completed);
         serializer.writeDynamicObject(this.highlightBuilding);
-        serializer.writeStaticList(this.path, true);
+        serializer.writeDynamicList(this.path, true);
     }
     deserialize(deserializer) {
         this.completed = deserializer.readDynamicObject();
         this.highlightBuilding = deserializer.readDynamicObject();
-        this.path = deserializer.readStaticList('IdAndCoords', true);
+        this.path = deserializer.readDynamicList('IdAndCoords', true);
     }
 }
 exports.FQuestUpdate = FQuestUpdate;

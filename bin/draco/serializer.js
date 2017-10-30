@@ -3,6 +3,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const long = require("long");
 const objects = require("./objects");
 const classes_1 = require("./classes");
+function findTypeId(data) {
+    let type = (typeof data).toString();
+    if (type === 'number')
+        type = 'int';
+    else if (type === 'boolean')
+        type = 'bool';
+    for (const key in classes_1.classIds) {
+        if (classes_1.classIds[key] === type)
+            return key;
+    }
+    throw new Error('unable to find type of: ' + data);
+}
 class Serializer {
     constructor() {
         this.idx = 0;
@@ -79,6 +91,20 @@ class Serializer {
     }
     writeStaticList(data, staticobject = false) {
         this.writeStaticArray(data, staticobject);
+    }
+    writeDynamicList(data, isstatic = false) {
+        if (data === null || data === undefined) {
+            this.writeByte(0);
+        }
+        else {
+            // if (data.length === 0) {
+            //     this.writeByte(4);
+            // } else {
+            //     this.writeByte(findTypeId(data[0]));
+            // }
+            this.writeByte(4);
+            this.writeStaticArray(data, isstatic);
+        }
     }
     writeStaticHashSet(data, staticobject = false) {
         this.writeLength(data.size);
