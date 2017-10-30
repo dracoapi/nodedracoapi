@@ -38,6 +38,9 @@ export default class Serializer {
     }
     writeInt64(val: long) {
         this.ensureBuffer();
+        if (!(val instanceof long)) {
+            val = long.fromValue(val);
+        }
         this.writeInt32(val.high);
         this.writeInt32(val.low);
     }
@@ -69,17 +72,18 @@ export default class Serializer {
     }
     writeStaticArray(data: any[], staticobject = false) {
         this.writeLength(data.length);
-        const array = [];
         for (let i = 0; i < data.length; i++) {
             this.writeObject(data[i], staticobject);
         }
-        return array;
     }
     writeStaticList(data, staticobject = false) {
         this.writeStaticArray(data, staticobject);
     }
-    writeStaticHashSet(data, staticobject = false) {
-        return this.writeStaticArray(data, staticobject);
+    writeStaticHashSet(data: Set<any>, staticobject = false) {
+        this.writeLength(data.size);
+        for (const item of data) {
+            this.writeObject(item, staticobject);
+        }
     }
     writeDynamicMap(data, static1 = false, static2 = false) {
         if (data == null) {

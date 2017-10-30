@@ -357,7 +357,7 @@ export class FArenaDetails {
 }
 
 export class FArenaWithBattleUpdate {
-    arenaWithBattle: string[];
+    arenaWithBattle: Set<string>;
 
     public constructor(init?: Partial<FArenaWithBattleUpdate>) {
         Object.assign(this, init);
@@ -2379,7 +2379,7 @@ export class FSpellCastDone {
 }
 
 export class FSpellEffectsUpdate {
-    hitArenas: string[];
+    hitArenas: Set<string>;
 
     public constructor(init?: Partial<FSpellEffectsUpdate>) {
         Object.assign(this, init);
@@ -2992,28 +2992,3 @@ export class Tile {
         this.zoom = deserializer.readInt32();
     }
 }
-
-export const enums = [
-    'AllianceType',
-    'ArtifactName',
-    'ArtifactType',
-    'AuthType',
-    'BuffType',
-    'BuildingType',
-    'ClientPlatform',
-    'CreatureType',
-    'DungeonShapeType',
-    'ElementType',
-    'EventLogType',
-    'FNicknameValidationError',
-    'InAppEventType',
-    'InstantUseItem',
-    'ItemType',
-    'LogDetailsType',
-    'PersonalizedStop',
-    'QuestType',
-    'RecipeType',
-    'SkillQuality',
-    'SpellType',
-];
-

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
+const constants_1 = require("../draco/constants");
 const index_1 = require("../index");
 function generateDeviceId() {
     return '00000000-0000-4000-8000-000000000000'.replace(/0/g, () => (0 | Math.random() * 16).toString(16)).toUpperCase();
@@ -31,7 +32,7 @@ async function main() {
     console.log('Generate nickname...');
     let nickname = generateNickname();
     let response = await draco.validateNickname(nickname);
-    while (response != null && response.error === 4) {
+    while (response != null && response.error === constants_1.FNicknameValidationError.DUPLICATE) {
         nickname = response.suggestedNickname;
         response = await this.validateNickname(nickname);
     }
@@ -44,8 +45,13 @@ async function main() {
     await draco.register(nickname);
     console.log('Set avatar...');
     response = await draco.setAvatar(271891);
-    console.log('Save data into user.json');
-    fs.writeFileSync('user.json', JSON.stringify(draco.user, null, 2), 'utf8');
+    console.log('Save data into users.json...');
+    let users = [];
+    if (fs.existsSync('users.json')) {
+        users = JSON.parse(fs.readFileSync('users.json', 'utf8'));
+    }
+    users.push(draco.user);
+    fs.writeFileSync('users.json', JSON.stringify(users, null, 2), 'utf8');
     console.log('Done.');
 }
 main()

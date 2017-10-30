@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const long = require("long");
 const objects = require("./objects");
+const constants = require("./constants");
 const classes_1 = require("./classes");
 class Deserializer {
     constructor(buffer) {
@@ -87,7 +88,12 @@ class Deserializer {
         return this.readStaticArray(type, staticobject);
     }
     readStaticHashSet(type, staticobject = false) {
-        return this.readStaticArray(type, staticobject);
+        const ln = this.readLength();
+        const set = new Set();
+        for (let i = 0; i < ln; i++) {
+            set.add(this.readObject(type, staticobject));
+        }
+        return set;
     }
     readDynamicMap(type1, type2, static1 = false, static2 = false) {
         const isnull = this.readByte();
@@ -149,7 +155,7 @@ class Deserializer {
         else if ((match = /List<(.+)>/.exec(type))) {
             return this.readStaticList(match[1], false);
         }
-        else if (objects.enums.indexOf(type) >= 0) {
+        else if (constants[type]) {
             return this.readByte();
         }
         else if (objects[type]) {

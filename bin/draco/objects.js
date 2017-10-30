@@ -2200,27 +2200,4 @@ class Tile {
     }
 }
 exports.Tile = Tile;
-exports.enums = [
-    'AllianceType',
-    'ArtifactName',
-    'ArtifactType',
-    'AuthType',
-    'BuffType',
-    'BuildingType',
-    'ClientPlatform',
-    'CreatureType',
-    'DungeonShapeType',
-    'ElementType',
-    'EventLogType',
-    'FNicknameValidationError',
-    'InAppEventType',
-    'InstantUseItem',
-    'ItemType',
-    'LogDetailsType',
-    'PersonalizedStop',
-    'QuestType',
-    'RecipeType',
-    'SkillQuality',
-    'SpellType',
-];
 //# sourceMappingURL=objects.js.map

@@ -34,4 +34,4 @@ main()
     .catch(e => {
     console.log(e);
 });
-//# sourceMappingURL=one.js.map
+//# sourceMappingURL=getItems.js.map
