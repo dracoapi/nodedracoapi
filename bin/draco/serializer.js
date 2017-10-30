@@ -154,7 +154,7 @@ class Serializer {
             else {
                 if ((typeof data[0]) === 'number') {
                     this.writeByte(3);
-                    throw new Error();
+                    throw new Error('writeDynamicObject');
                 }
                 else {
                     this.writeByte(2);
@@ -181,10 +181,10 @@ class Serializer {
                 }
             }
             else {
-                throw new Error();
+                throw new Error('writeDynamicObject');
             }
             if (type === -1) {
-                throw new Error();
+                throw new Error('writeDynamicObject');
             }
             this.writeByte(type);
             this.writeStaticObject(data);

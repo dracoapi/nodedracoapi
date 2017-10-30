@@ -5,8 +5,9 @@ import * as objects from './draco/objects';
 import Serializer from './draco/serializer';
 import Deserializer from './draco/deserializer';
 
-class User {
+export class User {
     id: string;
+    nickname: string;
     avatar: number;
 }
 
@@ -143,29 +144,25 @@ export default class DracoNode {
     }
 
     async init() {
-        this.event('LoadingScreenPercent', '100');
-        this.event('CreateAvatarByType', 'MageMale');
-        this.event('LoadingScreenPercent', '100');
-        this.event('AvatarUpdateView', this.user.avatar.toString());
-        this.event('InitPushNotifications', 'True');
+        await this.event('LoadingScreenPercent', '100');
+        await this.event('CreateAvatarByType', 'MageMale');
+        await this.event('LoadingScreenPercent', '100');
+        await this.event('AvatarUpdateView', this.user.avatar.toString());
+        await this.event('InitPushNotifications', 'True');
     }
 
-    async validateNickname(nickname, takesuggested = false) {
+    async validateNickname(nickname) {
         await this.event('ValidateNickname', nickname);
-        const response = await this.call('AuthService', 'validateNickname', [ nickname ]);
-        if (response && response.error === 4 && takesuggested) {
-            // already exist
-            return await this.validateNickname(response.suggestedNickname, true);
-        }
-        return response;
+        return await this.call('AuthService', 'validateNickname', [ nickname ]);
     }
 
     async acceptTos() {
-        this.event('LicenceShown');
-        this.event('LicenceAccepted');
+        await this.event('LicenceShown');
+        await this.event('LicenceAccepted');
     }
 
     async register(nickname) {
+        this.user.nickname = nickname;
         this.event('Register', 'DEVICE', nickname);
         const response = await this.call('AuthService', 'register', [
             new objects.AuthData({ authType: 0, profileId: this.clientInfo.iOsVendorIdentifier }),
@@ -175,10 +172,16 @@ export default class DracoNode {
         ]);
 
         this.user.id = response.info.userId;
-
-        this.event('ServerAuthSuccess', this.user.id);
+        await this.event('ServerAuthSuccess', this.user.id);
 
         return response;
+    }
+
+    async setAvatar(avatar) {
+        this.user.avatar = avatar;
+        await this.event('AvatarPlayerGenderRace', '1', '1');
+        await this.event('AvatarPlayerSubmit', this.user.avatar.toString());
+        return await this.call('PlayerService', 'saveUserSettings', [ this.user.avatar ]);
     }
 
     async getUserItems() {
