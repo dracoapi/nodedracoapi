@@ -19,7 +19,7 @@ class DracoNode {
                 'Accept-Language': 'en-us',
                 'Protocol-Version': '2373924766',
                 'X-Unity-Version': '2017.1.0f3',
-                'Client-Version': '6935',
+                'Client-Version': '7209',
             },
             encoding: null,
             gzip: true,
