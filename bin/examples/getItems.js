@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
-const constants = require("../draco/constants");
+const enums = require("../draco/enums");
 const index_1 = require("../index");
 async function main() {
     console.log('Starting...');
@@ -26,7 +26,7 @@ async function main() {
     console.log('Get user items...');
     const response = await draco.getUserItems();
     for (const item of response.items) {
-        console.log(`Item type ${constants.ItemType[item.type]}, count = ${item.count}`);
+        console.log(`Item type ${enums.ItemType[item.type]}, count = ${item.count}`);
     }
     console.log('Done.');
 }

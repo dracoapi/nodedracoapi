@@ -1,6 +1,6 @@
 import * as long from 'long';
 import * as objects from './objects';
-import * as constants from './constants';
+import * as enums from './enums';
 import { classIds, primitiveIds } from './classes';
 
 export default class Deserializer {
@@ -153,7 +153,7 @@ export default class Deserializer {
             return this.readUtf8String();
         } else if ((match = /List<(.+)>/.exec(type))) {
             return this.readStaticList(match[1], false);
-        } else if (constants[type]) {
+        } else if (enums[type]) {
             return this.readByte();
         } else if (objects[type]) {
             const obj = new objects[type]();

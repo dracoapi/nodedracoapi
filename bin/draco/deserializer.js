@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const long = require("long");
 const objects = require("./objects");
-const constants = require("./constants");
+const enums = require("./enums");
 const classes_1 = require("./classes");
 class Deserializer {
     constructor(buffer) {
@@ -168,7 +168,7 @@ class Deserializer {
         else if ((match = /List<(.+)>/.exec(type))) {
             return this.readStaticList(match[1], false);
         }
-        else if (constants[type]) {
+        else if (enums[type]) {
             return this.readByte();
         }
         else if (objects[type]) {

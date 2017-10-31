@@ -83,16 +83,17 @@ class Serializer {
         buf.copy(this.buffer, this.idx);
         this.idx += buf.length;
     }
-    writeStaticArray(data, staticobject = false) {
+    writeStaticArray(data, isstatic, type) {
         this.writeLength(data.length);
+        const objtype = type ? type.slice(0, -2) : type;
         for (let i = 0; i < data.length; i++) {
-            this.writeObject(data[i], staticobject);
+            this.writeObject(data[i], isstatic, objtype);
         }
     }
-    writeStaticList(data, staticobject = false) {
+    writeStaticList(data, staticobject, type) {
         this.writeStaticArray(data, staticobject);
     }
-    writeDynamicList(data, isstatic = false) {
+    writeDynamicList(data, isstatic, type) {
         if (data === null || data === undefined) {
             this.writeByte(0);
         }
@@ -106,13 +107,13 @@ class Serializer {
             this.writeStaticArray(data, isstatic);
         }
     }
-    writeStaticHashSet(data, staticobject = false) {
+    writeStaticHashSet(data, isstatic, type) {
         this.writeLength(data.size);
         for (const item of data) {
-            this.writeObject(item, staticobject);
+            this.writeObject(item, isstatic);
         }
     }
-    writeDynamicMap(data, static1 = false, static2 = false) {
+    writeDynamicMap(data, static1, static2) {
         if (data == null) {
             this.writeByte(0);
         }
@@ -120,7 +121,7 @@ class Serializer {
             this.writeStaticMap(data, static1, static2);
         }
     }
-    writeStaticMap(data, static1 = false, static2 = false) {
+    writeStaticMap(data, static1, static2, type) {
         this.ensureBuffer();
         this.writeLength(data.size);
         data.forEach((val, key) => {
@@ -128,19 +129,19 @@ class Serializer {
             this.writeObject(val, static2);
         });
     }
-    writeBuffer(buffer, staticobject = false) {
+    writeBuffer(buffer) {
         this.ensureBuffer(buffer.length + 4);
         this.writeLength(buffer.length);
         this.buffer = Buffer.concat([this.buffer, buffer]);
         this.idx += buffer.length;
     }
-    writeObject(data, staticobject = false) {
-        if (staticobject)
-            return this.writeStaticObject(data);
+    writeObject(data, isstatic, type) {
+        if (isstatic)
+            return this.writeStaticObject(data, type);
         else
-            return this.writeDynamicObject(data);
+            return this.writeDynamicObject(data, type);
     }
-    writeStaticObject(data) {
+    writeStaticObject(data, type) {
         this.ensureBuffer();
         if (data === null || data === undefined) {
             this.writeByte(0);
@@ -172,7 +173,7 @@ class Serializer {
             }
         }
     }
-    writeDynamicObject(data) {
+    writeDynamicObject(data, type) {
         this.ensureBuffer();
         if (data === null || data === undefined) {
             this.writeByte(0);
