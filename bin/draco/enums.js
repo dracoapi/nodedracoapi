@@ -397,4 +397,4 @@ var SpellType;
     SpellType[SpellType["TOWER_ELEMENTAL_EARTH"] = 12] = "TOWER_ELEMENTAL_EARTH";
     SpellType[SpellType["TOWER_ELEMENTAL_DUNGEON"] = 13] = "TOWER_ELEMENTAL_DUNGEON";
 })(SpellType = exports.SpellType || (exports.SpellType = {}));
-//# sourceMappingURL=constants.js.map
+//# sourceMappingURL=enums.js.map

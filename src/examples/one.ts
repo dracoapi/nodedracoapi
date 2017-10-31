@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import * as constants from '../draco/constants';
+import * as enums from '../draco/enums';
 import DracoNode from '../index';
 
 async function main() {
@@ -31,7 +31,7 @@ async function main() {
     console.log('Get user items...');
     const response = await draco.getUserItems();
     for (const item of response.items) {
-        console.log(`Item type ${constants.ItemType[item.type]}, count = ${item.count}`);
+        console.log(`Item type ${enums.ItemType[item.type]}, count = ${item.count}`);
     }
 
     console.log('Done.');

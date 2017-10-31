@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
-const constants_1 = require("../draco/constants");
+const enums_1 = require("../draco/enums");
 const index_1 = require("../index");
 function generateDeviceId() {
     return '00000000-0000-4000-8000-000000000000'.replace(/0/g, () => (0 | Math.random() * 16).toString(16)).toUpperCase();
@@ -32,7 +32,7 @@ async function main() {
     console.log('Generate nickname...');
     let nickname = generateNickname();
     let response = await draco.validateNickname(nickname);
-    while (response != null && response.error === constants_1.FNicknameValidationError.DUPLICATE) {
+    while (response != null && response.error === enums_1.FNicknameValidationError.DUPLICATE) {
         nickname = response.suggestedNickname;
         response = await this.validateNickname(nickname);
     }

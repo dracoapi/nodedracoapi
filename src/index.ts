@@ -3,7 +3,7 @@ import * as stream from 'stream';
 import * as long from 'long';
 import * as request from 'request-promise-native';
 import * as objects from './draco/objects';
-import * as constants from './draco/constants';
+import * as enums from './draco/enums';
 import Serializer from './draco/serializer';
 import Deserializer from './draco/deserializer';
 
@@ -30,7 +30,7 @@ export default class DracoNode {
                 'Accept-Language': 'en-us',
                 'Protocol-Version': '2373924766',
                 'X-Unity-Version': '2017.1.0f3',
-                'Client-Version': '6935',
+                'Client-Version': '7209',
             },
             encoding: null,
             gzip: true,
@@ -96,6 +96,8 @@ export default class DracoNode {
 
         if (response.headers['dcportal']) this.dcportal = response.headers['dcportal'];
 
+        if (response.statusCode > 300) throw new Error('Error from server: ' + response.statusCode);
+
         const deserializer = new Deserializer(response.body);
         const data = deserializer.deserialize();
         return data;
@@ -131,7 +133,7 @@ export default class DracoNode {
         await this.event('TrySingIn', 'DEVICE');
         const response = await this.call('AuthService', 'trySingIn', [
             new objects.AuthData({
-                authType: constants.AuthType.DEVICE,
+                authType: enums.AuthType.DEVICE,
                 profileId: this.user.deviceId,
             }),
             this.clientInfo,
@@ -169,7 +171,7 @@ export default class DracoNode {
         this.event('Register', 'DEVICE', nickname);
         const response = await this.call('AuthService', 'register', [
             new objects.AuthData({
-                authType: constants.AuthType.DEVICE,
+                authType: enums.AuthType.DEVICE,
                 profileId: this.user.deviceId
             }),
             nickname,
@@ -214,7 +216,7 @@ export default class DracoNode {
                         horizontalAccuracy,
                     }),
                 }),
-                clientPlatform: constants.ClientPlatform.IOS,
+                clientPlatform: enums.ClientPlatform.IOS,
                 tilesCache: new Map<objects.FTile, long>(),
             }),
         ]);

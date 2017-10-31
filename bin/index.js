@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const request = require("request-promise-native");
 const objects = require("./draco/objects");
-const constants = require("./draco/constants");
+const enums = require("./draco/enums");
 const serializer_1 = require("./draco/serializer");
 const deserializer_1 = require("./draco/deserializer");
 class User {
@@ -19,7 +19,7 @@ class DracoNode {
                 'Accept-Language': 'en-us',
                 'Protocol-Version': '2373924766',
                 'X-Unity-Version': '2017.1.0f3',
-                'Client-Version': '6935',
+                'Client-Version': '7209',
             },
             encoding: null,
             gzip: true,
@@ -81,6 +81,8 @@ class DracoNode {
         });
         if (response.headers['dcportal'])
             this.dcportal = response.headers['dcportal'];
+        if (response.statusCode > 300)
+            throw new Error('Error from server: ' + response.statusCode);
         const deserializer = new deserializer_1.default(response.body);
         const data = deserializer.deserialize();
         return data;
@@ -113,7 +115,7 @@ class DracoNode {
         await this.event('TrySingIn', 'DEVICE');
         const response = await this.call('AuthService', 'trySingIn', [
             new objects.AuthData({
-                authType: constants.AuthType.DEVICE,
+                authType: enums.AuthType.DEVICE,
                 profileId: this.user.deviceId,
             }),
             this.clientInfo,
@@ -147,7 +149,7 @@ class DracoNode {
         this.event('Register', 'DEVICE', nickname);
         const response = await this.call('AuthService', 'register', [
             new objects.AuthData({
-                authType: constants.AuthType.DEVICE,
+                authType: enums.AuthType.DEVICE,
                 profileId: this.user.deviceId
             }),
             nickname,
@@ -185,7 +187,7 @@ class DracoNode {
                         horizontalAccuracy,
                     }),
                 }),
-                clientPlatform: constants.ClientPlatform.IOS,
+                clientPlatform: enums.ClientPlatform.IOS,
                 tilesCache: new Map(),
             }),
         ]);

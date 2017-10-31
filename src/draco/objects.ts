@@ -1,11 +1,13 @@
 import Serializer from './serializer';
 import Deserializer from './deserializer';
+import * as enums from './enums';
 import * as long from 'long';
 
 export class AuthData {
-    authType: number;
-    profileId: string;
-    tokenId: string;
+    __type = 'AuthData';
+    authType: enums.AuthType; // enums.AuthType
+    profileId: string; // string
+    tokenId: string; // string
 
     public constructor(init?: Partial<AuthData>) {
         Object.assign(this, init);
@@ -14,7 +16,7 @@ export class AuthData {
     serialize(serializer: Serializer) {
         serializer.writeByte(this.authType);
         serializer.writeUtf8String(this.profileId);
-        serializer.writeDynamicObject(this.tokenId);
+        serializer.writeDynamicObject(this.tokenId, 'string');
     }
     deserialize(deserializer: Deserializer) {
         this.authType = deserializer.readByte();
@@ -24,9 +26,10 @@ export class AuthData {
 }
 
 export class BuffConfig {
-    durationMs: long;
-    type: number;
-    valuePercent: number;
+    __type = 'BuffConfig';
+    durationMs: long; // long
+    type: enums.BuffType; // enums.BuffType
+    valuePercent: number; // int
 
     public constructor(init?: Partial<BuffConfig>) {
         Object.assign(this, init);
@@ -45,28 +48,29 @@ export class BuffConfig {
 }
 
 export class FActiveObject {
-    allianceType: number;
-    arenaId: string;
-    combinedName: number;
-    coords: GeoCoords;
-    creatureAlias: string;
-    creatureCp: number;
-    creatureName: number;
-    level: number;
-    lost: boolean;
-    timeLeft: number;
-    weaklyBonus: number;
+    __type = 'FActiveObject';
+    allianceType: enums.AllianceType; // enums.AllianceType
+    arenaId: string; // string
+    combinedName: number; // int
+    coords: GeoCoords; // GeoCoords
+    creatureAlias: string; // string
+    creatureCp: number; // int
+    creatureName: enums.CreatureType; // enums.CreatureType
+    level: number; // int
+    lost: boolean; // bool
+    timeLeft: number; // float
+    weaklyBonus: number; // int
 
     public constructor(init?: Partial<FActiveObject>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.allianceType);
+        serializer.writeDynamicObject(this.allianceType, 'enums.AllianceType');
         serializer.writeUtf8String(this.arenaId);
         serializer.writeInt32(this.combinedName);
-        serializer.writeStaticObject(this.coords);
-        serializer.writeDynamicObject(this.creatureAlias);
+        serializer.writeStaticObject(this.coords, 'GeoCoords');
+        serializer.writeDynamicObject(this.creatureAlias, 'string');
         serializer.writeInt32(this.creatureCp);
         serializer.writeByte(this.creatureName);
         serializer.writeInt32(this.level);
@@ -90,18 +94,19 @@ export class FActiveObject {
 }
 
 export class FActiveObjectsUpdate {
-    arenaQuantity: number;
-    coins: number;
-    dust: number;
-    libraryPoints: number;
-    libraryQuantity: number;
-    libraryRequired: number;
-    libraryTotalCooldown: number;
-    libraryWaitCooldown: number;
-    loot: FLoot;
-    objectList: FActiveObject[];
-    timeToNextTributeCollection: number;
-    tributeCooldown: number;
+    __type = 'FActiveObjectsUpdate';
+    arenaQuantity: number; // int
+    coins: number; // int
+    dust: number; // int
+    libraryPoints: number; // int
+    libraryQuantity: number; // int
+    libraryRequired: number; // int
+    libraryTotalCooldown: number; // float
+    libraryWaitCooldown: number; // int
+    loot: FLoot; // FLoot
+    objectList: FActiveObject[]; // FActiveObject[]
+    timeToNextTributeCollection: number; // float
+    tributeCooldown: number; // float
 
     public constructor(init?: Partial<FActiveObjectsUpdate>) {
         Object.assign(this, init);
@@ -116,8 +121,8 @@ export class FActiveObjectsUpdate {
         serializer.writeInt32(this.libraryRequired);
         serializer.writeFloat(this.libraryTotalCooldown);
         serializer.writeInt32(this.libraryWaitCooldown);
-        serializer.writeStaticObject(this.loot);
-        serializer.writeStaticList(this.objectList, true);
+        serializer.writeStaticObject(this.loot, 'FLoot');
+        serializer.writeStaticList(this.objectList, true, 'FActiveObject[]');
         serializer.writeFloat(this.timeToNextTributeCollection);
         serializer.writeFloat(this.tributeCooldown);
     }
@@ -138,9 +143,10 @@ export class FActiveObjectsUpdate {
 }
 
 export class FAllianceChooseRequest {
-    bonus: number;
-    oneOption: boolean;
-    recommendedType: number;
+    __type = 'FAllianceChooseRequest';
+    bonus: number; // int
+    oneOption: boolean; // bool
+    recommendedType: enums.AllianceType; // enums.AllianceType
 
     public constructor(init?: Partial<FAllianceChooseRequest>) {
         Object.assign(this, init);
@@ -149,7 +155,7 @@ export class FAllianceChooseRequest {
     serialize(serializer: Serializer) {
         serializer.writeInt32(this.bonus);
         serializer.writeBoolean(this.oneOption);
-        serializer.writeDynamicObject(this.recommendedType);
+        serializer.writeDynamicObject(this.recommendedType, 'enums.AllianceType');
     }
     deserialize(deserializer: Deserializer) {
         this.bonus = deserializer.readInt32();
@@ -159,8 +165,9 @@ export class FAllianceChooseRequest {
 }
 
 export class FAltar {
-    ownerId: string;
-    sharedWithEmptyPassword: boolean;
+    __type = 'FAltar';
+    ownerId: string; // string
+    sharedWithEmptyPassword: boolean; // bool
 
     public constructor(init?: Partial<FAltar>) {
         Object.assign(this, init);
@@ -177,12 +184,13 @@ export class FAltar {
 }
 
 export class FAltarDetails {
-    buildingId: string;
-    coords: GeoCoords;
-    ownerId: string;
-    recipeName: number;
-    runeOwnerNames: Map<number, number>; // Map
-    runeOwners: Map<number, number>; // Map
+    __type = 'FAltarDetails';
+    buildingId: string; // string
+    coords: GeoCoords; // GeoCoords
+    ownerId: string; // string
+    recipeName: enums.RecipeType; // enums.RecipeType
+    runeOwnerNames: Map<number, number>; // Map<int, int>
+    runeOwners: Map<number, number>; // Map<int, int>
 
     public constructor(init?: Partial<FAltarDetails>) {
         Object.assign(this, init);
@@ -190,11 +198,11 @@ export class FAltarDetails {
 
     serialize(serializer: Serializer) {
         serializer.writeUtf8String(this.buildingId);
-        serializer.writeStaticObject(this.coords);
+        serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeUtf8String(this.ownerId);
         serializer.writeByte(this.recipeName);
-        serializer.writeStaticMap(this.runeOwnerNames, true, true);
-        serializer.writeStaticMap(this.runeOwners, true, true);
+        serializer.writeStaticMap(this.runeOwnerNames, true, true, 'Map<int, int>');
+        serializer.writeStaticMap(this.runeOwners, true, true, 'Map<int, int>');
     }
     deserialize(deserializer: Deserializer) {
         this.buildingId = deserializer.readUtf8String();
@@ -207,16 +215,17 @@ export class FAltarDetails {
 }
 
 export class FArena {
-    allianceType: number;
-    combinedName: number;
-    protectionTtl: number;
+    __type = 'FArena';
+    allianceType: enums.AllianceType; // enums.AllianceType
+    combinedName: number; // int
+    protectionTtl: number; // float
 
     public constructor(init?: Partial<FArena>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.allianceType);
+        serializer.writeDynamicObject(this.allianceType, 'enums.AllianceType');
         serializer.writeInt32(this.combinedName);
         serializer.writeFloat(this.protectionTtl);
     }
@@ -228,22 +237,23 @@ export class FArena {
 }
 
 export class FArenaBattleResult {
-    allyArena: boolean;
-    combinedName: number;
-    creaturesDefeated: number;
-    currentPrestige: number;
-    level: number;
-    loot: FLoot;
-    nextLevelPrestige: number;
-    prestigeBonusKillAll: number;
-    prestigeBonusKillStronger: number;
-    prestigeChange: number;
-    prestigeEarned: number;
-    resultScreenDelay: number;
-    userExpBonusKillAll: number;
-    userExpBonusKillStronger: number;
-    userExpGained: number;
-    victory: boolean;
+    __type = 'FArenaBattleResult';
+    allyArena: boolean; // bool
+    combinedName: number; // int
+    creaturesDefeated: number; // int
+    currentPrestige: number; // int
+    level: number; // int
+    loot: FLoot; // FLoot
+    nextLevelPrestige: number; // int
+    prestigeBonusKillAll: number; // int
+    prestigeBonusKillStronger: number; // int
+    prestigeChange: number; // int
+    prestigeEarned: number; // int
+    resultScreenDelay: number; // float
+    userExpBonusKillAll: number; // int
+    userExpBonusKillStronger: number; // int
+    userExpGained: number; // int
+    victory: boolean; // bool
 
     public constructor(init?: Partial<FArenaBattleResult>) {
         Object.assign(this, init);
@@ -255,7 +265,7 @@ export class FArenaBattleResult {
         serializer.writeInt32(this.creaturesDefeated);
         serializer.writeInt32(this.currentPrestige);
         serializer.writeInt32(this.level);
-        serializer.writeStaticObject(this.loot);
+        serializer.writeStaticObject(this.loot, 'FLoot');
         serializer.writeInt32(this.nextLevelPrestige);
         serializer.writeInt32(this.prestigeBonusKillAll);
         serializer.writeInt32(this.prestigeBonusKillStronger);
@@ -288,49 +298,50 @@ export class FArenaBattleResult {
 }
 
 export class FArenaDetails {
-    allianceChooseRequest: FAllianceChooseRequest;
-    buildingType: number;
-    canAddDefender: boolean;
-    canAttack: boolean;
-    capturableGeoPointsLimitReached: boolean;
-    combinedName: number;
-    coords: GeoCoords;
-    currentExp: number;
-    defenders: FDefenderDetails[];
-    hasRemoteBuildingControlAction: boolean;
-    id: string;
-    level: number;
-    libraryBlocked: boolean;
-    minUseLevel: number;
-    nextLevelExp: number;
-    ownerAlliance: number;
-    protectionRemainingTime: number;
-    restrictedForAllianceToCapture: number;
-    restrictedForAllianceToCaptureRemainingTime: number;
+    __type = 'FArenaDetails';
+    allianceChooseRequest: FAllianceChooseRequest; // FAllianceChooseRequest
+    buildingType: enums.BuildingType; // enums.BuildingType
+    canAddDefender: boolean; // bool
+    canAttack: boolean; // bool
+    capturableGeoPointsLimitReached: boolean; // bool
+    combinedName: number; // int
+    coords: GeoCoords; // GeoCoords
+    currentExp: number; // int
+    defenders: FDefenderDetails[]; // FDefenderDetails[]
+    hasRemoteBuildingControlAction: boolean; // bool
+    id: string; // string
+    level: number; // int
+    libraryBlocked: boolean; // bool
+    minUseLevel: number; // int
+    nextLevelExp: number; // int
+    ownerAlliance: enums.AllianceType; // enums.AllianceType
+    protectionRemainingTime: number; // float
+    restrictedForAllianceToCapture: enums.AllianceType; // enums.AllianceType
+    restrictedForAllianceToCaptureRemainingTime: number; // float
 
     public constructor(init?: Partial<FArenaDetails>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.allianceChooseRequest);
+        serializer.writeDynamicObject(this.allianceChooseRequest, 'FAllianceChooseRequest');
         serializer.writeByte(this.buildingType);
         serializer.writeBoolean(this.canAddDefender);
         serializer.writeBoolean(this.canAttack);
         serializer.writeBoolean(this.capturableGeoPointsLimitReached);
         serializer.writeInt32(this.combinedName);
-        serializer.writeStaticObject(this.coords);
+        serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeInt32(this.currentExp);
-        serializer.writeStaticList(this.defenders, true);
+        serializer.writeStaticList(this.defenders, true, 'FDefenderDetails[]');
         serializer.writeBoolean(this.hasRemoteBuildingControlAction);
         serializer.writeUtf8String(this.id);
         serializer.writeInt32(this.level);
         serializer.writeBoolean(this.libraryBlocked);
         serializer.writeInt32(this.minUseLevel);
         serializer.writeInt32(this.nextLevelExp);
-        serializer.writeDynamicObject(this.ownerAlliance);
+        serializer.writeDynamicObject(this.ownerAlliance, 'enums.AllianceType');
         serializer.writeFloat(this.protectionRemainingTime);
-        serializer.writeDynamicObject(this.restrictedForAllianceToCapture);
+        serializer.writeDynamicObject(this.restrictedForAllianceToCapture, 'enums.AllianceType');
         serializer.writeFloat(this.restrictedForAllianceToCaptureRemainingTime);
     }
     deserialize(deserializer: Deserializer) {
@@ -357,14 +368,15 @@ export class FArenaDetails {
 }
 
 export class FArenaWithBattleUpdate {
-    arenaWithBattle: Set<string>;
+    __type = 'FArenaWithBattleUpdate';
+    arenaWithBattle: Set<string>; // Set<string>
 
     public constructor(init?: Partial<FArenaWithBattleUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticHashSet(this.arenaWithBattle, true);
+        serializer.writeStaticHashSet(this.arenaWithBattle, true, 'Set<string>');
     }
     deserialize(deserializer: Deserializer) {
         this.arenaWithBattle = deserializer.readStaticHashSet('string', true);
@@ -372,22 +384,23 @@ export class FArenaWithBattleUpdate {
 }
 
 export class FArtifactsUpdate {
-    artifacts: number[];
-    artifactsBagSize: number;
-    artifactsSlots: number;
-    hasDeposit: boolean;
-    putOn: number[];
+    __type = 'FArtifactsUpdate';
+    artifacts: enums.ArtifactName[]; // enums.ArtifactName[]
+    artifactsBagSize: number; // int
+    artifactsSlots: number; // int
+    hasDeposit: boolean; // bool
+    putOn: enums.ArtifactName[]; // enums.ArtifactName[]
 
     public constructor(init?: Partial<FArtifactsUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticList(this.artifacts, true);
+        serializer.writeStaticList(this.artifacts, true, 'enums.ArtifactName[]');
         serializer.writeInt32(this.artifactsBagSize);
         serializer.writeInt32(this.artifactsSlots);
         serializer.writeBoolean(this.hasDeposit);
-        serializer.writeStaticList(this.putOn, true);
+        serializer.writeStaticList(this.putOn, true, 'enums.ArtifactName[]');
     }
     deserialize(deserializer: Deserializer) {
         this.artifacts = deserializer.readStaticList('ArtifactName', true);
@@ -399,18 +412,19 @@ export class FArtifactsUpdate {
 }
 
 export class FAttackArenaRequest {
-    buildingRequest: FBuildingRequest;
-    coords: GeoCoords;
-    selectedCreatures: string[];
+    __type = 'FAttackArenaRequest';
+    buildingRequest: FBuildingRequest; // FBuildingRequest
+    coords: GeoCoords; // GeoCoords
+    selectedCreatures: string[]; // string[]
 
     public constructor(init?: Partial<FAttackArenaRequest>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.buildingRequest);
-        serializer.writeStaticObject(this.coords);
-        serializer.writeStaticList(this.selectedCreatures, true);
+        serializer.writeStaticObject(this.buildingRequest, 'FBuildingRequest');
+        serializer.writeStaticObject(this.coords, 'GeoCoords');
+        serializer.writeStaticList(this.selectedCreatures, true, 'string[]');
     }
     deserialize(deserializer: Deserializer) {
         this.buildingRequest = deserializer.readStaticObject('FBuildingRequest') as FBuildingRequest;
@@ -420,16 +434,17 @@ export class FAttackArenaRequest {
 }
 
 export class FAuthData {
-    config: FConfig;
-    info: FUserInfo;
+    __type = 'FAuthData';
+    config: FConfig; // FConfig
+    info: FUserInfo; // FUserInfo
 
     public constructor(init?: Partial<FAuthData>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.config);
-        serializer.writeStaticObject(this.info);
+        serializer.writeStaticObject(this.config, 'FConfig');
+        serializer.writeStaticObject(this.info, 'FUserInfo');
     }
     deserialize(deserializer: Deserializer) {
         this.config = deserializer.readStaticObject('FConfig') as FConfig;
@@ -438,42 +453,43 @@ export class FAuthData {
 }
 
 export class FAvaUpdate {
-    activationRadius: number;
-    activationRadiusIncreased: boolean;
-    activationRadiusIncreasedLeftTime: long;
-    alliance: number;
-    altarCoords: GeoCoords;
-    buddy: FBuddy;
-    buffs: FBuff[];
-    candies: Map<number, number>; // Map
-    coins: number;
-    creatureStorageSize: number;
-    currentExperience: number;
-    doubleDropDuration: long;
-    doubleDropLeftTime: long;
-    dungeonId: string;
-    dust: number;
-    exp: number;
-    experienceBoosterDuration: long;
-    experienceBoosterLeftTime: long;
-    incenseDuration: long;
-    incenseLeftTime: long;
-    isArtifactsBagFull: boolean;
-    isBagFull: boolean;
-    isEggBagFull: boolean;
-    level: number;
-    nextLevelExperience: number;
-    recipes: number[];
-    registerDate: long;
-    scoutChargesLeft: number;
-    scoutRadius: number;
-    slugLeftTime: number;
-    stopFieldDuration: long;
-    stopFieldLeftTime: long;
-    superVisionCenter: GeoCoords;
-    superVisionDuration: long;
-    superVisionLeftTime: long;
-    totalDistance: number;
+    __type = 'FAvaUpdate';
+    activationRadius: number; // double
+    activationRadiusIncreased: boolean; // bool
+    activationRadiusIncreasedLeftTime: long; // long
+    alliance: enums.AllianceType; // enums.AllianceType
+    altarCoords: GeoCoords; // GeoCoords
+    buddy: FBuddy; // FBuddy
+    buffs: FBuff[]; // FBuff[]
+    candies: Map<enums.CreatureType, enums.CreatureType>; // Map<enums.CreatureType, enums.CreatureType>
+    coins: number; // int
+    creatureStorageSize: number; // int
+    currentExperience: number; // int
+    doubleDropDuration: long; // long
+    doubleDropLeftTime: long; // long
+    dungeonId: string; // string
+    dust: number; // int
+    exp: number; // float
+    experienceBoosterDuration: long; // long
+    experienceBoosterLeftTime: long; // long
+    incenseDuration: long; // long
+    incenseLeftTime: long; // long
+    isArtifactsBagFull: boolean; // bool
+    isBagFull: boolean; // bool
+    isEggBagFull: boolean; // bool
+    level: number; // int
+    nextLevelExperience: number; // int
+    recipes: enums.RecipeType[]; // enums.RecipeType[]
+    registerDate: long; // long
+    scoutChargesLeft: number; // int
+    scoutRadius: number; // float
+    slugLeftTime: number; // int
+    stopFieldDuration: long; // long
+    stopFieldLeftTime: long; // long
+    superVisionCenter: GeoCoords; // GeoCoords
+    superVisionDuration: long; // long
+    superVisionLeftTime: long; // long
+    totalDistance: number; // int
 
     public constructor(init?: Partial<FAvaUpdate>) {
         Object.assign(this, init);
@@ -483,17 +499,17 @@ export class FAvaUpdate {
         serializer.writeDouble(this.activationRadius);
         serializer.writeBoolean(this.activationRadiusIncreased);
         serializer.writeInt64(this.activationRadiusIncreasedLeftTime);
-        serializer.writeDynamicObject(this.alliance);
-        serializer.writeDynamicObject(this.altarCoords);
-        serializer.writeDynamicObject(this.buddy);
-        serializer.writeStaticList(this.buffs, true);
-        serializer.writeStaticMap(this.candies, true, true);
+        serializer.writeDynamicObject(this.alliance, 'enums.AllianceType');
+        serializer.writeDynamicObject(this.altarCoords, 'GeoCoords');
+        serializer.writeDynamicObject(this.buddy, 'FBuddy');
+        serializer.writeStaticList(this.buffs, true, 'FBuff[]');
+        serializer.writeStaticMap(this.candies, true, true, 'Map<enums.CreatureType, enums.CreatureType>');
         serializer.writeInt32(this.coins);
         serializer.writeInt32(this.creatureStorageSize);
         serializer.writeInt32(this.currentExperience);
         serializer.writeInt64(this.doubleDropDuration);
         serializer.writeInt64(this.doubleDropLeftTime);
-        serializer.writeDynamicObject(this.dungeonId);
+        serializer.writeDynamicObject(this.dungeonId, 'string');
         serializer.writeInt32(this.dust);
         serializer.writeFloat(this.exp);
         serializer.writeInt64(this.experienceBoosterDuration);
@@ -505,14 +521,14 @@ export class FAvaUpdate {
         serializer.writeBoolean(this.isEggBagFull);
         serializer.writeInt32(this.level);
         serializer.writeInt32(this.nextLevelExperience);
-        serializer.writeStaticList(this.recipes, true);
+        serializer.writeStaticList(this.recipes, true, 'enums.RecipeType[]');
         serializer.writeInt64(this.registerDate);
         serializer.writeInt32(this.scoutChargesLeft);
         serializer.writeFloat(this.scoutRadius);
         serializer.writeInt32(this.slugLeftTime);
         serializer.writeInt64(this.stopFieldDuration);
         serializer.writeInt64(this.stopFieldLeftTime);
-        serializer.writeDynamicObject(this.superVisionCenter);
+        serializer.writeDynamicObject(this.superVisionCenter, 'GeoCoords');
         serializer.writeInt64(this.superVisionDuration);
         serializer.writeInt64(this.superVisionLeftTime);
         serializer.writeInt32(this.totalDistance);
@@ -558,10 +574,11 @@ export class FAvaUpdate {
 }
 
 export class FBagItem {
-    count: number;
-    removable: boolean;
-    stack: boolean;
-    type: number;
+    __type = 'FBagItem';
+    count: number; // int
+    removable: boolean; // bool
+    stack: boolean; // bool
+    type: enums.ItemType; // enums.ItemType
 
     public constructor(init?: Partial<FBagItem>) {
         Object.assign(this, init);
@@ -582,10 +599,11 @@ export class FBagItem {
 }
 
 export class FBagUpdate {
-    allowedItemsSize: number;
-    incenseGenMonstersGroupName: string;
-    items: FBagItem[];
-    lockedRunes: Map<number, number>; // Map
+    __type = 'FBagUpdate';
+    allowedItemsSize: number; // int
+    incenseGenMonstersGroupName: string; // string
+    items: FBagItem[]; // FBagItem[]
+    lockedRunes: Map<enums.ItemType, enums.ItemType>; // Map<enums.ItemType, enums.ItemType>
 
     public constructor(init?: Partial<FBagUpdate>) {
         Object.assign(this, init);
@@ -594,8 +612,8 @@ export class FBagUpdate {
     serialize(serializer: Serializer) {
         serializer.writeInt32(this.allowedItemsSize);
         serializer.writeUtf8String(this.incenseGenMonstersGroupName);
-        serializer.writeStaticList(this.items, true);
-        serializer.writeStaticMap(this.lockedRunes, true, true);
+        serializer.writeStaticList(this.items, true, 'FBagItem[]');
+        serializer.writeStaticMap(this.lockedRunes, true, true, 'Map<enums.ItemType, enums.ItemType>');
     }
     deserialize(deserializer: Deserializer) {
         this.allowedItemsSize = deserializer.readInt32();
@@ -606,6 +624,7 @@ export class FBagUpdate {
 }
 
 export class FBaseItemUpdate {
+    __type = 'FBaseItemUpdate';
 
     public constructor(init?: Partial<FBaseItemUpdate>) {
         Object.assign(this, init);
@@ -618,7 +637,8 @@ export class FBaseItemUpdate {
 }
 
 export class FBaseLootItem {
-    qty: number;
+    __type = 'FBaseLootItem';
+    qty: number; // int
 
     public constructor(init?: Partial<FBaseLootItem>) {
         Object.assign(this, init);
@@ -633,21 +653,22 @@ export class FBaseLootItem {
 }
 
 export class FBuddy {
-    alias: string;
-    candyType: number;
-    creature: number;
-    currentWalked: number;
-    distanceForCandies: number;
-    id: string;
-    totalCandies: number;
-    totalWalked: number;
+    __type = 'FBuddy';
+    alias: string; // string
+    candyType: enums.CreatureType; // enums.CreatureType
+    creature: enums.CreatureType; // enums.CreatureType
+    currentWalked: number; // int
+    distanceForCandies: number; // int
+    id: string; // string
+    totalCandies: number; // int
+    totalWalked: number; // int
 
     public constructor(init?: Partial<FBuddy>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.alias);
+        serializer.writeDynamicObject(this.alias, 'string');
         serializer.writeByte(this.candyType);
         serializer.writeByte(this.creature);
         serializer.writeInt32(this.currentWalked);
@@ -669,10 +690,11 @@ export class FBuddy {
 }
 
 export class FBuff {
-    buffType: number;
-    duration: long;
-    timeLeft: long;
-    valuePercent: number;
+    __type = 'FBuff';
+    buffType: enums.BuffType; // enums.BuffType
+    duration: long; // long
+    timeLeft: long; // long
+    valuePercent: number; // int
 
     public constructor(init?: Partial<FBuff>) {
         Object.assign(this, init);
@@ -693,31 +715,32 @@ export class FBuff {
 }
 
 export class FBuilding {
-    altar: FAltar;
-    arena: FArena;
-    available: boolean;
-    casted: boolean;
-    coords: GeoCoords;
-    dungeonId: string;
-    expirationTime: long;
-    id: string;
-    pitstop: FPitstop;
-    type: number;
+    __type = 'FBuilding';
+    altar: FAltar; // FAltar
+    arena: FArena; // FArena
+    available: boolean; // bool
+    casted: boolean; // bool
+    coords: GeoCoords; // GeoCoords
+    dungeonId: string; // string
+    expirationTime: long; // long
+    id: string; // string
+    pitstop: FPitstop; // FPitstop
+    type: enums.BuildingType; // enums.BuildingType
 
     public constructor(init?: Partial<FBuilding>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.altar);
-        serializer.writeDynamicObject(this.arena);
+        serializer.writeDynamicObject(this.altar, 'FAltar');
+        serializer.writeDynamicObject(this.arena, 'FArena');
         serializer.writeBoolean(this.available);
         serializer.writeBoolean(this.casted);
-        serializer.writeStaticObject(this.coords);
-        serializer.writeDynamicObject(this.dungeonId);
+        serializer.writeStaticObject(this.coords, 'GeoCoords');
+        serializer.writeDynamicObject(this.dungeonId, 'string');
         serializer.writeInt64(this.expirationTime);
         serializer.writeUtf8String(this.id);
-        serializer.writeDynamicObject(this.pitstop);
+        serializer.writeDynamicObject(this.pitstop, 'FPitstop');
         serializer.writeByte(this.type);
     }
     deserialize(deserializer: Deserializer) {
@@ -735,17 +758,18 @@ export class FBuilding {
 }
 
 export class FBuildingRequest {
-    coords: GeoCoords;
-    dungeonId: string;
-    id: string;
+    __type = 'FBuildingRequest';
+    coords: GeoCoords; // GeoCoords
+    dungeonId: string; // string
+    id: string; // string
 
     public constructor(init?: Partial<FBuildingRequest>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.coords);
-        serializer.writeDynamicObject(this.dungeonId);
+        serializer.writeStaticObject(this.coords, 'GeoCoords');
+        serializer.writeDynamicObject(this.dungeonId, 'string');
         serializer.writeUtf8String(this.id);
     }
     deserialize(deserializer: Deserializer) {
@@ -756,14 +780,15 @@ export class FBuildingRequest {
 }
 
 export class FBuildingUpdate {
-    tileBuildings: Map<FTile, FTile>; // Map
+    __type = 'FBuildingUpdate';
+    tileBuildings: Map<FTile, FTile>; // Map<FTile, FTile>
 
     public constructor(init?: Partial<FBuildingUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticMap(this.tileBuildings, true, true);
+        serializer.writeStaticMap(this.tileBuildings, true, true, 'Map<FTile, FTile>');
     }
     deserialize(deserializer: Deserializer) {
         this.tileBuildings = deserializer.readStaticMap('FTile', 'FTileState', true, true);
@@ -771,50 +796,51 @@ export class FBuildingUpdate {
 }
 
 export class FCatchCreatureResult {
-    avaUpdate: FAvaUpdate;
-    ballType: number;
-    candies: number;
-    candyType: number;
-    catchChance: number;
-    catching: FCatchingConfig;
-    caught: boolean;
-    creadex: FCreadex;
-    creature: number;
-    dust: number;
-    expAccurate: number;
-    expCreatureExisting: number;
-    expCreatureNew: number;
-    expSpin: number;
-    levelUpLoot: FLoot;
-    loot: FLoot;
-    runAway: boolean;
-    streakDust: number;
-    userCreature: FUserCreature;
+    __type = 'FCatchCreatureResult';
+    avaUpdate: FAvaUpdate; // FAvaUpdate
+    ballType: enums.ItemType; // enums.ItemType
+    candies: number; // int
+    candyType: enums.CreatureType; // enums.CreatureType
+    catchChance: number; // float
+    catching: FCatchingConfig; // FCatchingConfig
+    caught: boolean; // bool
+    creadex: FCreadex; // FCreadex
+    creature: enums.CreatureType; // enums.CreatureType
+    dust: number; // int
+    expAccurate: number; // int
+    expCreatureExisting: number; // int
+    expCreatureNew: number; // int
+    expSpin: number; // int
+    levelUpLoot: FLoot; // FLoot
+    loot: FLoot; // FLoot
+    runAway: boolean; // bool
+    streakDust: number; // int
+    userCreature: FUserCreature; // FUserCreature
 
     public constructor(init?: Partial<FCatchCreatureResult>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.avaUpdate);
-        serializer.writeDynamicObject(this.ballType);
+        serializer.writeStaticObject(this.avaUpdate, 'FAvaUpdate');
+        serializer.writeDynamicObject(this.ballType, 'enums.ItemType');
         serializer.writeInt32(this.candies);
-        serializer.writeDynamicObject(this.candyType);
+        serializer.writeDynamicObject(this.candyType, 'enums.CreatureType');
         serializer.writeFloat(this.catchChance);
-        serializer.writeDynamicObject(this.catching);
+        serializer.writeDynamicObject(this.catching, 'FCatchingConfig');
         serializer.writeBoolean(this.caught);
-        serializer.writeDynamicObject(this.creadex);
-        serializer.writeDynamicObject(this.creature);
+        serializer.writeDynamicObject(this.creadex, 'FCreadex');
+        serializer.writeDynamicObject(this.creature, 'enums.CreatureType');
         serializer.writeInt32(this.dust);
         serializer.writeInt32(this.expAccurate);
         serializer.writeInt32(this.expCreatureExisting);
         serializer.writeInt32(this.expCreatureNew);
         serializer.writeInt32(this.expSpin);
-        serializer.writeStaticObject(this.levelUpLoot);
-        serializer.writeStaticObject(this.loot);
+        serializer.writeStaticObject(this.levelUpLoot, 'FLoot');
+        serializer.writeStaticObject(this.loot, 'FLoot');
         serializer.writeBoolean(this.runAway);
         serializer.writeInt32(this.streakDust);
-        serializer.writeDynamicObject(this.userCreature);
+        serializer.writeDynamicObject(this.userCreature, 'FUserCreature');
     }
     deserialize(deserializer: Deserializer) {
         this.avaUpdate = deserializer.readStaticObject('FAvaUpdate') as FAvaUpdate;
@@ -840,34 +866,35 @@ export class FCatchCreatureResult {
 }
 
 export class FCatchingConfig {
-    catchChances: Map<number, number>; // Map
-    chanceToAttack: number;
-    chanceToJump: number;
-    distance: number;
-    endCamPosDistance: number;
-    endCamPosHeight: number;
-    flyTime: number;
-    height: number;
-    lookAtHeight: number;
-    maxDistance: number;
-    maxHeight: number;
-    moveCheckCooldownSeconds: number;
-    offsetDistance: number;
-    offsetHeight: number;
-    scale: number;
-    scaleCollider: number;
-    sightRadiusDecreaseTimeSeconds: number;
-    sightRadiusMax: number;
-    sightRadiusMin: number;
-    startCamPosDistance: number;
-    startCamPosHeight: number;
+    __type = 'FCatchingConfig';
+    catchChances: Map<enums.ItemType, enums.ItemType>; // Map<enums.ItemType, enums.ItemType>
+    chanceToAttack: number; // float
+    chanceToJump: number; // float
+    distance: number; // float
+    endCamPosDistance: number; // float
+    endCamPosHeight: number; // float
+    flyTime: number; // float
+    height: number; // float
+    lookAtHeight: number; // float
+    maxDistance: number; // float
+    maxHeight: number; // float
+    moveCheckCooldownSeconds: number; // float
+    offsetDistance: number; // float
+    offsetHeight: number; // float
+    scale: number; // float
+    scaleCollider: number; // float
+    sightRadiusDecreaseTimeSeconds: number; // float
+    sightRadiusMax: number; // float
+    sightRadiusMin: number; // float
+    startCamPosDistance: number; // float
+    startCamPosHeight: number; // float
 
     public constructor(init?: Partial<FCatchingConfig>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticMap(this.catchChances, true, true);
+        serializer.writeStaticMap(this.catchChances, true, true, 'Map<enums.ItemType, enums.ItemType>');
         serializer.writeFloat(this.chanceToAttack);
         serializer.writeFloat(this.chanceToJump);
         serializer.writeFloat(this.distance);
@@ -915,18 +942,19 @@ export class FCatchingConfig {
 }
 
 export class FCatchingCreature {
-    aggressive: boolean;
-    candyType: number;
-    catching: FCatchingConfig;
-    cp: number;
-    element: number;
-    feedFoodType: number;
-    feedLeftTime: number;
-    id: string;
-    isCreatureStorageFull: boolean;
-    items: Map<number, number>; // Map
-    name: number;
-    quality: number;
+    __type = 'FCatchingCreature';
+    aggressive: boolean; // bool
+    candyType: enums.CreatureType; // enums.CreatureType
+    catching: FCatchingConfig; // FCatchingConfig
+    cp: number; // int
+    element: enums.ElementType; // enums.ElementType
+    feedFoodType: enums.ItemType; // enums.ItemType
+    feedLeftTime: number; // int
+    id: string; // string
+    isCreatureStorageFull: boolean; // bool
+    items: Map<enums.ItemType, enums.ItemType>; // Map<enums.ItemType, enums.ItemType>
+    name: enums.CreatureType; // enums.CreatureType
+    quality: number; // float
 
     public constructor(init?: Partial<FCatchingCreature>) {
         Object.assign(this, init);
@@ -935,14 +963,14 @@ export class FCatchingCreature {
     serialize(serializer: Serializer) {
         serializer.writeBoolean(this.aggressive);
         serializer.writeByte(this.candyType);
-        serializer.writeDynamicObject(this.catching);
+        serializer.writeDynamicObject(this.catching, 'FCatchingConfig');
         serializer.writeInt32(this.cp);
         serializer.writeByte(this.element);
-        serializer.writeDynamicObject(this.feedFoodType);
+        serializer.writeDynamicObject(this.feedFoodType, 'enums.ItemType');
         serializer.writeInt32(this.feedLeftTime);
         serializer.writeUtf8String(this.id);
         serializer.writeBoolean(this.isCreatureStorageFull);
-        serializer.writeStaticMap(this.items, true, true);
+        serializer.writeStaticMap(this.items, true, true, 'Map<enums.ItemType, enums.ItemType>');
         serializer.writeByte(this.name);
         serializer.writeFloat(this.quality);
     }
@@ -963,15 +991,16 @@ export class FCatchingCreature {
 }
 
 export class FChest {
-    coords: GeoCoords;
-    id: string;
+    __type = 'FChest';
+    coords: GeoCoords; // GeoCoords
+    id: string; // string
 
     public constructor(init?: Partial<FChest>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.coords);
+        serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeUtf8String(this.id);
     }
     deserialize(deserializer: Deserializer) {
@@ -981,14 +1010,15 @@ export class FChest {
 }
 
 export class FChestUpdate {
-    chests: FChest[];
+    __type = 'FChestUpdate';
+    chests: FChest[]; // FChest[]
 
     public constructor(init?: Partial<FChestUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticList(this.chests, true);
+        serializer.writeStaticList(this.chests, true, 'FChest[]');
     }
     deserialize(deserializer: Deserializer) {
         this.chests = deserializer.readStaticList('FChest', true);
@@ -996,18 +1026,19 @@ export class FChestUpdate {
 }
 
 export class FClientInfo {
-    deviceModel: string;
-    googleAdvertisingId: string;
-    googleTrackingEnabled: boolean;
-    iOsAdvertisingIdentifier: string;
-    iOsAdvertisingTrackingEnabled: boolean;
-    iOsVendorIdentifier: string;
-    language: string;
-    platform: string;
-    platformVersion: string;
-    revision: string;
-    screenHeight: number;
-    screenWidth: number;
+    __type = 'FClientInfo';
+    deviceModel: string; // string
+    googleAdvertisingId: string; // string
+    googleTrackingEnabled: boolean; // bool
+    iOsAdvertisingIdentifier: string; // string
+    iOsAdvertisingTrackingEnabled: boolean; // bool
+    iOsVendorIdentifier: string; // string
+    language: string; // string
+    platform: string; // string
+    platformVersion: string; // string
+    revision: string; // string
+    screenHeight: number; // int
+    screenWidth: number; // int
 
     public constructor(init?: Partial<FClientInfo>) {
         Object.assign(this, init);
@@ -1015,11 +1046,11 @@ export class FClientInfo {
 
     serialize(serializer: Serializer) {
         serializer.writeUtf8String(this.deviceModel);
-        serializer.writeDynamicObject(this.googleAdvertisingId);
+        serializer.writeDynamicObject(this.googleAdvertisingId, 'string');
         serializer.writeBoolean(this.googleTrackingEnabled);
-        serializer.writeDynamicObject(this.iOsAdvertisingIdentifier);
+        serializer.writeDynamicObject(this.iOsAdvertisingIdentifier, 'string');
         serializer.writeBoolean(this.iOsAdvertisingTrackingEnabled);
-        serializer.writeDynamicObject(this.iOsVendorIdentifier);
+        serializer.writeDynamicObject(this.iOsVendorIdentifier, 'string');
         serializer.writeUtf8String(this.language);
         serializer.writeUtf8String(this.platform);
         serializer.writeUtf8String(this.platformVersion);
@@ -1044,16 +1075,17 @@ export class FClientInfo {
 }
 
 export class FClientRequest {
-    coords: GeoCoords;
-    currentUtcOffsetSeconds: number;
-    time: long;
+    __type = 'FClientRequest';
+    coords: GeoCoords; // GeoCoords
+    currentUtcOffsetSeconds: number; // int
+    time: long; // long
 
     public constructor(init?: Partial<FClientRequest>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.coords);
+        serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeInt32(this.currentUtcOffsetSeconds);
         serializer.writeInt64(this.time);
     }
@@ -1065,69 +1097,70 @@ export class FClientRequest {
 }
 
 export class FConfig {
-    aggressiveChanceToAttack: number;
-    aggressiveChanceToJump: number;
-    aggressiveChancesCooldownTime: number;
-    altarAvailableFromLevel: number;
-    angularDrag: number;
-    arenaLayerLevels: number[];
-    arenaLevelsThreshold: number[];
-    avatarMoveMaxDistanceRun: number;
-    avatarMoveRunSpeed: number;
-    ballCurve: number;
-    battlesEnhancedLimitPrice: number;
-    buildingsVisionRadius: number;
-    cameraFieldOfView: number;
-    catchPopup: Map<number, number>; // SortedMap
-    congratulationLayerLevels: number[];
-    creaturesDelayVisibility: number;
-    dailyQuestAvailableFromLevel: number;
-    defenderBaseAttackBeforeChargedMax: number;
-    defenderBaseAttackBeforeChargedMin: number;
-    delayForCheckMaxSpeedToPlay: number;
-    delayToDisableGameBecauseOfLowGPSAccuracy: number;
-    desiredGpsAccuracy: number;
-    distanceToLoadTiles: number;
-    distanceToUnloadTiles: number;
-    dummy: boolean;
-    encounterDelaySinceStartup: number;
-    fogEndDistance: number;
-    fogStartDistance: number;
-    goOrbitDistance: number;
-    goOrbitDistanceMax: number;
-    goOrbitDistanceMin: number;
-    goOrbitHeightMaxLimit: number;
-    goOrbitHeightMinLimit: number;
-    goOrbitOffsetMax: number;
-    goOrbitOffsetMin: number;
-    highSpeedDurationRequiredForWarning: number;
-    mapServer: string;
-    mapVersion: number;
-    maxAngularVelocity: number;
-    maxClientPauseDuration: number;
-    maxSpeedForUse: number;
-    maxSpeedToPlay: number;
-    monsterLevelPerUserLevel: number;
-    monsterMaxLevel: number;
-    personalizationPrice: number;
-    potionConfig: PotionConfig;
-    radarVisionRadius: number;
-    runes: Map<number, number>; // Map
-    serverTime: long;
-    spinGain: number;
-    superVisionEffectInterval: number;
-    superVisionRadius: number;
-    timeLimitPerDefender: number;
-    updateRequestCooldownSeconds: number;
-    updateRequestIgnoreWorseAccuracyCooldownSeconds: number;
-    updateRequestMinimalDistance: number;
-    updateRequestPeriodSeconds: number;
-    weeklyQuestAvailableFromLevel: number;
-    wizardAvailableFromLevel: number;
-    wizardEnhanceCount: number;
-    xVelocityFactor: number;
-    xVelocityFactorSpin: number;
-    yVelocityFactor: number;
+    __type = 'FConfig';
+    aggressiveChanceToAttack: number; // float
+    aggressiveChanceToJump: number; // float
+    aggressiveChancesCooldownTime: number; // float
+    altarAvailableFromLevel: number; // int
+    angularDrag: number; // float
+    arenaLayerLevels: number[]; // int[]
+    arenaLevelsThreshold: number[]; // int[]
+    avatarMoveMaxDistanceRun: number; // int
+    avatarMoveRunSpeed: number; // int
+    ballCurve: number; // float
+    battlesEnhancedLimitPrice: number; // int
+    buildingsVisionRadius: number; // int
+    cameraFieldOfView: number; // float
+    catchPopup: Map<number, number>; // Map<float, float>
+    congratulationLayerLevels: number[]; // int[]
+    creaturesDelayVisibility: number; // int
+    dailyQuestAvailableFromLevel: number; // int
+    defenderBaseAttackBeforeChargedMax: number; // int
+    defenderBaseAttackBeforeChargedMin: number; // int
+    delayForCheckMaxSpeedToPlay: number; // float
+    delayToDisableGameBecauseOfLowGPSAccuracy: number; // float
+    desiredGpsAccuracy: number; // float
+    distanceToLoadTiles: number; // float
+    distanceToUnloadTiles: number; // float
+    dummy: boolean; // bool
+    encounterDelaySinceStartup: number; // int
+    fogEndDistance: number; // float
+    fogStartDistance: number; // float
+    goOrbitDistance: number; // float
+    goOrbitDistanceMax: number; // float
+    goOrbitDistanceMin: number; // float
+    goOrbitHeightMaxLimit: number; // float
+    goOrbitHeightMinLimit: number; // float
+    goOrbitOffsetMax: number; // float
+    goOrbitOffsetMin: number; // float
+    highSpeedDurationRequiredForWarning: number; // float
+    mapServer: string; // string
+    mapVersion: number; // int
+    maxAngularVelocity: number; // int
+    maxClientPauseDuration: number; // float
+    maxSpeedForUse: number; // float
+    maxSpeedToPlay: number; // int
+    monsterLevelPerUserLevel: number; // float
+    monsterMaxLevel: number; // int
+    personalizationPrice: number; // int
+    potionConfig: PotionConfig; // PotionConfig
+    radarVisionRadius: number; // double
+    runes: Map<enums.RecipeType, enums.RecipeType>; // Map<enums.RecipeType, enums.RecipeType>
+    serverTime: long; // long
+    spinGain: number; // float
+    superVisionEffectInterval: number; // float
+    superVisionRadius: number; // int
+    timeLimitPerDefender: number; // float
+    updateRequestCooldownSeconds: number; // int
+    updateRequestIgnoreWorseAccuracyCooldownSeconds: number; // int
+    updateRequestMinimalDistance: number; // int
+    updateRequestPeriodSeconds: number; // int
+    weeklyQuestAvailableFromLevel: number; // int
+    wizardAvailableFromLevel: number; // int
+    wizardEnhanceCount: number; // int
+    xVelocityFactor: number; // float
+    xVelocityFactorSpin: number; // float
+    yVelocityFactor: number; // float
 
     public constructor(init?: Partial<FConfig>) {
         Object.assign(this, init);
@@ -1139,16 +1172,16 @@ export class FConfig {
         serializer.writeFloat(this.aggressiveChancesCooldownTime);
         serializer.writeInt32(this.altarAvailableFromLevel);
         serializer.writeFloat(this.angularDrag);
-        serializer.writeStaticArray(this.arenaLayerLevels, true);
-        serializer.writeStaticArray(this.arenaLevelsThreshold, true);
+        serializer.writeStaticArray(this.arenaLayerLevels, true, 'int[]');
+        serializer.writeStaticArray(this.arenaLevelsThreshold, true, 'int[]');
         serializer.writeInt32(this.avatarMoveMaxDistanceRun);
         serializer.writeInt32(this.avatarMoveRunSpeed);
         serializer.writeFloat(this.ballCurve);
         serializer.writeInt32(this.battlesEnhancedLimitPrice);
         serializer.writeInt32(this.buildingsVisionRadius);
         serializer.writeFloat(this.cameraFieldOfView);
-        serializer.writeStaticMap(this.catchPopup, true, true);
-        serializer.writeStaticArray(this.congratulationLayerLevels, true);
+        serializer.writeStaticMap(this.catchPopup, true, true, 'Map<float, float>');
+        serializer.writeStaticArray(this.congratulationLayerLevels, true, 'int[]');
         serializer.writeInt32(this.creaturesDelayVisibility);
         serializer.writeInt32(this.dailyQuestAvailableFromLevel);
         serializer.writeInt32(this.defenderBaseAttackBeforeChargedMax);
@@ -1179,9 +1212,9 @@ export class FConfig {
         serializer.writeFloat(this.monsterLevelPerUserLevel);
         serializer.writeInt32(this.monsterMaxLevel);
         serializer.writeInt32(this.personalizationPrice);
-        serializer.writeStaticObject(this.potionConfig);
+        serializer.writeStaticObject(this.potionConfig, 'PotionConfig');
         serializer.writeDouble(this.radarVisionRadius);
-        serializer.writeStaticMap(this.runes, true, true);
+        serializer.writeStaticMap(this.runes, true, true, 'Map<enums.RecipeType, enums.RecipeType>');
         serializer.writeInt64(this.serverTime);
         serializer.writeFloat(this.spinGain);
         serializer.writeFloat(this.superVisionEffectInterval);
@@ -1266,14 +1299,15 @@ export class FConfig {
 }
 
 export class FCreadex {
-    entries: FCreadexEntry[];
+    __type = 'FCreadex';
+    entries: FCreadexEntry[]; // FCreadexEntry[]
 
     public constructor(init?: Partial<FCreadex>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticList(this.entries, true);
+        serializer.writeStaticList(this.entries, true, 'FCreadexEntry[]');
     }
     deserialize(deserializer: Deserializer) {
         this.entries = deserializer.readStaticList('FCreadexEntry', true);
@@ -1281,9 +1315,10 @@ export class FCreadex {
 }
 
 export class FCreadexChain {
-    caught: boolean;
-    creature: number;
-    seen: boolean;
+    __type = 'FCreadexChain';
+    caught: boolean; // bool
+    creature: enums.CreatureType; // enums.CreatureType
+    seen: boolean; // bool
 
     public constructor(init?: Partial<FCreadexChain>) {
         Object.assign(this, init);
@@ -1302,12 +1337,13 @@ export class FCreadexChain {
 }
 
 export class FCreadexEntry {
-    caughtQuantity: number;
-    chain: FCreadexChain[];
-    element: number;
-    name: number;
-    seen: boolean;
-    tier: number;
+    __type = 'FCreadexEntry';
+    caughtQuantity: number; // int
+    chain: FCreadexChain[]; // FCreadexChain[]
+    element: enums.ElementType; // enums.ElementType
+    name: enums.CreatureType; // enums.CreatureType
+    seen: boolean; // bool
+    tier: number; // int
 
     public constructor(init?: Partial<FCreadexEntry>) {
         Object.assign(this, init);
@@ -1315,7 +1351,7 @@ export class FCreadexEntry {
 
     serialize(serializer: Serializer) {
         serializer.writeInt32(this.caughtQuantity);
-        serializer.writeDynamicList(this.chain, true);
+        serializer.writeDynamicList(this.chain, true, 'FCreadexChain[]');
         serializer.writeByte(this.element);
         serializer.writeByte(this.name);
         serializer.writeBoolean(this.seen);
@@ -1332,8 +1368,9 @@ export class FCreadexEntry {
 }
 
 export class FCreatureRequest {
-    id: string;
-    veryFirst: boolean;
+    __type = 'FCreatureRequest';
+    id: string; // string
+    veryFirst: boolean; // bool
 
     public constructor(init?: Partial<FCreatureRequest>) {
         Object.assign(this, init);
@@ -1350,16 +1387,17 @@ export class FCreatureRequest {
 }
 
 export class FCreatureUpdate {
-    inRadar: FWildCreature[];
-    wilds: FWildCreature[];
+    __type = 'FCreatureUpdate';
+    inRadar: FWildCreature[]; // FWildCreature[]
+    wilds: FWildCreature[]; // FWildCreature[]
 
     public constructor(init?: Partial<FCreatureUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticList(this.inRadar, true);
-        serializer.writeStaticList(this.wilds, true);
+        serializer.writeStaticList(this.inRadar, true, 'FWildCreature[]');
+        serializer.writeStaticList(this.wilds, true, 'FWildCreature[]');
     }
     deserialize(deserializer: Deserializer) {
         this.inRadar = deserializer.readStaticList('FWildCreature', true);
@@ -1368,13 +1406,14 @@ export class FCreatureUpdate {
 }
 
 export class FDailyQuest {
-    count: number;
-    elementType: number;
-    id: string;
-    nextDailyQuestIn: number;
-    pitstopPath: IdAndCoords[];
-    progress: number;
-    type: number;
+    __type = 'FDailyQuest';
+    count: number; // int
+    elementType: enums.ElementType; // enums.ElementType
+    id: string; // string
+    nextDailyQuestIn: number; // int
+    pitstopPath: IdAndCoords[]; // IdAndCoords[]
+    progress: number; // int
+    type: enums.QuestType; // enums.QuestType
 
     public constructor(init?: Partial<FDailyQuest>) {
         Object.assign(this, init);
@@ -1382,12 +1421,12 @@ export class FDailyQuest {
 
     serialize(serializer: Serializer) {
         serializer.writeInt32(this.count);
-        serializer.writeDynamicObject(this.elementType);
-        serializer.writeDynamicObject(this.id);
+        serializer.writeDynamicObject(this.elementType, 'enums.ElementType');
+        serializer.writeDynamicObject(this.id, 'string');
         serializer.writeInt32(this.nextDailyQuestIn);
-        serializer.writeDynamicList(this.pitstopPath, true);
+        serializer.writeDynamicList(this.pitstopPath, true, 'IdAndCoords[]');
         serializer.writeInt32(this.progress);
-        serializer.writeDynamicObject(this.type);
+        serializer.writeDynamicObject(this.type, 'enums.QuestType');
     }
     deserialize(deserializer: Deserializer) {
         this.count = deserializer.readInt32();
@@ -1401,14 +1440,15 @@ export class FDailyQuest {
 }
 
 export class FDefenderDetails {
-    allianceType: number;
-    creatureAlias: string;
-    creatureCp: number;
-    creatureName: number;
-    elementType: number;
-    ownerLevel: number;
-    ownerName: string;
-    userAppearance: number;
+    __type = 'FDefenderDetails';
+    allianceType: enums.AllianceType; // enums.AllianceType
+    creatureAlias: string; // string
+    creatureCp: number; // int
+    creatureName: enums.CreatureType; // enums.CreatureType
+    elementType: enums.ElementType; // enums.ElementType
+    ownerLevel: number; // int
+    ownerName: string; // string
+    userAppearance: number; // int
 
     public constructor(init?: Partial<FDefenderDetails>) {
         Object.assign(this, init);
@@ -1416,7 +1456,7 @@ export class FDefenderDetails {
 
     serialize(serializer: Serializer) {
         serializer.writeByte(this.allianceType);
-        serializer.writeDynamicObject(this.creatureAlias);
+        serializer.writeDynamicObject(this.creatureAlias, 'string');
         serializer.writeInt32(this.creatureCp);
         serializer.writeByte(this.creatureName);
         serializer.writeByte(this.elementType);
@@ -1437,11 +1477,12 @@ export class FDefenderDetails {
 }
 
 export class FDepositInfo {
-    depositAmount: number;
-    duration: number;
-    isOnUser: boolean;
-    leftTime: long;
-    percent: number;
+    __type = 'FDepositInfo';
+    depositAmount: number; // int
+    duration: number; // int
+    isOnUser: boolean; // bool
+    leftTime: long; // long
+    percent: number; // float
 
     public constructor(init?: Partial<FDepositInfo>) {
         Object.assign(this, init);
@@ -1464,17 +1505,18 @@ export class FDepositInfo {
 }
 
 export class FDungeonUpdate {
-    coords: GeoCoords;
-    rotation: number;
-    size: number;
-    type: number;
+    __type = 'FDungeonUpdate';
+    coords: GeoCoords; // GeoCoords
+    rotation: number; // float
+    size: number; // int
+    type: enums.DungeonShapeType; // enums.DungeonShapeType
 
     public constructor(init?: Partial<FDungeonUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.coords);
+        serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeFloat(this.rotation);
         serializer.writeInt32(this.size);
         serializer.writeByte(this.type);
@@ -1488,14 +1530,15 @@ export class FDungeonUpdate {
 }
 
 export class FEgg {
-    eggType: number;
-    id: string;
-    incubatorId: string;
-    isEggForRoost: boolean;
-    isHatching: boolean;
-    passedDistance: number;
-    totalDistance: number;
-    totalIncubationTime: long;
+    __type = 'FEgg';
+    eggType: enums.ItemType; // enums.ItemType
+    id: string; // string
+    incubatorId: string; // string
+    isEggForRoost: boolean; // bool
+    isHatching: boolean; // bool
+    passedDistance: number; // float
+    totalDistance: number; // float
+    totalIncubationTime: long; // long
 
     public constructor(init?: Partial<FEgg>) {
         Object.assign(this, init);
@@ -1504,7 +1547,7 @@ export class FEgg {
     serialize(serializer: Serializer) {
         serializer.writeByte(this.eggType);
         serializer.writeUtf8String(this.id);
-        serializer.writeDynamicObject(this.incubatorId);
+        serializer.writeDynamicObject(this.incubatorId, 'string');
         serializer.writeBoolean(this.isEggForRoost);
         serializer.writeBoolean(this.isHatching);
         serializer.writeFloat(this.passedDistance);
@@ -1524,16 +1567,17 @@ export class FEgg {
 }
 
 export class FEncounterBattleResult {
-    loot: FLoot;
-    resultScreenDelay: number;
-    victory: boolean;
+    __type = 'FEncounterBattleResult';
+    loot: FLoot; // FLoot
+    resultScreenDelay: number; // float
+    victory: boolean; // bool
 
     public constructor(init?: Partial<FEncounterBattleResult>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.loot);
+        serializer.writeStaticObject(this.loot, 'FLoot');
         serializer.writeFloat(this.resultScreenDelay);
         serializer.writeBoolean(this.victory);
     }
@@ -1545,19 +1589,20 @@ export class FEncounterBattleResult {
 }
 
 export class FEncounterDetails {
-    coords: GeoCoords;
-    creatureCp: number;
-    creatureElementType: number;
-    creatureName: number;
-    id: string;
-    level: number;
+    __type = 'FEncounterDetails';
+    coords: GeoCoords; // GeoCoords
+    creatureCp: number; // int
+    creatureElementType: enums.ElementType; // enums.ElementType
+    creatureName: enums.CreatureType; // enums.CreatureType
+    id: string; // string
+    level: number; // int
 
     public constructor(init?: Partial<FEncounterDetails>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.coords);
+        serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeInt32(this.creatureCp);
         serializer.writeByte(this.creatureElementType);
         serializer.writeByte(this.creatureName);
@@ -1575,16 +1620,17 @@ export class FEncounterDetails {
 }
 
 export class FEncounterUpdate {
-    attacker: FFightCreature;
-    defender: FFightCreature;
+    __type = 'FEncounterUpdate';
+    attacker: FFightCreature; // FFightCreature
+    defender: FFightCreature; // FFightCreature
 
     public constructor(init?: Partial<FEncounterUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.attacker);
-        serializer.writeStaticObject(this.defender);
+        serializer.writeStaticObject(this.attacker, 'FFightCreature');
+        serializer.writeStaticObject(this.defender, 'FFightCreature');
     }
     deserialize(deserializer: Deserializer) {
         this.attacker = deserializer.readStaticObject('FFightCreature') as FFightCreature;
@@ -1593,7 +1639,8 @@ export class FEncounterUpdate {
 }
 
 export class FFeedMonsterResult {
-    feedLiveTime: long;
+    __type = 'FFeedMonsterResult';
+    feedLiveTime: long; // long
 
     public constructor(init?: Partial<FFeedMonsterResult>) {
         Object.assign(this, init);
@@ -1608,53 +1655,54 @@ export class FFeedMonsterResult {
 }
 
 export class FFightCreature {
-    alias: string;
-    attacker: boolean;
-    baseCp: number;
-    chargedSkill: string;
-    chargedSkillAim: boolean;
-    chargedSkillAngle: number;
-    chargedSkillDps: number;
-    chargedSkillQuality: number;
-    chargedSkillSpeed: number;
-    chargedSkillTtl: number;
-    cp: number;
-    decreasedDmgTo: number;
-    distance: number;
-    dodgeAngle: number;
-    dodgeDamageRatio: number;
-    dodgeMoveTime: number;
-    energySegments: number;
-    height: number;
-    holdTimeForChargedSkill: number;
-    hp: number;
-    id: string;
-    incomingEnergyOnAttack: number;
-    increasedDmgTo: number;
-    mainSkill: string;
-    mainSkillAim: boolean;
-    mainSkillAngle: number;
-    mainSkillDps: number;
-    mainSkillQuality: number;
-    mainSkillSpeed: number;
-    mainSkillTtl: number;
-    maxEnergy: number;
-    name: number;
-    rightElementAttackCoef: number;
-    scale: number;
-    specAttackCoef: number;
-    startCamPosDistance: number;
-    startCamPosHeight: number;
-    totalHp: number;
-    type: number;
-    wrongElementAttackCoef: number;
+    __type = 'FFightCreature';
+    alias: string; // string
+    attacker: boolean; // bool
+    baseCp: number; // int
+    chargedSkill: string; // string
+    chargedSkillAim: boolean; // bool
+    chargedSkillAngle: number; // int
+    chargedSkillDps: number; // float
+    chargedSkillQuality: enums.SkillQuality; // enums.SkillQuality
+    chargedSkillSpeed: number; // float
+    chargedSkillTtl: number; // float
+    cp: number; // int
+    decreasedDmgTo: enums.ElementType; // enums.ElementType
+    distance: number; // float
+    dodgeAngle: number; // float
+    dodgeDamageRatio: number; // float
+    dodgeMoveTime: number; // float
+    energySegments: number; // int
+    height: number; // float
+    holdTimeForChargedSkill: number; // float
+    hp: number; // float
+    id: string; // string
+    incomingEnergyOnAttack: number; // float
+    increasedDmgTo: enums.ElementType; // enums.ElementType
+    mainSkill: string; // string
+    mainSkillAim: boolean; // bool
+    mainSkillAngle: number; // int
+    mainSkillDps: number; // float
+    mainSkillQuality: enums.SkillQuality; // enums.SkillQuality
+    mainSkillSpeed: number; // float
+    mainSkillTtl: number; // float
+    maxEnergy: number; // float
+    name: enums.CreatureType; // enums.CreatureType
+    rightElementAttackCoef: number; // float
+    scale: number; // float
+    specAttackCoef: number; // float
+    startCamPosDistance: number; // float
+    startCamPosHeight: number; // float
+    totalHp: number; // float
+    type: enums.ElementType; // enums.ElementType
+    wrongElementAttackCoef: number; // float
 
     public constructor(init?: Partial<FFightCreature>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.alias);
+        serializer.writeDynamicObject(this.alias, 'string');
         serializer.writeBoolean(this.attacker);
         serializer.writeInt32(this.baseCp);
         serializer.writeUtf8String(this.chargedSkill);
@@ -1740,10 +1788,11 @@ export class FFightCreature {
 }
 
 export class FFightItem {
-    attackerDamageReceived: number;
-    attackerId: string;
-    defenderDamageReceived: number;
-    defenderId: string;
+    __type = 'FFightItem';
+    attackerDamageReceived: number; // float
+    attackerId: string; // string
+    defenderDamageReceived: number; // float
+    defenderId: string; // string
 
     public constructor(init?: Partial<FFightItem>) {
         Object.assign(this, init);
@@ -1764,11 +1813,12 @@ export class FFightItem {
 }
 
 export class FFightRequest {
-    chargedAttacksByAi: number;
-    dodges: number;
-    items: FFightItem[];
-    leaveBattle: boolean;
-    successfulDodges: number;
+    __type = 'FFightRequest';
+    chargedAttacksByAi: number; // int
+    dodges: number; // int
+    items: FFightItem[]; // FFightItem[]
+    leaveBattle: boolean; // bool
+    successfulDodges: number; // int
 
     public constructor(init?: Partial<FFightRequest>) {
         Object.assign(this, init);
@@ -1777,7 +1827,7 @@ export class FFightRequest {
     serialize(serializer: Serializer) {
         serializer.writeInt32(this.chargedAttacksByAi);
         serializer.writeInt32(this.dodges);
-        serializer.writeStaticList(this.items, true);
+        serializer.writeStaticList(this.items, true, 'FFightItem[]');
         serializer.writeBoolean(this.leaveBattle);
         serializer.writeInt32(this.successfulDodges);
     }
@@ -1791,21 +1841,22 @@ export class FFightRequest {
 }
 
 export class FFightUpdate {
-    attackers: FFightCreature[];
-    autoChangeAttackerHpPercent: number;
-    defenderNickname: string;
-    defenders: FFightCreature[];
-    dodgeChance: number;
+    __type = 'FFightUpdate';
+    attackers: FFightCreature[]; // FFightCreature[]
+    autoChangeAttackerHpPercent: number; // float
+    defenderNickname: string; // string
+    defenders: FFightCreature[]; // FFightCreature[]
+    dodgeChance: number; // float
 
     public constructor(init?: Partial<FFightUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticList(this.attackers, true);
+        serializer.writeStaticList(this.attackers, true, 'FFightCreature[]');
         serializer.writeFloat(this.autoChangeAttackerHpPercent);
-        serializer.writeDynamicObject(this.defenderNickname);
-        serializer.writeStaticList(this.defenders, true);
+        serializer.writeDynamicObject(this.defenderNickname, 'string');
+        serializer.writeStaticList(this.defenders, true, 'FFightCreature[]');
         serializer.writeFloat(this.dodgeChance);
     }
     deserialize(deserializer: Deserializer) {
@@ -1818,18 +1869,19 @@ export class FFightUpdate {
 }
 
 export class FHatchedEggs {
-    egg: FEgg;
-    incubatorId: string;
-    loot: FLoot;
+    __type = 'FHatchedEggs';
+    egg: FEgg; // FEgg
+    incubatorId: string; // string
+    loot: FLoot; // FLoot
 
     public constructor(init?: Partial<FHatchedEggs>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.egg);
+        serializer.writeStaticObject(this.egg, 'FEgg');
         serializer.writeUtf8String(this.incubatorId);
-        serializer.writeStaticObject(this.loot);
+        serializer.writeStaticObject(this.loot, 'FLoot');
     }
     deserialize(deserializer: Deserializer) {
         this.egg = deserializer.readStaticObject('FEgg') as FEgg;
@@ -1839,22 +1891,23 @@ export class FHatchedEggs {
 }
 
 export class FHatchingResult {
-    avaUpdate: FAvaUpdate;
-    creadex: FCreadex;
-    creature: FUserCreature;
-    levelUpLoot: FLoot;
-    loot: FLoot;
+    __type = 'FHatchingResult';
+    avaUpdate: FAvaUpdate; // FAvaUpdate
+    creadex: FCreadex; // FCreadex
+    creature: FUserCreature; // FUserCreature
+    levelUpLoot: FLoot; // FLoot
+    loot: FLoot; // FLoot
 
     public constructor(init?: Partial<FHatchingResult>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.avaUpdate);
-        serializer.writeDynamicObject(this.creadex);
-        serializer.writeStaticObject(this.creature);
-        serializer.writeStaticObject(this.levelUpLoot);
-        serializer.writeStaticObject(this.loot);
+        serializer.writeStaticObject(this.avaUpdate, 'FAvaUpdate');
+        serializer.writeDynamicObject(this.creadex, 'FCreadex');
+        serializer.writeStaticObject(this.creature, 'FUserCreature');
+        serializer.writeStaticObject(this.levelUpLoot, 'FLoot');
+        serializer.writeStaticObject(this.loot, 'FLoot');
     }
     deserialize(deserializer: Deserializer) {
         this.avaUpdate = deserializer.readStaticObject('FAvaUpdate') as FAvaUpdate;
@@ -1866,14 +1919,15 @@ export class FHatchingResult {
 }
 
 export class FInAppEventUpdate {
-    events: InAppEventInfo[];
+    __type = 'FInAppEventUpdate';
+    events: InAppEventInfo[]; // InAppEventInfo[]
 
     public constructor(init?: Partial<FInAppEventUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticList(this.events, true);
+        serializer.writeStaticList(this.events, true, 'InAppEventInfo[]');
     }
     deserialize(deserializer: Deserializer) {
         this.events = deserializer.readStaticList('InAppEventInfo', true);
@@ -1881,20 +1935,21 @@ export class FInAppEventUpdate {
 }
 
 export class FIncubator {
-    eggId: string;
-    incubatorId: string;
-    roostBuildingId: string;
-    slotIndex: number;
-    usagesLeft: number;
+    __type = 'FIncubator';
+    eggId: string; // string
+    incubatorId: string; // string
+    roostBuildingId: string; // string
+    slotIndex: number; // int
+    usagesLeft: number; // int
 
     public constructor(init?: Partial<FIncubator>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.eggId);
+        serializer.writeDynamicObject(this.eggId, 'string');
         serializer.writeUtf8String(this.incubatorId);
-        serializer.writeDynamicObject(this.roostBuildingId);
+        serializer.writeDynamicObject(this.roostBuildingId, 'string');
         serializer.writeInt32(this.slotIndex);
         serializer.writeInt32(this.usagesLeft);
     }
@@ -1908,9 +1963,10 @@ export class FIncubator {
 }
 
 export class FJournalRecord {
-    date: long;
-    details: Map<string, string>; // Map
-    type: number;
+    __type = 'FJournalRecord';
+    date: long; // long
+    details: Map<string, string>; // Map<string, string>
+    type: enums.EventLogType; // enums.EventLogType
 
     public constructor(init?: Partial<FJournalRecord>) {
         Object.assign(this, init);
@@ -1918,7 +1974,7 @@ export class FJournalRecord {
 
     serialize(serializer: Serializer) {
         serializer.writeInt64(this.date);
-        serializer.writeStaticMap(this.details, true, true);
+        serializer.writeStaticMap(this.details, true, true, 'Map<string, string>');
         serializer.writeByte(this.type);
     }
     deserialize(deserializer: Deserializer) {
@@ -1929,14 +1985,15 @@ export class FJournalRecord {
 }
 
 export class FJournalUpdate {
-    records: FJournalRecord[];
+    __type = 'FJournalUpdate';
+    records: FJournalRecord[]; // FJournalRecord[]
 
     public constructor(init?: Partial<FJournalUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticList(this.records, true);
+        serializer.writeStaticList(this.records, true, 'FJournalRecord[]');
     }
     deserialize(deserializer: Deserializer) {
         this.records = deserializer.readStaticList('FJournalRecord', true);
@@ -1944,14 +2001,15 @@ export class FJournalUpdate {
 }
 
 export class FLoot {
-    lootList: FBaseLootItem[];
+    __type = 'FLoot';
+    lootList: FBaseLootItem[]; // FBaseLootItem[]
 
     public constructor(init?: Partial<FLoot>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticList(this.lootList, false);
+        serializer.writeStaticList(this.lootList, false, 'FBaseLootItem[]');
     }
     deserialize(deserializer: Deserializer) {
         this.lootList = deserializer.readStaticList('FBaseLootItem', false);
@@ -1959,8 +2017,9 @@ export class FLoot {
 }
 
 export class FLootItemArtifact {
-    qty: number;
-    artifact: number;
+    __type = 'FLootItemArtifact';
+    qty: number; // int
+    artifact: enums.ArtifactName; // enums.ArtifactName
 
     public constructor(init?: Partial<FLootItemArtifact>) {
         Object.assign(this, init);
@@ -1977,8 +2036,9 @@ export class FLootItemArtifact {
 }
 
 export class FLootItemBuff {
-    qty: number;
-    buff: BuffConfig;
+    __type = 'FLootItemBuff';
+    qty: number; // int
+    buff: BuffConfig; // BuffConfig
 
     public constructor(init?: Partial<FLootItemBuff>) {
         Object.assign(this, init);
@@ -1986,7 +2046,7 @@ export class FLootItemBuff {
 
     serialize(serializer: Serializer) {
         serializer.writeInt32(this.qty);
-        serializer.writeStaticObject(this.buff);
+        serializer.writeStaticObject(this.buff, 'BuffConfig');
     }
     deserialize(deserializer: Deserializer) {
         this.qty = deserializer.readInt32();
@@ -1995,8 +2055,9 @@ export class FLootItemBuff {
 }
 
 export class FLootItemCandy {
-    qty: number;
-    candyType: number;
+    __type = 'FLootItemCandy';
+    qty: number; // int
+    candyType: enums.CreatureType; // enums.CreatureType
 
     public constructor(init?: Partial<FLootItemCandy>) {
         Object.assign(this, init);
@@ -2013,7 +2074,8 @@ export class FLootItemCandy {
 }
 
 export class FLootItemCoins {
-    qty: number;
+    __type = 'FLootItemCoins';
+    qty: number; // int
 
     public constructor(init?: Partial<FLootItemCoins>) {
         Object.assign(this, init);
@@ -2028,8 +2090,9 @@ export class FLootItemCoins {
 }
 
 export class FLootItemDust {
-    qty: number;
-    isStreak: boolean;
+    __type = 'FLootItemDust';
+    qty: number; // int
+    isStreak: boolean; // bool
 
     public constructor(init?: Partial<FLootItemDust>) {
         Object.assign(this, init);
@@ -2046,7 +2109,8 @@ export class FLootItemDust {
 }
 
 export class FLootItemExp {
-    qty: number;
+    __type = 'FLootItemExp';
+    qty: number; // int
 
     public constructor(init?: Partial<FLootItemExp>) {
         Object.assign(this, init);
@@ -2061,8 +2125,9 @@ export class FLootItemExp {
 }
 
 export class FLootItemInstantUseItem {
-    qty: number;
-    item: number;
+    __type = 'FLootItemInstantUseItem';
+    qty: number; // int
+    item: enums.InstantUseItem; // enums.InstantUseItem
 
     public constructor(init?: Partial<FLootItemInstantUseItem>) {
         Object.assign(this, init);
@@ -2079,9 +2144,10 @@ export class FLootItemInstantUseItem {
 }
 
 export class FLootItemItem {
-    qty: number;
-    isStreak: boolean;
-    item: number;
+    __type = 'FLootItemItem';
+    qty: number; // int
+    isStreak: boolean; // bool
+    item: enums.ItemType; // enums.ItemType
 
     public constructor(init?: Partial<FLootItemItem>) {
         Object.assign(this, init);
@@ -2100,8 +2166,9 @@ export class FLootItemItem {
 }
 
 export class FLootItemRecipe {
-    qty: number;
-    recipe: number;
+    __type = 'FLootItemRecipe';
+    qty: number; // int
+    recipe: enums.RecipeType; // enums.RecipeType
 
     public constructor(init?: Partial<FLootItemRecipe>) {
         Object.assign(this, init);
@@ -2118,16 +2185,17 @@ export class FLootItemRecipe {
 }
 
 export class FNicknameValidationResult {
-    error: number;
-    suggestedNickname: string;
+    __type = 'FNicknameValidationResult';
+    error: enums.FNicknameValidationError; // enums.FNicknameValidationError
+    suggestedNickname: string; // string
 
     public constructor(init?: Partial<FNicknameValidationResult>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.error);
-        serializer.writeDynamicObject(this.suggestedNickname);
+        serializer.writeDynamicObject(this.error, 'enums.FNicknameValidationError');
+        serializer.writeDynamicObject(this.suggestedNickname, 'string');
     }
     deserialize(deserializer: Deserializer) {
         this.error = deserializer.readDynamicObject();
@@ -2136,24 +2204,25 @@ export class FNicknameValidationResult {
 }
 
 export class FObeliskDetails {
-    coords: GeoCoords;
-    dailyQuest: FDailyQuest;
-    fragment: FWeeklyQuestFragment;
-    id: string;
-    justOpened: boolean;
-    weeklyQuest: FWeeklyQuest;
+    __type = 'FObeliskDetails';
+    coords: GeoCoords; // GeoCoords
+    dailyQuest: FDailyQuest; // FDailyQuest
+    fragment: FWeeklyQuestFragment; // FWeeklyQuestFragment
+    id: string; // string
+    justOpened: boolean; // bool
+    weeklyQuest: FWeeklyQuest; // FWeeklyQuest
 
     public constructor(init?: Partial<FObeliskDetails>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.coords);
-        serializer.writeDynamicObject(this.dailyQuest);
-        serializer.writeDynamicObject(this.fragment);
+        serializer.writeStaticObject(this.coords, 'GeoCoords');
+        serializer.writeDynamicObject(this.dailyQuest, 'FDailyQuest');
+        serializer.writeDynamicObject(this.fragment, 'FWeeklyQuestFragment');
         serializer.writeUtf8String(this.id);
         serializer.writeBoolean(this.justOpened);
-        serializer.writeDynamicObject(this.weeklyQuest);
+        serializer.writeDynamicObject(this.weeklyQuest, 'FWeeklyQuest');
     }
     deserialize(deserializer: Deserializer) {
         this.coords = deserializer.readStaticObject('GeoCoords') as GeoCoords;
@@ -2166,16 +2235,17 @@ export class FObeliskDetails {
 }
 
 export class FOpenChestResult {
-    levelUpLoot: FLoot;
-    loot: FLoot;
+    __type = 'FOpenChestResult';
+    levelUpLoot: FLoot; // FLoot
+    loot: FLoot; // FLoot
 
     public constructor(init?: Partial<FOpenChestResult>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.levelUpLoot);
-        serializer.writeStaticObject(this.loot);
+        serializer.writeDynamicObject(this.levelUpLoot, 'FLoot');
+        serializer.writeStaticObject(this.loot, 'FLoot');
     }
     deserialize(deserializer: Deserializer) {
         this.levelUpLoot = deserializer.readDynamicObject();
@@ -2184,16 +2254,17 @@ export class FOpenChestResult {
 }
 
 export class FPickItemsResponse {
-    levelUpLoot: FLoot;
-    loot: FLoot;
+    __type = 'FPickItemsResponse';
+    levelUpLoot: FLoot; // FLoot
+    loot: FLoot; // FLoot
 
     public constructor(init?: Partial<FPickItemsResponse>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.levelUpLoot);
-        serializer.writeStaticObject(this.loot);
+        serializer.writeDynamicObject(this.levelUpLoot, 'FLoot');
+        serializer.writeStaticObject(this.loot, 'FLoot');
     }
     deserialize(deserializer: Deserializer) {
         this.levelUpLoot = deserializer.readDynamicObject();
@@ -2202,10 +2273,11 @@ export class FPickItemsResponse {
 }
 
 export class FPitstop {
-    cooldown: boolean;
-    lureBy: string;
-    lureTimeLeft: long;
-    personalized: number;
+    __type = 'FPitstop';
+    cooldown: boolean; // bool
+    lureBy: string; // string
+    lureTimeLeft: long; // long
+    personalized: enums.PersonalizedStop; // enums.PersonalizedStop
 
     public constructor(init?: Partial<FPitstop>) {
         Object.assign(this, init);
@@ -2213,9 +2285,9 @@ export class FPitstop {
 
     serialize(serializer: Serializer) {
         serializer.writeBoolean(this.cooldown);
-        serializer.writeDynamicObject(this.lureBy);
+        serializer.writeDynamicObject(this.lureBy, 'string');
         serializer.writeInt64(this.lureTimeLeft);
-        serializer.writeDynamicObject(this.personalized);
+        serializer.writeDynamicObject(this.personalized, 'enums.PersonalizedStop');
     }
     deserialize(deserializer: Deserializer) {
         this.cooldown = deserializer.readBoolean();
@@ -2226,19 +2298,20 @@ export class FPitstop {
 }
 
 export class FQuestCompleted {
-    dailyQuest: FDailyQuest;
-    levelUpLoot: FLoot;
-    loot: FLoot;
-    weeklyQuest: boolean;
+    __type = 'FQuestCompleted';
+    dailyQuest: FDailyQuest; // FDailyQuest
+    levelUpLoot: FLoot; // FLoot
+    loot: FLoot; // FLoot
+    weeklyQuest: boolean; // bool
 
     public constructor(init?: Partial<FQuestCompleted>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.dailyQuest);
-        serializer.writeStaticObject(this.levelUpLoot);
-        serializer.writeStaticObject(this.loot);
+        serializer.writeDynamicObject(this.dailyQuest, 'FDailyQuest');
+        serializer.writeStaticObject(this.levelUpLoot, 'FLoot');
+        serializer.writeStaticObject(this.loot, 'FLoot');
         serializer.writeBoolean(this.weeklyQuest);
     }
     deserialize(deserializer: Deserializer) {
@@ -2250,18 +2323,19 @@ export class FQuestCompleted {
 }
 
 export class FQuestUpdate {
-    completed: FQuestCompleted;
-    highlightBuilding: IdAndCoords;
-    path: IdAndCoords[];
+    __type = 'FQuestUpdate';
+    completed: FQuestCompleted; // FQuestCompleted
+    highlightBuilding: IdAndCoords; // IdAndCoords
+    path: IdAndCoords[]; // IdAndCoords[]
 
     public constructor(init?: Partial<FQuestUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.completed);
-        serializer.writeDynamicObject(this.highlightBuilding);
-        serializer.writeDynamicList(this.path, true);
+        serializer.writeDynamicObject(this.completed, 'FQuestCompleted');
+        serializer.writeDynamicObject(this.highlightBuilding, 'IdAndCoords');
+        serializer.writeDynamicList(this.path, true, 'IdAndCoords[]');
     }
     deserialize(deserializer: Deserializer) {
         this.completed = deserializer.readDynamicObject();
@@ -2271,11 +2345,12 @@ export class FQuestUpdate {
 }
 
 export class FRegistrationInfo {
-    age: string;
-    email: string;
-    gender: string;
-    regType: string;
-    socialId: string;
+    __type = 'FRegistrationInfo';
+    age: string; // string
+    email: string; // string
+    gender: string; // string
+    regType: string; // string
+    socialId: string; // string
 
     public constructor(init?: Partial<FRegistrationInfo>) {
         Object.assign(this, init);
@@ -2298,16 +2373,17 @@ export class FRegistrationInfo {
 }
 
 export class FScoutRequest {
-    clientRequest: FClientRequest;
-    scoutCoords: GeoCoords;
+    __type = 'FScoutRequest';
+    clientRequest: FClientRequest; // FClientRequest
+    scoutCoords: GeoCoords; // GeoCoords
 
     public constructor(init?: Partial<FScoutRequest>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.clientRequest);
-        serializer.writeStaticObject(this.scoutCoords);
+        serializer.writeStaticObject(this.clientRequest, 'FClientRequest');
+        serializer.writeStaticObject(this.scoutCoords, 'GeoCoords');
     }
     deserialize(deserializer: Deserializer) {
         this.clientRequest = deserializer.readStaticObject('FClientRequest') as FClientRequest;
@@ -2316,15 +2392,16 @@ export class FScoutRequest {
 }
 
 export class FServiceError {
-    args: object[];
-    cause: string;
+    __type = 'FServiceError';
+    args: object[]; // object[]
+    cause: string; // string
 
     public constructor(init?: Partial<FServiceError>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticArray(this.args, false);
+        serializer.writeStaticArray(this.args, false, 'object[]');
         serializer.writeUtf8String(this.cause);
     }
     deserialize(deserializer: Deserializer) {
@@ -2334,22 +2411,23 @@ export class FServiceError {
 }
 
 export class FShopConfig {
-    artifacts: Map<number, number>; // Map
-    bagUpgrade: ProductLot;
-    coins: Map<string, string>; // Map
-    creatureStorageUpgrade: ProductLot;
-    products: ProductGroup[];
+    __type = 'FShopConfig';
+    artifacts: Map<enums.ArtifactName, enums.ArtifactName>; // Map<enums.ArtifactName, enums.ArtifactName>
+    bagUpgrade: ProductLot; // ProductLot
+    coins: Map<string, string>; // Map<string, string>
+    creatureStorageUpgrade: ProductLot; // ProductLot
+    products: ProductGroup[]; // ProductGroup[]
 
     public constructor(init?: Partial<FShopConfig>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticMap(this.artifacts, true, true);
-        serializer.writeStaticObject(this.bagUpgrade);
-        serializer.writeStaticMap(this.coins, true, true);
-        serializer.writeStaticObject(this.creatureStorageUpgrade);
-        serializer.writeStaticList(this.products, true);
+        serializer.writeStaticMap(this.artifacts, true, true, 'Map<enums.ArtifactName, enums.ArtifactName>');
+        serializer.writeStaticObject(this.bagUpgrade, 'ProductLot');
+        serializer.writeStaticMap(this.coins, true, true, 'Map<string, string>');
+        serializer.writeStaticObject(this.creatureStorageUpgrade, 'ProductLot');
+        serializer.writeStaticList(this.products, true, 'ProductGroup[]');
     }
     deserialize(deserializer: Deserializer) {
         this.artifacts = deserializer.readStaticMap('ArtifactName', 'int', true, true);
@@ -2361,15 +2439,16 @@ export class FShopConfig {
 }
 
 export class FSpellCastDone {
-    altarCoords: GeoCoords;
-    spellType: number;
+    __type = 'FSpellCastDone';
+    altarCoords: GeoCoords; // GeoCoords
+    spellType: enums.SpellType; // enums.SpellType
 
     public constructor(init?: Partial<FSpellCastDone>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.altarCoords);
+        serializer.writeStaticObject(this.altarCoords, 'GeoCoords');
         serializer.writeByte(this.spellType);
     }
     deserialize(deserializer: Deserializer) {
@@ -2379,14 +2458,15 @@ export class FSpellCastDone {
 }
 
 export class FSpellEffectsUpdate {
-    hitArenas: Set<string>;
+    __type = 'FSpellEffectsUpdate';
+    hitArenas: Set<string>; // Set<string>
 
     public constructor(init?: Partial<FSpellEffectsUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticHashSet(this.hitArenas, true);
+        serializer.writeStaticHashSet(this.hitArenas, true, 'Set<string>');
     }
     deserialize(deserializer: Deserializer) {
         this.hitArenas = deserializer.readStaticHashSet('string', true);
@@ -2394,8 +2474,9 @@ export class FSpellEffectsUpdate {
 }
 
 export class FStartEncounterRequest {
-    attackerId: string;
-    defenderId: string;
+    __type = 'FStartEncounterRequest';
+    attackerId: string; // string
+    defenderId: string; // string
 
     public constructor(init?: Partial<FStartEncounterRequest>) {
         Object.assign(this, init);
@@ -2412,16 +2493,17 @@ export class FStartEncounterRequest {
 }
 
 export class FTile {
-    dungeonId: string;
-    tile: Tile;
+    __type = 'FTile';
+    dungeonId: string; // string
+    tile: Tile; // Tile
 
     public constructor(init?: Partial<FTile>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.dungeonId);
-        serializer.writeStaticObject(this.tile);
+        serializer.writeDynamicObject(this.dungeonId, 'string');
+        serializer.writeStaticObject(this.tile, 'Tile');
     }
     deserialize(deserializer: Deserializer) {
         this.dungeonId = deserializer.readDynamicObject();
@@ -2430,15 +2512,16 @@ export class FTile {
 }
 
 export class FTileState {
-    buildings: FBuilding[];
-    time: long;
+    __type = 'FTileState';
+    buildings: FBuilding[]; // FBuilding[]
+    time: long; // long
 
     public constructor(init?: Partial<FTileState>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticList(this.buildings, true);
+        serializer.writeStaticList(this.buildings, true, 'FBuilding[]');
         serializer.writeInt64(this.time);
     }
     deserialize(deserializer: Deserializer) {
@@ -2448,14 +2531,15 @@ export class FTileState {
 }
 
 export class FTransferMonsterToCandiesResponse {
-    loot: FLoot;
+    __type = 'FTransferMonsterToCandiesResponse';
+    loot: FLoot; // FLoot
 
     public constructor(init?: Partial<FTransferMonsterToCandiesResponse>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.loot);
+        serializer.writeStaticObject(this.loot, 'FLoot');
     }
     deserialize(deserializer: Deserializer) {
         this.loot = deserializer.readStaticObject('FLoot') as FLoot;
@@ -2463,16 +2547,17 @@ export class FTransferMonsterToCandiesResponse {
 }
 
 export class FUpdate {
-    items: FBaseItemUpdate[];
-    speed: number;
+    __type = 'FUpdate';
+    items: FBaseItemUpdate[]; // FBaseItemUpdate[]
+    speed: number; // float
 
     public constructor(init?: Partial<FUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticList(this.items, false);
-        serializer.writeDynamicObject(this.speed);
+        serializer.writeStaticList(this.items, false, 'FBaseItemUpdate[]');
+        serializer.writeDynamicObject(this.speed, 'float');
     }
     deserialize(deserializer: Deserializer) {
         this.items = deserializer.readStaticList('FBaseItemUpdate', false);
@@ -2481,16 +2566,17 @@ export class FUpdate {
 }
 
 export class FUpdateNicknameResult {
-    userInfo: FUserInfo;
-    validationResult: FNicknameValidationResult;
+    __type = 'FUpdateNicknameResult';
+    userInfo: FUserInfo; // FUserInfo
+    validationResult: FNicknameValidationResult; // FNicknameValidationResult
 
     public constructor(init?: Partial<FUpdateNicknameResult>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.userInfo);
-        serializer.writeDynamicObject(this.validationResult);
+        serializer.writeDynamicObject(this.userInfo, 'FUserInfo');
+        serializer.writeDynamicObject(this.validationResult, 'FNicknameValidationResult');
     }
     deserialize(deserializer: Deserializer) {
         this.userInfo = deserializer.readDynamicObject();
@@ -2499,10 +2585,11 @@ export class FUpdateNicknameResult {
 }
 
 export class FUpdateRequest {
-    blackScreen: boolean;
-    clientPlatform: number;
-    clientRequest: FClientRequest;
-    tilesCache: Map<FTile, FTile>; // Map
+    __type = 'FUpdateRequest';
+    blackScreen: boolean; // bool
+    clientPlatform: enums.ClientPlatform; // enums.ClientPlatform
+    clientRequest: FClientRequest; // FClientRequest
+    tilesCache: Map<FTile, FTile>; // Map<FTile, FTile>
 
     public constructor(init?: Partial<FUpdateRequest>) {
         Object.assign(this, init);
@@ -2511,8 +2598,8 @@ export class FUpdateRequest {
     serialize(serializer: Serializer) {
         serializer.writeBoolean(this.blackScreen);
         serializer.writeByte(this.clientPlatform);
-        serializer.writeStaticObject(this.clientRequest);
-        serializer.writeStaticMap(this.tilesCache, true, true);
+        serializer.writeStaticObject(this.clientRequest, 'FClientRequest');
+        serializer.writeStaticMap(this.tilesCache, true, true, 'Map<FTile, FTile>');
     }
     deserialize(deserializer: Deserializer) {
         this.blackScreen = deserializer.readBoolean();
@@ -2523,41 +2610,42 @@ export class FUpdateRequest {
 }
 
 export class FUserCreature {
-    alias: string;
-    attackValue: number;
-    baseCp: number;
-    candyType: number;
-    chargedSegments: number;
-    chargedSkill: string;
-    chargedSkillDps: number;
-    cp: number;
-    dps: number;
-    elementType: number;
-    gotchaTime: long;
-    group: number;
-    hp: number;
-    id: string;
-    improvable: boolean;
-    improveCandiesCost: number;
-    improveDustCost: number;
-    isArenaDefender: boolean;
-    isAttacker: boolean;
-    isLibraryDefender: boolean;
-    level: number;
-    mainSkill: string;
-    mainSkillDps: number;
-    mainSkillEps: number;
-    name: number;
-    possibleEvolutions: Map<number, number>; // Map
-    staminaValue: number;
-    totalHp: number;
+    __type = 'FUserCreature';
+    alias: string; // string
+    attackValue: number; // int
+    baseCp: number; // int
+    candyType: enums.CreatureType; // enums.CreatureType
+    chargedSegments: number; // int
+    chargedSkill: string; // string
+    chargedSkillDps: number; // float
+    cp: number; // int
+    dps: number; // float
+    elementType: enums.ElementType; // enums.ElementType
+    gotchaTime: long; // long
+    group: number; // int
+    hp: number; // float
+    id: string; // string
+    improvable: boolean; // bool
+    improveCandiesCost: number; // int
+    improveDustCost: number; // int
+    isArenaDefender: boolean; // bool
+    isAttacker: boolean; // bool
+    isLibraryDefender: boolean; // bool
+    level: number; // int
+    mainSkill: string; // string
+    mainSkillDps: number; // float
+    mainSkillEps: number; // float
+    name: enums.CreatureType; // enums.CreatureType
+    possibleEvolutions: Map<enums.CreatureType, enums.CreatureType>; // Map<enums.CreatureType, enums.CreatureType>
+    staminaValue: number; // int
+    totalHp: number; // float
 
     public constructor(init?: Partial<FUserCreature>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.alias);
+        serializer.writeDynamicObject(this.alias, 'string');
         serializer.writeInt32(this.attackValue);
         serializer.writeInt32(this.baseCp);
         serializer.writeByte(this.candyType);
@@ -2582,7 +2670,7 @@ export class FUserCreature {
         serializer.writeFloat(this.mainSkillDps);
         serializer.writeFloat(this.mainSkillEps);
         serializer.writeByte(this.name);
-        serializer.writeStaticMap(this.possibleEvolutions, true, true);
+        serializer.writeStaticMap(this.possibleEvolutions, true, true, 'Map<enums.CreatureType, enums.CreatureType>');
         serializer.writeInt32(this.staminaValue);
         serializer.writeFloat(this.totalHp);
     }
@@ -2619,14 +2707,15 @@ export class FUserCreature {
 }
 
 export class FUserCreaturesList {
-    userCreatures: FUserCreature[];
+    __type = 'FUserCreaturesList';
+    userCreatures: FUserCreature[]; // FUserCreature[]
 
     public constructor(init?: Partial<FUserCreaturesList>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticList(this.userCreatures, true);
+        serializer.writeStaticList(this.userCreatures, true, 'FUserCreature[]');
     }
     deserialize(deserializer: Deserializer) {
         this.userCreatures = deserializer.readStaticList('FUserCreature', true);
@@ -2634,22 +2723,23 @@ export class FUserCreaturesList {
 }
 
 export class FUserCreatureUpdate {
-    avaUpdate: FAvaUpdate;
-    creadex: FCreadex;
-    creature: FUserCreature;
-    levelUpLoot: FLoot;
-    loot: FLoot;
+    __type = 'FUserCreatureUpdate';
+    avaUpdate: FAvaUpdate; // FAvaUpdate
+    creadex: FCreadex; // FCreadex
+    creature: FUserCreature; // FUserCreature
+    levelUpLoot: FLoot; // FLoot
+    loot: FLoot; // FLoot
 
     public constructor(init?: Partial<FUserCreatureUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.avaUpdate);
-        serializer.writeDynamicObject(this.creadex);
-        serializer.writeStaticObject(this.creature);
-        serializer.writeStaticObject(this.levelUpLoot);
-        serializer.writeStaticObject(this.loot);
+        serializer.writeStaticObject(this.avaUpdate, 'FAvaUpdate');
+        serializer.writeDynamicObject(this.creadex, 'FCreadex');
+        serializer.writeStaticObject(this.creature, 'FUserCreature');
+        serializer.writeStaticObject(this.levelUpLoot, 'FLoot');
+        serializer.writeStaticObject(this.loot, 'FLoot');
     }
     deserialize(deserializer: Deserializer) {
         this.avaUpdate = deserializer.readStaticObject('FAvaUpdate') as FAvaUpdate;
@@ -2661,18 +2751,19 @@ export class FUserCreatureUpdate {
 }
 
 export class FUserHatchingInfo {
-    eggs: FEgg[];
-    incubators: FIncubator[];
-    max: number;
-    maxRoost: number;
+    __type = 'FUserHatchingInfo';
+    eggs: FEgg[]; // FEgg[]
+    incubators: FIncubator[]; // FIncubator[]
+    max: number; // int
+    maxRoost: number; // int
 
     public constructor(init?: Partial<FUserHatchingInfo>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticList(this.eggs, true);
-        serializer.writeStaticList(this.incubators, true);
+        serializer.writeStaticList(this.eggs, true, 'FEgg[]');
+        serializer.writeStaticList(this.incubators, true, 'FIncubator[]');
         serializer.writeInt32(this.max);
         serializer.writeInt32(this.maxRoost);
     }
@@ -2685,18 +2776,19 @@ export class FUserHatchingInfo {
 }
 
 export class FUserInfo {
-    alliance: number;
-    avatarAppearanceDetails: number;
-    devMode: boolean;
-    nickname: string;
-    userId: string;
+    __type = 'FUserInfo';
+    alliance: enums.AllianceType; // enums.AllianceType
+    avatarAppearanceDetails: number; // int
+    devMode: boolean; // bool
+    nickname: string; // string
+    userId: string; // string
 
     public constructor(init?: Partial<FUserInfo>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.alliance);
+        serializer.writeDynamicObject(this.alliance, 'enums.AllianceType');
         serializer.writeInt32(this.avatarAppearanceDetails);
         serializer.writeBoolean(this.devMode);
         serializer.writeUtf8String(this.nickname);
@@ -2712,13 +2804,14 @@ export class FUserInfo {
 }
 
 export class FWeeklyQuest {
-    allOpen: boolean;
-    completed: boolean;
-    currentFragment: number;
-    digFragments: number[];
-    nextWeeklyQuestIn: number;
-    openFragments: Map<number, number>; // Map
-    sideFragmentNumber: number;
+    __type = 'FWeeklyQuest';
+    allOpen: boolean; // bool
+    completed: boolean; // bool
+    currentFragment: number; // int
+    digFragments: number[]; // int[]
+    nextWeeklyQuestIn: number; // int
+    openFragments: Map<number, number>; // Map<int, int>
+    sideFragmentNumber: number; // int
 
     public constructor(init?: Partial<FWeeklyQuest>) {
         Object.assign(this, init);
@@ -2728,9 +2821,9 @@ export class FWeeklyQuest {
         serializer.writeBoolean(this.allOpen);
         serializer.writeBoolean(this.completed);
         serializer.writeInt32(this.currentFragment);
-        serializer.writeStaticList(this.digFragments, true);
+        serializer.writeStaticList(this.digFragments, true, 'int[]');
         serializer.writeInt32(this.nextWeeklyQuestIn);
-        serializer.writeStaticMap(this.openFragments, true, true);
+        serializer.writeStaticMap(this.openFragments, true, true, 'Map<int, int>');
         serializer.writeInt32(this.sideFragmentNumber);
     }
     deserialize(deserializer: Deserializer) {
@@ -2745,8 +2838,9 @@ export class FWeeklyQuest {
 }
 
 export class FWeeklyQuestFragment {
-    data: Buffer;
-    fragmentNumber: number;
+    __type = 'FWeeklyQuestFragment';
+    data: Buffer; // Buffer
+    fragmentNumber: number; // int
 
     public constructor(init?: Partial<FWeeklyQuestFragment>) {
         Object.assign(this, init);
@@ -2763,28 +2857,29 @@ export class FWeeklyQuestFragment {
 }
 
 export class FWildCreature {
-    coords: GeoCoords;
-    entry: FCreadexEntry;
-    id: string;
-    incenseUserId: string;
-    isFirstCreature: boolean;
-    name: number;
-    relatedBuildingId: string;
-    scaleCollider: number;
-    ttl: number;
+    __type = 'FWildCreature';
+    coords: GeoCoords; // GeoCoords
+    entry: FCreadexEntry; // FCreadexEntry
+    id: string; // string
+    incenseUserId: string; // string
+    isFirstCreature: boolean; // bool
+    name: enums.CreatureType; // enums.CreatureType
+    relatedBuildingId: string; // string
+    scaleCollider: number; // float
+    ttl: number; // float
 
     public constructor(init?: Partial<FWildCreature>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.coords);
-        serializer.writeDynamicObject(this.entry);
+        serializer.writeDynamicObject(this.coords, 'GeoCoords');
+        serializer.writeDynamicObject(this.entry, 'FCreadexEntry');
         serializer.writeUtf8String(this.id);
-        serializer.writeDynamicObject(this.incenseUserId);
+        serializer.writeDynamicObject(this.incenseUserId, 'string');
         serializer.writeBoolean(this.isFirstCreature);
         serializer.writeByte(this.name);
-        serializer.writeDynamicObject(this.relatedBuildingId);
+        serializer.writeDynamicObject(this.relatedBuildingId, 'string');
         serializer.writeFloat(this.scaleCollider);
         serializer.writeFloat(this.ttl);
     }
@@ -2802,10 +2897,11 @@ export class FWildCreature {
 }
 
 export class FWizardBattleInfo {
-    enhanced: boolean;
-    limit: number;
-    timeToRefresh: number;
-    used: number;
+    __type = 'FWizardBattleInfo';
+    enhanced: boolean; // bool
+    limit: number; // int
+    timeToRefresh: number; // float
+    used: number; // int
 
     public constructor(init?: Partial<FWizardBattleInfo>) {
         Object.assign(this, init);
@@ -2826,24 +2922,25 @@ export class FWizardBattleInfo {
 }
 
 export class FWizardBattleResult {
-    attackerHps: number[];
-    attackerTypes: number[];
-    creaturesDefeated: number;
-    levelUpLoot: FLoot;
-    loot: FLoot;
-    resultScreenDelay: number;
-    victory: boolean;
+    __type = 'FWizardBattleResult';
+    attackerHps: number[]; // float[]
+    attackerTypes: enums.CreatureType[]; // enums.CreatureType[]
+    creaturesDefeated: number; // int
+    levelUpLoot: FLoot; // FLoot
+    loot: FLoot; // FLoot
+    resultScreenDelay: number; // float
+    victory: boolean; // bool
 
     public constructor(init?: Partial<FWizardBattleResult>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticList(this.attackerHps, true);
-        serializer.writeStaticList(this.attackerTypes, true);
+        serializer.writeStaticList(this.attackerHps, true, 'float[]');
+        serializer.writeStaticList(this.attackerTypes, true, 'enums.CreatureType[]');
         serializer.writeInt32(this.creaturesDefeated);
-        serializer.writeStaticObject(this.levelUpLoot);
-        serializer.writeStaticObject(this.loot);
+        serializer.writeStaticObject(this.levelUpLoot, 'FLoot');
+        serializer.writeStaticObject(this.loot, 'FLoot');
         serializer.writeFloat(this.resultScreenDelay);
         serializer.writeBoolean(this.victory);
     }
@@ -2859,16 +2956,17 @@ export class FWizardBattleResult {
 }
 
 export class GeoCoords {
-    horizontalAccuracy: number;
-    latitude: number;
-    longitude: number;
+    __type = 'GeoCoords';
+    horizontalAccuracy: number; // double
+    latitude: number; // double
+    longitude: number; // double
 
     public constructor(init?: Partial<GeoCoords>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeDynamicObject(this.horizontalAccuracy);
+        serializer.writeDynamicObject(this.horizontalAccuracy, 'double');
         serializer.writeDouble(this.latitude);
         serializer.writeDouble(this.longitude);
     }
@@ -2880,15 +2978,16 @@ export class GeoCoords {
 }
 
 export class IdAndCoords {
-    coords: GeoCoords;
-    id: string;
+    __type = 'IdAndCoords';
+    coords: GeoCoords; // GeoCoords
+    id: string; // string
 
     public constructor(init?: Partial<IdAndCoords>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticObject(this.coords);
+        serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeUtf8String(this.id);
     }
     deserialize(deserializer: Deserializer) {
@@ -2898,16 +2997,17 @@ export class IdAndCoords {
 }
 
 export class InAppEventInfo {
-    eventItems: Map<string, string>; // Map
-    eventType: number;
-    userId: string;
+    __type = 'InAppEventInfo';
+    eventItems: Map<string, string>; // Map<string, string>
+    eventType: enums.InAppEventType; // enums.InAppEventType
+    userId: string; // string
 
     public constructor(init?: Partial<InAppEventInfo>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticMap(this.eventItems, true, true);
+        serializer.writeStaticMap(this.eventItems, true, true, 'Map<string, string>');
         serializer.writeByte(this.eventType);
         serializer.writeUtf8String(this.userId);
     }
@@ -2919,16 +3019,17 @@ export class InAppEventInfo {
 }
 
 export class PotionConfig {
-    heals: Map<number, number>; // Map
-    resurrections: Map<number, number>; // Map
+    __type = 'PotionConfig';
+    heals: Map<enums.ItemType, enums.ItemType>; // Map<enums.ItemType, enums.ItemType>
+    resurrections: Map<enums.ItemType, enums.ItemType>; // Map<enums.ItemType, enums.ItemType>
 
     public constructor(init?: Partial<PotionConfig>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticMap(this.heals, true, true);
-        serializer.writeStaticMap(this.resurrections, true, true);
+        serializer.writeStaticMap(this.heals, true, true, 'Map<enums.ItemType, enums.ItemType>');
+        serializer.writeStaticMap(this.resurrections, true, true, 'Map<enums.ItemType, enums.ItemType>');
     }
     deserialize(deserializer: Deserializer) {
         this.heals = deserializer.readStaticMap('ItemType', 'int', true, true);
@@ -2937,8 +3038,9 @@ export class PotionConfig {
 }
 
 export class ProductGroup {
-    itemType: number;
-    productLots: ProductLot[];
+    __type = 'ProductGroup';
+    itemType: enums.ItemType; // enums.ItemType
+    productLots: ProductLot[]; // ProductLot[]
 
     public constructor(init?: Partial<ProductGroup>) {
         Object.assign(this, init);
@@ -2946,7 +3048,7 @@ export class ProductGroup {
 
     serialize(serializer: Serializer) {
         serializer.writeByte(this.itemType);
-        serializer.writeStaticList(this.productLots, true);
+        serializer.writeStaticList(this.productLots, true, 'ProductLot[]');
     }
     deserialize(deserializer: Deserializer) {
         this.itemType = deserializer.readByte();
@@ -2955,8 +3057,9 @@ export class ProductGroup {
 }
 
 export class ProductLot {
-    price: number;
-    qty: number;
+    __type = 'ProductLot';
+    price: number; // int
+    qty: number; // int
 
     public constructor(init?: Partial<ProductLot>) {
         Object.assign(this, init);
@@ -2973,9 +3076,10 @@ export class ProductLot {
 }
 
 export class Tile {
-    x: number;
-    y: number;
-    zoom: number;
+    __type = 'Tile';
+    x: number; // int
+    y: number; // int
+    zoom: number; // int
 
     public constructor(init?: Partial<Tile>) {
         Object.assign(this, init);

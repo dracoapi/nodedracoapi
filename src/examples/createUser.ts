@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { FNicknameValidationError } from '../draco/constants';
+import { FNicknameValidationError } from '../draco/enums';
 import DracoNode from '../index';
 
 function generateDeviceId() {
