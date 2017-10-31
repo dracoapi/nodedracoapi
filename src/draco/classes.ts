@@ -9,10 +9,10 @@ export const classIds = {
     '10': 'float',
     '11': 'double',
     '12': 'string',
-    '13': 'List<>',
-    '14': 'HashSet<>',
-    '15': 'Dictionary<, >',
-    '16': 'SortedDictionary<, >',
+    '13': 'List',
+    '14': 'Set', // HashSet
+    '15': 'Map', // Dictionary
+    '16': 'SortedDictionary',
     '17': 'AllianceType',
     '18': 'ArtifactName',
     '19': 'ArtifactType',

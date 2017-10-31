@@ -96,6 +96,8 @@ export default class DracoNode {
 
         if (response.headers['dcportal']) this.dcportal = response.headers['dcportal'];
 
+        if (response.statusCode > 300) throw new Error('Error from server: ' + response.statusCode);
+
         const deserializer = new Deserializer(response.body);
         const data = deserializer.deserialize();
         return data;
