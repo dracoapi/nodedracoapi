@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
-const enums = require("../draco/enums");
-const index_1 = require("../index");
+const DracoNode = require("../index");
 async function main() {
     console.log('Starting...');
     console.log('Getting user info from disk...');
     const user = JSON.parse(fs.readFileSync('users.json', 'utf8'))[0];
-    const draco = new index_1.default({
+    const draco = new DracoNode.Client({
         proxy: 'http://localhost:8888',
     });
     console.log('Ping...');
@@ -26,7 +25,7 @@ async function main() {
     console.log('Get user items...');
     const response = await draco.getUserItems();
     for (const item of response.items) {
-        console.log(`Item type ${enums.ItemType[item.type]}, count = ${item.count}`);
+        console.log(`Item type ${DracoNode.enums.ItemType[item.type]}, count = ${item.count}`);
     }
     console.log('Done.');
 }

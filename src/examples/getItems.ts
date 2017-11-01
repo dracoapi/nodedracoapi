@@ -1,6 +1,5 @@
 import * as fs from 'fs';
-import * as enums from '../draco/enums';
-import DracoNode from '../index';
+import * as DracoNode from '../index';
 
 async function main() {
     console.log('Starting...');
@@ -8,7 +7,7 @@ async function main() {
     console.log('Getting user info from disk...');
     const user = JSON.parse(fs.readFileSync('users.json', 'utf8'))[0];
 
-    const draco = new DracoNode({
+    const draco = new DracoNode.Client({
         proxy: 'http://localhost:8888',
     });
 
@@ -31,7 +30,7 @@ async function main() {
     console.log('Get user items...');
     const response = await draco.getUserItems();
     for (const item of response.items) {
-        console.log(`Item type ${enums.ItemType[item.type]}, count = ${item.count}`);
+        console.log(`Item type ${DracoNode.enums.ItemType[item.type]}, count = ${item.count}`);
     }
 
     console.log('Done.');

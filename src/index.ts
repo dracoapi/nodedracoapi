@@ -14,7 +14,10 @@ export class User {
     avatar: number;
 }
 
-export default class DracoNode {
+export { enums };
+export { objects };
+
+export class Client {
     request: any;
     cookies: any;
     clientInfo: objects.FClientInfo;
@@ -209,7 +212,7 @@ export default class DracoNode {
             new objects.FUpdateRequest({
                 clientRequest: new objects.FClientRequest({
                     time: 0,
-                    currentUtcOffsetSeconds: 7200,
+                    currentUtcOffsetSeconds: 3600,
                     coords: new objects.GeoCoords({
                         latitude,
                         longitude,

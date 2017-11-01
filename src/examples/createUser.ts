@@ -1,6 +1,5 @@
 import * as fs from 'fs';
-import { FNicknameValidationError } from '../draco/enums';
-import DracoNode from '../index';
+import * as DracoNode from '../index';
 
 function generateDeviceId() {
     return '00000000-0000-4000-8000-000000000000'.replace(/0/g, () => (0 | Math.random() * 16).toString(16)).toUpperCase();
@@ -18,7 +17,7 @@ function generateNickname() {
 async function main() {
     console.log('Starting...');
 
-    const draco = new DracoNode({
+    const draco = new DracoNode.Client({
         proxy: 'http://localhost:8888',
     });
 
@@ -37,7 +36,7 @@ async function main() {
     console.log('Generate nickname...');
     let nickname = generateNickname();
     let response = await draco.validateNickname(nickname);
-    while (response != null && response.error === FNicknameValidationError.DUPLICATE) {
+    while (response != null && response.error === DracoNode.enums.FNicknameValidationError.DUPLICATE) {
         nickname = response.suggestedNickname;
         response = await this.validateNickname(nickname);
     }

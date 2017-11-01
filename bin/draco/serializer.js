@@ -67,8 +67,7 @@ class Serializer {
     }
     writeUInt32(val) {
         this.ensureBuffer();
-        this.buffer.writeUInt32BE(val, this.idx);
-        this.idx += 4;
+        this.idx = this.buffer.writeUInt32BE(val, this.idx);
     }
     writeInt64(val) {
         this.ensureBuffer();
@@ -80,13 +79,11 @@ class Serializer {
     }
     writeFloat(val) {
         this.ensureBuffer();
-        this.buffer.writeFloatBE(val, this.idx);
-        this.idx += 4;
+        this.idx = this.buffer.writeFloatBE(val, this.idx);
     }
     writeDouble(val) {
         this.ensureBuffer();
-        this.buffer.writeDoubleBE(val, this.idx);
-        this.idx += 8;
+        this.idx = this.buffer.writeDoubleBE(val, this.idx);
     }
     writeLength(ln) {
         if (ln < 32767) {
@@ -169,30 +166,51 @@ class Serializer {
         if (data === null || data === undefined) {
             this.writeByte(0);
         }
-        else if ((typeof data) === 'boolean') {
-            this.writeBoolean(data);
-        }
-        else if ((typeof data) === 'number') {
-            if (data % 1 === 0) {
+        else if (type) {
+            if (type === 'bool')
+                this.writeBoolean(data);
+            else if (type === 'int')
                 this.writeInt32(data);
-            }
-            else {
+            else if (type === 'long')
+                this.writeInt64(data);
+            else if (type === 'float')
                 this.writeFloat(data);
+            else if (type === 'double')
+                this.writeDouble(data);
+            else if (type === 'string')
+                this.writeUtf8String(data);
+            else if (objects[type])
+                data.serialize(this);
+            else {
+                throw new Error('writeStaticObject');
             }
-        }
-        else if (data instanceof long) {
-            this.writeInt64(data);
-        }
-        else if ((typeof data) === 'string') {
-            this.writeUtf8String(data);
         }
         else {
-            const type = data.constructor.name;
-            if (objects[type]) {
-                data.serialize(this);
+            if ((typeof data) === 'boolean') {
+                this.writeBoolean(data);
+            }
+            else if ((typeof data) === 'number') {
+                if (data % 1 === 0) {
+                    this.writeInt32(data);
+                }
+                else {
+                    this.writeFloat(data);
+                }
+            }
+            else if (data instanceof long) {
+                this.writeInt64(data);
+            }
+            else if ((typeof data) === 'string') {
+                this.writeUtf8String(data);
             }
             else {
-                throw new Error('Unhandled type: ' + type);
+                const type = data.constructor.name;
+                if (objects[type]) {
+                    data.serialize(this);
+                }
+                else {
+                    throw new Error('Unhandled type: ' + type);
+                }
             }
         }
     }
@@ -211,43 +229,15 @@ class Serializer {
                 this.writeByte(2);
                 this.writeType(type ? type.slice(0, -2) : 'object', data);
                 this.writeStaticArray(data, false, type);
-                // if ((typeof data[0]) === 'number') {
-                //     this.writeByte(3);
-                //     this.writeByte(3); // int[]
-                //     this.writeStaticArray(data, true);
-                // } else {
-                //     this.writeByte(2);
-                //     this.writeByte(4); // object
-                //     this.writeStaticArray(data, false);
-                // }
             }
         }
         else {
-            // let type = -1;
-            // if ((typeof data) === 'string') {
-            //     type = 12;
-            // } else if ((typeof data) === 'number') {
-            //     type = 8;
-            // } else if ((typeof data) === 'object') {
-            //     const datatype = data.constructor.name;
-            //     for (const key in classIds) {
-            //         if (classIds[key] === datatype) {
-            //             type = +key;
-            //             break;
-            //         }
-            //     }
-            // } else {
-            //     throw new Error('writeDynamicObject');
-            // }
-            // if (type === -1) {
-            //     throw new Error('writeDynamicObject');
-            // }
             this.writeType(type, data);
-            // this.writeByte(type);
-            this.writeStaticObject(data);
+            this.writeStaticObject(data, type);
         }
     }
     serialize(data) {
+        this.idx = 0;
         this.writeDynamicObject(data);
         return this.buffer.slice(0, this.idx);
     }
