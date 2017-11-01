@@ -2,13 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const request = require("request-promise-native");
 const objects = require("./draco/objects");
+exports.objects = objects;
 const enums = require("./draco/enums");
+exports.enums = enums;
 const serializer_1 = require("./draco/serializer");
 const deserializer_1 = require("./draco/deserializer");
 class User {
 }
 exports.User = User;
-class DracoNode {
+class Client {
     constructor(options) {
         this.cookies = request.jar();
         this.request = request.defaults({
@@ -180,7 +182,7 @@ class DracoNode {
             new objects.FUpdateRequest({
                 clientRequest: new objects.FClientRequest({
                     time: 0,
-                    currentUtcOffsetSeconds: 7200,
+                    currentUtcOffsetSeconds: 3600,
                     coords: new objects.GeoCoords({
                         latitude,
                         longitude,
@@ -193,5 +195,5 @@ class DracoNode {
         ]);
     }
 }
-exports.default = DracoNode;
+exports.Client = Client;
 //# sourceMappingURL=index.js.map
