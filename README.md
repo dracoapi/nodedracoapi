@@ -13,7 +13,7 @@ All api calls can be done manuall using the `.call(service, method, args)` metho
 ```typescript
 import * as DracoNode from 'draconode';
 
-const draco = new DracoNode();
+const draco = new DracoNode.Client();
 const response = await draco.call('AuthService', 'trySingIn', [
     new objects.AuthData({
         authType: enums.AuthType.DEVICE,
@@ -31,7 +31,7 @@ More high level methods also exists, here is a more complete example that get us
 ```typescript
 import * as DracoNode from 'draconode';
 
-const draco = new DracoNode();
+const draco = new DracoNode.Client();
 const ping = await draco.ping();
 await draco.boot({
     userId,
