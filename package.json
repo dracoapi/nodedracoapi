@@ -3,6 +3,7 @@
   "version": "0.0.3",
   "description": "nodejs api for Dranonius GO",
   "main": "bin/index.js",
+  "types": "bin/index.d.ts",
   "engines": {
     "node": ">= 8"
   },
