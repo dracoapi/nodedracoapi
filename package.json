@@ -1,6 +1,6 @@
 {
   "name": "draconode",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "nodejs api for Dranonius GO",
   "main": "bin/index.js",
   "engines": {
