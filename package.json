@@ -11,9 +11,11 @@
   "author": "niico",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^8.0.47",
     "long": "^3.2.0",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.47"    
   }
 }
