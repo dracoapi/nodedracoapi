@@ -8,6 +8,7 @@ export default class Serializer {
     writeType(type: string, data: any): void;
     writeBoolean(data: any): void;
     writeByte(data: any): void;
+    writeSByte(data: any): void;
     writeShort(val: any): void;
     writeInt32(val: any): void;
     writeUInt32(val: any): void;

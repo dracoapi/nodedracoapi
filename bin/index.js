@@ -44,7 +44,7 @@ class Client {
         });
         this.user = new User();
     }
-    async ping() {
+    async ping(throwIfError = false) {
         try {
             const response = await this.request.post({
                 url: 'https://us.draconiusgo.com/ping',
@@ -56,8 +56,11 @@ class Client {
             return true;
         }
         catch (e) {
-            console.error(e);
-            return false;
+            // console.error(e);
+            if (throwIfError)
+                throw e;
+            else
+                return false;
         }
     }
     async call(service, method, body) {

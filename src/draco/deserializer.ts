@@ -93,7 +93,7 @@ export default class Deserializer {
         }
     }
     readDynamicList(type: string, isstatic = false) {
-        if (this.readByte() === 0) return null;
+        if (this.readSByte() === 0) return null;
         return this.readStaticList(type, isstatic);
     }
     readStaticList(type: string, staticobject = false) {
@@ -154,7 +154,7 @@ export default class Deserializer {
         } else if ((match = /List<(.+)>/.exec(type))) {
             return this.readStaticList(match[1], false);
         } else if (enums[type]) {
-            return this.readByte();
+            return this.readSByte();
         } else if (objects[type]) {
             const obj = new objects[type]();
             obj.deserialize(this);

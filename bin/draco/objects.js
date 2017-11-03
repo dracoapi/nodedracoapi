@@ -2,16 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class AuthData {
     constructor(init) {
-        this.__type = 'AuthData';
         Object.assign(this, init);
     }
     serialize(serializer) {
-        serializer.writeByte(this.authType);
+        serializer.writeSByte(this.authType);
         serializer.writeUtf8String(this.profileId);
         serializer.writeDynamicObject(this.tokenId, 'string');
     }
     deserialize(deserializer) {
-        this.authType = deserializer.readByte();
+        this.authType = deserializer.readSByte();
         this.profileId = deserializer.readUtf8String();
         this.tokenId = deserializer.readDynamicObject();
     }
@@ -19,24 +18,22 @@ class AuthData {
 exports.AuthData = AuthData;
 class BuffConfig {
     constructor(init) {
-        this.__type = 'BuffConfig';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeInt64(this.durationMs);
-        serializer.writeByte(this.type);
+        serializer.writeSByte(this.type);
         serializer.writeInt32(this.valuePercent);
     }
     deserialize(deserializer) {
         this.durationMs = deserializer.readInt64();
-        this.type = deserializer.readByte();
+        this.type = deserializer.readSByte();
         this.valuePercent = deserializer.readInt32();
     }
 }
 exports.BuffConfig = BuffConfig;
 class FActiveObject {
     constructor(init) {
-        this.__type = 'FActiveObject';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -46,7 +43,7 @@ class FActiveObject {
         serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeDynamicObject(this.creatureAlias, 'string');
         serializer.writeInt32(this.creatureCp);
-        serializer.writeByte(this.creatureName);
+        serializer.writeSByte(this.creatureName);
         serializer.writeInt32(this.level);
         serializer.writeBoolean(this.lost);
         serializer.writeFloat(this.timeLeft);
@@ -59,7 +56,7 @@ class FActiveObject {
         this.coords = deserializer.readStaticObject('GeoCoords');
         this.creatureAlias = deserializer.readDynamicObject();
         this.creatureCp = deserializer.readInt32();
-        this.creatureName = deserializer.readByte();
+        this.creatureName = deserializer.readSByte();
         this.level = deserializer.readInt32();
         this.lost = deserializer.readBoolean();
         this.timeLeft = deserializer.readFloat();
@@ -69,7 +66,6 @@ class FActiveObject {
 exports.FActiveObject = FActiveObject;
 class FActiveObjectsUpdate {
     constructor(init) {
-        this.__type = 'FActiveObjectsUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -104,7 +100,6 @@ class FActiveObjectsUpdate {
 exports.FActiveObjectsUpdate = FActiveObjectsUpdate;
 class FAllianceChooseRequest {
     constructor(init) {
-        this.__type = 'FAllianceChooseRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -121,7 +116,6 @@ class FAllianceChooseRequest {
 exports.FAllianceChooseRequest = FAllianceChooseRequest;
 class FAltar {
     constructor(init) {
-        this.__type = 'FAltar';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -136,14 +130,13 @@ class FAltar {
 exports.FAltar = FAltar;
 class FAltarDetails {
     constructor(init) {
-        this.__type = 'FAltarDetails';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeUtf8String(this.buildingId);
         serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeUtf8String(this.ownerId);
-        serializer.writeByte(this.recipeName);
+        serializer.writeSByte(this.recipeName);
         serializer.writeStaticMap(this.runeOwnerNames, true, true, 'Map<int, int>');
         serializer.writeStaticMap(this.runeOwners, true, true, 'Map<int, int>');
     }
@@ -151,7 +144,7 @@ class FAltarDetails {
         this.buildingId = deserializer.readUtf8String();
         this.coords = deserializer.readStaticObject('GeoCoords');
         this.ownerId = deserializer.readUtf8String();
-        this.recipeName = deserializer.readByte();
+        this.recipeName = deserializer.readSByte();
         this.runeOwnerNames = deserializer.readStaticMap('int', 'string', true, true);
         this.runeOwners = deserializer.readStaticMap('int', 'string', true, true);
     }
@@ -159,7 +152,6 @@ class FAltarDetails {
 exports.FAltarDetails = FAltarDetails;
 class FArena {
     constructor(init) {
-        this.__type = 'FArena';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -176,7 +168,6 @@ class FArena {
 exports.FArena = FArena;
 class FArenaBattleResult {
     constructor(init) {
-        this.__type = 'FArenaBattleResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -219,12 +210,11 @@ class FArenaBattleResult {
 exports.FArenaBattleResult = FArenaBattleResult;
 class FArenaDetails {
     constructor(init) {
-        this.__type = 'FArenaDetails';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeDynamicObject(this.allianceChooseRequest, 'FAllianceChooseRequest');
-        serializer.writeByte(this.buildingType);
+        serializer.writeSByte(this.buildingType);
         serializer.writeBoolean(this.canAddDefender);
         serializer.writeBoolean(this.canAttack);
         serializer.writeBoolean(this.capturableGeoPointsLimitReached);
@@ -245,7 +235,7 @@ class FArenaDetails {
     }
     deserialize(deserializer) {
         this.allianceChooseRequest = deserializer.readDynamicObject();
-        this.buildingType = deserializer.readByte();
+        this.buildingType = deserializer.readSByte();
         this.canAddDefender = deserializer.readBoolean();
         this.canAttack = deserializer.readBoolean();
         this.capturableGeoPointsLimitReached = deserializer.readBoolean();
@@ -268,7 +258,6 @@ class FArenaDetails {
 exports.FArenaDetails = FArenaDetails;
 class FArenaWithBattleUpdate {
     constructor(init) {
-        this.__type = 'FArenaWithBattleUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -281,7 +270,6 @@ class FArenaWithBattleUpdate {
 exports.FArenaWithBattleUpdate = FArenaWithBattleUpdate;
 class FArtifactsUpdate {
     constructor(init) {
-        this.__type = 'FArtifactsUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -302,7 +290,6 @@ class FArtifactsUpdate {
 exports.FArtifactsUpdate = FArtifactsUpdate;
 class FAttackArenaRequest {
     constructor(init) {
-        this.__type = 'FAttackArenaRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -319,7 +306,6 @@ class FAttackArenaRequest {
 exports.FAttackArenaRequest = FAttackArenaRequest;
 class FAuthData {
     constructor(init) {
-        this.__type = 'FAuthData';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -334,7 +320,6 @@ class FAuthData {
 exports.FAuthData = FAuthData;
 class FAvaUpdate {
     constructor(init) {
-        this.__type = 'FAvaUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -417,26 +402,24 @@ class FAvaUpdate {
 exports.FAvaUpdate = FAvaUpdate;
 class FBagItem {
     constructor(init) {
-        this.__type = 'FBagItem';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeInt32(this.count);
         serializer.writeBoolean(this.removable);
         serializer.writeBoolean(this.stack);
-        serializer.writeByte(this.type);
+        serializer.writeSByte(this.type);
     }
     deserialize(deserializer) {
         this.count = deserializer.readInt32();
         this.removable = deserializer.readBoolean();
         this.stack = deserializer.readBoolean();
-        this.type = deserializer.readByte();
+        this.type = deserializer.readSByte();
     }
 }
 exports.FBagItem = FBagItem;
 class FBagUpdate {
     constructor(init) {
-        this.__type = 'FBagUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -455,7 +438,6 @@ class FBagUpdate {
 exports.FBagUpdate = FBagUpdate;
 class FBaseItemUpdate {
     constructor(init) {
-        this.__type = 'FBaseItemUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -466,7 +448,6 @@ class FBaseItemUpdate {
 exports.FBaseItemUpdate = FBaseItemUpdate;
 class FBaseLootItem {
     constructor(init) {
-        this.__type = 'FBaseLootItem';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -479,13 +460,12 @@ class FBaseLootItem {
 exports.FBaseLootItem = FBaseLootItem;
 class FBuddy {
     constructor(init) {
-        this.__type = 'FBuddy';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeDynamicObject(this.alias, 'string');
-        serializer.writeByte(this.candyType);
-        serializer.writeByte(this.creature);
+        serializer.writeSByte(this.candyType);
+        serializer.writeSByte(this.creature);
         serializer.writeInt32(this.currentWalked);
         serializer.writeInt32(this.distanceForCandies);
         serializer.writeUtf8String(this.id);
@@ -494,8 +474,8 @@ class FBuddy {
     }
     deserialize(deserializer) {
         this.alias = deserializer.readDynamicObject();
-        this.candyType = deserializer.readByte();
-        this.creature = deserializer.readByte();
+        this.candyType = deserializer.readSByte();
+        this.creature = deserializer.readSByte();
         this.currentWalked = deserializer.readInt32();
         this.distanceForCandies = deserializer.readInt32();
         this.id = deserializer.readUtf8String();
@@ -506,17 +486,16 @@ class FBuddy {
 exports.FBuddy = FBuddy;
 class FBuff {
     constructor(init) {
-        this.__type = 'FBuff';
         Object.assign(this, init);
     }
     serialize(serializer) {
-        serializer.writeByte(this.buffType);
+        serializer.writeSByte(this.buffType);
         serializer.writeInt64(this.duration);
         serializer.writeInt64(this.timeLeft);
         serializer.writeInt32(this.valuePercent);
     }
     deserialize(deserializer) {
-        this.buffType = deserializer.readByte();
+        this.buffType = deserializer.readSByte();
         this.duration = deserializer.readInt64();
         this.timeLeft = deserializer.readInt64();
         this.valuePercent = deserializer.readInt32();
@@ -525,7 +504,6 @@ class FBuff {
 exports.FBuff = FBuff;
 class FBuilding {
     constructor(init) {
-        this.__type = 'FBuilding';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -538,7 +516,7 @@ class FBuilding {
         serializer.writeInt64(this.expirationTime);
         serializer.writeUtf8String(this.id);
         serializer.writeDynamicObject(this.pitstop, 'FPitstop');
-        serializer.writeByte(this.type);
+        serializer.writeSByte(this.type);
     }
     deserialize(deserializer) {
         this.altar = deserializer.readDynamicObject();
@@ -550,13 +528,12 @@ class FBuilding {
         this.expirationTime = deserializer.readInt64();
         this.id = deserializer.readUtf8String();
         this.pitstop = deserializer.readDynamicObject();
-        this.type = deserializer.readByte();
+        this.type = deserializer.readSByte();
     }
 }
 exports.FBuilding = FBuilding;
 class FBuildingRequest {
     constructor(init) {
-        this.__type = 'FBuildingRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -573,7 +550,6 @@ class FBuildingRequest {
 exports.FBuildingRequest = FBuildingRequest;
 class FBuildingUpdate {
     constructor(init) {
-        this.__type = 'FBuildingUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -586,7 +562,6 @@ class FBuildingUpdate {
 exports.FBuildingUpdate = FBuildingUpdate;
 class FCatchCreatureResult {
     constructor(init) {
-        this.__type = 'FCatchCreatureResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -635,7 +610,6 @@ class FCatchCreatureResult {
 exports.FCatchCreatureResult = FCatchCreatureResult;
 class FCatchingConfig {
     constructor(init) {
-        this.__type = 'FCatchingConfig';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -688,42 +662,40 @@ class FCatchingConfig {
 exports.FCatchingConfig = FCatchingConfig;
 class FCatchingCreature {
     constructor(init) {
-        this.__type = 'FCatchingCreature';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeBoolean(this.aggressive);
-        serializer.writeByte(this.candyType);
+        serializer.writeSByte(this.candyType);
         serializer.writeDynamicObject(this.catching, 'FCatchingConfig');
         serializer.writeInt32(this.cp);
-        serializer.writeByte(this.element);
+        serializer.writeSByte(this.element);
         serializer.writeDynamicObject(this.feedFoodType, 'enums.ItemType');
         serializer.writeInt32(this.feedLeftTime);
         serializer.writeUtf8String(this.id);
         serializer.writeBoolean(this.isCreatureStorageFull);
         serializer.writeStaticMap(this.items, true, true, 'Map<enums.ItemType, enums.ItemType>');
-        serializer.writeByte(this.name);
+        serializer.writeSByte(this.name);
         serializer.writeFloat(this.quality);
     }
     deserialize(deserializer) {
         this.aggressive = deserializer.readBoolean();
-        this.candyType = deserializer.readByte();
+        this.candyType = deserializer.readSByte();
         this.catching = deserializer.readDynamicObject();
         this.cp = deserializer.readInt32();
-        this.element = deserializer.readByte();
+        this.element = deserializer.readSByte();
         this.feedFoodType = deserializer.readDynamicObject();
         this.feedLeftTime = deserializer.readInt32();
         this.id = deserializer.readUtf8String();
         this.isCreatureStorageFull = deserializer.readBoolean();
         this.items = deserializer.readStaticMap('ItemType', 'int', true, true);
-        this.name = deserializer.readByte();
+        this.name = deserializer.readSByte();
         this.quality = deserializer.readFloat();
     }
 }
 exports.FCatchingCreature = FCatchingCreature;
 class FChest {
     constructor(init) {
-        this.__type = 'FChest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -738,7 +710,6 @@ class FChest {
 exports.FChest = FChest;
 class FChestUpdate {
     constructor(init) {
-        this.__type = 'FChestUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -751,7 +722,6 @@ class FChestUpdate {
 exports.FChestUpdate = FChestUpdate;
 class FClientInfo {
     constructor(init) {
-        this.__type = 'FClientInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -786,7 +756,6 @@ class FClientInfo {
 exports.FClientInfo = FClientInfo;
 class FClientRequest {
     constructor(init) {
-        this.__type = 'FClientRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -803,7 +772,6 @@ class FClientRequest {
 exports.FClientRequest = FClientRequest;
 class FConfig {
     constructor(init) {
-        this.__type = 'FConfig';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -940,7 +908,6 @@ class FConfig {
 exports.FConfig = FConfig;
 class FCreadex {
     constructor(init) {
-        this.__type = 'FCreadex';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -953,39 +920,37 @@ class FCreadex {
 exports.FCreadex = FCreadex;
 class FCreadexChain {
     constructor(init) {
-        this.__type = 'FCreadexChain';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeBoolean(this.caught);
-        serializer.writeByte(this.creature);
+        serializer.writeSByte(this.creature);
         serializer.writeBoolean(this.seen);
     }
     deserialize(deserializer) {
         this.caught = deserializer.readBoolean();
-        this.creature = deserializer.readByte();
+        this.creature = deserializer.readSByte();
         this.seen = deserializer.readBoolean();
     }
 }
 exports.FCreadexChain = FCreadexChain;
 class FCreadexEntry {
     constructor(init) {
-        this.__type = 'FCreadexEntry';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeInt32(this.caughtQuantity);
         serializer.writeDynamicList(this.chain, true, 'FCreadexChain[]');
-        serializer.writeByte(this.element);
-        serializer.writeByte(this.name);
+        serializer.writeSByte(this.element);
+        serializer.writeSByte(this.name);
         serializer.writeBoolean(this.seen);
         serializer.writeInt32(this.tier);
     }
     deserialize(deserializer) {
         this.caughtQuantity = deserializer.readInt32();
         this.chain = deserializer.readDynamicList('FCreadexChain', true);
-        this.element = deserializer.readByte();
-        this.name = deserializer.readByte();
+        this.element = deserializer.readSByte();
+        this.name = deserializer.readSByte();
         this.seen = deserializer.readBoolean();
         this.tier = deserializer.readInt32();
     }
@@ -993,7 +958,6 @@ class FCreadexEntry {
 exports.FCreadexEntry = FCreadexEntry;
 class FCreatureRequest {
     constructor(init) {
-        this.__type = 'FCreatureRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1008,7 +972,6 @@ class FCreatureRequest {
 exports.FCreatureRequest = FCreatureRequest;
 class FCreatureUpdate {
     constructor(init) {
-        this.__type = 'FCreatureUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1023,7 +986,6 @@ class FCreatureUpdate {
 exports.FCreatureUpdate = FCreatureUpdate;
 class FDailyQuest {
     constructor(init) {
-        this.__type = 'FDailyQuest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1048,25 +1010,24 @@ class FDailyQuest {
 exports.FDailyQuest = FDailyQuest;
 class FDefenderDetails {
     constructor(init) {
-        this.__type = 'FDefenderDetails';
         Object.assign(this, init);
     }
     serialize(serializer) {
-        serializer.writeByte(this.allianceType);
+        serializer.writeSByte(this.allianceType);
         serializer.writeDynamicObject(this.creatureAlias, 'string');
         serializer.writeInt32(this.creatureCp);
-        serializer.writeByte(this.creatureName);
-        serializer.writeByte(this.elementType);
+        serializer.writeSByte(this.creatureName);
+        serializer.writeSByte(this.elementType);
         serializer.writeInt32(this.ownerLevel);
         serializer.writeUtf8String(this.ownerName);
         serializer.writeInt32(this.userAppearance);
     }
     deserialize(deserializer) {
-        this.allianceType = deserializer.readByte();
+        this.allianceType = deserializer.readSByte();
         this.creatureAlias = deserializer.readDynamicObject();
         this.creatureCp = deserializer.readInt32();
-        this.creatureName = deserializer.readByte();
-        this.elementType = deserializer.readByte();
+        this.creatureName = deserializer.readSByte();
+        this.elementType = deserializer.readSByte();
         this.ownerLevel = deserializer.readInt32();
         this.ownerName = deserializer.readUtf8String();
         this.userAppearance = deserializer.readInt32();
@@ -1075,7 +1036,6 @@ class FDefenderDetails {
 exports.FDefenderDetails = FDefenderDetails;
 class FDepositInfo {
     constructor(init) {
-        this.__type = 'FDepositInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1096,30 +1056,28 @@ class FDepositInfo {
 exports.FDepositInfo = FDepositInfo;
 class FDungeonUpdate {
     constructor(init) {
-        this.__type = 'FDungeonUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeFloat(this.rotation);
         serializer.writeInt32(this.size);
-        serializer.writeByte(this.type);
+        serializer.writeSByte(this.type);
     }
     deserialize(deserializer) {
         this.coords = deserializer.readStaticObject('GeoCoords');
         this.rotation = deserializer.readFloat();
         this.size = deserializer.readInt32();
-        this.type = deserializer.readByte();
+        this.type = deserializer.readSByte();
     }
 }
 exports.FDungeonUpdate = FDungeonUpdate;
 class FEgg {
     constructor(init) {
-        this.__type = 'FEgg';
         Object.assign(this, init);
     }
     serialize(serializer) {
-        serializer.writeByte(this.eggType);
+        serializer.writeSByte(this.eggType);
         serializer.writeUtf8String(this.id);
         serializer.writeDynamicObject(this.incubatorId, 'string');
         serializer.writeBoolean(this.isEggForRoost);
@@ -1129,7 +1087,7 @@ class FEgg {
         serializer.writeInt64(this.totalIncubationTime);
     }
     deserialize(deserializer) {
-        this.eggType = deserializer.readByte();
+        this.eggType = deserializer.readSByte();
         this.id = deserializer.readUtf8String();
         this.incubatorId = deserializer.readDynamicObject();
         this.isEggForRoost = deserializer.readBoolean();
@@ -1142,7 +1100,6 @@ class FEgg {
 exports.FEgg = FEgg;
 class FEncounterBattleResult {
     constructor(init) {
-        this.__type = 'FEncounterBattleResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1159,22 +1116,21 @@ class FEncounterBattleResult {
 exports.FEncounterBattleResult = FEncounterBattleResult;
 class FEncounterDetails {
     constructor(init) {
-        this.__type = 'FEncounterDetails';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeInt32(this.creatureCp);
-        serializer.writeByte(this.creatureElementType);
-        serializer.writeByte(this.creatureName);
+        serializer.writeSByte(this.creatureElementType);
+        serializer.writeSByte(this.creatureName);
         serializer.writeUtf8String(this.id);
         serializer.writeInt32(this.level);
     }
     deserialize(deserializer) {
         this.coords = deserializer.readStaticObject('GeoCoords');
         this.creatureCp = deserializer.readInt32();
-        this.creatureElementType = deserializer.readByte();
-        this.creatureName = deserializer.readByte();
+        this.creatureElementType = deserializer.readSByte();
+        this.creatureName = deserializer.readSByte();
         this.id = deserializer.readUtf8String();
         this.level = deserializer.readInt32();
     }
@@ -1182,7 +1138,6 @@ class FEncounterDetails {
 exports.FEncounterDetails = FEncounterDetails;
 class FEncounterUpdate {
     constructor(init) {
-        this.__type = 'FEncounterUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1197,7 +1152,6 @@ class FEncounterUpdate {
 exports.FEncounterUpdate = FEncounterUpdate;
 class FFeedMonsterResult {
     constructor(init) {
-        this.__type = 'FFeedMonsterResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1210,7 +1164,6 @@ class FFeedMonsterResult {
 exports.FFeedMonsterResult = FFeedMonsterResult;
 class FFightCreature {
     constructor(init) {
-        this.__type = 'FFightCreature';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1221,11 +1174,11 @@ class FFightCreature {
         serializer.writeBoolean(this.chargedSkillAim);
         serializer.writeInt32(this.chargedSkillAngle);
         serializer.writeFloat(this.chargedSkillDps);
-        serializer.writeByte(this.chargedSkillQuality);
+        serializer.writeSByte(this.chargedSkillQuality);
         serializer.writeFloat(this.chargedSkillSpeed);
         serializer.writeFloat(this.chargedSkillTtl);
         serializer.writeInt32(this.cp);
-        serializer.writeByte(this.decreasedDmgTo);
+        serializer.writeSByte(this.decreasedDmgTo);
         serializer.writeFloat(this.distance);
         serializer.writeFloat(this.dodgeAngle);
         serializer.writeFloat(this.dodgeDamageRatio);
@@ -1236,23 +1189,23 @@ class FFightCreature {
         serializer.writeFloat(this.hp);
         serializer.writeUtf8String(this.id);
         serializer.writeFloat(this.incomingEnergyOnAttack);
-        serializer.writeByte(this.increasedDmgTo);
+        serializer.writeSByte(this.increasedDmgTo);
         serializer.writeUtf8String(this.mainSkill);
         serializer.writeBoolean(this.mainSkillAim);
         serializer.writeInt32(this.mainSkillAngle);
         serializer.writeFloat(this.mainSkillDps);
-        serializer.writeByte(this.mainSkillQuality);
+        serializer.writeSByte(this.mainSkillQuality);
         serializer.writeFloat(this.mainSkillSpeed);
         serializer.writeFloat(this.mainSkillTtl);
         serializer.writeFloat(this.maxEnergy);
-        serializer.writeByte(this.name);
+        serializer.writeSByte(this.name);
         serializer.writeFloat(this.rightElementAttackCoef);
         serializer.writeFloat(this.scale);
         serializer.writeFloat(this.specAttackCoef);
         serializer.writeFloat(this.startCamPosDistance);
         serializer.writeFloat(this.startCamPosHeight);
         serializer.writeFloat(this.totalHp);
-        serializer.writeByte(this.type);
+        serializer.writeSByte(this.type);
         serializer.writeFloat(this.wrongElementAttackCoef);
     }
     deserialize(deserializer) {
@@ -1263,11 +1216,11 @@ class FFightCreature {
         this.chargedSkillAim = deserializer.readBoolean();
         this.chargedSkillAngle = deserializer.readInt32();
         this.chargedSkillDps = deserializer.readFloat();
-        this.chargedSkillQuality = deserializer.readByte();
+        this.chargedSkillQuality = deserializer.readSByte();
         this.chargedSkillSpeed = deserializer.readFloat();
         this.chargedSkillTtl = deserializer.readFloat();
         this.cp = deserializer.readInt32();
-        this.decreasedDmgTo = deserializer.readByte();
+        this.decreasedDmgTo = deserializer.readSByte();
         this.distance = deserializer.readFloat();
         this.dodgeAngle = deserializer.readFloat();
         this.dodgeDamageRatio = deserializer.readFloat();
@@ -1278,30 +1231,29 @@ class FFightCreature {
         this.hp = deserializer.readFloat();
         this.id = deserializer.readUtf8String();
         this.incomingEnergyOnAttack = deserializer.readFloat();
-        this.increasedDmgTo = deserializer.readByte();
+        this.increasedDmgTo = deserializer.readSByte();
         this.mainSkill = deserializer.readUtf8String();
         this.mainSkillAim = deserializer.readBoolean();
         this.mainSkillAngle = deserializer.readInt32();
         this.mainSkillDps = deserializer.readFloat();
-        this.mainSkillQuality = deserializer.readByte();
+        this.mainSkillQuality = deserializer.readSByte();
         this.mainSkillSpeed = deserializer.readFloat();
         this.mainSkillTtl = deserializer.readFloat();
         this.maxEnergy = deserializer.readFloat();
-        this.name = deserializer.readByte();
+        this.name = deserializer.readSByte();
         this.rightElementAttackCoef = deserializer.readFloat();
         this.scale = deserializer.readFloat();
         this.specAttackCoef = deserializer.readFloat();
         this.startCamPosDistance = deserializer.readFloat();
         this.startCamPosHeight = deserializer.readFloat();
         this.totalHp = deserializer.readFloat();
-        this.type = deserializer.readByte();
+        this.type = deserializer.readSByte();
         this.wrongElementAttackCoef = deserializer.readFloat();
     }
 }
 exports.FFightCreature = FFightCreature;
 class FFightItem {
     constructor(init) {
-        this.__type = 'FFightItem';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1320,7 +1272,6 @@ class FFightItem {
 exports.FFightItem = FFightItem;
 class FFightRequest {
     constructor(init) {
-        this.__type = 'FFightRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1341,7 +1292,6 @@ class FFightRequest {
 exports.FFightRequest = FFightRequest;
 class FFightUpdate {
     constructor(init) {
-        this.__type = 'FFightUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1362,7 +1312,6 @@ class FFightUpdate {
 exports.FFightUpdate = FFightUpdate;
 class FHatchedEggs {
     constructor(init) {
-        this.__type = 'FHatchedEggs';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1379,7 +1328,6 @@ class FHatchedEggs {
 exports.FHatchedEggs = FHatchedEggs;
 class FHatchingResult {
     constructor(init) {
-        this.__type = 'FHatchingResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1400,7 +1348,6 @@ class FHatchingResult {
 exports.FHatchingResult = FHatchingResult;
 class FInAppEventUpdate {
     constructor(init) {
-        this.__type = 'FInAppEventUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1413,7 +1360,6 @@ class FInAppEventUpdate {
 exports.FInAppEventUpdate = FInAppEventUpdate;
 class FIncubator {
     constructor(init) {
-        this.__type = 'FIncubator';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1434,24 +1380,22 @@ class FIncubator {
 exports.FIncubator = FIncubator;
 class FJournalRecord {
     constructor(init) {
-        this.__type = 'FJournalRecord';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeInt64(this.date);
         serializer.writeStaticMap(this.details, true, true, 'Map<string, string>');
-        serializer.writeByte(this.type);
+        serializer.writeSByte(this.type);
     }
     deserialize(deserializer) {
         this.date = deserializer.readInt64();
         this.details = deserializer.readStaticMap('string', 'string', true, true);
-        this.type = deserializer.readByte();
+        this.type = deserializer.readSByte();
     }
 }
 exports.FJournalRecord = FJournalRecord;
 class FJournalUpdate {
     constructor(init) {
-        this.__type = 'FJournalUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1464,7 +1408,6 @@ class FJournalUpdate {
 exports.FJournalUpdate = FJournalUpdate;
 class FLoot {
     constructor(init) {
-        this.__type = 'FLoot';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1477,22 +1420,20 @@ class FLoot {
 exports.FLoot = FLoot;
 class FLootItemArtifact {
     constructor(init) {
-        this.__type = 'FLootItemArtifact';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeInt32(this.qty);
-        serializer.writeByte(this.artifact);
+        serializer.writeSByte(this.artifact);
     }
     deserialize(deserializer) {
         this.qty = deserializer.readInt32();
-        this.artifact = deserializer.readByte();
+        this.artifact = deserializer.readSByte();
     }
 }
 exports.FLootItemArtifact = FLootItemArtifact;
 class FLootItemBuff {
     constructor(init) {
-        this.__type = 'FLootItemBuff';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1507,22 +1448,20 @@ class FLootItemBuff {
 exports.FLootItemBuff = FLootItemBuff;
 class FLootItemCandy {
     constructor(init) {
-        this.__type = 'FLootItemCandy';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeInt32(this.qty);
-        serializer.writeByte(this.candyType);
+        serializer.writeSByte(this.candyType);
     }
     deserialize(deserializer) {
         this.qty = deserializer.readInt32();
-        this.candyType = deserializer.readByte();
+        this.candyType = deserializer.readSByte();
     }
 }
 exports.FLootItemCandy = FLootItemCandy;
 class FLootItemCoins {
     constructor(init) {
-        this.__type = 'FLootItemCoins';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1535,7 +1474,6 @@ class FLootItemCoins {
 exports.FLootItemCoins = FLootItemCoins;
 class FLootItemDust {
     constructor(init) {
-        this.__type = 'FLootItemDust';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1550,7 +1488,6 @@ class FLootItemDust {
 exports.FLootItemDust = FLootItemDust;
 class FLootItemExp {
     constructor(init) {
-        this.__type = 'FLootItemExp';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1563,54 +1500,50 @@ class FLootItemExp {
 exports.FLootItemExp = FLootItemExp;
 class FLootItemInstantUseItem {
     constructor(init) {
-        this.__type = 'FLootItemInstantUseItem';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeInt32(this.qty);
-        serializer.writeByte(this.item);
+        serializer.writeSByte(this.item);
     }
     deserialize(deserializer) {
         this.qty = deserializer.readInt32();
-        this.item = deserializer.readByte();
+        this.item = deserializer.readSByte();
     }
 }
 exports.FLootItemInstantUseItem = FLootItemInstantUseItem;
 class FLootItemItem {
     constructor(init) {
-        this.__type = 'FLootItemItem';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeInt32(this.qty);
         serializer.writeBoolean(this.isStreak);
-        serializer.writeByte(this.item);
+        serializer.writeSByte(this.item);
     }
     deserialize(deserializer) {
         this.qty = deserializer.readInt32();
         this.isStreak = deserializer.readBoolean();
-        this.item = deserializer.readByte();
+        this.item = deserializer.readSByte();
     }
 }
 exports.FLootItemItem = FLootItemItem;
 class FLootItemRecipe {
     constructor(init) {
-        this.__type = 'FLootItemRecipe';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeInt32(this.qty);
-        serializer.writeByte(this.recipe);
+        serializer.writeSByte(this.recipe);
     }
     deserialize(deserializer) {
         this.qty = deserializer.readInt32();
-        this.recipe = deserializer.readByte();
+        this.recipe = deserializer.readSByte();
     }
 }
 exports.FLootItemRecipe = FLootItemRecipe;
 class FNicknameValidationResult {
     constructor(init) {
-        this.__type = 'FNicknameValidationResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1625,7 +1558,6 @@ class FNicknameValidationResult {
 exports.FNicknameValidationResult = FNicknameValidationResult;
 class FObeliskDetails {
     constructor(init) {
-        this.__type = 'FObeliskDetails';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1648,7 +1580,6 @@ class FObeliskDetails {
 exports.FObeliskDetails = FObeliskDetails;
 class FOpenChestResult {
     constructor(init) {
-        this.__type = 'FOpenChestResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1663,7 +1594,6 @@ class FOpenChestResult {
 exports.FOpenChestResult = FOpenChestResult;
 class FPickItemsResponse {
     constructor(init) {
-        this.__type = 'FPickItemsResponse';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1678,7 +1608,6 @@ class FPickItemsResponse {
 exports.FPickItemsResponse = FPickItemsResponse;
 class FPitstop {
     constructor(init) {
-        this.__type = 'FPitstop';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1697,7 +1626,6 @@ class FPitstop {
 exports.FPitstop = FPitstop;
 class FQuestCompleted {
     constructor(init) {
-        this.__type = 'FQuestCompleted';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1716,7 +1644,6 @@ class FQuestCompleted {
 exports.FQuestCompleted = FQuestCompleted;
 class FQuestUpdate {
     constructor(init) {
-        this.__type = 'FQuestUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1733,7 +1660,6 @@ class FQuestUpdate {
 exports.FQuestUpdate = FQuestUpdate;
 class FRegistrationInfo {
     constructor(init) {
-        this.__type = 'FRegistrationInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1754,7 +1680,6 @@ class FRegistrationInfo {
 exports.FRegistrationInfo = FRegistrationInfo;
 class FScoutRequest {
     constructor(init) {
-        this.__type = 'FScoutRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1769,7 +1694,6 @@ class FScoutRequest {
 exports.FScoutRequest = FScoutRequest;
 class FServiceError {
     constructor(init) {
-        this.__type = 'FServiceError';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1784,7 +1708,6 @@ class FServiceError {
 exports.FServiceError = FServiceError;
 class FShopConfig {
     constructor(init) {
-        this.__type = 'FShopConfig';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1805,22 +1728,20 @@ class FShopConfig {
 exports.FShopConfig = FShopConfig;
 class FSpellCastDone {
     constructor(init) {
-        this.__type = 'FSpellCastDone';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeStaticObject(this.altarCoords, 'GeoCoords');
-        serializer.writeByte(this.spellType);
+        serializer.writeSByte(this.spellType);
     }
     deserialize(deserializer) {
         this.altarCoords = deserializer.readStaticObject('GeoCoords');
-        this.spellType = deserializer.readByte();
+        this.spellType = deserializer.readSByte();
     }
 }
 exports.FSpellCastDone = FSpellCastDone;
 class FSpellEffectsUpdate {
     constructor(init) {
-        this.__type = 'FSpellEffectsUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1833,7 +1754,6 @@ class FSpellEffectsUpdate {
 exports.FSpellEffectsUpdate = FSpellEffectsUpdate;
 class FStartEncounterRequest {
     constructor(init) {
-        this.__type = 'FStartEncounterRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1848,7 +1768,6 @@ class FStartEncounterRequest {
 exports.FStartEncounterRequest = FStartEncounterRequest;
 class FTile {
     constructor(init) {
-        this.__type = 'FTile';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1863,7 +1782,6 @@ class FTile {
 exports.FTile = FTile;
 class FTileState {
     constructor(init) {
-        this.__type = 'FTileState';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1878,7 +1796,6 @@ class FTileState {
 exports.FTileState = FTileState;
 class FTransferMonsterToCandiesResponse {
     constructor(init) {
-        this.__type = 'FTransferMonsterToCandiesResponse';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1891,7 +1808,6 @@ class FTransferMonsterToCandiesResponse {
 exports.FTransferMonsterToCandiesResponse = FTransferMonsterToCandiesResponse;
 class FUpdate {
     constructor(init) {
-        this.__type = 'FUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1906,7 +1822,6 @@ class FUpdate {
 exports.FUpdate = FUpdate;
 class FUpdateNicknameResult {
     constructor(init) {
-        this.__type = 'FUpdateNicknameResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1921,18 +1836,17 @@ class FUpdateNicknameResult {
 exports.FUpdateNicknameResult = FUpdateNicknameResult;
 class FUpdateRequest {
     constructor(init) {
-        this.__type = 'FUpdateRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeBoolean(this.blackScreen);
-        serializer.writeByte(this.clientPlatform);
+        serializer.writeSByte(this.clientPlatform);
         serializer.writeStaticObject(this.clientRequest, 'FClientRequest');
         serializer.writeStaticMap(this.tilesCache, true, true, 'Map<FTile, FTile>');
     }
     deserialize(deserializer) {
         this.blackScreen = deserializer.readBoolean();
-        this.clientPlatform = deserializer.readByte();
+        this.clientPlatform = deserializer.readSByte();
         this.clientRequest = deserializer.readStaticObject('FClientRequest');
         this.tilesCache = deserializer.readStaticMap('FTile', 'long', true, true);
     }
@@ -1940,20 +1854,19 @@ class FUpdateRequest {
 exports.FUpdateRequest = FUpdateRequest;
 class FUserCreature {
     constructor(init) {
-        this.__type = 'FUserCreature';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeDynamicObject(this.alias, 'string');
         serializer.writeInt32(this.attackValue);
         serializer.writeInt32(this.baseCp);
-        serializer.writeByte(this.candyType);
+        serializer.writeSByte(this.candyType);
         serializer.writeInt32(this.chargedSegments);
         serializer.writeUtf8String(this.chargedSkill);
         serializer.writeFloat(this.chargedSkillDps);
         serializer.writeInt32(this.cp);
         serializer.writeFloat(this.dps);
-        serializer.writeByte(this.elementType);
+        serializer.writeSByte(this.elementType);
         serializer.writeInt64(this.gotchaTime);
         serializer.writeInt32(this.group);
         serializer.writeFloat(this.hp);
@@ -1968,7 +1881,7 @@ class FUserCreature {
         serializer.writeUtf8String(this.mainSkill);
         serializer.writeFloat(this.mainSkillDps);
         serializer.writeFloat(this.mainSkillEps);
-        serializer.writeByte(this.name);
+        serializer.writeSByte(this.name);
         serializer.writeStaticMap(this.possibleEvolutions, true, true, 'Map<enums.CreatureType, enums.CreatureType>');
         serializer.writeInt32(this.staminaValue);
         serializer.writeFloat(this.totalHp);
@@ -1977,13 +1890,13 @@ class FUserCreature {
         this.alias = deserializer.readDynamicObject();
         this.attackValue = deserializer.readInt32();
         this.baseCp = deserializer.readInt32();
-        this.candyType = deserializer.readByte();
+        this.candyType = deserializer.readSByte();
         this.chargedSegments = deserializer.readInt32();
         this.chargedSkill = deserializer.readUtf8String();
         this.chargedSkillDps = deserializer.readFloat();
         this.cp = deserializer.readInt32();
         this.dps = deserializer.readFloat();
-        this.elementType = deserializer.readByte();
+        this.elementType = deserializer.readSByte();
         this.gotchaTime = deserializer.readInt64();
         this.group = deserializer.readInt32();
         this.hp = deserializer.readFloat();
@@ -1998,7 +1911,7 @@ class FUserCreature {
         this.mainSkill = deserializer.readUtf8String();
         this.mainSkillDps = deserializer.readFloat();
         this.mainSkillEps = deserializer.readFloat();
-        this.name = deserializer.readByte();
+        this.name = deserializer.readSByte();
         this.possibleEvolutions = deserializer.readStaticMap('CreatureType', 'int', true, true);
         this.staminaValue = deserializer.readInt32();
         this.totalHp = deserializer.readFloat();
@@ -2007,7 +1920,6 @@ class FUserCreature {
 exports.FUserCreature = FUserCreature;
 class FUserCreaturesList {
     constructor(init) {
-        this.__type = 'FUserCreaturesList';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2020,7 +1932,6 @@ class FUserCreaturesList {
 exports.FUserCreaturesList = FUserCreaturesList;
 class FUserCreatureUpdate {
     constructor(init) {
-        this.__type = 'FUserCreatureUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2041,7 +1952,6 @@ class FUserCreatureUpdate {
 exports.FUserCreatureUpdate = FUserCreatureUpdate;
 class FUserHatchingInfo {
     constructor(init) {
-        this.__type = 'FUserHatchingInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2060,7 +1970,6 @@ class FUserHatchingInfo {
 exports.FUserHatchingInfo = FUserHatchingInfo;
 class FUserInfo {
     constructor(init) {
-        this.__type = 'FUserInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2081,7 +1990,6 @@ class FUserInfo {
 exports.FUserInfo = FUserInfo;
 class FWeeklyQuest {
     constructor(init) {
-        this.__type = 'FWeeklyQuest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2106,7 +2014,6 @@ class FWeeklyQuest {
 exports.FWeeklyQuest = FWeeklyQuest;
 class FWeeklyQuestFragment {
     constructor(init) {
-        this.__type = 'FWeeklyQuestFragment';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2121,7 +2028,6 @@ class FWeeklyQuestFragment {
 exports.FWeeklyQuestFragment = FWeeklyQuestFragment;
 class FWildCreature {
     constructor(init) {
-        this.__type = 'FWildCreature';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2130,7 +2036,7 @@ class FWildCreature {
         serializer.writeUtf8String(this.id);
         serializer.writeDynamicObject(this.incenseUserId, 'string');
         serializer.writeBoolean(this.isFirstCreature);
-        serializer.writeByte(this.name);
+        serializer.writeSByte(this.name);
         serializer.writeDynamicObject(this.relatedBuildingId, 'string');
         serializer.writeFloat(this.scaleCollider);
         serializer.writeFloat(this.ttl);
@@ -2141,7 +2047,7 @@ class FWildCreature {
         this.id = deserializer.readUtf8String();
         this.incenseUserId = deserializer.readDynamicObject();
         this.isFirstCreature = deserializer.readBoolean();
-        this.name = deserializer.readByte();
+        this.name = deserializer.readSByte();
         this.relatedBuildingId = deserializer.readDynamicObject();
         this.scaleCollider = deserializer.readFloat();
         this.ttl = deserializer.readFloat();
@@ -2150,7 +2056,6 @@ class FWildCreature {
 exports.FWildCreature = FWildCreature;
 class FWizardBattleInfo {
     constructor(init) {
-        this.__type = 'FWizardBattleInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2169,7 +2074,6 @@ class FWizardBattleInfo {
 exports.FWizardBattleInfo = FWizardBattleInfo;
 class FWizardBattleResult {
     constructor(init) {
-        this.__type = 'FWizardBattleResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2194,7 +2098,6 @@ class FWizardBattleResult {
 exports.FWizardBattleResult = FWizardBattleResult;
 class GeoCoords {
     constructor(init) {
-        this.__type = 'GeoCoords';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2211,7 +2114,6 @@ class GeoCoords {
 exports.GeoCoords = GeoCoords;
 class IdAndCoords {
     constructor(init) {
-        this.__type = 'IdAndCoords';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2226,24 +2128,22 @@ class IdAndCoords {
 exports.IdAndCoords = IdAndCoords;
 class InAppEventInfo {
     constructor(init) {
-        this.__type = 'InAppEventInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeStaticMap(this.eventItems, true, true, 'Map<string, string>');
-        serializer.writeByte(this.eventType);
+        serializer.writeSByte(this.eventType);
         serializer.writeUtf8String(this.userId);
     }
     deserialize(deserializer) {
         this.eventItems = deserializer.readStaticMap('string', 'string', true, true);
-        this.eventType = deserializer.readByte();
+        this.eventType = deserializer.readSByte();
         this.userId = deserializer.readUtf8String();
     }
 }
 exports.InAppEventInfo = InAppEventInfo;
 class PotionConfig {
     constructor(init) {
-        this.__type = 'PotionConfig';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2258,22 +2158,20 @@ class PotionConfig {
 exports.PotionConfig = PotionConfig;
 class ProductGroup {
     constructor(init) {
-        this.__type = 'ProductGroup';
         Object.assign(this, init);
     }
     serialize(serializer) {
-        serializer.writeByte(this.itemType);
+        serializer.writeSByte(this.itemType);
         serializer.writeStaticList(this.productLots, true, 'ProductLot[]');
     }
     deserialize(deserializer) {
-        this.itemType = deserializer.readByte();
+        this.itemType = deserializer.readSByte();
         this.productLots = deserializer.readStaticList('ProductLot', true);
     }
 }
 exports.ProductGroup = ProductGroup;
 class ProductLot {
     constructor(init) {
-        this.__type = 'ProductLot';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2288,7 +2186,6 @@ class ProductLot {
 exports.ProductLot = ProductLot;
 class Tile {
     constructor(init) {
-        this.__type = 'Tile';
         Object.assign(this, init);
     }
     serialize(serializer) {

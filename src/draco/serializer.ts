@@ -43,7 +43,7 @@ export default class Serializer {
         if (id === null) {
             throw new Error('unable to find type id: ' + type);
         }
-        this.writeByte(id);
+        this.writeSByte(id);
     }
     writeBoolean(data) {
         return this.writeByte(data ? 1 : 0);
@@ -52,15 +52,17 @@ export default class Serializer {
         this.ensureBuffer();
         this.buffer[this.idx++] = data;
     }
+    writeSByte(data) {
+        this.ensureBuffer();
+        this.idx = this.buffer.writeUInt8(data, this.idx);
+    }
     writeShort(val) {
         this.ensureBuffer();
-        this.buffer.writeInt16BE(val, this.idx);
-        this.idx += 2;
+        this.idx = this.buffer.writeInt16BE(val, this.idx);
     }
     writeInt32(val) {
         this.ensureBuffer();
-        this.buffer.writeInt32BE(val, this.idx);
-        this.idx += 4;
+        this.idx = this.buffer.writeInt32BE(val, this.idx);
     }
     writeUInt32(val) {
         this.ensureBuffer();
@@ -110,14 +112,14 @@ export default class Serializer {
     }
     writeDynamicList(data: any[], isstatic: boolean, type?: string) {
         if (data === null || data === undefined) {
-            this.writeByte(0);
+            this.writeSByte(0);
         } else {
             // if (data.length === 0) {
             //     this.writeByte(4);
             // } else {
             //     this.writeByte(findTypeId(data[0]));
             // }
-            this.writeByte(4);
+            this.writeSByte(4);
             this.writeStaticArray(data, isstatic);
         }
     }
@@ -129,7 +131,7 @@ export default class Serializer {
     }
     writeDynamicMap(data, static1: boolean, static2: boolean) {
         if (data == null) {
-            this.writeByte(0);
+            this.writeSByte(0);
         } else {
             this.writeStaticMap(data, static1, static2);
         }
@@ -155,7 +157,7 @@ export default class Serializer {
     writeStaticObject(data, type?: string) {
         this.ensureBuffer();
         if (data === null || data === undefined) {
-            this.writeByte(0);
+            this.writeSByte(0);
         } else if (type) {
             if (type === 'bool') this.writeBoolean(data);
             else if (type === 'int') this.writeInt32(data);
@@ -193,14 +195,14 @@ export default class Serializer {
     writeDynamicObject(data, type?: string) {
         this.ensureBuffer();
         if (data === null || data === undefined) {
-            this.writeByte(0);
+            this.writeSByte(0);
         } else if (Array.isArray(data)) {
             if (isPrimitiveArray(type)) {
-                this.writeByte(3);
+                this.writeSByte(3);
                 this.writeType(type.slice(0, -2), data);
                 this.writeStaticArray(data, true, type);
             } else {
-                this.writeByte(2);
+                this.writeSByte(2);
                 this.writeType(type ? type.slice(0, -2) : 'object', data);
                 this.writeStaticArray(data, false, type);
             }

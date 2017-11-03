@@ -4,7 +4,6 @@ import Deserializer from './deserializer';
 import * as enums from './enums';
 import * as long from 'long';
 export declare class AuthData {
-    __type: string;
     authType: enums.AuthType;
     profileId: string;
     tokenId: string;
@@ -13,7 +12,6 @@ export declare class AuthData {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class BuffConfig {
-    __type: string;
     durationMs: long;
     type: enums.BuffType;
     valuePercent: number;
@@ -22,7 +20,6 @@ export declare class BuffConfig {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FActiveObject {
-    __type: string;
     allianceType: enums.AllianceType;
     arenaId: string;
     combinedName: number;
@@ -39,7 +36,6 @@ export declare class FActiveObject {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FActiveObjectsUpdate {
-    __type: string;
     arenaQuantity: number;
     coins: number;
     dust: number;
@@ -57,7 +53,6 @@ export declare class FActiveObjectsUpdate {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FAllianceChooseRequest {
-    __type: string;
     bonus: number;
     oneOption: boolean;
     recommendedType: enums.AllianceType;
@@ -66,7 +61,6 @@ export declare class FAllianceChooseRequest {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FAltar {
-    __type: string;
     ownerId: string;
     sharedWithEmptyPassword: boolean;
     constructor(init?: Partial<FAltar>);
@@ -74,7 +68,6 @@ export declare class FAltar {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FAltarDetails {
-    __type: string;
     buildingId: string;
     coords: GeoCoords;
     ownerId: string;
@@ -86,7 +79,6 @@ export declare class FAltarDetails {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FArena {
-    __type: string;
     allianceType: enums.AllianceType;
     combinedName: number;
     protectionTtl: number;
@@ -95,7 +87,6 @@ export declare class FArena {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FArenaBattleResult {
-    __type: string;
     allyArena: boolean;
     combinedName: number;
     creaturesDefeated: number;
@@ -117,7 +108,6 @@ export declare class FArenaBattleResult {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FArenaDetails {
-    __type: string;
     allianceChooseRequest: FAllianceChooseRequest;
     buildingType: enums.BuildingType;
     canAddDefender: boolean;
@@ -142,14 +132,12 @@ export declare class FArenaDetails {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FArenaWithBattleUpdate {
-    __type: string;
     arenaWithBattle: Set<string>;
     constructor(init?: Partial<FArenaWithBattleUpdate>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FArtifactsUpdate {
-    __type: string;
     artifacts: enums.ArtifactName[];
     artifactsBagSize: number;
     artifactsSlots: number;
@@ -160,7 +148,6 @@ export declare class FArtifactsUpdate {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FAttackArenaRequest {
-    __type: string;
     buildingRequest: FBuildingRequest;
     coords: GeoCoords;
     selectedCreatures: string[];
@@ -169,7 +156,6 @@ export declare class FAttackArenaRequest {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FAuthData {
-    __type: string;
     config: FConfig;
     info: FUserInfo;
     constructor(init?: Partial<FAuthData>);
@@ -177,7 +163,6 @@ export declare class FAuthData {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FAvaUpdate {
-    __type: string;
     activationRadius: number;
     activationRadiusIncreased: boolean;
     activationRadiusIncreasedLeftTime: long;
@@ -219,7 +204,6 @@ export declare class FAvaUpdate {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FBagItem {
-    __type: string;
     count: number;
     removable: boolean;
     stack: boolean;
@@ -229,7 +213,6 @@ export declare class FBagItem {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FBagUpdate {
-    __type: string;
     allowedItemsSize: number;
     incenseGenMonstersGroupName: string;
     items: FBagItem[];
@@ -239,20 +222,17 @@ export declare class FBagUpdate {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FBaseItemUpdate {
-    __type: string;
     constructor(init?: Partial<FBaseItemUpdate>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FBaseLootItem {
-    __type: string;
     qty: number;
     constructor(init?: Partial<FBaseLootItem>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FBuddy {
-    __type: string;
     alias: string;
     candyType: enums.CreatureType;
     creature: enums.CreatureType;
@@ -266,7 +246,6 @@ export declare class FBuddy {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FBuff {
-    __type: string;
     buffType: enums.BuffType;
     duration: long;
     timeLeft: long;
@@ -276,7 +255,6 @@ export declare class FBuff {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FBuilding {
-    __type: string;
     altar: FAltar;
     arena: FArena;
     available: boolean;
@@ -292,7 +270,6 @@ export declare class FBuilding {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FBuildingRequest {
-    __type: string;
     coords: GeoCoords;
     dungeonId: string;
     id: string;
@@ -301,14 +278,12 @@ export declare class FBuildingRequest {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FBuildingUpdate {
-    __type: string;
     tileBuildings: Map<FTile, FTile>;
     constructor(init?: Partial<FBuildingUpdate>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FCatchCreatureResult {
-    __type: string;
     avaUpdate: FAvaUpdate;
     ballType: enums.ItemType;
     candies: number;
@@ -333,7 +308,6 @@ export declare class FCatchCreatureResult {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FCatchingConfig {
-    __type: string;
     catchChances: Map<enums.ItemType, enums.ItemType>;
     chanceToAttack: number;
     chanceToJump: number;
@@ -360,7 +334,6 @@ export declare class FCatchingConfig {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FCatchingCreature {
-    __type: string;
     aggressive: boolean;
     candyType: enums.CreatureType;
     catching: FCatchingConfig;
@@ -378,7 +351,6 @@ export declare class FCatchingCreature {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FChest {
-    __type: string;
     coords: GeoCoords;
     id: string;
     constructor(init?: Partial<FChest>);
@@ -386,14 +358,12 @@ export declare class FChest {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FChestUpdate {
-    __type: string;
     chests: FChest[];
     constructor(init?: Partial<FChestUpdate>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FClientInfo {
-    __type: string;
     deviceModel: string;
     googleAdvertisingId: string;
     googleTrackingEnabled: boolean;
@@ -411,7 +381,6 @@ export declare class FClientInfo {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FClientRequest {
-    __type: string;
     coords: GeoCoords;
     currentUtcOffsetSeconds: number;
     time: long;
@@ -420,7 +389,6 @@ export declare class FClientRequest {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FConfig {
-    __type: string;
     aggressiveChanceToAttack: number;
     aggressiveChanceToJump: number;
     aggressiveChancesCooldownTime: number;
@@ -489,14 +457,12 @@ export declare class FConfig {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FCreadex {
-    __type: string;
     entries: FCreadexEntry[];
     constructor(init?: Partial<FCreadex>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FCreadexChain {
-    __type: string;
     caught: boolean;
     creature: enums.CreatureType;
     seen: boolean;
@@ -505,7 +471,6 @@ export declare class FCreadexChain {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FCreadexEntry {
-    __type: string;
     caughtQuantity: number;
     chain: FCreadexChain[];
     element: enums.ElementType;
@@ -517,7 +482,6 @@ export declare class FCreadexEntry {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FCreatureRequest {
-    __type: string;
     id: string;
     veryFirst: boolean;
     constructor(init?: Partial<FCreatureRequest>);
@@ -525,7 +489,6 @@ export declare class FCreatureRequest {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FCreatureUpdate {
-    __type: string;
     inRadar: FWildCreature[];
     wilds: FWildCreature[];
     constructor(init?: Partial<FCreatureUpdate>);
@@ -533,7 +496,6 @@ export declare class FCreatureUpdate {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FDailyQuest {
-    __type: string;
     count: number;
     elementType: enums.ElementType;
     id: string;
@@ -546,7 +508,6 @@ export declare class FDailyQuest {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FDefenderDetails {
-    __type: string;
     allianceType: enums.AllianceType;
     creatureAlias: string;
     creatureCp: number;
@@ -560,7 +521,6 @@ export declare class FDefenderDetails {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FDepositInfo {
-    __type: string;
     depositAmount: number;
     duration: number;
     isOnUser: boolean;
@@ -571,7 +531,6 @@ export declare class FDepositInfo {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FDungeonUpdate {
-    __type: string;
     coords: GeoCoords;
     rotation: number;
     size: number;
@@ -581,7 +540,6 @@ export declare class FDungeonUpdate {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FEgg {
-    __type: string;
     eggType: enums.ItemType;
     id: string;
     incubatorId: string;
@@ -595,7 +553,6 @@ export declare class FEgg {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FEncounterBattleResult {
-    __type: string;
     loot: FLoot;
     resultScreenDelay: number;
     victory: boolean;
@@ -604,7 +561,6 @@ export declare class FEncounterBattleResult {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FEncounterDetails {
-    __type: string;
     coords: GeoCoords;
     creatureCp: number;
     creatureElementType: enums.ElementType;
@@ -616,7 +572,6 @@ export declare class FEncounterDetails {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FEncounterUpdate {
-    __type: string;
     attacker: FFightCreature;
     defender: FFightCreature;
     constructor(init?: Partial<FEncounterUpdate>);
@@ -624,14 +579,12 @@ export declare class FEncounterUpdate {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FFeedMonsterResult {
-    __type: string;
     feedLiveTime: long;
     constructor(init?: Partial<FFeedMonsterResult>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FFightCreature {
-    __type: string;
     alias: string;
     attacker: boolean;
     baseCp: number;
@@ -677,7 +630,6 @@ export declare class FFightCreature {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FFightItem {
-    __type: string;
     attackerDamageReceived: number;
     attackerId: string;
     defenderDamageReceived: number;
@@ -687,7 +639,6 @@ export declare class FFightItem {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FFightRequest {
-    __type: string;
     chargedAttacksByAi: number;
     dodges: number;
     items: FFightItem[];
@@ -698,7 +649,6 @@ export declare class FFightRequest {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FFightUpdate {
-    __type: string;
     attackers: FFightCreature[];
     autoChangeAttackerHpPercent: number;
     defenderNickname: string;
@@ -709,7 +659,6 @@ export declare class FFightUpdate {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FHatchedEggs {
-    __type: string;
     egg: FEgg;
     incubatorId: string;
     loot: FLoot;
@@ -718,7 +667,6 @@ export declare class FHatchedEggs {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FHatchingResult {
-    __type: string;
     avaUpdate: FAvaUpdate;
     creadex: FCreadex;
     creature: FUserCreature;
@@ -729,14 +677,12 @@ export declare class FHatchingResult {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FInAppEventUpdate {
-    __type: string;
     events: InAppEventInfo[];
     constructor(init?: Partial<FInAppEventUpdate>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FIncubator {
-    __type: string;
     eggId: string;
     incubatorId: string;
     roostBuildingId: string;
@@ -747,7 +693,6 @@ export declare class FIncubator {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FJournalRecord {
-    __type: string;
     date: long;
     details: Map<string, string>;
     type: enums.EventLogType;
@@ -756,21 +701,18 @@ export declare class FJournalRecord {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FJournalUpdate {
-    __type: string;
     records: FJournalRecord[];
     constructor(init?: Partial<FJournalUpdate>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FLoot {
-    __type: string;
     lootList: FBaseLootItem[];
     constructor(init?: Partial<FLoot>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FLootItemArtifact {
-    __type: string;
     qty: number;
     artifact: enums.ArtifactName;
     constructor(init?: Partial<FLootItemArtifact>);
@@ -778,7 +720,6 @@ export declare class FLootItemArtifact {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FLootItemBuff {
-    __type: string;
     qty: number;
     buff: BuffConfig;
     constructor(init?: Partial<FLootItemBuff>);
@@ -786,7 +727,6 @@ export declare class FLootItemBuff {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FLootItemCandy {
-    __type: string;
     qty: number;
     candyType: enums.CreatureType;
     constructor(init?: Partial<FLootItemCandy>);
@@ -794,14 +734,12 @@ export declare class FLootItemCandy {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FLootItemCoins {
-    __type: string;
     qty: number;
     constructor(init?: Partial<FLootItemCoins>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FLootItemDust {
-    __type: string;
     qty: number;
     isStreak: boolean;
     constructor(init?: Partial<FLootItemDust>);
@@ -809,14 +747,12 @@ export declare class FLootItemDust {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FLootItemExp {
-    __type: string;
     qty: number;
     constructor(init?: Partial<FLootItemExp>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FLootItemInstantUseItem {
-    __type: string;
     qty: number;
     item: enums.InstantUseItem;
     constructor(init?: Partial<FLootItemInstantUseItem>);
@@ -824,7 +760,6 @@ export declare class FLootItemInstantUseItem {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FLootItemItem {
-    __type: string;
     qty: number;
     isStreak: boolean;
     item: enums.ItemType;
@@ -833,7 +768,6 @@ export declare class FLootItemItem {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FLootItemRecipe {
-    __type: string;
     qty: number;
     recipe: enums.RecipeType;
     constructor(init?: Partial<FLootItemRecipe>);
@@ -841,7 +775,6 @@ export declare class FLootItemRecipe {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FNicknameValidationResult {
-    __type: string;
     error: enums.FNicknameValidationError;
     suggestedNickname: string;
     constructor(init?: Partial<FNicknameValidationResult>);
@@ -849,7 +782,6 @@ export declare class FNicknameValidationResult {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FObeliskDetails {
-    __type: string;
     coords: GeoCoords;
     dailyQuest: FDailyQuest;
     fragment: FWeeklyQuestFragment;
@@ -861,7 +793,6 @@ export declare class FObeliskDetails {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FOpenChestResult {
-    __type: string;
     levelUpLoot: FLoot;
     loot: FLoot;
     constructor(init?: Partial<FOpenChestResult>);
@@ -869,7 +800,6 @@ export declare class FOpenChestResult {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FPickItemsResponse {
-    __type: string;
     levelUpLoot: FLoot;
     loot: FLoot;
     constructor(init?: Partial<FPickItemsResponse>);
@@ -877,7 +807,6 @@ export declare class FPickItemsResponse {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FPitstop {
-    __type: string;
     cooldown: boolean;
     lureBy: string;
     lureTimeLeft: long;
@@ -887,7 +816,6 @@ export declare class FPitstop {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FQuestCompleted {
-    __type: string;
     dailyQuest: FDailyQuest;
     levelUpLoot: FLoot;
     loot: FLoot;
@@ -897,7 +825,6 @@ export declare class FQuestCompleted {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FQuestUpdate {
-    __type: string;
     completed: FQuestCompleted;
     highlightBuilding: IdAndCoords;
     path: IdAndCoords[];
@@ -906,7 +833,6 @@ export declare class FQuestUpdate {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FRegistrationInfo {
-    __type: string;
     age: string;
     email: string;
     gender: string;
@@ -917,7 +843,6 @@ export declare class FRegistrationInfo {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FScoutRequest {
-    __type: string;
     clientRequest: FClientRequest;
     scoutCoords: GeoCoords;
     constructor(init?: Partial<FScoutRequest>);
@@ -925,7 +850,6 @@ export declare class FScoutRequest {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FServiceError {
-    __type: string;
     args: object[];
     cause: string;
     constructor(init?: Partial<FServiceError>);
@@ -933,7 +857,6 @@ export declare class FServiceError {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FShopConfig {
-    __type: string;
     artifacts: Map<enums.ArtifactName, enums.ArtifactName>;
     bagUpgrade: ProductLot;
     coins: Map<string, string>;
@@ -944,7 +867,6 @@ export declare class FShopConfig {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FSpellCastDone {
-    __type: string;
     altarCoords: GeoCoords;
     spellType: enums.SpellType;
     constructor(init?: Partial<FSpellCastDone>);
@@ -952,14 +874,12 @@ export declare class FSpellCastDone {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FSpellEffectsUpdate {
-    __type: string;
     hitArenas: Set<string>;
     constructor(init?: Partial<FSpellEffectsUpdate>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FStartEncounterRequest {
-    __type: string;
     attackerId: string;
     defenderId: string;
     constructor(init?: Partial<FStartEncounterRequest>);
@@ -967,7 +887,6 @@ export declare class FStartEncounterRequest {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FTile {
-    __type: string;
     dungeonId: string;
     tile: Tile;
     constructor(init?: Partial<FTile>);
@@ -975,7 +894,6 @@ export declare class FTile {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FTileState {
-    __type: string;
     buildings: FBuilding[];
     time: long;
     constructor(init?: Partial<FTileState>);
@@ -983,14 +901,12 @@ export declare class FTileState {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FTransferMonsterToCandiesResponse {
-    __type: string;
     loot: FLoot;
     constructor(init?: Partial<FTransferMonsterToCandiesResponse>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FUpdate {
-    __type: string;
     items: FBaseItemUpdate[];
     speed: number;
     constructor(init?: Partial<FUpdate>);
@@ -998,7 +914,6 @@ export declare class FUpdate {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FUpdateNicknameResult {
-    __type: string;
     userInfo: FUserInfo;
     validationResult: FNicknameValidationResult;
     constructor(init?: Partial<FUpdateNicknameResult>);
@@ -1006,7 +921,6 @@ export declare class FUpdateNicknameResult {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FUpdateRequest {
-    __type: string;
     blackScreen: boolean;
     clientPlatform: enums.ClientPlatform;
     clientRequest: FClientRequest;
@@ -1016,7 +930,6 @@ export declare class FUpdateRequest {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FUserCreature {
-    __type: string;
     alias: string;
     attackValue: number;
     baseCp: number;
@@ -1050,14 +963,12 @@ export declare class FUserCreature {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FUserCreaturesList {
-    __type: string;
     userCreatures: FUserCreature[];
     constructor(init?: Partial<FUserCreaturesList>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FUserCreatureUpdate {
-    __type: string;
     avaUpdate: FAvaUpdate;
     creadex: FCreadex;
     creature: FUserCreature;
@@ -1068,7 +979,6 @@ export declare class FUserCreatureUpdate {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FUserHatchingInfo {
-    __type: string;
     eggs: FEgg[];
     incubators: FIncubator[];
     max: number;
@@ -1078,7 +988,6 @@ export declare class FUserHatchingInfo {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FUserInfo {
-    __type: string;
     alliance: enums.AllianceType;
     avatarAppearanceDetails: number;
     devMode: boolean;
@@ -1089,7 +998,6 @@ export declare class FUserInfo {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FWeeklyQuest {
-    __type: string;
     allOpen: boolean;
     completed: boolean;
     currentFragment: number;
@@ -1102,7 +1010,6 @@ export declare class FWeeklyQuest {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FWeeklyQuestFragment {
-    __type: string;
     data: Buffer;
     fragmentNumber: number;
     constructor(init?: Partial<FWeeklyQuestFragment>);
@@ -1110,7 +1017,6 @@ export declare class FWeeklyQuestFragment {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FWildCreature {
-    __type: string;
     coords: GeoCoords;
     entry: FCreadexEntry;
     id: string;
@@ -1125,7 +1031,6 @@ export declare class FWildCreature {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FWizardBattleInfo {
-    __type: string;
     enhanced: boolean;
     limit: number;
     timeToRefresh: number;
@@ -1135,7 +1040,6 @@ export declare class FWizardBattleInfo {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class FWizardBattleResult {
-    __type: string;
     attackerHps: number[];
     attackerTypes: enums.CreatureType[];
     creaturesDefeated: number;
@@ -1148,7 +1052,6 @@ export declare class FWizardBattleResult {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class GeoCoords {
-    __type: string;
     horizontalAccuracy: number;
     latitude: number;
     longitude: number;
@@ -1157,7 +1060,6 @@ export declare class GeoCoords {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class IdAndCoords {
-    __type: string;
     coords: GeoCoords;
     id: string;
     constructor(init?: Partial<IdAndCoords>);
@@ -1165,7 +1067,6 @@ export declare class IdAndCoords {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class InAppEventInfo {
-    __type: string;
     eventItems: Map<string, string>;
     eventType: enums.InAppEventType;
     userId: string;
@@ -1174,7 +1075,6 @@ export declare class InAppEventInfo {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class PotionConfig {
-    __type: string;
     heals: Map<enums.ItemType, enums.ItemType>;
     resurrections: Map<enums.ItemType, enums.ItemType>;
     constructor(init?: Partial<PotionConfig>);
@@ -1182,7 +1082,6 @@ export declare class PotionConfig {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class ProductGroup {
-    __type: string;
     itemType: enums.ItemType;
     productLots: ProductLot[];
     constructor(init?: Partial<ProductGroup>);
@@ -1190,7 +1089,6 @@ export declare class ProductGroup {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class ProductLot {
-    __type: string;
     price: number;
     qty: number;
     constructor(init?: Partial<ProductLot>);
@@ -1198,7 +1096,6 @@ export declare class ProductLot {
     deserialize(deserializer: Deserializer): void;
 }
 export declare class Tile {
-    __type: string;
     x: number;
     y: number;
     zoom: number;
