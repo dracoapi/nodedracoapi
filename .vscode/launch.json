@@ -4,8 +4,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "One",
-            "program": "${workspaceRoot}/src/examples/one.ts",
+            "name": "getMapUpdate",
+            "program": "${workspaceRoot}/src/examples/getMapUpdate.ts",
             "cwd": "${workspaceRoot}",
             "outFiles": [ "${workspaceRoot}/bin/**/*.js" ],
             "sourceMaps": true,

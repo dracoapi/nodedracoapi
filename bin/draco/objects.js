@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class AuthData {
     constructor(init) {
+        this.__type = 'AuthData';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -18,6 +19,7 @@ class AuthData {
 exports.AuthData = AuthData;
 class BuffConfig {
     constructor(init) {
+        this.__type = 'BuffConfig';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -34,6 +36,7 @@ class BuffConfig {
 exports.BuffConfig = BuffConfig;
 class FActiveObject {
     constructor(init) {
+        this.__type = 'FActiveObject';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -66,6 +69,7 @@ class FActiveObject {
 exports.FActiveObject = FActiveObject;
 class FActiveObjectsUpdate {
     constructor(init) {
+        this.__type = 'FActiveObjectsUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -100,6 +104,7 @@ class FActiveObjectsUpdate {
 exports.FActiveObjectsUpdate = FActiveObjectsUpdate;
 class FAllianceChooseRequest {
     constructor(init) {
+        this.__type = 'FAllianceChooseRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -116,6 +121,7 @@ class FAllianceChooseRequest {
 exports.FAllianceChooseRequest = FAllianceChooseRequest;
 class FAltar {
     constructor(init) {
+        this.__type = 'FAltar';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -130,6 +136,7 @@ class FAltar {
 exports.FAltar = FAltar;
 class FAltarDetails {
     constructor(init) {
+        this.__type = 'FAltarDetails';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -152,6 +159,7 @@ class FAltarDetails {
 exports.FAltarDetails = FAltarDetails;
 class FArena {
     constructor(init) {
+        this.__type = 'FArena';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -168,6 +176,7 @@ class FArena {
 exports.FArena = FArena;
 class FArenaBattleResult {
     constructor(init) {
+        this.__type = 'FArenaBattleResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -210,6 +219,7 @@ class FArenaBattleResult {
 exports.FArenaBattleResult = FArenaBattleResult;
 class FArenaDetails {
     constructor(init) {
+        this.__type = 'FArenaDetails';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -258,6 +268,7 @@ class FArenaDetails {
 exports.FArenaDetails = FArenaDetails;
 class FArenaWithBattleUpdate {
     constructor(init) {
+        this.__type = 'FArenaWithBattleUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -270,6 +281,7 @@ class FArenaWithBattleUpdate {
 exports.FArenaWithBattleUpdate = FArenaWithBattleUpdate;
 class FArtifactsUpdate {
     constructor(init) {
+        this.__type = 'FArtifactsUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -290,6 +302,7 @@ class FArtifactsUpdate {
 exports.FArtifactsUpdate = FArtifactsUpdate;
 class FAttackArenaRequest {
     constructor(init) {
+        this.__type = 'FAttackArenaRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -306,6 +319,7 @@ class FAttackArenaRequest {
 exports.FAttackArenaRequest = FAttackArenaRequest;
 class FAuthData {
     constructor(init) {
+        this.__type = 'FAuthData';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -320,6 +334,7 @@ class FAuthData {
 exports.FAuthData = FAuthData;
 class FAvaUpdate {
     constructor(init) {
+        this.__type = 'FAvaUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -402,6 +417,7 @@ class FAvaUpdate {
 exports.FAvaUpdate = FAvaUpdate;
 class FBagItem {
     constructor(init) {
+        this.__type = 'FBagItem';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -420,6 +436,7 @@ class FBagItem {
 exports.FBagItem = FBagItem;
 class FBagUpdate {
     constructor(init) {
+        this.__type = 'FBagUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -438,6 +455,7 @@ class FBagUpdate {
 exports.FBagUpdate = FBagUpdate;
 class FBaseItemUpdate {
     constructor(init) {
+        this.__type = 'FBaseItemUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -448,6 +466,7 @@ class FBaseItemUpdate {
 exports.FBaseItemUpdate = FBaseItemUpdate;
 class FBaseLootItem {
     constructor(init) {
+        this.__type = 'FBaseLootItem';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -460,6 +479,7 @@ class FBaseLootItem {
 exports.FBaseLootItem = FBaseLootItem;
 class FBuddy {
     constructor(init) {
+        this.__type = 'FBuddy';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -486,6 +506,7 @@ class FBuddy {
 exports.FBuddy = FBuddy;
 class FBuff {
     constructor(init) {
+        this.__type = 'FBuff';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -504,6 +525,7 @@ class FBuff {
 exports.FBuff = FBuff;
 class FBuilding {
     constructor(init) {
+        this.__type = 'FBuilding';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -534,6 +556,7 @@ class FBuilding {
 exports.FBuilding = FBuilding;
 class FBuildingRequest {
     constructor(init) {
+        this.__type = 'FBuildingRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -550,6 +573,7 @@ class FBuildingRequest {
 exports.FBuildingRequest = FBuildingRequest;
 class FBuildingUpdate {
     constructor(init) {
+        this.__type = 'FBuildingUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -562,6 +586,7 @@ class FBuildingUpdate {
 exports.FBuildingUpdate = FBuildingUpdate;
 class FCatchCreatureResult {
     constructor(init) {
+        this.__type = 'FCatchCreatureResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -610,6 +635,7 @@ class FCatchCreatureResult {
 exports.FCatchCreatureResult = FCatchCreatureResult;
 class FCatchingConfig {
     constructor(init) {
+        this.__type = 'FCatchingConfig';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -662,6 +688,7 @@ class FCatchingConfig {
 exports.FCatchingConfig = FCatchingConfig;
 class FCatchingCreature {
     constructor(init) {
+        this.__type = 'FCatchingCreature';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -696,6 +723,7 @@ class FCatchingCreature {
 exports.FCatchingCreature = FCatchingCreature;
 class FChest {
     constructor(init) {
+        this.__type = 'FChest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -710,6 +738,7 @@ class FChest {
 exports.FChest = FChest;
 class FChestUpdate {
     constructor(init) {
+        this.__type = 'FChestUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -722,6 +751,7 @@ class FChestUpdate {
 exports.FChestUpdate = FChestUpdate;
 class FClientInfo {
     constructor(init) {
+        this.__type = 'FClientInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -756,6 +786,7 @@ class FClientInfo {
 exports.FClientInfo = FClientInfo;
 class FClientRequest {
     constructor(init) {
+        this.__type = 'FClientRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -772,6 +803,7 @@ class FClientRequest {
 exports.FClientRequest = FClientRequest;
 class FConfig {
     constructor(init) {
+        this.__type = 'FConfig';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -908,6 +940,7 @@ class FConfig {
 exports.FConfig = FConfig;
 class FCreadex {
     constructor(init) {
+        this.__type = 'FCreadex';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -920,6 +953,7 @@ class FCreadex {
 exports.FCreadex = FCreadex;
 class FCreadexChain {
     constructor(init) {
+        this.__type = 'FCreadexChain';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -936,6 +970,7 @@ class FCreadexChain {
 exports.FCreadexChain = FCreadexChain;
 class FCreadexEntry {
     constructor(init) {
+        this.__type = 'FCreadexEntry';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -958,6 +993,7 @@ class FCreadexEntry {
 exports.FCreadexEntry = FCreadexEntry;
 class FCreatureRequest {
     constructor(init) {
+        this.__type = 'FCreatureRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -972,6 +1008,7 @@ class FCreatureRequest {
 exports.FCreatureRequest = FCreatureRequest;
 class FCreatureUpdate {
     constructor(init) {
+        this.__type = 'FCreatureUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -986,6 +1023,7 @@ class FCreatureUpdate {
 exports.FCreatureUpdate = FCreatureUpdate;
 class FDailyQuest {
     constructor(init) {
+        this.__type = 'FDailyQuest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1010,6 +1048,7 @@ class FDailyQuest {
 exports.FDailyQuest = FDailyQuest;
 class FDefenderDetails {
     constructor(init) {
+        this.__type = 'FDefenderDetails';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1036,6 +1075,7 @@ class FDefenderDetails {
 exports.FDefenderDetails = FDefenderDetails;
 class FDepositInfo {
     constructor(init) {
+        this.__type = 'FDepositInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1056,6 +1096,7 @@ class FDepositInfo {
 exports.FDepositInfo = FDepositInfo;
 class FDungeonUpdate {
     constructor(init) {
+        this.__type = 'FDungeonUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1074,6 +1115,7 @@ class FDungeonUpdate {
 exports.FDungeonUpdate = FDungeonUpdate;
 class FEgg {
     constructor(init) {
+        this.__type = 'FEgg';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1100,6 +1142,7 @@ class FEgg {
 exports.FEgg = FEgg;
 class FEncounterBattleResult {
     constructor(init) {
+        this.__type = 'FEncounterBattleResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1116,6 +1159,7 @@ class FEncounterBattleResult {
 exports.FEncounterBattleResult = FEncounterBattleResult;
 class FEncounterDetails {
     constructor(init) {
+        this.__type = 'FEncounterDetails';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1138,6 +1182,7 @@ class FEncounterDetails {
 exports.FEncounterDetails = FEncounterDetails;
 class FEncounterUpdate {
     constructor(init) {
+        this.__type = 'FEncounterUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1152,6 +1197,7 @@ class FEncounterUpdate {
 exports.FEncounterUpdate = FEncounterUpdate;
 class FFeedMonsterResult {
     constructor(init) {
+        this.__type = 'FFeedMonsterResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1164,6 +1210,7 @@ class FFeedMonsterResult {
 exports.FFeedMonsterResult = FFeedMonsterResult;
 class FFightCreature {
     constructor(init) {
+        this.__type = 'FFightCreature';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1254,6 +1301,7 @@ class FFightCreature {
 exports.FFightCreature = FFightCreature;
 class FFightItem {
     constructor(init) {
+        this.__type = 'FFightItem';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1272,6 +1320,7 @@ class FFightItem {
 exports.FFightItem = FFightItem;
 class FFightRequest {
     constructor(init) {
+        this.__type = 'FFightRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1292,6 +1341,7 @@ class FFightRequest {
 exports.FFightRequest = FFightRequest;
 class FFightUpdate {
     constructor(init) {
+        this.__type = 'FFightUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1312,6 +1362,7 @@ class FFightUpdate {
 exports.FFightUpdate = FFightUpdate;
 class FHatchedEggs {
     constructor(init) {
+        this.__type = 'FHatchedEggs';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1328,6 +1379,7 @@ class FHatchedEggs {
 exports.FHatchedEggs = FHatchedEggs;
 class FHatchingResult {
     constructor(init) {
+        this.__type = 'FHatchingResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1348,6 +1400,7 @@ class FHatchingResult {
 exports.FHatchingResult = FHatchingResult;
 class FInAppEventUpdate {
     constructor(init) {
+        this.__type = 'FInAppEventUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1360,6 +1413,7 @@ class FInAppEventUpdate {
 exports.FInAppEventUpdate = FInAppEventUpdate;
 class FIncubator {
     constructor(init) {
+        this.__type = 'FIncubator';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1380,6 +1434,7 @@ class FIncubator {
 exports.FIncubator = FIncubator;
 class FJournalRecord {
     constructor(init) {
+        this.__type = 'FJournalRecord';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1396,6 +1451,7 @@ class FJournalRecord {
 exports.FJournalRecord = FJournalRecord;
 class FJournalUpdate {
     constructor(init) {
+        this.__type = 'FJournalUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1408,6 +1464,7 @@ class FJournalUpdate {
 exports.FJournalUpdate = FJournalUpdate;
 class FLoot {
     constructor(init) {
+        this.__type = 'FLoot';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1420,6 +1477,7 @@ class FLoot {
 exports.FLoot = FLoot;
 class FLootItemArtifact {
     constructor(init) {
+        this.__type = 'FLootItemArtifact';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1434,6 +1492,7 @@ class FLootItemArtifact {
 exports.FLootItemArtifact = FLootItemArtifact;
 class FLootItemBuff {
     constructor(init) {
+        this.__type = 'FLootItemBuff';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1448,6 +1507,7 @@ class FLootItemBuff {
 exports.FLootItemBuff = FLootItemBuff;
 class FLootItemCandy {
     constructor(init) {
+        this.__type = 'FLootItemCandy';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1462,6 +1522,7 @@ class FLootItemCandy {
 exports.FLootItemCandy = FLootItemCandy;
 class FLootItemCoins {
     constructor(init) {
+        this.__type = 'FLootItemCoins';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1474,6 +1535,7 @@ class FLootItemCoins {
 exports.FLootItemCoins = FLootItemCoins;
 class FLootItemDust {
     constructor(init) {
+        this.__type = 'FLootItemDust';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1488,6 +1550,7 @@ class FLootItemDust {
 exports.FLootItemDust = FLootItemDust;
 class FLootItemExp {
     constructor(init) {
+        this.__type = 'FLootItemExp';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1500,6 +1563,7 @@ class FLootItemExp {
 exports.FLootItemExp = FLootItemExp;
 class FLootItemInstantUseItem {
     constructor(init) {
+        this.__type = 'FLootItemInstantUseItem';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1514,6 +1578,7 @@ class FLootItemInstantUseItem {
 exports.FLootItemInstantUseItem = FLootItemInstantUseItem;
 class FLootItemItem {
     constructor(init) {
+        this.__type = 'FLootItemItem';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1530,6 +1595,7 @@ class FLootItemItem {
 exports.FLootItemItem = FLootItemItem;
 class FLootItemRecipe {
     constructor(init) {
+        this.__type = 'FLootItemRecipe';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1544,6 +1610,7 @@ class FLootItemRecipe {
 exports.FLootItemRecipe = FLootItemRecipe;
 class FNicknameValidationResult {
     constructor(init) {
+        this.__type = 'FNicknameValidationResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1558,6 +1625,7 @@ class FNicknameValidationResult {
 exports.FNicknameValidationResult = FNicknameValidationResult;
 class FObeliskDetails {
     constructor(init) {
+        this.__type = 'FObeliskDetails';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1580,6 +1648,7 @@ class FObeliskDetails {
 exports.FObeliskDetails = FObeliskDetails;
 class FOpenChestResult {
     constructor(init) {
+        this.__type = 'FOpenChestResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1594,6 +1663,7 @@ class FOpenChestResult {
 exports.FOpenChestResult = FOpenChestResult;
 class FPickItemsResponse {
     constructor(init) {
+        this.__type = 'FPickItemsResponse';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1608,6 +1678,7 @@ class FPickItemsResponse {
 exports.FPickItemsResponse = FPickItemsResponse;
 class FPitstop {
     constructor(init) {
+        this.__type = 'FPitstop';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1626,6 +1697,7 @@ class FPitstop {
 exports.FPitstop = FPitstop;
 class FQuestCompleted {
     constructor(init) {
+        this.__type = 'FQuestCompleted';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1644,6 +1716,7 @@ class FQuestCompleted {
 exports.FQuestCompleted = FQuestCompleted;
 class FQuestUpdate {
     constructor(init) {
+        this.__type = 'FQuestUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1660,6 +1733,7 @@ class FQuestUpdate {
 exports.FQuestUpdate = FQuestUpdate;
 class FRegistrationInfo {
     constructor(init) {
+        this.__type = 'FRegistrationInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1680,6 +1754,7 @@ class FRegistrationInfo {
 exports.FRegistrationInfo = FRegistrationInfo;
 class FScoutRequest {
     constructor(init) {
+        this.__type = 'FScoutRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1694,6 +1769,7 @@ class FScoutRequest {
 exports.FScoutRequest = FScoutRequest;
 class FServiceError {
     constructor(init) {
+        this.__type = 'FServiceError';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1708,6 +1784,7 @@ class FServiceError {
 exports.FServiceError = FServiceError;
 class FShopConfig {
     constructor(init) {
+        this.__type = 'FShopConfig';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1728,6 +1805,7 @@ class FShopConfig {
 exports.FShopConfig = FShopConfig;
 class FSpellCastDone {
     constructor(init) {
+        this.__type = 'FSpellCastDone';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1742,6 +1820,7 @@ class FSpellCastDone {
 exports.FSpellCastDone = FSpellCastDone;
 class FSpellEffectsUpdate {
     constructor(init) {
+        this.__type = 'FSpellEffectsUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1754,6 +1833,7 @@ class FSpellEffectsUpdate {
 exports.FSpellEffectsUpdate = FSpellEffectsUpdate;
 class FStartEncounterRequest {
     constructor(init) {
+        this.__type = 'FStartEncounterRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1768,6 +1848,7 @@ class FStartEncounterRequest {
 exports.FStartEncounterRequest = FStartEncounterRequest;
 class FTile {
     constructor(init) {
+        this.__type = 'FTile';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1782,6 +1863,7 @@ class FTile {
 exports.FTile = FTile;
 class FTileState {
     constructor(init) {
+        this.__type = 'FTileState';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1796,6 +1878,7 @@ class FTileState {
 exports.FTileState = FTileState;
 class FTransferMonsterToCandiesResponse {
     constructor(init) {
+        this.__type = 'FTransferMonsterToCandiesResponse';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1808,6 +1891,7 @@ class FTransferMonsterToCandiesResponse {
 exports.FTransferMonsterToCandiesResponse = FTransferMonsterToCandiesResponse;
 class FUpdate {
     constructor(init) {
+        this.__type = 'FUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1822,6 +1906,7 @@ class FUpdate {
 exports.FUpdate = FUpdate;
 class FUpdateNicknameResult {
     constructor(init) {
+        this.__type = 'FUpdateNicknameResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1836,6 +1921,7 @@ class FUpdateNicknameResult {
 exports.FUpdateNicknameResult = FUpdateNicknameResult;
 class FUpdateRequest {
     constructor(init) {
+        this.__type = 'FUpdateRequest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1854,6 +1940,7 @@ class FUpdateRequest {
 exports.FUpdateRequest = FUpdateRequest;
 class FUserCreature {
     constructor(init) {
+        this.__type = 'FUserCreature';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1920,6 +2007,7 @@ class FUserCreature {
 exports.FUserCreature = FUserCreature;
 class FUserCreaturesList {
     constructor(init) {
+        this.__type = 'FUserCreaturesList';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1932,6 +2020,7 @@ class FUserCreaturesList {
 exports.FUserCreaturesList = FUserCreaturesList;
 class FUserCreatureUpdate {
     constructor(init) {
+        this.__type = 'FUserCreatureUpdate';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1952,6 +2041,7 @@ class FUserCreatureUpdate {
 exports.FUserCreatureUpdate = FUserCreatureUpdate;
 class FUserHatchingInfo {
     constructor(init) {
+        this.__type = 'FUserHatchingInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1970,6 +2060,7 @@ class FUserHatchingInfo {
 exports.FUserHatchingInfo = FUserHatchingInfo;
 class FUserInfo {
     constructor(init) {
+        this.__type = 'FUserInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -1990,6 +2081,7 @@ class FUserInfo {
 exports.FUserInfo = FUserInfo;
 class FWeeklyQuest {
     constructor(init) {
+        this.__type = 'FWeeklyQuest';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2014,6 +2106,7 @@ class FWeeklyQuest {
 exports.FWeeklyQuest = FWeeklyQuest;
 class FWeeklyQuestFragment {
     constructor(init) {
+        this.__type = 'FWeeklyQuestFragment';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2028,6 +2121,7 @@ class FWeeklyQuestFragment {
 exports.FWeeklyQuestFragment = FWeeklyQuestFragment;
 class FWildCreature {
     constructor(init) {
+        this.__type = 'FWildCreature';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2056,6 +2150,7 @@ class FWildCreature {
 exports.FWildCreature = FWildCreature;
 class FWizardBattleInfo {
     constructor(init) {
+        this.__type = 'FWizardBattleInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2074,6 +2169,7 @@ class FWizardBattleInfo {
 exports.FWizardBattleInfo = FWizardBattleInfo;
 class FWizardBattleResult {
     constructor(init) {
+        this.__type = 'FWizardBattleResult';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2098,6 +2194,7 @@ class FWizardBattleResult {
 exports.FWizardBattleResult = FWizardBattleResult;
 class GeoCoords {
     constructor(init) {
+        this.__type = 'GeoCoords';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2114,6 +2211,7 @@ class GeoCoords {
 exports.GeoCoords = GeoCoords;
 class IdAndCoords {
     constructor(init) {
+        this.__type = 'IdAndCoords';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2128,6 +2226,7 @@ class IdAndCoords {
 exports.IdAndCoords = IdAndCoords;
 class InAppEventInfo {
     constructor(init) {
+        this.__type = 'InAppEventInfo';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2144,6 +2243,7 @@ class InAppEventInfo {
 exports.InAppEventInfo = InAppEventInfo;
 class PotionConfig {
     constructor(init) {
+        this.__type = 'PotionConfig';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2158,6 +2258,7 @@ class PotionConfig {
 exports.PotionConfig = PotionConfig;
 class ProductGroup {
     constructor(init) {
+        this.__type = 'ProductGroup';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2172,6 +2273,7 @@ class ProductGroup {
 exports.ProductGroup = ProductGroup;
 class ProductLot {
     constructor(init) {
+        this.__type = 'ProductLot';
         Object.assign(this, init);
     }
     serialize(serializer) {
@@ -2186,6 +2288,7 @@ class ProductLot {
 exports.ProductLot = ProductLot;
 class Tile {
     constructor(init) {
+        this.__type = 'Tile';
         Object.assign(this, init);
     }
     serialize(serializer) {

@@ -4,6 +4,7 @@ import * as enums from './enums';
 import * as long from 'long';
 
 export class AuthData {
+    __type = 'AuthData';
     authType: enums.AuthType; // AuthType
     profileId: string; // string
     tokenId: string; // string
@@ -25,6 +26,7 @@ export class AuthData {
 }
 
 export class BuffConfig {
+    __type = 'BuffConfig';
     durationMs: long; // long
     type: enums.BuffType; // BuffType
     valuePercent: number; // int
@@ -46,6 +48,7 @@ export class BuffConfig {
 }
 
 export class FActiveObject {
+    __type = 'FActiveObject';
     allianceType: enums.AllianceType; // AllianceType
     arenaId: string; // string
     combinedName: number; // int
@@ -91,6 +94,7 @@ export class FActiveObject {
 }
 
 export class FActiveObjectsUpdate {
+    __type = 'FActiveObjectsUpdate';
     arenaQuantity: number; // int
     coins: number; // int
     dust: number; // int
@@ -139,6 +143,7 @@ export class FActiveObjectsUpdate {
 }
 
 export class FAllianceChooseRequest {
+    __type = 'FAllianceChooseRequest';
     bonus: number; // int
     oneOption: boolean; // bool
     recommendedType: enums.AllianceType; // AllianceType
@@ -160,6 +165,7 @@ export class FAllianceChooseRequest {
 }
 
 export class FAltar {
+    __type = 'FAltar';
     ownerId: string; // string
     sharedWithEmptyPassword: boolean; // bool
 
@@ -178,6 +184,7 @@ export class FAltar {
 }
 
 export class FAltarDetails {
+    __type = 'FAltarDetails';
     buildingId: string; // string
     coords: GeoCoords; // GeoCoords
     ownerId: string; // string
@@ -208,6 +215,7 @@ export class FAltarDetails {
 }
 
 export class FArena {
+    __type = 'FArena';
     allianceType: enums.AllianceType; // AllianceType
     combinedName: number; // int
     protectionTtl: number; // float
@@ -229,6 +237,7 @@ export class FArena {
 }
 
 export class FArenaBattleResult {
+    __type = 'FArenaBattleResult';
     allyArena: boolean; // bool
     combinedName: number; // int
     creaturesDefeated: number; // int
@@ -289,6 +298,7 @@ export class FArenaBattleResult {
 }
 
 export class FArenaDetails {
+    __type = 'FArenaDetails';
     allianceChooseRequest: FAllianceChooseRequest; // FAllianceChooseRequest
     buildingType: enums.BuildingType; // BuildingType
     canAddDefender: boolean; // bool
@@ -358,6 +368,7 @@ export class FArenaDetails {
 }
 
 export class FArenaWithBattleUpdate {
+    __type = 'FArenaWithBattleUpdate';
     arenaWithBattle: Set<string>; // Set<string>
 
     public constructor(init?: Partial<FArenaWithBattleUpdate>) {
@@ -373,6 +384,7 @@ export class FArenaWithBattleUpdate {
 }
 
 export class FArtifactsUpdate {
+    __type = 'FArtifactsUpdate';
     artifacts: enums.ArtifactName[]; // ArtifactName[]
     artifactsBagSize: number; // int
     artifactsSlots: number; // int
@@ -400,6 +412,7 @@ export class FArtifactsUpdate {
 }
 
 export class FAttackArenaRequest {
+    __type = 'FAttackArenaRequest';
     buildingRequest: FBuildingRequest; // FBuildingRequest
     coords: GeoCoords; // GeoCoords
     selectedCreatures: string[]; // string[]
@@ -421,6 +434,7 @@ export class FAttackArenaRequest {
 }
 
 export class FAuthData {
+    __type = 'FAuthData';
     config: FConfig; // FConfig
     info: FUserInfo; // FUserInfo
 
@@ -439,6 +453,7 @@ export class FAuthData {
 }
 
 export class FAvaUpdate {
+    __type = 'FAvaUpdate';
     activationRadius: number; // double
     activationRadiusIncreased: boolean; // bool
     activationRadiusIncreasedLeftTime: long; // long
@@ -559,6 +574,7 @@ export class FAvaUpdate {
 }
 
 export class FBagItem {
+    __type = 'FBagItem';
     count: number; // int
     removable: boolean; // bool
     stack: boolean; // bool
@@ -583,6 +599,7 @@ export class FBagItem {
 }
 
 export class FBagUpdate {
+    __type = 'FBagUpdate';
     allowedItemsSize: number; // int
     incenseGenMonstersGroupName: string; // string
     items: FBagItem[]; // FBagItem[]
@@ -607,6 +624,7 @@ export class FBagUpdate {
 }
 
 export class FBaseItemUpdate {
+    __type = 'FBaseItemUpdate';
 
     public constructor(init?: Partial<FBaseItemUpdate>) {
         Object.assign(this, init);
@@ -619,6 +637,7 @@ export class FBaseItemUpdate {
 }
 
 export class FBaseLootItem {
+    __type = 'FBaseLootItem';
     qty: number; // int
 
     public constructor(init?: Partial<FBaseLootItem>) {
@@ -634,6 +653,7 @@ export class FBaseLootItem {
 }
 
 export class FBuddy {
+    __type = 'FBuddy';
     alias: string; // string
     candyType: enums.CreatureType; // CreatureType
     creature: enums.CreatureType; // CreatureType
@@ -670,6 +690,7 @@ export class FBuddy {
 }
 
 export class FBuff {
+    __type = 'FBuff';
     buffType: enums.BuffType; // BuffType
     duration: long; // long
     timeLeft: long; // long
@@ -694,6 +715,7 @@ export class FBuff {
 }
 
 export class FBuilding {
+    __type = 'FBuilding';
     altar: FAltar; // FAltar
     arena: FArena; // FArena
     available: boolean; // bool
@@ -736,6 +758,7 @@ export class FBuilding {
 }
 
 export class FBuildingRequest {
+    __type = 'FBuildingRequest';
     coords: GeoCoords; // GeoCoords
     dungeonId: string; // string
     id: string; // string
@@ -757,6 +780,7 @@ export class FBuildingRequest {
 }
 
 export class FBuildingUpdate {
+    __type = 'FBuildingUpdate';
     tileBuildings: Map<FTile, FTile>; // Map<FTile, FTile>
 
     public constructor(init?: Partial<FBuildingUpdate>) {
@@ -772,6 +796,7 @@ export class FBuildingUpdate {
 }
 
 export class FCatchCreatureResult {
+    __type = 'FCatchCreatureResult';
     avaUpdate: FAvaUpdate; // FAvaUpdate
     ballType: enums.ItemType; // ItemType
     candies: number; // int
@@ -841,6 +866,7 @@ export class FCatchCreatureResult {
 }
 
 export class FCatchingConfig {
+    __type = 'FCatchingConfig';
     catchChances: Map<enums.ItemType, enums.ItemType>; // Map<enums.ItemType, enums.ItemType>
     chanceToAttack: number; // float
     chanceToJump: number; // float
@@ -916,6 +942,7 @@ export class FCatchingConfig {
 }
 
 export class FCatchingCreature {
+    __type = 'FCatchingCreature';
     aggressive: boolean; // bool
     candyType: enums.CreatureType; // CreatureType
     catching: FCatchingConfig; // FCatchingConfig
@@ -964,6 +991,7 @@ export class FCatchingCreature {
 }
 
 export class FChest {
+    __type = 'FChest';
     coords: GeoCoords; // GeoCoords
     id: string; // string
 
@@ -982,6 +1010,7 @@ export class FChest {
 }
 
 export class FChestUpdate {
+    __type = 'FChestUpdate';
     chests: FChest[]; // FChest[]
 
     public constructor(init?: Partial<FChestUpdate>) {
@@ -997,6 +1026,7 @@ export class FChestUpdate {
 }
 
 export class FClientInfo {
+    __type = 'FClientInfo';
     deviceModel: string; // string
     googleAdvertisingId: string; // string
     googleTrackingEnabled: boolean; // bool
@@ -1045,6 +1075,7 @@ export class FClientInfo {
 }
 
 export class FClientRequest {
+    __type = 'FClientRequest';
     coords: GeoCoords; // GeoCoords
     currentUtcOffsetSeconds: number; // int
     time: long; // long
@@ -1066,6 +1097,7 @@ export class FClientRequest {
 }
 
 export class FConfig {
+    __type = 'FConfig';
     aggressiveChanceToAttack: number; // float
     aggressiveChanceToJump: number; // float
     aggressiveChancesCooldownTime: number; // float
@@ -1267,6 +1299,7 @@ export class FConfig {
 }
 
 export class FCreadex {
+    __type = 'FCreadex';
     entries: FCreadexEntry[]; // FCreadexEntry[]
 
     public constructor(init?: Partial<FCreadex>) {
@@ -1282,6 +1315,7 @@ export class FCreadex {
 }
 
 export class FCreadexChain {
+    __type = 'FCreadexChain';
     caught: boolean; // bool
     creature: enums.CreatureType; // CreatureType
     seen: boolean; // bool
@@ -1303,6 +1337,7 @@ export class FCreadexChain {
 }
 
 export class FCreadexEntry {
+    __type = 'FCreadexEntry';
     caughtQuantity: number; // int
     chain: FCreadexChain[]; // FCreadexChain[]
     element: enums.ElementType; // ElementType
@@ -1333,6 +1368,7 @@ export class FCreadexEntry {
 }
 
 export class FCreatureRequest {
+    __type = 'FCreatureRequest';
     id: string; // string
     veryFirst: boolean; // bool
 
@@ -1351,6 +1387,7 @@ export class FCreatureRequest {
 }
 
 export class FCreatureUpdate {
+    __type = 'FCreatureUpdate';
     inRadar: FWildCreature[]; // FWildCreature[]
     wilds: FWildCreature[]; // FWildCreature[]
 
@@ -1369,6 +1406,7 @@ export class FCreatureUpdate {
 }
 
 export class FDailyQuest {
+    __type = 'FDailyQuest';
     count: number; // int
     elementType: enums.ElementType; // ElementType
     id: string; // string
@@ -1402,6 +1440,7 @@ export class FDailyQuest {
 }
 
 export class FDefenderDetails {
+    __type = 'FDefenderDetails';
     allianceType: enums.AllianceType; // AllianceType
     creatureAlias: string; // string
     creatureCp: number; // int
@@ -1438,6 +1477,7 @@ export class FDefenderDetails {
 }
 
 export class FDepositInfo {
+    __type = 'FDepositInfo';
     depositAmount: number; // int
     duration: number; // int
     isOnUser: boolean; // bool
@@ -1465,6 +1505,7 @@ export class FDepositInfo {
 }
 
 export class FDungeonUpdate {
+    __type = 'FDungeonUpdate';
     coords: GeoCoords; // GeoCoords
     rotation: number; // float
     size: number; // int
@@ -1489,6 +1530,7 @@ export class FDungeonUpdate {
 }
 
 export class FEgg {
+    __type = 'FEgg';
     eggType: enums.ItemType; // ItemType
     id: string; // string
     incubatorId: string; // string
@@ -1525,6 +1567,7 @@ export class FEgg {
 }
 
 export class FEncounterBattleResult {
+    __type = 'FEncounterBattleResult';
     loot: FLoot; // FLoot
     resultScreenDelay: number; // float
     victory: boolean; // bool
@@ -1546,6 +1589,7 @@ export class FEncounterBattleResult {
 }
 
 export class FEncounterDetails {
+    __type = 'FEncounterDetails';
     coords: GeoCoords; // GeoCoords
     creatureCp: number; // int
     creatureElementType: enums.ElementType; // ElementType
@@ -1576,6 +1620,7 @@ export class FEncounterDetails {
 }
 
 export class FEncounterUpdate {
+    __type = 'FEncounterUpdate';
     attacker: FFightCreature; // FFightCreature
     defender: FFightCreature; // FFightCreature
 
@@ -1594,6 +1639,7 @@ export class FEncounterUpdate {
 }
 
 export class FFeedMonsterResult {
+    __type = 'FFeedMonsterResult';
     feedLiveTime: long; // long
 
     public constructor(init?: Partial<FFeedMonsterResult>) {
@@ -1609,6 +1655,7 @@ export class FFeedMonsterResult {
 }
 
 export class FFightCreature {
+    __type = 'FFightCreature';
     alias: string; // string
     attacker: boolean; // bool
     baseCp: number; // int
@@ -1741,6 +1788,7 @@ export class FFightCreature {
 }
 
 export class FFightItem {
+    __type = 'FFightItem';
     attackerDamageReceived: number; // float
     attackerId: string; // string
     defenderDamageReceived: number; // float
@@ -1765,6 +1813,7 @@ export class FFightItem {
 }
 
 export class FFightRequest {
+    __type = 'FFightRequest';
     chargedAttacksByAi: number; // int
     dodges: number; // int
     items: FFightItem[]; // FFightItem[]
@@ -1792,6 +1841,7 @@ export class FFightRequest {
 }
 
 export class FFightUpdate {
+    __type = 'FFightUpdate';
     attackers: FFightCreature[]; // FFightCreature[]
     autoChangeAttackerHpPercent: number; // float
     defenderNickname: string; // string
@@ -1819,6 +1869,7 @@ export class FFightUpdate {
 }
 
 export class FHatchedEggs {
+    __type = 'FHatchedEggs';
     egg: FEgg; // FEgg
     incubatorId: string; // string
     loot: FLoot; // FLoot
@@ -1840,6 +1891,7 @@ export class FHatchedEggs {
 }
 
 export class FHatchingResult {
+    __type = 'FHatchingResult';
     avaUpdate: FAvaUpdate; // FAvaUpdate
     creadex: FCreadex; // FCreadex
     creature: FUserCreature; // FUserCreature
@@ -1867,6 +1919,7 @@ export class FHatchingResult {
 }
 
 export class FInAppEventUpdate {
+    __type = 'FInAppEventUpdate';
     events: InAppEventInfo[]; // InAppEventInfo[]
 
     public constructor(init?: Partial<FInAppEventUpdate>) {
@@ -1882,6 +1935,7 @@ export class FInAppEventUpdate {
 }
 
 export class FIncubator {
+    __type = 'FIncubator';
     eggId: string; // string
     incubatorId: string; // string
     roostBuildingId: string; // string
@@ -1909,6 +1963,7 @@ export class FIncubator {
 }
 
 export class FJournalRecord {
+    __type = 'FJournalRecord';
     date: long; // long
     details: Map<string, string>; // Map<string, string>
     type: enums.EventLogType; // EventLogType
@@ -1930,6 +1985,7 @@ export class FJournalRecord {
 }
 
 export class FJournalUpdate {
+    __type = 'FJournalUpdate';
     records: FJournalRecord[]; // FJournalRecord[]
 
     public constructor(init?: Partial<FJournalUpdate>) {
@@ -1945,6 +2001,7 @@ export class FJournalUpdate {
 }
 
 export class FLoot {
+    __type = 'FLoot';
     lootList: FBaseLootItem[]; // FBaseLootItem[]
 
     public constructor(init?: Partial<FLoot>) {
@@ -1960,6 +2017,7 @@ export class FLoot {
 }
 
 export class FLootItemArtifact {
+    __type = 'FLootItemArtifact';
     qty: number; // int
     artifact: enums.ArtifactName; // ArtifactName
 
@@ -1978,6 +2036,7 @@ export class FLootItemArtifact {
 }
 
 export class FLootItemBuff {
+    __type = 'FLootItemBuff';
     qty: number; // int
     buff: BuffConfig; // BuffConfig
 
@@ -1996,6 +2055,7 @@ export class FLootItemBuff {
 }
 
 export class FLootItemCandy {
+    __type = 'FLootItemCandy';
     qty: number; // int
     candyType: enums.CreatureType; // CreatureType
 
@@ -2014,6 +2074,7 @@ export class FLootItemCandy {
 }
 
 export class FLootItemCoins {
+    __type = 'FLootItemCoins';
     qty: number; // int
 
     public constructor(init?: Partial<FLootItemCoins>) {
@@ -2029,6 +2090,7 @@ export class FLootItemCoins {
 }
 
 export class FLootItemDust {
+    __type = 'FLootItemDust';
     qty: number; // int
     isStreak: boolean; // bool
 
@@ -2047,6 +2109,7 @@ export class FLootItemDust {
 }
 
 export class FLootItemExp {
+    __type = 'FLootItemExp';
     qty: number; // int
 
     public constructor(init?: Partial<FLootItemExp>) {
@@ -2062,6 +2125,7 @@ export class FLootItemExp {
 }
 
 export class FLootItemInstantUseItem {
+    __type = 'FLootItemInstantUseItem';
     qty: number; // int
     item: enums.InstantUseItem; // InstantUseItem
 
@@ -2080,6 +2144,7 @@ export class FLootItemInstantUseItem {
 }
 
 export class FLootItemItem {
+    __type = 'FLootItemItem';
     qty: number; // int
     isStreak: boolean; // bool
     item: enums.ItemType; // ItemType
@@ -2101,6 +2166,7 @@ export class FLootItemItem {
 }
 
 export class FLootItemRecipe {
+    __type = 'FLootItemRecipe';
     qty: number; // int
     recipe: enums.RecipeType; // RecipeType
 
@@ -2119,6 +2185,7 @@ export class FLootItemRecipe {
 }
 
 export class FNicknameValidationResult {
+    __type = 'FNicknameValidationResult';
     error: enums.FNicknameValidationError; // FNicknameValidationError
     suggestedNickname: string; // string
 
@@ -2137,6 +2204,7 @@ export class FNicknameValidationResult {
 }
 
 export class FObeliskDetails {
+    __type = 'FObeliskDetails';
     coords: GeoCoords; // GeoCoords
     dailyQuest: FDailyQuest; // FDailyQuest
     fragment: FWeeklyQuestFragment; // FWeeklyQuestFragment
@@ -2167,6 +2235,7 @@ export class FObeliskDetails {
 }
 
 export class FOpenChestResult {
+    __type = 'FOpenChestResult';
     levelUpLoot: FLoot; // FLoot
     loot: FLoot; // FLoot
 
@@ -2185,6 +2254,7 @@ export class FOpenChestResult {
 }
 
 export class FPickItemsResponse {
+    __type = 'FPickItemsResponse';
     levelUpLoot: FLoot; // FLoot
     loot: FLoot; // FLoot
 
@@ -2203,6 +2273,7 @@ export class FPickItemsResponse {
 }
 
 export class FPitstop {
+    __type = 'FPitstop';
     cooldown: boolean; // bool
     lureBy: string; // string
     lureTimeLeft: long; // long
@@ -2227,6 +2298,7 @@ export class FPitstop {
 }
 
 export class FQuestCompleted {
+    __type = 'FQuestCompleted';
     dailyQuest: FDailyQuest; // FDailyQuest
     levelUpLoot: FLoot; // FLoot
     loot: FLoot; // FLoot
@@ -2251,6 +2323,7 @@ export class FQuestCompleted {
 }
 
 export class FQuestUpdate {
+    __type = 'FQuestUpdate';
     completed: FQuestCompleted; // FQuestCompleted
     highlightBuilding: IdAndCoords; // IdAndCoords
     path: IdAndCoords[]; // IdAndCoords[]
@@ -2272,6 +2345,7 @@ export class FQuestUpdate {
 }
 
 export class FRegistrationInfo {
+    __type = 'FRegistrationInfo';
     age: string; // string
     email: string; // string
     gender: string; // string
@@ -2299,6 +2373,7 @@ export class FRegistrationInfo {
 }
 
 export class FScoutRequest {
+    __type = 'FScoutRequest';
     clientRequest: FClientRequest; // FClientRequest
     scoutCoords: GeoCoords; // GeoCoords
 
@@ -2317,6 +2392,7 @@ export class FScoutRequest {
 }
 
 export class FServiceError {
+    __type = 'FServiceError';
     args: object[]; // object[]
     cause: string; // string
 
@@ -2335,6 +2411,7 @@ export class FServiceError {
 }
 
 export class FShopConfig {
+    __type = 'FShopConfig';
     artifacts: Map<enums.ArtifactName, enums.ArtifactName>; // Map<enums.ArtifactName, enums.ArtifactName>
     bagUpgrade: ProductLot; // ProductLot
     coins: Map<string, string>; // Map<string, string>
@@ -2362,6 +2439,7 @@ export class FShopConfig {
 }
 
 export class FSpellCastDone {
+    __type = 'FSpellCastDone';
     altarCoords: GeoCoords; // GeoCoords
     spellType: enums.SpellType; // SpellType
 
@@ -2380,6 +2458,7 @@ export class FSpellCastDone {
 }
 
 export class FSpellEffectsUpdate {
+    __type = 'FSpellEffectsUpdate';
     hitArenas: Set<string>; // Set<string>
 
     public constructor(init?: Partial<FSpellEffectsUpdate>) {
@@ -2395,6 +2474,7 @@ export class FSpellEffectsUpdate {
 }
 
 export class FStartEncounterRequest {
+    __type = 'FStartEncounterRequest';
     attackerId: string; // string
     defenderId: string; // string
 
@@ -2413,6 +2493,7 @@ export class FStartEncounterRequest {
 }
 
 export class FTile {
+    __type = 'FTile';
     dungeonId: string; // string
     tile: Tile; // Tile
 
@@ -2431,6 +2512,7 @@ export class FTile {
 }
 
 export class FTileState {
+    __type = 'FTileState';
     buildings: FBuilding[]; // FBuilding[]
     time: long; // long
 
@@ -2449,6 +2531,7 @@ export class FTileState {
 }
 
 export class FTransferMonsterToCandiesResponse {
+    __type = 'FTransferMonsterToCandiesResponse';
     loot: FLoot; // FLoot
 
     public constructor(init?: Partial<FTransferMonsterToCandiesResponse>) {
@@ -2464,6 +2547,7 @@ export class FTransferMonsterToCandiesResponse {
 }
 
 export class FUpdate {
+    __type = 'FUpdate';
     items: FBaseItemUpdate[]; // FBaseItemUpdate[]
     speed: number; // float
 
@@ -2482,6 +2566,7 @@ export class FUpdate {
 }
 
 export class FUpdateNicknameResult {
+    __type = 'FUpdateNicknameResult';
     userInfo: FUserInfo; // FUserInfo
     validationResult: FNicknameValidationResult; // FNicknameValidationResult
 
@@ -2500,6 +2585,7 @@ export class FUpdateNicknameResult {
 }
 
 export class FUpdateRequest {
+    __type = 'FUpdateRequest';
     blackScreen: boolean; // bool
     clientPlatform: enums.ClientPlatform; // ClientPlatform
     clientRequest: FClientRequest; // FClientRequest
@@ -2524,6 +2610,7 @@ export class FUpdateRequest {
 }
 
 export class FUserCreature {
+    __type = 'FUserCreature';
     alias: string; // string
     attackValue: number; // int
     baseCp: number; // int
@@ -2620,6 +2707,7 @@ export class FUserCreature {
 }
 
 export class FUserCreaturesList {
+    __type = 'FUserCreaturesList';
     userCreatures: FUserCreature[]; // FUserCreature[]
 
     public constructor(init?: Partial<FUserCreaturesList>) {
@@ -2635,6 +2723,7 @@ export class FUserCreaturesList {
 }
 
 export class FUserCreatureUpdate {
+    __type = 'FUserCreatureUpdate';
     avaUpdate: FAvaUpdate; // FAvaUpdate
     creadex: FCreadex; // FCreadex
     creature: FUserCreature; // FUserCreature
@@ -2662,6 +2751,7 @@ export class FUserCreatureUpdate {
 }
 
 export class FUserHatchingInfo {
+    __type = 'FUserHatchingInfo';
     eggs: FEgg[]; // FEgg[]
     incubators: FIncubator[]; // FIncubator[]
     max: number; // int
@@ -2686,6 +2776,7 @@ export class FUserHatchingInfo {
 }
 
 export class FUserInfo {
+    __type = 'FUserInfo';
     alliance: enums.AllianceType; // AllianceType
     avatarAppearanceDetails: number; // int
     devMode: boolean; // bool
@@ -2713,6 +2804,7 @@ export class FUserInfo {
 }
 
 export class FWeeklyQuest {
+    __type = 'FWeeklyQuest';
     allOpen: boolean; // bool
     completed: boolean; // bool
     currentFragment: number; // int
@@ -2746,6 +2838,7 @@ export class FWeeklyQuest {
 }
 
 export class FWeeklyQuestFragment {
+    __type = 'FWeeklyQuestFragment';
     data: Buffer; // Buffer
     fragmentNumber: number; // int
 
@@ -2764,6 +2857,7 @@ export class FWeeklyQuestFragment {
 }
 
 export class FWildCreature {
+    __type = 'FWildCreature';
     coords: GeoCoords; // GeoCoords
     entry: FCreadexEntry; // FCreadexEntry
     id: string; // string
@@ -2803,6 +2897,7 @@ export class FWildCreature {
 }
 
 export class FWizardBattleInfo {
+    __type = 'FWizardBattleInfo';
     enhanced: boolean; // bool
     limit: number; // int
     timeToRefresh: number; // float
@@ -2827,6 +2922,7 @@ export class FWizardBattleInfo {
 }
 
 export class FWizardBattleResult {
+    __type = 'FWizardBattleResult';
     attackerHps: number[]; // float[]
     attackerTypes: enums.CreatureType[]; // CreatureType[]
     creaturesDefeated: number; // int
@@ -2860,6 +2956,7 @@ export class FWizardBattleResult {
 }
 
 export class GeoCoords {
+    __type = 'GeoCoords';
     horizontalAccuracy: number; // double
     latitude: number; // double
     longitude: number; // double
@@ -2881,6 +2978,7 @@ export class GeoCoords {
 }
 
 export class IdAndCoords {
+    __type = 'IdAndCoords';
     coords: GeoCoords; // GeoCoords
     id: string; // string
 
@@ -2899,6 +2997,7 @@ export class IdAndCoords {
 }
 
 export class InAppEventInfo {
+    __type = 'InAppEventInfo';
     eventItems: Map<string, string>; // Map<string, string>
     eventType: enums.InAppEventType; // InAppEventType
     userId: string; // string
@@ -2920,6 +3019,7 @@ export class InAppEventInfo {
 }
 
 export class PotionConfig {
+    __type = 'PotionConfig';
     heals: Map<enums.ItemType, enums.ItemType>; // Map<enums.ItemType, enums.ItemType>
     resurrections: Map<enums.ItemType, enums.ItemType>; // Map<enums.ItemType, enums.ItemType>
 
@@ -2938,6 +3038,7 @@ export class PotionConfig {
 }
 
 export class ProductGroup {
+    __type = 'ProductGroup';
     itemType: enums.ItemType; // ItemType
     productLots: ProductLot[]; // ProductLot[]
 
@@ -2956,6 +3057,7 @@ export class ProductGroup {
 }
 
 export class ProductLot {
+    __type = 'ProductLot';
     price: number; // int
     qty: number; // int
 
@@ -2974,6 +3076,7 @@ export class ProductLot {
 }
 
 export class Tile {
+    __type = 'Tile';
     x: number; // int
     y: number; // int
     zoom: number; // int

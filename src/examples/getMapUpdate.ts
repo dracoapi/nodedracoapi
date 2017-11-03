@@ -8,12 +8,12 @@ async function main() {
     const user = JSON.parse(fs.readFileSync('users.json', 'utf8'))[0];
 
     const draco = new DracoNode.Client({
-        proxy: 'http://localhost:8888',
+        // proxy: 'http://localhost:8888',
+        proxy: 'http://54.36.182.96:3128',        
     });
 
     console.log('Ping...');
-    const ping = await draco.ping();
-    if (!ping) throw new Error('ping failed!');
+    await draco.ping(true);
 
     console.log('Boot...');
     await draco.boot({
@@ -41,7 +41,7 @@ async function main() {
     const avatar = response.items.find(o => o.__type === 'FAvaUpdate');
     const buildings = response.items.find(o => o.__type === 'FBuildingUpdate');
 
-    console.log('  create in radar: ' + creatures.inRadar.length);
+    console.log(`  ${creatures.inRadar.length} creature(s) in radar`);
     for (const creature of creatures.inRadar) {
         const id = creature.coords.id;
         const coords = { lat: creature.coords.latitude, lng: creature.coords.longitude };

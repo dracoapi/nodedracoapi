@@ -21,10 +21,6 @@ async function main() {
         proxy: 'http://localhost:8888',
     });
 
-    console.log('Ping...');
-    const ping = await draco.ping();
-    if (!ping) throw new Error();
-
     console.log('Boot...');
     await draco.boot({
         deviceId: generateDeviceId(),
