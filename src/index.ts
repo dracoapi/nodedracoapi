@@ -157,7 +157,7 @@ export class Client {
         await this.event('CreateAvatarByType', 'MageMale');
         await this.event('LoadingScreenPercent', '100');
         await this.event('AvatarUpdateView', this.user.avatar.toString());
-        await this.event('InitPushNotifications', 'True');
+        await this.event('InitPushNotifications', 'False');
     }
 
     async validateNickname(nickname) {
@@ -222,6 +222,27 @@ export class Client {
                 }),
                 clientPlatform: enums.ClientPlatform.IOS,
                 tilesCache: new Map<objects.FTile, long>(),
+            }),
+        ]);
+    }
+
+    async useBuilding(clientLat: number, clientLng: number, buildingId: string, buildingLat: number, buildingLng: number) {
+        return this.call('MapService', 'tryUseBuilding', [
+            new objects.FClientRequest({
+                time: 0,
+                currentUtcOffsetSeconds: 3600,
+                coords: new objects.GeoCoords({
+                    latitude: clientLat,
+                    longitude: clientLng,
+                    horizontalAccuracy: 0,
+                }),
+            }),
+            new objects.FBuildingRequest({
+                coords: new objects.GeoCoords({
+                    latitude: buildingLat,
+                    longitude: buildingLng,
+                }),
+                id: buildingId,
             }),
         ]);
     }

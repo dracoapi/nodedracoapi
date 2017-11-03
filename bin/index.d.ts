@@ -29,4 +29,5 @@ export declare class Client {
     getCreadex(): Promise<any>;
     getUserCreatures(): Promise<any>;
     getMapUpdate(latitude: number, longitude: number, horizontalAccuracy?: number): Promise<any>;
+    useBuilding(clientLat: number, clientLng: number, buildingId: string, buildingLat: number, buildingLng: number): Promise<any>;
 }
