@@ -1,19 +1,29 @@
 {
   "name": "draconode",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "nodejs api for Dranonius GO",
   "main": "bin/index.js",
   "types": "bin/index.d.ts",
   "engines": {
     "node": ">= 8"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dracoapi/nodedracoapi.git"
+  },
   "keywords": [],
   "author": "niico",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dracoapi/nodedracoapi/issues"
+  },
+  "homepage": "https://github.com/dracoapi/nodedracoapi#readme",
   "dependencies": {
-    "@types/node": "^8.0.47",
     "long": "^3.2.0",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.47"
   }
 }

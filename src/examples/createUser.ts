@@ -56,6 +56,9 @@ async function main() {
     users.push(draco.user);
     fs.writeFileSync('users.json', JSON.stringify(users, null, 2), 'utf8');
 
+    // console.log('Load...');
+    // await draco.load();
+
     console.log('Done.');
 }
 

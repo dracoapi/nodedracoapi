@@ -12,16 +12,18 @@ class User {
 exports.User = User;
 class Client {
     constructor(options) {
+        const protocolVersion = options.protocolVersion || '2373924766';
+        const clientVersion = options.clientVersion || '7209';
         this.cookies = request.jar();
         this.request = request.defaults({
             proxy: options.proxy,
             headers: {
-                'User-Agent': 'DraconiusGO/6935 CFNetwork/811.5.4 Darwin/16.7.0',
+                'User-Agent': `DraconiusGO/${clientVersion} CFNetwork/811.5.4 Darwin/16.7.0`,
                 'Accept': '*/*',
                 'Accept-Language': 'en-us',
-                'Protocol-Version': '2373924766',
+                'Protocol-Version': protocolVersion,
                 'X-Unity-Version': '2017.1.0f3',
-                'Client-Version': '7209',
+                'Client-Version': clientVersion,
             },
             encoding: null,
             gzip: true,
@@ -36,7 +38,7 @@ class Client {
             platform: 'IPhonePlayer',
             platformVersion: 'iOS 10.3.3',
             deviceModel: 'iPhone8,1',
-            revision: '6935',
+            revision: clientVersion,
             screenWidth: 750,
             screenHeight: 1334,
             language: 'English',
@@ -67,8 +69,18 @@ class Client {
         const serializer = new serializer_1.default();
         const buffer = serializer.serialize(body);
         const formData = {
-            'service': service,
-            'method': method,
+            'service': {
+                value: service,
+                options: {
+                    contentType: 'text/plain; charset="utf-8"',
+                }
+            },
+            'method': {
+                value: method,
+                options: {
+                    contentType: 'text/plain; charset="utf-8"',
+                }
+            },
             'args': {
                 value: buffer,
                 options: {
@@ -139,7 +151,7 @@ class Client {
         await this.event('CreateAvatarByType', 'MageMale');
         await this.event('LoadingScreenPercent', '100');
         await this.event('AvatarUpdateView', this.user.avatar.toString());
-        await this.event('InitPushNotifications', 'True');
+        await this.event('InitPushNotifications', 'False');
     }
     async validateNickname(nickname) {
         await this.event('ValidateNickname', nickname);
@@ -196,6 +208,52 @@ class Client {
                 tilesCache: new Map(),
             }),
         ]);
+    }
+    async useBuilding(clientLat, clientLng, buildingId, buildingLat, buildingLng) {
+        return this.call('MapService', 'tryUseBuilding', [
+            new objects.FClientRequest({
+                time: 0,
+                currentUtcOffsetSeconds: 3600,
+                coords: new objects.GeoCoords({
+                    latitude: clientLat,
+                    longitude: clientLng,
+                    horizontalAccuracy: 0,
+                }),
+            }),
+            new objects.FBuildingRequest({
+                coords: new objects.GeoCoords({
+                    latitude: buildingLat,
+                    longitude: buildingLng,
+                }),
+                id: buildingId,
+            }),
+        ]);
+    }
+    async catch(id, ball, quality, spin = false, options) {
+        if (!options)
+            options = {};
+        if (options.delaybefore === undefined)
+            options.delaybefore = 1000 + Math.random() * 1500;
+        if (options.delayafter === undefined)
+            options.delayafter = 1000 + Math.random() * 1500;
+        let response = await this.call('GamePlayService', 'startCatchingCreature', [
+            new objects.FCreatureRequest({
+                id,
+            }),
+        ]);
+        await this.delay(options.delaybefore);
+        await this.event('IsArAvailable', 'False');
+        await this.delay(options.delayafter);
+        response = await this.call('GamePlayService', 'tryCatchCreature', [
+            id,
+            { __type: 'ItemType', value: ball },
+            { __type: 'float', value: quality },
+            spin
+        ]);
+        return response;
+    }
+    delay(ms, value) {
+        return new Promise((resolve) => setTimeout(resolve(value), ms));
     }
 }
 exports.Client = Client;
