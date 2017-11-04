@@ -24,6 +24,7 @@ export class Client {
     user: User;
     dcportal: string;
     constructor(options) {
+        const clientVersion = options.clientVersion || '7209';
         this.cookies = request.jar();
         this.request = request.defaults({
             proxy: options.proxy,
@@ -33,7 +34,7 @@ export class Client {
                 'Accept-Language': 'en-us',
                 'Protocol-Version': '2373924766',
                 'X-Unity-Version': '2017.1.0f3',
-                'Client-Version': '7209',
+                'Client-Version': clientVersion,
             },
             encoding: null,
             gzip: true,
@@ -49,7 +50,7 @@ export class Client {
             platform: 'IPhonePlayer',
             platformVersion: 'iOS 10.3.3',
             deviceModel: 'iPhone8,1',
-            revision: '6935',
+            revision: clientVersion,
             screenWidth: 750,
             screenHeight: 1334,
             language: 'English',
@@ -79,8 +80,18 @@ export class Client {
         const serializer = new Serializer();
         const buffer = serializer.serialize(body);
         const formData = {
-            'service': service,
-            'method': method,
+            'service': {
+                value: service,
+                options: {
+                    contentType: 'text/plain; charset="utf-8"',
+                }
+            },
+            'method': {
+                value: method,
+                options: {
+                    contentType: 'text/plain; charset="utf-8"',
+                }
+            },
             'args': {
                 value: buffer,
                 options: {
@@ -245,5 +256,33 @@ export class Client {
                 id: buildingId,
             }),
         ]);
+    }
+
+    async catch(id: string, delaybefore?: number, delayafter?: number) {
+        if (delaybefore === undefined) delaybefore = 1000 + Math.random() * 1500;
+        if (delayafter === undefined) delayafter = 1000 + Math.random() * 1500;
+
+        let response = await this.call('GamePlayService', 'startCatchingCreature', [
+            new objects.FCreatureRequest({
+                id,
+            }),
+        ]);
+
+        await this.delay(delaybefore);
+        await this.event('IsArAvailable', 'False');
+        await this.delay(delayafter);
+
+        response = await this.call('GamePlayService', 'tryCatchCreature', [
+            id,
+            0,
+            -1,
+            false
+        ]);
+
+        return response;
+    }
+
+    delay<T>(ms: number, value?: T): Promise<T> {
+        return new Promise((resolve) => setTimeout(resolve(value), ms));
     }
 }

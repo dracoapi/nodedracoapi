@@ -30,4 +30,6 @@ export declare class Client {
     getUserCreatures(): Promise<any>;
     getMapUpdate(latitude: number, longitude: number, horizontalAccuracy?: number): Promise<any>;
     useBuilding(clientLat: number, clientLng: number, buildingId: string, buildingLat: number, buildingLng: number): Promise<any>;
+    catch(id: string, delaybefore?: number, delayafter?: number): Promise<any>;
+    delay<T>(ms: number, value?: T): Promise<T>;
 }

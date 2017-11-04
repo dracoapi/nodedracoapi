@@ -7,9 +7,17 @@
   "engines": {
     "node": ">= 8"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dracoapi/nodedracoapi.git"
+  },
   "keywords": [],
   "author": "niico",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dracoapi/nodedracoapi/issues"
+  },
+  "homepage": "https://github.com/dracoapi/nodedracoapi#readme",
   "dependencies": {
     "long": "^3.2.0",
     "request": "^2.83.0",

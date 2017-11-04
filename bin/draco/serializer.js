@@ -33,14 +33,21 @@ class Serializer {
     writeType(type, data) {
         if (!type) {
             // guess type
-            if (typeof data === 'number')
+            if (typeof data === 'number' && data % 1 === 0)
                 type = 'int';
+            else if (typeof data === 'number')
+                type = 'float';
             else if (typeof data === 'object')
                 type = data.constructor.name;
             else if (typeof data === 'string')
                 type = 'string';
+            else if (typeof data === 'boolean')
+                type = 'bool';
             else if (Array.isArray(data))
                 type = 'List';
+            else {
+                throw new Error('Unhandled: ' + data);
+            }
         }
         const id = findTypeId(type);
         if (id === null) {
