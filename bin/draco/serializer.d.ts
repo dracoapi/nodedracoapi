@@ -5,7 +5,7 @@ export default class Serializer {
     idx: number;
     constructor();
     ensureBuffer(size?: number): void;
-    writeType(type: string, data: any): void;
+    writeType(type: string, data: any): string;
     writeBoolean(data: any): void;
     writeByte(data: any): void;
     writeSByte(data: any): void;

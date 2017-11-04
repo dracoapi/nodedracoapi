@@ -1,5 +1,6 @@
 import * as long from 'long';
 import * as objects from './objects';
+import * as enums from './enums';
 import { classIds, primitiveIds } from './classes';
 
 function findTypeId(type: string) {
@@ -9,9 +10,10 @@ function findTypeId(type: string) {
     return null;
 }
 
-function isPrimitiveArray(type: string) {
+function isPrimitive(type: string) {
     if (!type) return false;
     return (type.startsWith('int') ||
+            type.startsWith('sbyte') ||
             type.startsWith('long') ||
             type.startsWith('short') ||
             type.startsWith('bool') ||
@@ -36,6 +38,7 @@ export default class Serializer {
             // guess type
             if (typeof data === 'number' && data % 1 === 0) type = 'int';
             else if (typeof data === 'number') type = 'float';
+            else if (data.__type) type = data.__type;
             else if (typeof data === 'object') type = data.constructor.name;
             else if (typeof data === 'string') type = 'string';
             else if (typeof data === 'boolean') type = 'bool';
@@ -49,6 +52,7 @@ export default class Serializer {
             throw new Error('unable to find type id: ' + type);
         }
         this.writeSByte(id);
+        return type;
     }
     writeBoolean(data) {
         return this.writeByte(data ? 1 : 0);
@@ -164,37 +168,43 @@ export default class Serializer {
         if (data === null || data === undefined) {
             this.writeSByte(0);
         } else if (type) {
+            if (isPrimitive(type) && data.__type) data = data.value;
             if (type === 'bool') this.writeBoolean(data);
+            else if (type === 'sbyte') this.writeSByte(data);
             else if (type === 'int') this.writeInt32(data);
             else if (type === 'long') this.writeInt64(data);
             else if (type === 'float') this.writeFloat(data);
             else if (type === 'double') this.writeDouble(data);
             else if (type === 'string') this.writeUtf8String(data);
             else if (objects[type]) data.serialize(this);
-            else {
-                throw new Error('writeStaticObject');
+            else if (enums[type]) {
+                if (data.__type) data = data.value;
+                this.writeSByte(data);
+            } else {
+                throw new Error('writeStaticObject: ' + type);
             }
         } else {
-            if ((typeof data) === 'boolean') {
-                this.writeBoolean(data);
-            } else if ((typeof data) === 'number') {
-                if (data % 1 === 0) {
-                    this.writeInt32(data);
-                } else {
-                    this.writeFloat(data);
-                }
-            } else if (data instanceof long) {
-                this.writeInt64(data);
-            } else if ((typeof data) === 'string') {
-                this.writeUtf8String(data);
-            } else {
-                const type = data.constructor.name;
-                if (objects[type]) {
-                    data.serialize(this);
-                } else {
-                    throw new Error('Unhandled type: ' + type);
-                }
-            }
+            throw new Error('unhandled');
+            // if ((typeof data) === 'boolean') {
+            //     this.writeBoolean(data);
+            // } else if ((typeof data) === 'number') {
+            //     if (data % 1 === 0) {
+            //         this.writeInt32(data);
+            //     } else {
+            //         this.writeFloat(data);
+            //     }
+            // } else if (data instanceof long) {
+            //     this.writeInt64(data);
+            // } else if ((typeof data) === 'string') {
+            //     this.writeUtf8String(data);
+            // } else {
+            //     const type = data.constructor.name;
+            //     if (objects[type]) {
+            //         data.serialize(this);
+            //     } else {
+            //         throw new Error('Unhandled type: ' + type);
+            //     }
+            // }
         }
     }
     writeDynamicObject(data, type?: string) {
@@ -202,7 +212,7 @@ export default class Serializer {
         if (data === null || data === undefined) {
             this.writeSByte(0);
         } else if (Array.isArray(data)) {
-            if (isPrimitiveArray(type)) {
+            if (isPrimitive(type)) {
                 this.writeSByte(3);
                 this.writeType(type.slice(0, -2), data);
                 this.writeStaticArray(data, true, type);
@@ -212,7 +222,7 @@ export default class Serializer {
                 this.writeStaticArray(data, false, type);
             }
         } else {
-            this.writeType(type, data);
+            type = this.writeType(type, data);
             this.writeStaticObject(data, type);
         }
     }

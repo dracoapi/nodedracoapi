@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const long = require("long");
 const objects = require("./objects");
+const enums = require("./enums");
 const classes_1 = require("./classes");
 function findTypeId(type) {
     for (const key in classes_1.classIds) {
@@ -10,10 +11,11 @@ function findTypeId(type) {
     }
     return null;
 }
-function isPrimitiveArray(type) {
+function isPrimitive(type) {
     if (!type)
         return false;
     return (type.startsWith('int') ||
+        type.startsWith('sbyte') ||
         type.startsWith('long') ||
         type.startsWith('short') ||
         type.startsWith('bool') ||
@@ -37,6 +39,8 @@ class Serializer {
                 type = 'int';
             else if (typeof data === 'number')
                 type = 'float';
+            else if (data.__type)
+                type = data.__type;
             else if (typeof data === 'object')
                 type = data.constructor.name;
             else if (typeof data === 'string')
@@ -54,6 +58,7 @@ class Serializer {
             throw new Error('unable to find type id: ' + type);
         }
         this.writeSByte(id);
+        return type;
     }
     writeBoolean(data) {
         return this.writeByte(data ? 1 : 0);
@@ -176,8 +181,12 @@ class Serializer {
             this.writeSByte(0);
         }
         else if (type) {
+            if (isPrimitive(type) && data.__type)
+                data = data.value;
             if (type === 'bool')
                 this.writeBoolean(data);
+            else if (type === 'sbyte')
+                this.writeSByte(data);
             else if (type === 'int')
                 this.writeInt32(data);
             else if (type === 'long')
@@ -190,37 +199,37 @@ class Serializer {
                 this.writeUtf8String(data);
             else if (objects[type])
                 data.serialize(this);
+            else if (enums[type]) {
+                if (data.__type)
+                    data = data.value;
+                this.writeSByte(data);
+            }
             else {
-                throw new Error('writeStaticObject');
+                throw new Error('writeStaticObject: ' + type);
             }
         }
         else {
-            if ((typeof data) === 'boolean') {
-                this.writeBoolean(data);
-            }
-            else if ((typeof data) === 'number') {
-                if (data % 1 === 0) {
-                    this.writeInt32(data);
-                }
-                else {
-                    this.writeFloat(data);
-                }
-            }
-            else if (data instanceof long) {
-                this.writeInt64(data);
-            }
-            else if ((typeof data) === 'string') {
-                this.writeUtf8String(data);
-            }
-            else {
-                const type = data.constructor.name;
-                if (objects[type]) {
-                    data.serialize(this);
-                }
-                else {
-                    throw new Error('Unhandled type: ' + type);
-                }
-            }
+            throw new Error('unhandled');
+            // if ((typeof data) === 'boolean') {
+            //     this.writeBoolean(data);
+            // } else if ((typeof data) === 'number') {
+            //     if (data % 1 === 0) {
+            //         this.writeInt32(data);
+            //     } else {
+            //         this.writeFloat(data);
+            //     }
+            // } else if (data instanceof long) {
+            //     this.writeInt64(data);
+            // } else if ((typeof data) === 'string') {
+            //     this.writeUtf8String(data);
+            // } else {
+            //     const type = data.constructor.name;
+            //     if (objects[type]) {
+            //         data.serialize(this);
+            //     } else {
+            //         throw new Error('Unhandled type: ' + type);
+            //     }
+            // }
         }
     }
     writeDynamicObject(data, type) {
@@ -229,7 +238,7 @@ class Serializer {
             this.writeSByte(0);
         }
         else if (Array.isArray(data)) {
-            if (isPrimitiveArray(type)) {
+            if (isPrimitive(type)) {
                 this.writeSByte(3);
                 this.writeType(type.slice(0, -2), data);
                 this.writeStaticArray(data, true, type);
@@ -241,7 +250,7 @@ class Serializer {
             }
         }
         else {
-            this.writeType(type, data);
+            type = this.writeType(type, data);
             this.writeStaticObject(data, type);
         }
     }

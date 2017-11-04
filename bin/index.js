@@ -12,15 +12,16 @@ class User {
 exports.User = User;
 class Client {
     constructor(options) {
+        const protocolVersion = options.protocolVersion || '2373924766';
         const clientVersion = options.clientVersion || '7209';
         this.cookies = request.jar();
         this.request = request.defaults({
             proxy: options.proxy,
             headers: {
-                'User-Agent': 'DraconiusGO/6935 CFNetwork/811.5.4 Darwin/16.7.0',
+                'User-Agent': `DraconiusGO/${clientVersion} CFNetwork/811.5.4 Darwin/16.7.0`,
                 'Accept': '*/*',
                 'Accept-Language': 'en-us',
-                'Protocol-Version': '2373924766',
+                'Protocol-Version': protocolVersion,
                 'X-Unity-Version': '2017.1.0f3',
                 'Client-Version': clientVersion,
             },
@@ -228,24 +229,26 @@ class Client {
             }),
         ]);
     }
-    async catch(id, delaybefore, delayafter) {
-        if (delaybefore === undefined)
-            delaybefore = 1000 + Math.random() * 1500;
-        if (delayafter === undefined)
-            delayafter = 1000 + Math.random() * 1500;
+    async catch(id, ball, quality, spin = false, options) {
+        if (!options)
+            options = {};
+        if (options.delaybefore === undefined)
+            options.delaybefore = 1000 + Math.random() * 1500;
+        if (options.delayafter === undefined)
+            options.delayafter = 1000 + Math.random() * 1500;
         let response = await this.call('GamePlayService', 'startCatchingCreature', [
             new objects.FCreatureRequest({
                 id,
             }),
         ]);
-        await this.delay(delaybefore);
+        await this.delay(options.delaybefore);
         await this.event('IsArAvailable', 'False');
-        await this.delay(delayafter);
+        await this.delay(options.delayafter);
         response = await this.call('GamePlayService', 'tryCatchCreature', [
             id,
-            0,
-            -1,
-            false
+            { __type: 'ItemType', value: ball },
+            { __type: 'float', value: quality },
+            spin
         ]);
         return response;
     }
