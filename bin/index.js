@@ -229,28 +229,25 @@ class Client {
             }),
         ]);
     }
-    async catch(id, ball, quality, spin = false, options) {
-        if (!options)
-            options = {};
-        if (options.delaybefore === undefined)
-            options.delaybefore = 1000 + Math.random() * 1500;
-        if (options.delayafter === undefined)
-            options.delayafter = 1000 + Math.random() * 1500;
-        let response = await this.call('GamePlayService', 'startCatchingCreature', [
+    async encounter(id, options = {}) {
+        const response = await this.call('GamePlayService', 'startCatchingCreature', [
             new objects.FCreatureRequest({
                 id,
             }),
         ]);
-        await this.delay(options.delaybefore);
+        if (options.delay === undefined)
+            options.delay = 1000 + Math.random() * 1500;
+        await this.delay(options.delayencounter);
         await this.event('IsArAvailable', 'False');
-        await this.delay(options.delayafter);
-        response = await this.call('GamePlayService', 'tryCatchCreature', [
+        return response;
+    }
+    async catch(id, ball, quality, spin = false, options) {
+        return await this.call('GamePlayService', 'tryCatchCreature', [
             id,
             { __type: 'ItemType', value: ball },
             { __type: 'float', value: quality },
             spin
         ]);
-        return response;
     }
     delay(ms, value) {
         return new Promise((resolve) => setTimeout(resolve(value), ms));
