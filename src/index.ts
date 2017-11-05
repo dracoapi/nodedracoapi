@@ -14,6 +14,15 @@ export class User {
     avatar: number;
 }
 
+class DracoError extends Error {
+    details: any;
+    constructor(message?, details?) {
+        super(message);
+        Object.setPrototypeOf(this, DracoError.prototype);
+        this.details = details;
+    }
+}
+
 export { enums };
 export { objects };
 
@@ -112,9 +121,16 @@ export class Client {
 
         if (response.headers['dcportal']) this.dcportal = response.headers['dcportal'];
 
-        if (response.statusCode > 300) throw new Error('Error from server: ' + response.statusCode);
-
         const deserializer = new Deserializer(response.body);
+
+        if (response.statusCode > 300) {
+            let more = response;
+            try {
+                more = deserializer.deserialize();
+            } catch (e) { /* nothing */ }
+            throw new DracoError('Error from server: ' + response.statusCode + ' - ' + response.statusMessage, more);
+        }
+
         const data = deserializer.deserialize();
         return data;
     }
@@ -280,6 +296,13 @@ export class Client {
             { __type: 'ItemType', value: ball },
             { __type: 'float', value: quality },
             spin
+        ]);
+    }
+
+    async discardItem(id: number, count: number) {
+        return await this.call('ItemService', 'discardItems', [
+            { __type: 'ItemType', value: id },
+            count
         ]);
     }
 

@@ -32,5 +32,6 @@ export declare class Client {
     useBuilding(clientLat: number, clientLng: number, buildingId: string, buildingLat: number, buildingLng: number): Promise<any>;
     encounter(id: string, options?: any): Promise<any>;
     catch(id: string, ball: number, quality: number, spin?: boolean, options?: any): Promise<any>;
+    discardItem(id: number, count: number): Promise<any>;
     delay<T>(ms: number, value?: T): Promise<T>;
 }
