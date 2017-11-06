@@ -24,6 +24,7 @@ export declare class Client {
     validateNickname(nickname: any): Promise<any>;
     acceptTos(): Promise<void>;
     register(nickname: any): Promise<any>;
+    generateAvatar(options?: any): number;
     setAvatar(avatar: any): Promise<any>;
     getUserItems(): Promise<any>;
     getCreadex(): Promise<any>;

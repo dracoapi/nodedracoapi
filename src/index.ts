@@ -32,6 +32,7 @@ export class Client {
     clientInfo: objects.FClientInfo;
     user: User;
     dcportal: string;
+
     constructor(options) {
         const protocolVersion = options.protocolVersion || '2373924766';
         const clientVersion = options.clientVersion || '7209';
@@ -215,6 +216,18 @@ export class Client {
         await this.event('ServerAuthSuccess', this.user.id);
 
         return response;
+    }
+
+    generateAvatar(options: any = {}) {
+        return (options.gender || 0) |          // 0 or 1
+               (options.race || 0)     << 1 |   // 0 or 1
+               (options.skin || 0)     << 3 |   // 
+               (options.hair || 0)     << 6 |
+               (options.eyes || 0)     << 9 |
+               (options.jacket || 0)   << 12 |
+               (options.trousers || 0) << 15 |
+               (options.shoes || 0)    << 18 |
+               (options.backpack || 0) << 21;
     }
 
     async setAvatar(avatar) {
