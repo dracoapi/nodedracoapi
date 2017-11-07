@@ -193,7 +193,7 @@ class Client {
     generateAvatar(options = {}) {
         return (options.gender || 0) | // 0 or 1
             (options.race || 0) << 1 | // 0 or 1
-            (options.skin || 0) << 3 | // 
+            (options.skin || 0) << 3 | //
             (options.hair || 0) << 6 |
             (options.eyes || 0) << 9 |
             (options.jacket || 0) << 12 |

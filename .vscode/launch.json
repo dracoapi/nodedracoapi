@@ -4,6 +4,19 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "getCreatures",
+            "program": "${workspaceRoot}/src/examples/getCreatures.ts",
+            "cwd": "${workspaceRoot}",
+            "outFiles": [ "${workspaceRoot}/bin/**/*.js" ],
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "env": {
+                "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "getMapUpdate",
             "program": "${workspaceRoot}/src/examples/getMapUpdate.ts",
             "cwd": "${workspaceRoot}",
