@@ -34,5 +34,6 @@ export declare class Client {
     encounter(id: string, options?: any): Promise<any>;
     catch(id: string, ball: number, quality: number, spin?: boolean, options?: any): Promise<any>;
     discardItem(id: number, count: number): Promise<any>;
+    releaseCreatures(ids: string[]): Promise<objects.FUpdate>;
     delay<T>(ms: number, value?: T): Promise<T>;
 }

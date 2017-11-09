@@ -279,6 +279,14 @@ class Client {
             count
         ]);
     }
+    async releaseCreatures(ids) {
+        if (!Array.isArray(ids))
+            ids = [ids];
+        return await this.call('UserCreatureService', 'convertCreaturesToCandies', [
+            { __type: 'List', value: ids },
+            false
+        ]);
+    }
     delay(ms, value) {
         return new Promise((resolve) => setTimeout(resolve(value), ms));
     }

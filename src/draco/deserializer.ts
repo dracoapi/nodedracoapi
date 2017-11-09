@@ -151,7 +151,8 @@ export default class Deserializer {
             return this.readDouble();
         } else if (type === 'string') {
             return this.readUtf8String();
-        } else if ((match = /List<(.+)>/.exec(type))) {
+        } else if ((match = /List<(.*)>/.exec(type))) {
+            const objtype = match[1] || 'object';
             return this.readStaticList(match[1], false);
         } else if (enums[type]) {
             return this.readSByte();
