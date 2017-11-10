@@ -18,7 +18,7 @@ async function main() {
     console.log('Starting...');
 
     const draco = new DracoNode.Client({
-        proxy: 'http://localhost:8888',
+        // proxy: 'http://localhost:8888',
     });
 
     console.log('Boot...');

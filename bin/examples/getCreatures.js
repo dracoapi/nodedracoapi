@@ -2,15 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
 const DracoNode = require("../index");
+const strings = require('dracotext').load();
 async function main() {
     console.log('Starting...');
     console.log('Getting user info from disk...');
     const user = JSON.parse(fs.readFileSync('users.json', 'utf8'))[0];
-    const draco = new DracoNode.Client({});
+    const draco = new DracoNode.Client({
+        proxy: 'http://localhost:8888',
+    });
     console.log('Ping...');
-    const ping = await draco.ping();
-    if (!ping)
-        throw new Error();
+    await draco.ping(true);
     console.log('Boot...');
     await draco.boot({
         userId: user.userId,
@@ -20,10 +21,11 @@ async function main() {
     await draco.login();
     console.log('Init client...');
     await draco.load();
-    console.log('Get user items...');
-    const response = await draco.getUserItems();
-    for (const item of response.items) {
-        console.log(`Item type ${DracoNode.enums.ItemType[item.type]}, count = ${item.count}`);
+    console.log('Get creatures...');
+    const response = await draco.getUserCreatures();
+    for (const creature of response.userCreatures) {
+        const name = creature.alias || strings.getCreature(DracoNode.enums.CreatureType[creature.name]);
+        console.log(`  ${name} lvl ${creature.level}, cp=${creature.cp}`);
     }
     console.log('Done.');
 }
@@ -31,4 +33,4 @@ main()
     .catch(e => {
     console.log(e);
 });
-//# sourceMappingURL=getItems.js.map
+//# sourceMappingURL=getCreatures.js.map

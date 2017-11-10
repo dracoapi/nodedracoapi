@@ -1,6 +1,8 @@
 import * as fs from 'fs';
 import * as DracoNode from '../index';
 
+const strings = require('dracotext').load();
+
 async function main() {
     console.log('Starting...');
 
@@ -8,12 +10,11 @@ async function main() {
     const user = JSON.parse(fs.readFileSync('users.json', 'utf8'))[0];
 
     const draco = new DracoNode.Client({
-        // proxy: 'http://localhost:8888',
+        proxy: 'http://localhost:8888',
     });
 
     console.log('Ping...');
-    const ping = await draco.ping();
-    if (!ping) throw new Error();
+    await draco.ping(true);
 
     console.log('Boot...');
     await draco.boot({
@@ -27,10 +28,11 @@ async function main() {
     console.log('Init client...');
     await draco.load();
 
-    console.log('Get user items...');
-    const response = await draco.getUserItems();
-    for (const item of response.items) {
-        console.log(`Item type ${DracoNode.enums.ItemType[item.type]}, count = ${item.count}`);
+    console.log('Get creatures...');
+    const response = await draco.getUserCreatures();
+    for (const creature of response.userCreatures) {
+        const name = creature.alias || strings.getCreature(DracoNode.enums.CreatureType[creature.name]);
+        console.log(`  ${name} lvl ${creature.level}, cp=${creature.cp}`);
     }
 
     console.log('Done.');

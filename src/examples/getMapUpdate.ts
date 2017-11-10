@@ -9,7 +9,6 @@ async function main() {
 
     const draco = new DracoNode.Client({
         // proxy: 'http://localhost:8888',
-        proxy: 'http://54.36.182.96:3128',        
     });
 
     console.log('Ping...');

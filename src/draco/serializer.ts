@@ -63,7 +63,7 @@ export default class Serializer {
     }
     writeSByte(data) {
         this.ensureBuffer();
-        this.idx = this.buffer.writeUInt8(data, this.idx);
+        this.idx = this.buffer.writeInt8(data, this.idx);
     }
     writeShort(val) {
         this.ensureBuffer();
@@ -169,7 +169,8 @@ export default class Serializer {
             this.writeSByte(0);
         } else if (type) {
             if (isPrimitive(type) && data.__type) data = data.value;
-            if (type === 'bool') this.writeBoolean(data);
+            if (data.__type === 'List') this.writeStaticList(data.value, false, 'object');
+            else if (type === 'bool') this.writeBoolean(data);
             else if (type === 'sbyte') this.writeSByte(data);
             else if (type === 'int') this.writeInt32(data);
             else if (type === 'long') this.writeInt64(data);

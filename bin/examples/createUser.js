@@ -15,9 +15,7 @@ function generateNickname() {
 }
 async function main() {
     console.log('Starting...');
-    const draco = new DracoNode.Client({
-        proxy: 'http://localhost:8888',
-    });
+    const draco = new DracoNode.Client({});
     console.log('Boot...');
     await draco.boot({
         deviceId: generateDeviceId(),

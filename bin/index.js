@@ -10,6 +10,13 @@ const deserializer_1 = require("./draco/deserializer");
 class User {
 }
 exports.User = User;
+class DracoError extends Error {
+    constructor(message, details) {
+        super(message);
+        Object.setPrototypeOf(this, DracoError.prototype);
+        this.details = details;
+    }
+}
 class Client {
     constructor(options) {
         const protocolVersion = options.protocolVersion || '2373924766';
@@ -98,9 +105,15 @@ class Client {
         });
         if (response.headers['dcportal'])
             this.dcportal = response.headers['dcportal'];
-        if (response.statusCode > 300)
-            throw new Error('Error from server: ' + response.statusCode);
         const deserializer = new deserializer_1.default(response.body);
+        if (response.statusCode > 300) {
+            let more = response;
+            try {
+                more = deserializer.deserialize();
+            }
+            catch (e) { }
+            throw new DracoError('Error from server: ' + response.statusCode + ' - ' + response.statusMessage, more);
+        }
         const data = deserializer.deserialize();
         return data;
     }
@@ -177,6 +190,17 @@ class Client {
         await this.event('ServerAuthSuccess', this.user.id);
         return response;
     }
+    generateAvatar(options = {}) {
+        return (options.gender || 0) | // 0 or 1
+            (options.race || 0) << 1 | // 0 or 1
+            (options.skin || 0) << 3 | //
+            (options.hair || 0) << 6 |
+            (options.eyes || 0) << 9 |
+            (options.jacket || 0) << 12 |
+            (options.trousers || 0) << 15 |
+            (options.shoes || 0) << 18 |
+            (options.backpack || 0) << 21;
+    }
     async setAvatar(avatar) {
         this.user.avatar = +avatar;
         await this.event('AvatarPlayerGenderRace', '1', '1');
@@ -247,6 +271,20 @@ class Client {
             { __type: 'ItemType', value: ball },
             { __type: 'float', value: quality },
             spin
+        ]);
+    }
+    async discardItem(id, count) {
+        return await this.call('ItemService', 'discardItems', [
+            { __type: 'ItemType', value: id },
+            count
+        ]);
+    }
+    async releaseCreatures(ids) {
+        if (!Array.isArray(ids))
+            ids = [ids];
+        return await this.call('UserCreatureService', 'convertCreaturesToCandies', [
+            { __type: 'List', value: ids },
+            false
         ]);
     }
     delay(ms, value) {

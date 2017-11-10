@@ -14,6 +14,15 @@ export class User {
     avatar: number;
 }
 
+class DracoError extends Error {
+    details: any;
+    constructor(message?, details?) {
+        super(message);
+        Object.setPrototypeOf(this, DracoError.prototype);
+        this.details = details;
+    }
+}
+
 export { enums };
 export { objects };
 
@@ -23,6 +32,7 @@ export class Client {
     clientInfo: objects.FClientInfo;
     user: User;
     dcportal: string;
+
     constructor(options) {
         const protocolVersion = options.protocolVersion || '2373924766';
         const clientVersion = options.clientVersion || '7209';
@@ -112,9 +122,16 @@ export class Client {
 
         if (response.headers['dcportal']) this.dcportal = response.headers['dcportal'];
 
-        if (response.statusCode > 300) throw new Error('Error from server: ' + response.statusCode);
-
         const deserializer = new Deserializer(response.body);
+
+        if (response.statusCode > 300) {
+            let more = response;
+            try {
+                more = deserializer.deserialize();
+            } catch (e) { /* nothing */ }
+            throw new DracoError('Error from server: ' + response.statusCode + ' - ' + response.statusMessage, more);
+        }
+
         const data = deserializer.deserialize();
         return data;
     }
@@ -201,6 +218,18 @@ export class Client {
         return response;
     }
 
+    generateAvatar(options: any = {}) {
+        return (options.gender || 0) |          // 0 or 1
+               (options.race || 0)     << 1 |   // 0 or 1
+               (options.skin || 0)     << 3 |   //
+               (options.hair || 0)     << 6 |
+               (options.eyes || 0)     << 9 |
+               (options.jacket || 0)   << 12 |
+               (options.trousers || 0) << 15 |
+               (options.shoes || 0)    << 18 |
+               (options.backpack || 0) << 21;
+    }
+
     async setAvatar(avatar) {
         this.user.avatar = +avatar;
         await this.event('AvatarPlayerGenderRace', '1', '1');
@@ -216,7 +245,7 @@ export class Client {
         return this.call('UserCreatureService', 'getCreadex', []);
     }
 
-    async getUserCreatures() {
+    async getUserCreatures(): Promise<objects.FUserCreaturesList> {
         return this.call('UserCreatureService', 'getUserCreatures', []);
     }
 
@@ -280,6 +309,21 @@ export class Client {
             { __type: 'ItemType', value: ball },
             { __type: 'float', value: quality },
             spin
+        ]);
+    }
+
+    async discardItem(id: number, count: number) {
+        return await this.call('ItemService', 'discardItems', [
+            { __type: 'ItemType', value: id },
+            count
+        ]);
+    }
+
+    async releaseCreatures(ids: string[]): Promise<objects.FUpdate> {
+        if (!Array.isArray(ids)) ids = [ ids ];
+        return await this.call('UserCreatureService', 'convertCreaturesToCandies', [
+            { __type: 'List', value: ids },
+            false
         ]);
     }
 
