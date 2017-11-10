@@ -63,7 +63,7 @@ export default class Serializer {
     }
     writeSByte(data) {
         this.ensureBuffer();
-        this.idx = this.buffer.writeUInt8(data, this.idx);
+        this.idx = this.buffer.writeInt8(data, this.idx);
     }
     writeShort(val) {
         this.ensureBuffer();
