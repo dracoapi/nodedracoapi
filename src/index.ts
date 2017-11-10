@@ -32,20 +32,24 @@ export class Client {
     clientInfo: objects.FClientInfo;
     user: User;
     dcportal: string;
+    protocolVersion: string;
+    clientVersion: string;
+    checkProtocol = true;
 
-    constructor(options) {
-        const protocolVersion = options.protocolVersion || '2373924766';
-        const clientVersion = options.clientVersion || '7209';
+    constructor(options: any = {}) {
+        this.protocolVersion = options.protocolVersion || '1370968635';
+        this.clientVersion = options.clientVersion || '7511';
+        if (options.hasOwnProperty('checkProtocol')) this.checkProtocol = options.checkProtocol;
         this.cookies = request.jar();
         this.request = request.defaults({
             proxy: options.proxy,
             headers: {
-                'User-Agent': `DraconiusGO/${clientVersion} CFNetwork/811.5.4 Darwin/16.7.0`,
+                'User-Agent': `DraconiusGO/${this.clientVersion} CFNetwork/811.5.4 Darwin/16.7.0`,
                 'Accept': '*/*',
                 'Accept-Language': 'en-us',
-                'Protocol-Version': protocolVersion,
+                'Protocol-Version': this.protocolVersion,
                 'X-Unity-Version': '2017.1.0f3',
-                'Client-Version': clientVersion,
+                'Client-Version': this.clientVersion,
             },
             encoding: null,
             gzip: true,
@@ -61,7 +65,7 @@ export class Client {
             platform: 'IPhonePlayer',
             platformVersion: 'iOS 10.3.3',
             deviceModel: 'iPhone8,1',
-            revision: clientVersion,
+            revision: this.clientVersion,
             screenWidth: 750,
             screenHeight: 1334,
             language: 'English',
@@ -121,6 +125,13 @@ export class Client {
         });
 
         if (response.headers['dcportal']) this.dcportal = response.headers['dcportal'];
+
+        const serverVersion = response.headers['protocol-version'];
+        if (serverVersion) {
+            if (this.protocolVersion && this.protocolVersion !== serverVersion) {
+                throw new Error('Unsupported protocol: ' + serverVersion);
+            }
+        }
 
         const deserializer = new Deserializer(response.body);
 

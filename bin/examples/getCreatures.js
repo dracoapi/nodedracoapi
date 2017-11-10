@@ -32,5 +32,6 @@ async function main() {
 main()
     .catch(e => {
     console.log(e);
+    debugger;
 });
 //# sourceMappingURL=getCreatures.js.map
