@@ -1123,6 +1123,7 @@ export class FConfig {
     distanceToLoadTiles: number; // float
     distanceToUnloadTiles: number; // float
     dummy: boolean; // bool
+    dummy2: boolean; // bool
     encounterDelaySinceStartup: number; // int
     fogEndDistance: number; // float
     fogStartDistance: number; // float
@@ -1192,6 +1193,7 @@ export class FConfig {
         serializer.writeFloat(this.distanceToLoadTiles);
         serializer.writeFloat(this.distanceToUnloadTiles);
         serializer.writeBoolean(this.dummy);
+        serializer.writeBoolean(this.dummy2);
         serializer.writeInt32(this.encounterDelaySinceStartup);
         serializer.writeFloat(this.fogEndDistance);
         serializer.writeFloat(this.fogStartDistance);
@@ -1257,6 +1259,7 @@ export class FConfig {
         this.distanceToLoadTiles = deserializer.readFloat();
         this.distanceToUnloadTiles = deserializer.readFloat();
         this.dummy = deserializer.readBoolean();
+        this.dummy2 = deserializer.readBoolean();
         this.encounterDelaySinceStartup = deserializer.readInt32();
         this.fogEndDistance = deserializer.readFloat();
         this.fogStartDistance = deserializer.readFloat();
@@ -3096,4 +3099,3 @@ export class Tile {
         this.zoom = deserializer.readInt32();
     }
 }
-

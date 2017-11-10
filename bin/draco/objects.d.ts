@@ -446,6 +446,7 @@ export declare class FConfig {
     distanceToLoadTiles: number;
     distanceToUnloadTiles: number;
     dummy: boolean;
+    dummy2: boolean;
     encounterDelaySinceStartup: number;
     fogEndDistance: number;
     fogStartDistance: number;

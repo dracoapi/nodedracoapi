@@ -14,7 +14,10 @@ export declare class Client {
     clientInfo: objects.FClientInfo;
     user: User;
     dcportal: string;
-    constructor(options: any);
+    protocolVersion: string;
+    clientVersion: string;
+    checkProtocol: boolean;
+    constructor(options?: any);
     ping(throwIfError?: boolean): Promise<boolean>;
     call(service: string, method: string, body: any): Promise<any>;
     event(name: any, one?: any, two?: any, three?: any): Promise<void>;

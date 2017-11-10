@@ -394,4 +394,3 @@ export enum SpellType {
     TOWER_ELEMENTAL_EARTH,
     TOWER_ELEMENTAL_DUNGEON,
 }
-
