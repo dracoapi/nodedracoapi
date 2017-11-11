@@ -20,6 +20,9 @@ async function main() {
     await draco.boot({
         userId: user.userId,
         deviceId: user.deviceId,
+        login: user.login, // GOOGLE, DEVICE
+        username: user.username,
+        password: user.password,
     });
 
     console.log('Login...');

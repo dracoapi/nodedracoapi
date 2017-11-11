@@ -1,15 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const request = require("request-promise-native");
+const jwt = require("jwt-simple");
 const objects = require("./draco/objects");
 exports.objects = objects;
 const enums = require("./draco/enums");
 exports.enums = enums;
 const serializer_1 = require("./draco/serializer");
 const deserializer_1 = require("./draco/deserializer");
+const google_1 = require("./lib/google");
 class User {
 }
 exports.User = User;
+class Auth {
+    constructor(init) {
+        Object.assign(this, init);
+    }
+}
 class DracoError extends Error {
     constructor(message, details) {
         super(message);
@@ -24,6 +31,7 @@ class Client {
         this.clientVersion = options.clientVersion || '7511';
         if (options.hasOwnProperty('checkProtocol'))
             this.checkProtocol = options.checkProtocol;
+        this.proxy = options.proxy;
         this.cookies = request.jar();
         this.request = request.defaults({
             proxy: options.proxy,
@@ -141,6 +149,9 @@ class Client {
     async boot(clientinfo) {
         this.user.id = clientinfo.userId;
         this.user.deviceId = clientinfo.deviceId;
+        this.user.login = (clientinfo.login || 'DEVICE').toUpperCase();
+        this.user.username = clientinfo.username;
+        this.user.password = clientinfo.password;
         this.clientInfo.iOsVendorIdentifier = clientinfo.deviceId;
         for (const key in clientinfo) {
             if (this.clientInfo.hasOwnProperty(key)) {
@@ -151,15 +162,39 @@ class Client {
         await this.event('Initialized');
     }
     async login() {
-        await this.event('TrySingIn', 'DEVICE');
+        if (this.user.login === 'DEVICE') {
+            this.auth = new Auth({
+                name: 'DEVICE',
+                type: enums.AuthType.DEVICE,
+                reg: 'dv',
+                profileId: this.user.deviceId,
+            });
+        }
+        else if (this.user.login === 'GOOGLE') {
+            this.auth = new Auth({
+                name: 'GOOGLE',
+                type: enums.AuthType.GOOGLE,
+                reg: 'gl',
+                profileId: '?',
+            });
+            await this.googleLogin();
+        }
+        else if (this.user.login === 'FACEBOOK') {
+            throw new Error('Facebook login not implemented.');
+        }
+        else {
+            throw new Error('Unsupported login type: ' + this.user.login);
+        }
+        await this.event('TrySingIn', this.auth.name);
         const response = await this.call('AuthService', 'trySingIn', [
             new objects.AuthData({
-                authType: enums.AuthType.DEVICE,
-                profileId: this.user.deviceId,
+                authType: this.auth.type,
+                profileId: this.auth.profileId,
+                tokenId: this.auth.tokenId,
             }),
             this.clientInfo,
             new objects.FRegistrationInfo({
-                regType: 'dv',
+                regType: this.auth.reg,
             }),
         ]);
         if (response && response.info) {
@@ -167,6 +202,14 @@ class Client {
             this.user.avatar = response.info.avatarAppearanceDetails;
         }
         return response;
+    }
+    async googleLogin() {
+        await this.event('StartGoogleSignIn');
+        const login = new google_1.default({
+            proxy: this.proxy,
+        });
+        this.auth.tokenId = await login.login(this.user.username, this.user.password);
+        this.auth.profileId = jwt.decode(this.auth.tokenId, null, true).sub;
     }
     async load() {
         await this.event('LoadingScreenPercent', '100');
@@ -185,7 +228,7 @@ class Client {
     }
     async register(nickname) {
         this.user.nickname = nickname;
-        this.event('Register', 'DEVICE', nickname);
+        this.event('Register', this.auth.name, nickname);
         const response = await this.call('AuthService', 'register', [
             new objects.AuthData({
                 authType: enums.AuthType.DEVICE,
@@ -193,7 +236,7 @@ class Client {
             }),
             nickname,
             this.clientInfo,
-            new objects.FRegistrationInfo({ regType: 'dv' }),
+            new objects.FRegistrationInfo({ regType: this.auth.reg }),
         ]);
         this.user.id = response.info.userId;
         await this.event('ServerAuthSuccess', this.user.id);

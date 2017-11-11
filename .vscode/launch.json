@@ -39,6 +39,19 @@
             "env": {
                 "NODE_TLS_REJECT_UNAUTHORIZED": "0"
             }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "one",
+            "program": "${workspaceRoot}/src/examples/one.ts",
+            "cwd": "${workspaceRoot}",
+            "outFiles": [ "${workspaceRoot}/bin/**/*.js" ],
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "env": {
+                "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+            }
         }
     ]
 }
