@@ -5,24 +5,30 @@ export declare class User {
     deviceId: string;
     nickname: string;
     avatar: number;
+    login: string;
+    username: string;
+    password: string;
 }
 export { enums };
 export { objects };
 export declare class Client {
-    request: any;
-    cookies: any;
     clientInfo: objects.FClientInfo;
     user: User;
-    dcportal: string;
-    protocolVersion: string;
-    clientVersion: string;
-    checkProtocol: boolean;
+    private request;
+    private proxy;
+    private cookies;
+    private dcportal;
+    private protocolVersion;
+    private clientVersion;
+    private checkProtocol;
+    private auth;
     constructor(options?: any);
     ping(throwIfError?: boolean): Promise<boolean>;
     call(service: string, method: string, body: any): Promise<any>;
     event(name: any, one?: any, two?: any, three?: any): Promise<void>;
     boot(clientinfo: any): Promise<void>;
     login(): Promise<any>;
+    googleLogin(): Promise<void>;
     load(): Promise<void>;
     validateNickname(nickname: any): Promise<any>;
     acceptTos(): Promise<void>;

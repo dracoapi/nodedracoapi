@@ -1,17 +1,32 @@
-import * as fs from 'fs';
-import * as stream from 'stream';
 import * as long from 'long';
 import * as request from 'request-promise-native';
+import * as jwt from 'jwt-simple';
+
 import * as objects from './draco/objects';
 import * as enums from './draco/enums';
 import Serializer from './draco/serializer';
 import Deserializer from './draco/deserializer';
+import GoogleLogin from './lib/google';
 
 export class User {
     id: string;
     deviceId: string;
     nickname: string;
     avatar: number;
+    login: string;
+    username: string;
+    password: string;
+}
+
+class Auth {
+    name: string;
+    type: enums.AuthType;
+    reg: string;
+    profileId: string;
+    tokenId: string;
+    public constructor(init?: Partial<Auth>) {
+        Object.assign(this, init);
+    }
 }
 
 class DracoError extends Error {
@@ -27,19 +42,22 @@ export { enums };
 export { objects };
 
 export class Client {
-    request: any;
-    cookies: any;
-    clientInfo: objects.FClientInfo;
-    user: User;
-    dcportal: string;
-    protocolVersion: string;
-    clientVersion: string;
-    checkProtocol = true;
+    public clientInfo: objects.FClientInfo;
+    public user: User;
+    private request: any;
+    private proxy: string;
+    private cookies: any;
+    private dcportal: string;
+    private protocolVersion: string;
+    private clientVersion: string;
+    private checkProtocol = true;
+    private auth: Auth;
 
     constructor(options: any = {}) {
         this.protocolVersion = options.protocolVersion || '1370968635';
         this.clientVersion = options.clientVersion || '7511';
         if (options.hasOwnProperty('checkProtocol')) this.checkProtocol = options.checkProtocol;
+        this.proxy = options.proxy;
         this.cookies = request.jar();
         this.request = request.defaults({
             proxy: options.proxy,
@@ -163,6 +181,9 @@ export class Client {
     async boot(clientinfo) {
         this.user.id = clientinfo.userId;
         this.user.deviceId = clientinfo.deviceId;
+        this.user.login = (clientinfo.login || 'DEVICE').toUpperCase();
+        this.user.username = clientinfo.username;
+        this.user.password = clientinfo.password;
         this.clientInfo.iOsVendorIdentifier = clientinfo.deviceId;
         for (const key in clientinfo) {
             if (this.clientInfo.hasOwnProperty(key)) {
@@ -174,15 +195,36 @@ export class Client {
     }
 
     async login() {
-        await this.event('TrySingIn', 'DEVICE');
+        if (this.user.login === 'DEVICE') {
+            this.auth = new Auth({
+                name: 'DEVICE',
+                type: enums.AuthType.DEVICE,
+                reg: 'dv',
+                profileId: this.user.deviceId,
+            });
+        } else if (this.user.login === 'GOOGLE') {
+            this.auth = new Auth({
+                name: 'GOOGLE',
+                type: enums.AuthType.GOOGLE,
+                reg: 'gl',
+                profileId: '?',
+            });
+            await this.googleLogin();
+        } else if (this.user.login === 'FACEBOOK') {
+            throw new Error('Facebook login not implemented.');
+        } else {
+            throw new Error('Unsupported login type: ' + this.user.login);
+        }
+        await this.event('TrySingIn', this.auth.name);
         const response = await this.call('AuthService', 'trySingIn', [
             new objects.AuthData({
-                authType: enums.AuthType.DEVICE,
-                profileId: this.user.deviceId,
+                authType: this.auth.type,
+                profileId: this.auth.profileId,
+                tokenId: this.auth.tokenId,
             }),
             this.clientInfo,
             new objects.FRegistrationInfo({
-                regType: 'dv',
+                regType: this.auth.reg,
             }),
         ]);
         if (response && response.info) {
@@ -190,6 +232,15 @@ export class Client {
             this.user.avatar = response.info.avatarAppearanceDetails;
         }
         return response;
+    }
+
+    async googleLogin() {
+        await this.event('StartGoogleSignIn');
+        const login = new GoogleLogin({
+            proxy: this.proxy,
+        });
+        this.auth.tokenId = await login.login(this.user.username, this.user.password);
+        this.auth.profileId = jwt.decode(this.auth.tokenId, null, true).sub;
     }
 
     async load() {
@@ -212,7 +263,7 @@ export class Client {
 
     async register(nickname) {
         this.user.nickname = nickname;
-        this.event('Register', 'DEVICE', nickname);
+        this.event('Register', this.auth.name, nickname);
         const response = await this.call('AuthService', 'register', [
             new objects.AuthData({
                 authType: enums.AuthType.DEVICE,
@@ -220,7 +271,7 @@ export class Client {
             }),
             nickname,
             this.clientInfo,
-            new objects.FRegistrationInfo({ regType: 'dv' }),
+            new objects.FRegistrationInfo({ regType: this.auth.reg }),
         ]);
 
         this.user.id = response.info.userId;
