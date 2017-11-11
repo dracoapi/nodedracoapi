@@ -1,6 +1,6 @@
 {
   "name": "draconode",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "nodejs api for Dranonius GO",
   "main": "bin/index.js",
   "types": "bin/index.d.ts",
