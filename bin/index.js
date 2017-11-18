@@ -339,6 +339,10 @@ class Client {
             false
         ]);
     }
+    async openChest(chest) {
+        await this.call('MapService', 'startOpeningChest', [chest]);
+        return await this.call('MapService', 'openChestResult', [chest]);
+    }
     delay(ms, value) {
         return new Promise((resolve) => setTimeout(resolve(value), ms));
     }

@@ -389,6 +389,11 @@ export class Client {
         ]);
     }
 
+    async openChest(chest: objects.FChest) {
+        await this.call('MapService', 'startOpeningChest', [chest]);
+        return await this.call('MapService', 'openChestResult', [chest]);
+    }
+
     delay<T>(ms: number, value?: T): Promise<T> {
         return new Promise((resolve) => setTimeout(resolve(value), ms));
     }
