@@ -316,7 +316,7 @@ export class Client {
                 clientRequest: new objects.FClientRequest({
                     time: 0,
                     currentUtcOffsetSeconds: 3600,
-                    coords: new objects.GeoCoords({
+                    coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
                         latitude,
                         longitude,
                         horizontalAccuracy,
@@ -333,7 +333,7 @@ export class Client {
             new objects.FClientRequest({
                 time: 0,
                 currentUtcOffsetSeconds: 3600,
-                coords: new objects.GeoCoords({
+                coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
                     latitude: clientLat,
                     longitude: clientLng,
                     horizontalAccuracy: 0,
