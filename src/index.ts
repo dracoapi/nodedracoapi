@@ -265,8 +265,9 @@ export class Client {
         this.event('Register', this.auth.name, nickname);
         const response = await this.call('AuthService', 'register', [
             new objects.AuthData({
-                authType: enums.AuthType.DEVICE,
-                profileId: this.user.deviceId
+                authType: this.auth.type,
+                profileId: this.auth.profileId,
+                tokenId: this.auth.tokenId,
             }),
             nickname,
             this.clientInfo,
