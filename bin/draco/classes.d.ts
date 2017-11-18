@@ -1,4 +1,18 @@
 export declare const classIds: {
+    '-128': string;
+    '-127': string;
+    '-126': string;
+    '-125': string;
+    '-124': string;
+    '-123': string;
+    '-122': string;
+    '-121': string;
+    '-120': string;
+    '-119': string;
+    '-118': string;
+    '-117': string;
+    '-116': string;
+    '-115': string;
     '4': string;
     '5': string;
     '6': string;
@@ -123,19 +137,6 @@ export declare const classIds: {
     '125': string;
     '126': string;
     '127': string;
-    '-128': string;
-    '-127': string;
-    '-126': string;
-    '-125': string;
-    '-124': string;
-    '-123': string;
-    '-122': string;
-    '-121': string;
-    '-120': string;
-    '-119': string;
-    '-118': string;
-    '-117': string;
-    '-116': string;
 };
 export declare const primitiveIds: {
     '1': string;
