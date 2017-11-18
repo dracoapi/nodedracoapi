@@ -77,7 +77,7 @@ export declare class FAltarDetails {
     __type: string;
     buildingId: string;
     coords: GeoCoords;
-    ownerId: string;
+    ownerNickname: string;
     recipeName: enums.RecipeType;
     runeOwnerNames: Map<number, number>;
     runeOwners: Map<number, number>;
@@ -183,6 +183,7 @@ export declare class FAvaUpdate {
     activationRadiusIncreasedLeftTime: long;
     alliance: enums.AllianceType;
     altarCoords: GeoCoords;
+    artifacts: enums.ArtifactName[];
     buddy: FBuddy;
     buffs: FBuff[];
     candies: Map<enums.CreatureType, enums.CreatureType>;
@@ -197,6 +198,7 @@ export declare class FAvaUpdate {
     experienceBoosterDuration: long;
     experienceBoosterLeftTime: long;
     incenseDuration: long;
+    incenseGenMonstersGroupName: string;
     incenseLeftTime: long;
     isArtifactsBagFull: boolean;
     isBagFull: boolean;
@@ -213,7 +215,7 @@ export declare class FAvaUpdate {
     superVisionCenter: GeoCoords;
     superVisionDuration: long;
     superVisionLeftTime: long;
-    totalDistance: number;
+    totalDistanceF: number;
     constructor(init?: Partial<FAvaUpdate>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
@@ -231,7 +233,6 @@ export declare class FBagItem {
 export declare class FBagUpdate {
     __type: string;
     allowedItemsSize: number;
-    incenseGenMonstersGroupName: string;
     items: FBagItem[];
     lockedRunes: Map<enums.ItemType, enums.ItemType>;
     constructor(init?: Partial<FBagUpdate>);
@@ -256,11 +257,11 @@ export declare class FBuddy {
     alias: string;
     candyType: enums.CreatureType;
     creature: enums.CreatureType;
-    currentWalked: number;
+    currentWalkedF: number;
     distanceForCandies: number;
     id: string;
     totalCandies: number;
-    totalWalked: number;
+    totalWalkedF: number;
     constructor(init?: Partial<FBuddy>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
@@ -412,7 +413,7 @@ export declare class FClientInfo {
 }
 export declare class FClientRequest {
     __type: string;
-    coords: GeoCoords;
+    coordsWithAccuracy: GeoCoordsWithAccuracy;
     currentUtcOffsetSeconds: number;
     time: long;
     constructor(init?: Partial<FClientRequest>);
@@ -445,8 +446,6 @@ export declare class FConfig {
     desiredGpsAccuracy: number;
     distanceToLoadTiles: number;
     distanceToUnloadTiles: number;
-    dummy: boolean;
-    dummy2: boolean;
     encounterDelaySinceStartup: number;
     fogEndDistance: number;
     fogStartDistance: number;
@@ -474,6 +473,7 @@ export declare class FConfig {
     spinGain: number;
     superVisionEffectInterval: number;
     superVisionRadius: number;
+    throwSensitivity: number;
     timeLimitPerDefender: number;
     updateRequestCooldownSeconds: number;
     updateRequestIgnoreWorseAccuracyCooldownSeconds: number;
@@ -889,6 +889,7 @@ export declare class FPitstop {
 }
 export declare class FQuestCompleted {
     __type: string;
+    activeObjects: FActiveObjectsUpdate;
     dailyQuest: FDailyQuest;
     levelUpLoot: FLoot;
     loot: FLoot;
@@ -1026,6 +1027,7 @@ export declare class FUserCreature {
     chargedSkill: string;
     chargedSkillDps: number;
     cp: number;
+    creadexIndex: number;
     dps: number;
     elementType: enums.ElementType;
     gotchaTime: long;
@@ -1128,6 +1130,7 @@ export declare class FWildCreature {
 export declare class FWizardBattleInfo {
     __type: string;
     enhanced: boolean;
+    enhancedTime: number;
     limit: number;
     timeToRefresh: number;
     used: number;
@@ -1150,10 +1153,18 @@ export declare class FWizardBattleResult {
 }
 export declare class GeoCoords {
     __type: string;
-    horizontalAccuracy: number;
     latitude: number;
     longitude: number;
     constructor(init?: Partial<GeoCoords>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class GeoCoordsWithAccuracy {
+    __type: string;
+    horizontalAccuracy: number;
+    latitude: number;
+    longitude: number;
+    constructor(init?: Partial<GeoCoordsWithAccuracy>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }

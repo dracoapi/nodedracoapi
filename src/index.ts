@@ -46,7 +46,6 @@ export class Client {
     public user: User;
     private request: any;
     private proxy: string;
-    private cookies: any;
     private dcportal: string;
     private protocolVersion: string;
     private clientVersion: string;
@@ -54,11 +53,11 @@ export class Client {
     private auth: Auth;
 
     constructor(options: any = {}) {
-        this.protocolVersion = options.protocolVersion || '1370968635';
-        this.clientVersion = options.clientVersion || '7511';
+        this.protocolVersion = options.protocolVersion || '1370715311';
+        this.clientVersion = options.clientVersion || '7830';
         if (options.hasOwnProperty('checkProtocol')) this.checkProtocol = options.checkProtocol;
         this.proxy = options.proxy;
-        this.cookies = request.jar();
+        const cookies = request.jar();
         this.request = request.defaults({
             proxy: options.proxy,
             headers: {
@@ -71,13 +70,13 @@ export class Client {
             },
             encoding: null,
             gzip: true,
-            jar: this.cookies,
+            jar: cookies,
             simple: false,
             resolveWithFullResponse: true,
         });
-        this.cookies.setCookie(request.cookie('path=/'), 'https://us.draconiusgo.com');
-        this.cookies.setCookie(request.cookie('Path=/'), 'https://us.draconiusgo.com');
-        this.cookies.setCookie(request.cookie('domain=.draconiusgo.com'), 'https://us.draconiusgo.com');
+        cookies.setCookie(request.cookie('path=/'), 'https://us.draconiusgo.com');
+        cookies.setCookie(request.cookie('Path=/'), 'https://us.draconiusgo.com');
+        cookies.setCookie(request.cookie('domain=.draconiusgo.com'), 'https://us.draconiusgo.com');
 
         this.clientInfo = new objects.FClientInfo({
             platform: 'IPhonePlayer',

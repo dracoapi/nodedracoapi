@@ -16,7 +16,6 @@ export declare class Client {
     user: User;
     private request;
     private proxy;
-    private cookies;
     private dcportal;
     private protocolVersion;
     private clientVersion;
