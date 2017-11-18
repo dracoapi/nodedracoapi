@@ -1,5 +1,18 @@
-
 export const classIds = {
+    '-128': 'FUserCreature',
+    '-127': 'FUserCreatureUpdate',
+    '-126': 'FUserCreaturesList',
+    '-125': 'FUserHatchingInfo',
+    '-124': 'FUserInfo',
+    '-123': 'FWeeklyQuest',
+    '-122': 'FWeeklyQuestFragment',
+    '-121': 'FWildCreature',
+    '-120': 'FWizardBattleInfo',
+    '-119': 'FWizardBattleResult',
+    '-118': 'GeoCoords',
+    '-117': 'GeoCoordsWithAccuracy',
+    '-116': 'IdAndCoords',
+    '-115': 'Tile',
     '4': 'object',
     '5': 'bool',
     '6': 'sbyte',
@@ -10,9 +23,9 @@ export const classIds = {
     '11': 'double',
     '12': 'string',
     '13': 'List',
-    '14': 'Set', // HashSet
-    '15': 'Map', // Dictionary
-    '16': 'SortedDictionary',
+    '14': 'Set',
+    '15': 'Map',
+    '16': 'Map',
     '17': 'AllianceType',
     '18': 'ArtifactName',
     '19': 'ArtifactType',
@@ -124,19 +137,6 @@ export const classIds = {
     '125': 'FUpdate',
     '126': 'FUpdateNicknameResult',
     '127': 'FUpdateRequest',
-    '-128': 'FUserCreature',
-    '-127': 'FUserCreatureUpdate',
-    '-126': 'FUserCreaturesList',
-    '-125': 'FUserHatchingInfo',
-    '-124': 'FUserInfo',
-    '-123': 'FWeeklyQuest',
-    '-122': 'FWeeklyQuestFragment',
-    '-121': 'FWildCreature',
-    '-120': 'FWizardBattleInfo',
-    '-119': 'FWizardBattleResult',
-    '-118': 'GeoCoords',
-    '-117': 'IdAndCoords',
-    '-116': 'Tile',
 };
 
 export const primitiveIds = {
@@ -148,3 +148,4 @@ export const primitiveIds = {
     '6': 'double',
     '7': 'bool',
 };
+
