@@ -395,6 +395,6 @@ export class Client {
     }
 
     delay<T>(ms: number, value?: T): Promise<T> {
-        return new Promise((resolve) => setTimeout(resolve(value), ms));
+        return new Promise((resolve) => setTimeout(() => resolve(value), ms));
     }
 }

@@ -344,7 +344,7 @@ class Client {
         return await this.call('MapService', 'openChestResult', [chest]);
     }
     delay(ms, value) {
-        return new Promise((resolve) => setTimeout(resolve(value), ms));
+        return new Promise((resolve) => setTimeout(() => resolve(value), ms));
     }
 }
 exports.Client = Client;
