@@ -27,12 +27,12 @@ class DracoError extends Error {
 class Client {
     constructor(options = {}) {
         this.checkProtocol = true;
-        this.protocolVersion = options.protocolVersion || '1370968635';
-        this.clientVersion = options.clientVersion || '7511';
+        this.protocolVersion = options.protocolVersion || '1370715311';
+        this.clientVersion = options.clientVersion || '7830';
         if (options.hasOwnProperty('checkProtocol'))
             this.checkProtocol = options.checkProtocol;
         this.proxy = options.proxy;
-        this.cookies = request.jar();
+        const cookies = request.jar();
         this.request = request.defaults({
             proxy: options.proxy,
             headers: {
@@ -45,13 +45,13 @@ class Client {
             },
             encoding: null,
             gzip: true,
-            jar: this.cookies,
+            jar: cookies,
             simple: false,
             resolveWithFullResponse: true,
         });
-        this.cookies.setCookie(request.cookie('path=/'), 'https://us.draconiusgo.com');
-        this.cookies.setCookie(request.cookie('Path=/'), 'https://us.draconiusgo.com');
-        this.cookies.setCookie(request.cookie('domain=.draconiusgo.com'), 'https://us.draconiusgo.com');
+        cookies.setCookie(request.cookie('path=/'), 'https://us.draconiusgo.com');
+        cookies.setCookie(request.cookie('Path=/'), 'https://us.draconiusgo.com');
+        cookies.setCookie(request.cookie('domain=.draconiusgo.com'), 'https://us.draconiusgo.com');
         this.clientInfo = new objects.FClientInfo({
             platform: 'IPhonePlayer',
             platformVersion: 'iOS 10.3.3',
@@ -274,7 +274,7 @@ class Client {
                 clientRequest: new objects.FClientRequest({
                     time: 0,
                     currentUtcOffsetSeconds: 3600,
-                    coords: new objects.GeoCoords({
+                    coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
                         latitude,
                         longitude,
                         horizontalAccuracy,
@@ -290,7 +290,7 @@ class Client {
             new objects.FClientRequest({
                 time: 0,
                 currentUtcOffsetSeconds: 3600,
-                coords: new objects.GeoCoords({
+                coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
                     latitude: clientLat,
                     longitude: clientLng,
                     horizontalAccuracy: 0,
@@ -339,8 +339,12 @@ class Client {
             false
         ]);
     }
+    async openChest(chest) {
+        await this.call('MapService', 'startOpeningChest', [chest]);
+        return await this.call('MapService', 'openChestResult', [chest]);
+    }
     delay(ms, value) {
-        return new Promise((resolve) => setTimeout(resolve(value), ms));
+        return new Promise((resolve) => setTimeout(() => resolve(value), ms));
     }
 }
 exports.Client = Client;
