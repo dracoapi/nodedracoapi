@@ -141,7 +141,7 @@ exports.classIds = {
     '127': 'FUpdateRequest',
 };
 exports.primitiveIds = {
-    '1': 'byte',
+    '1': 'sbyte',
     '2': 'short',
     '3': 'int',
     '4': 'long',
