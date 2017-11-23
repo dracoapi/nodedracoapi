@@ -44,6 +44,7 @@ export { objects };
 export class Client {
     public clientInfo: objects.FClientInfo;
     public user: User;
+    public eventsCounter: any = {};
     private request: any;
     private proxy: string;
     private dcportal: string;
@@ -56,6 +57,7 @@ export class Client {
         this.protocolVersion = options.protocolVersion || '1370715311';
         this.clientVersion = options.clientVersion || '7830';
         if (options.hasOwnProperty('checkProtocol')) this.checkProtocol = options.checkProtocol;
+        if (options.hasOwnProperty('eventsCounter')) this.eventsCounter = options.eventsCounter;
         this.proxy = options.proxy;
         const cookies = request.jar();
         this.request = request.defaults({
@@ -165,16 +167,19 @@ export class Client {
     }
 
     async event(name, one?, two?, three?) {
-        await this.call('ClientEventService', 'onEvent', [
+        let eventCounter = this.eventsCounter[name] || 1;
+        await this.call('ClientEventService', 'onEventWithCounter', [
             name,
             this.user.id,
             this.clientInfo,
+            eventCounter,
             one,
             two,
             three,
             null,
             null
         ]);
+        this.eventsCounter[name] = eventCounter + 1;
     }
 
     async boot(clientinfo) {
@@ -309,6 +314,10 @@ export class Client {
 
     async getUserCreatures(): Promise<objects.FUserCreaturesList> {
         return this.call('UserCreatureService', 'getUserCreatures', []);
+    }
+
+    async getHatchingInfo(): Promise<objects.FUserHatchingInfo> {
+        return this.call('UserCreatureService', 'getHatchingInfo', []);
     }
 
     async getMapUpdate(latitude: number, longitude: number, horizontalAccuracy = 20) {

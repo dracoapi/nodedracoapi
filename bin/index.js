@@ -26,11 +26,14 @@ class DracoError extends Error {
 }
 class Client {
     constructor(options = {}) {
+        this.eventsCounter = {};
         this.checkProtocol = true;
         this.protocolVersion = options.protocolVersion || '1370715311';
         this.clientVersion = options.clientVersion || '7830';
         if (options.hasOwnProperty('checkProtocol'))
             this.checkProtocol = options.checkProtocol;
+        if (options.hasOwnProperty('eventsCounter'))
+            this.eventsCounter = options.eventsCounter;
         this.proxy = options.proxy;
         const cookies = request.jar();
         this.request = request.defaults({
@@ -135,16 +138,19 @@ class Client {
         return data;
     }
     async event(name, one, two, three) {
-        await this.call('ClientEventService', 'onEvent', [
+        let eventCounter = this.eventsCounter[name] || 1;
+        await this.call('ClientEventService', 'onEventWithCounter', [
             name,
             this.user.id,
             this.clientInfo,
+            eventCounter,
             one,
             two,
             three,
             null,
             null
         ]);
+        this.eventsCounter[name] = eventCounter + 1;
     }
     async boot(clientinfo) {
         this.user.id = clientinfo.userId;
@@ -268,6 +274,9 @@ class Client {
     }
     async getUserCreatures() {
         return this.call('UserCreatureService', 'getUserCreatures', []);
+    }
+    async getHatchingInfo() {
+        return this.call('UserCreatureService', 'getHatchingInfo', []);
     }
     async getMapUpdate(latitude, longitude, horizontalAccuracy = 20) {
         return this.call('MapService', 'getUpdate', [
