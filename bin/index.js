@@ -138,7 +138,7 @@ class Client {
         return data;
     }
     async event(name, one, two, three) {
-        let eventCounter = this.eventsCounter[name] || 1;
+        const eventCounter = this.eventsCounter[name] || 1;
         await this.call('ClientEventService', 'onEventWithCounter', [
             name,
             this.user.id,
@@ -218,6 +218,8 @@ class Client {
         this.auth.profileId = jwt.decode(this.auth.tokenId, null, true).sub;
     }
     async load() {
+        if (!this.user.avatar)
+            throw new Error('Please login first.');
         await this.event('LoadingScreenPercent', '100');
         await this.event('CreateAvatarByType', 'MageMale');
         await this.event('LoadingScreenPercent', '100');
