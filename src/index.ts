@@ -167,7 +167,7 @@ export class Client {
     }
 
     async event(name, one?, two?, three?) {
-        let eventCounter = this.eventsCounter[name] || 1;
+        const eventCounter = this.eventsCounter[name] || 1;
         await this.call('ClientEventService', 'onEventWithCounter', [
             name,
             this.user.id,
@@ -248,6 +248,8 @@ export class Client {
     }
 
     async load() {
+        if (!this.user.avatar) throw new Error('Please login first.');
+
         await this.event('LoadingScreenPercent', '100');
         await this.event('CreateAvatarByType', 'MageMale');
         await this.event('LoadingScreenPercent', '100');
@@ -305,7 +307,7 @@ export class Client {
     }
 
     async getUserItems() {
-        return this.call('ItemService', 'getUserItems', null);
+        return this.call('ItemService', 'getUserItems', []);
     }
 
     async getCreadex() {
@@ -318,6 +320,18 @@ export class Client {
 
     async getHatchingInfo(): Promise<objects.FUserHatchingInfo> {
         return this.call('UserCreatureService', 'getHatchingInfo', []);
+    }
+
+    async openHatchedEgg(incubatorId: string) {
+        return this.call('UserCreatureService', 'openHatchedEgg', [ incubatorId ]);
+    }
+
+    async startHatchingEgg(eggId: string, incubatorId: string) {
+        await this.call('UserCreatureService', 'startHatchingEgg', [
+            eggId,
+            incubatorId,
+        ]);
+        return this.getHatchingInfo();
     }
 
     async getMapUpdate(latitude: number, longitude: number, horizontalAccuracy = 20) {

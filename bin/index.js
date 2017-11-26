@@ -138,7 +138,7 @@ class Client {
         return data;
     }
     async event(name, one, two, three) {
-        let eventCounter = this.eventsCounter[name] || 1;
+        const eventCounter = this.eventsCounter[name] || 1;
         await this.call('ClientEventService', 'onEventWithCounter', [
             name,
             this.user.id,
@@ -218,6 +218,8 @@ class Client {
         this.auth.profileId = jwt.decode(this.auth.tokenId, null, true).sub;
     }
     async load() {
+        if (!this.user.avatar)
+            throw new Error('Please login first.');
         await this.event('LoadingScreenPercent', '100');
         await this.event('CreateAvatarByType', 'MageMale');
         await this.event('LoadingScreenPercent', '100');
@@ -267,7 +269,7 @@ class Client {
         return await this.call('PlayerService', 'saveUserSettings', [+avatar]);
     }
     async getUserItems() {
-        return this.call('ItemService', 'getUserItems', null);
+        return this.call('ItemService', 'getUserItems', []);
     }
     async getCreadex() {
         return this.call('UserCreatureService', 'getCreadex', []);
@@ -277,6 +279,16 @@ class Client {
     }
     async getHatchingInfo() {
         return this.call('UserCreatureService', 'getHatchingInfo', []);
+    }
+    async openHatchedEgg(incubatorId) {
+        return this.call('UserCreatureService', 'openHatchedEgg', [incubatorId]);
+    }
+    async startHatchingEgg(eggId, incubatorId) {
+        await this.call('UserCreatureService', 'startHatchingEgg', [
+            eggId,
+            incubatorId,
+        ]);
+        return this.getHatchingInfo();
     }
     async getMapUpdate(latitude, longitude, horizontalAccuracy = 20) {
         return this.call('MapService', 'getUpdate', [
