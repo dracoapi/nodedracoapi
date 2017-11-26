@@ -269,7 +269,7 @@ class Client {
         return await this.call('PlayerService', 'saveUserSettings', [+avatar]);
     }
     async getUserItems() {
-        return this.call('ItemService', 'getUserItems', null);
+        return this.call('ItemService', 'getUserItems', []);
     }
     async getCreadex() {
         return this.call('UserCreatureService', 'getCreadex', []);
@@ -279,6 +279,16 @@ class Client {
     }
     async getHatchingInfo() {
         return this.call('UserCreatureService', 'getHatchingInfo', []);
+    }
+    async openHatchedEgg(incubatorId) {
+        return this.call('UserCreatureService', 'openHatchedEgg', [incubatorId]);
+    }
+    async startHatchingEgg(eggId, incubatorId) {
+        await this.call('UserCreatureService', 'startHatchingEgg', [
+            eggId,
+            incubatorId,
+        ]);
+        return this.getHatchingInfo();
     }
     async getMapUpdate(latitude, longitude, horizontalAccuracy = 20) {
         return this.call('MapService', 'getUpdate', [

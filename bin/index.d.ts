@@ -39,6 +39,8 @@ export declare class Client {
     getCreadex(): Promise<any>;
     getUserCreatures(): Promise<objects.FUserCreaturesList>;
     getHatchingInfo(): Promise<objects.FUserHatchingInfo>;
+    openHatchedEgg(incubatorId: string): Promise<any>;
+    startHatchingEgg(eggId: string, incubatorId: string): Promise<objects.FUserHatchingInfo>;
     getMapUpdate(latitude: number, longitude: number, horizontalAccuracy?: number): Promise<any>;
     useBuilding(clientLat: number, clientLng: number, buildingId: string, buildingLat: number, buildingLng: number): Promise<any>;
     encounter(id: string, options?: any): Promise<any>;
