@@ -786,6 +786,23 @@ class FClientInfo {
     }
 }
 exports.FClientInfo = FClientInfo;
+class FClientLogRecord {
+    constructor(init) {
+        this.__type = 'FClientLogRecord';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeFloat(this.clientTime);
+        serializer.writeUtf8String(this.logName);
+        serializer.writeUtf8String(this.message);
+    }
+    deserialize(deserializer) {
+        this.clientTime = deserializer.readFloat();
+        this.logName = deserializer.readUtf8String();
+        this.message = deserializer.readUtf8String();
+    }
+}
+exports.FClientLogRecord = FClientLogRecord;
 class FClientRequest {
     constructor(init) {
         this.__type = 'FClientRequest';
@@ -2073,14 +2090,18 @@ class FUserInfo {
         serializer.writeDynamicObject(this.alliance, 'enums.AllianceType');
         serializer.writeInt32(this.avatarAppearanceDetails);
         serializer.writeBoolean(this.devMode);
+        serializer.writeInt32(this.newLicense);
         serializer.writeUtf8String(this.nickname);
+        serializer.writeBoolean(this.sendClientLog);
         serializer.writeUtf8String(this.userId);
     }
     deserialize(deserializer) {
         this.alliance = deserializer.readDynamicObject();
         this.avatarAppearanceDetails = deserializer.readInt32();
         this.devMode = deserializer.readBoolean();
+        this.newLicense = deserializer.readInt32();
         this.nickname = deserializer.readUtf8String();
+        this.sendClientLog = deserializer.readBoolean();
         this.userId = deserializer.readUtf8String();
     }
 }

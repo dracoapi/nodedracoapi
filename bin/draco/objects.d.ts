@@ -411,6 +411,15 @@ export declare class FClientInfo {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
+export declare class FClientLogRecord {
+    __type: string;
+    clientTime: number;
+    logName: string;
+    message: string;
+    constructor(init?: Partial<FClientLogRecord>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
 export declare class FClientRequest {
     __type: string;
     coordsWithAccuracy: GeoCoordsWithAccuracy;
@@ -1085,7 +1094,9 @@ export declare class FUserInfo {
     alliance: enums.AllianceType;
     avatarAppearanceDetails: number;
     devMode: boolean;
+    newLicense: number;
     nickname: string;
+    sendClientLog: boolean;
     userId: string;
     constructor(init?: Partial<FUserInfo>);
     serialize(serializer: Serializer): void;
