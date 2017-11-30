@@ -81,14 +81,14 @@ export class Client {
         cookies.setCookie(request.cookie('domain=.draconiusgo.com'), 'https://us.draconiusgo.com');
 
         this.clientInfo = new objects.FClientInfo({
+            deviceModel: 'iPhone8,1',
+            iOsAdvertisingTrackingEnabled: false,
+            language: 'English',
             platform: 'IPhonePlayer',
             platformVersion: 'iOS 10.3.3',
-            deviceModel: 'iPhone8,1',
             revision: this.clientVersion,
-            screenWidth: 750,
             screenHeight: 1334,
-            language: 'English',
-            iOsAdvertisingTrackingEnabled: false,
+            screenWidth: 750,
         });
         this.user = new User();
     }
@@ -265,6 +265,10 @@ export class Client {
     async acceptTos() {
         await this.event('LicenceShown');
         await this.event('LicenceAccepted');
+    }
+
+    async acceptLicence(licence) {
+        return await this.call('AuthService', 'acceptLicence', [ licence ]);
     }
 
     async register(nickname) {

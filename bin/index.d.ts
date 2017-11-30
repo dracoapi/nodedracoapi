@@ -32,6 +32,7 @@ export declare class Client {
     load(): Promise<void>;
     validateNickname(nickname: any): Promise<any>;
     acceptTos(): Promise<void>;
+    acceptLicence(licence: any): Promise<any>;
     register(nickname: any): Promise<any>;
     generateAvatar(options?: any): number;
     setAvatar(avatar: any): Promise<any>;
