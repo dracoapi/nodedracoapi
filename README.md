@@ -1,3 +1,5 @@
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/niicodev)
+
 # NodeDracoApi
 
 API to communicate with Draconius GO server.  
