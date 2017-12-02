@@ -28,8 +28,8 @@ class Client {
     constructor(options = {}) {
         this.eventsCounter = {};
         this.checkProtocol = true;
-        this.protocolVersion = options.protocolVersion || '1370715311';
-        this.clientVersion = options.clientVersion || '7830';
+        this.protocolVersion = options.protocolVersion || '3936424772';
+        this.clientVersion = options.clientVersion || '8131';
         if (options.hasOwnProperty('checkProtocol'))
             this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter'))
@@ -56,14 +56,14 @@ class Client {
         cookies.setCookie(request.cookie('Path=/'), 'https://us.draconiusgo.com');
         cookies.setCookie(request.cookie('domain=.draconiusgo.com'), 'https://us.draconiusgo.com');
         this.clientInfo = new objects.FClientInfo({
+            deviceModel: 'iPhone8,1',
+            iOsAdvertisingTrackingEnabled: false,
+            language: 'English',
             platform: 'IPhonePlayer',
             platformVersion: 'iOS 10.3.3',
-            deviceModel: 'iPhone8,1',
             revision: this.clientVersion,
-            screenWidth: 750,
             screenHeight: 1334,
-            language: 'English',
-            iOsAdvertisingTrackingEnabled: false,
+            screenWidth: 750,
         });
         this.user = new User();
     }
@@ -234,6 +234,9 @@ class Client {
         await this.event('LicenceShown');
         await this.event('LicenceAccepted');
     }
+    async acceptLicence(licence) {
+        return await this.call('AuthService', 'acceptLicence', [licence]);
+    }
     async register(nickname) {
         this.user.nickname = nickname;
         this.event('Register', this.auth.name, nickname);
@@ -357,7 +360,7 @@ class Client {
         if (!Array.isArray(ids))
             ids = [ids];
         return await this.call('UserCreatureService', 'convertCreaturesToCandies', [
-            { __type: 'List', value: ids },
+            { __type: 'List<>', value: ids },
             false
         ]);
     }

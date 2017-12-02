@@ -76,8 +76,11 @@ class GoogleLogin {
     getToken(username, loginData) {
         return new Promise((resolve, reject) => {
             google.oauth(username, loginData.masterToken, loginData.androidId, GOOGLE_LOGIN_SERVICE, GOOGLE_LOGIN_APP, GOOGLE_LOGIN_CLIENT_SIG, (err, data) => {
-                if (err) {
+                if (err && err.response) {
                     reject(Error(err.response.statusCode + ': ' + err.response.statusMessage));
+                }
+                else if (err) {
+                    reject(err);
                 }
                 else if (data.Error) {
                     reject(Error('Error during Google login: ' + data.Error));
