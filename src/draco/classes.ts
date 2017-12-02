@@ -23,7 +23,7 @@ export const classIds = {
     '10': 'float',
     '11': 'double',
     '12': 'string',
-    '13': 'List',
+    '13': 'List<>',
     '14': 'Set',
     '15': 'Map',
     '16': 'Map',
