@@ -360,7 +360,7 @@ class Client {
         if (!Array.isArray(ids))
             ids = [ids];
         return await this.call('UserCreatureService', 'convertCreaturesToCandies', [
-            { __type: 'List', value: ids },
+            { __type: 'List<>', value: ids },
             false
         ]);
     }
