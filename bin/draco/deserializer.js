@@ -169,6 +169,10 @@ class Deserializer {
             const objtype = match[1] || 'object';
             return this.readStaticList(match[1], false);
         }
+        else if ((match = /Set<(.*)>/.exec(type))) {
+            const objtype = match[1] || 'object';
+            return this.readStaticHashSet(match[1], false);
+        }
         else if (enums[type]) {
             return this.readSByte();
         }

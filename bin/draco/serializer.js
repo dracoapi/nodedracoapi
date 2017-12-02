@@ -48,7 +48,7 @@ class Serializer {
             else if (typeof data === 'boolean')
                 type = 'bool';
             else if (Array.isArray(data))
-                type = 'List';
+                type = 'List<>';
             else {
                 throw new Error('Unhandled: ' + data);
             }
@@ -183,7 +183,7 @@ class Serializer {
         else if (type) {
             if (isPrimitive(type) && data.__type)
                 data = data.value;
-            if (data.__type === 'List')
+            if (data.__type === 'List' || data.__type === 'List<>')
                 this.writeStaticList(data.value, false, 'object');
             else if (type === 'bool')
                 this.writeBoolean(data);
@@ -212,26 +212,6 @@ class Serializer {
         }
         else {
             throw new Error('unhandled');
-            // if ((typeof data) === 'boolean') {
-            //     this.writeBoolean(data);
-            // } else if ((typeof data) === 'number') {
-            //     if (data % 1 === 0) {
-            //         this.writeInt32(data);
-            //     } else {
-            //         this.writeFloat(data);
-            //     }
-            // } else if (data instanceof long) {
-            //     this.writeInt64(data);
-            // } else if ((typeof data) === 'string') {
-            //     this.writeUtf8String(data);
-            // } else {
-            //     const type = data.constructor.name;
-            //     if (objects[type]) {
-            //         data.serialize(this);
-            //     } else {
-            //         throw new Error('Unhandled type: ' + type);
-            //     }
-            // }
         }
     }
     writeDynamicObject(data, type) {

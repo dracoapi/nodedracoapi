@@ -24,7 +24,7 @@ export const classIds = {
     '11': 'double',
     '12': 'string',
     '13': 'List<>',
-    '14': 'Set',
+    '14': 'Set<>',
     '15': 'Map',
     '16': 'Map',
     '17': 'AllianceType',
