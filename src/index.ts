@@ -310,6 +310,8 @@ export class Client {
         return await this.call('PlayerService', 'saveUserSettings', [ +avatar ]);
     }
 
+    // Inventory
+
     async getUserItems() {
         return this.call('ItemService', 'getUserItems', []);
     }
@@ -318,9 +320,59 @@ export class Client {
         return this.call('UserCreatureService', 'getCreadex', []);
     }
 
+    async discardItem(id: number, count: number) {
+        return await this.call('ItemService', 'discardItems', [
+            { __type: 'ItemType', value: id },
+            count
+        ]);
+    }
+
+    // Creatures
+
     async getUserCreatures(): Promise<objects.FUserCreaturesList> {
         return this.call('UserCreatureService', 'getUserCreatures', []);
     }
+
+    async encounter(id: string, options: any = {}) {
+        const response = await this.call('GamePlayService', 'startCatchingCreature', [
+            new objects.FCreatureRequest({
+                id,
+            }),
+        ]);
+
+        if (options.delay === undefined) options.delay = 1000 + Math.random() * 1500;
+
+        await this.delay(options.delayencounter);
+        await this.event('IsArAvailable', 'False');
+
+        return response;
+    }
+
+    async catch(id: string, ball: number, quality: number, spin = false, options?: any) {
+        return await this.call('GamePlayService', 'tryCatchCreature', [
+            id,
+            { __type: 'ItemType', value: ball },
+            { __type: 'float', value: quality },
+            spin
+        ]);
+    }
+
+    async releaseCreatures(ids: string[]): Promise<objects.FUpdate> {
+        if (!Array.isArray(ids)) ids = [ ids ];
+        return await this.call('UserCreatureService', 'convertCreaturesToCandies', [
+            { __type: 'List<>', value: ids },
+            false
+        ]);
+    }
+
+    async evolve(id: string, toType: enums.CreatureType) {
+        return this.call('UserCreatureService', 'evolveCreature', [
+            id,
+            { __type: 'CreatureType', value: toType },
+        ]);
+    }
+
+    // Eggs
 
     async getHatchingInfo(): Promise<objects.FUserHatchingInfo> {
         return this.call('UserCreatureService', 'getHatchingInfo', []);
@@ -337,6 +389,8 @@ export class Client {
         ]);
         return this.getHatchingInfo();
     }
+
+    // Map
 
     async getMapUpdate(latitude: number, longitude: number, horizontalAccuracy = 20) {
         return this.call('MapService', 'getUpdate', [
@@ -374,45 +428,6 @@ export class Client {
                 }),
                 id: buildingId,
             }),
-        ]);
-    }
-
-    async encounter(id: string, options: any = {}) {
-        const response = await this.call('GamePlayService', 'startCatchingCreature', [
-            new objects.FCreatureRequest({
-                id,
-            }),
-        ]);
-
-        if (options.delay === undefined) options.delay = 1000 + Math.random() * 1500;
-
-        await this.delay(options.delayencounter);
-        await this.event('IsArAvailable', 'False');
-
-        return response;
-    }
-
-    async catch(id: string, ball: number, quality: number, spin = false, options?: any) {
-        return await this.call('GamePlayService', 'tryCatchCreature', [
-            id,
-            { __type: 'ItemType', value: ball },
-            { __type: 'float', value: quality },
-            spin
-        ]);
-    }
-
-    async discardItem(id: number, count: number) {
-        return await this.call('ItemService', 'discardItems', [
-            { __type: 'ItemType', value: id },
-            count
-        ]);
-    }
-
-    async releaseCreatures(ids: string[]): Promise<objects.FUpdate> {
-        if (!Array.isArray(ids)) ids = [ ids ];
-        return await this.call('UserCreatureService', 'convertCreaturesToCandies', [
-            { __type: 'List<>', value: ids },
-            false
         ]);
     }
 

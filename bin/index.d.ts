@@ -38,16 +38,17 @@ export declare class Client {
     setAvatar(avatar: any): Promise<any>;
     getUserItems(): Promise<any>;
     getCreadex(): Promise<any>;
+    discardItem(id: number, count: number): Promise<any>;
     getUserCreatures(): Promise<objects.FUserCreaturesList>;
+    encounter(id: string, options?: any): Promise<any>;
+    catch(id: string, ball: number, quality: number, spin?: boolean, options?: any): Promise<any>;
+    releaseCreatures(ids: string[]): Promise<objects.FUpdate>;
+    evolve(id: string, toType: enums.CreatureType): Promise<any>;
     getHatchingInfo(): Promise<objects.FUserHatchingInfo>;
     openHatchedEgg(incubatorId: string): Promise<any>;
     startHatchingEgg(eggId: string, incubatorId: string): Promise<objects.FUserHatchingInfo>;
     getMapUpdate(latitude: number, longitude: number, horizontalAccuracy?: number): Promise<any>;
     useBuilding(clientLat: number, clientLng: number, buildingId: string, buildingLat: number, buildingLng: number): Promise<any>;
-    encounter(id: string, options?: any): Promise<any>;
-    catch(id: string, ball: number, quality: number, spin?: boolean, options?: any): Promise<any>;
-    discardItem(id: number, count: number): Promise<any>;
-    releaseCreatures(ids: string[]): Promise<objects.FUpdate>;
     openChest(chest: objects.FChest): Promise<any>;
     delay<T>(ms: number, value?: T): Promise<T>;
 }

@@ -1,9 +1,13 @@
+![npm version](https://img.shields.io/npm/v/draconode.svg)
+![downloads](https://img.shields.io/npm/dt/draconode.svg)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/niicodev)
 
-# NodeDracoApi
+# DracoNode: a node draco api
 
 API to communicate with Draconius GO server.  
 Writing in TypeScript, compiled into full JavaScript for Node 8.x.
+
+Include main API calls as well s Google login.
 
 This is still a work in progress, not everything is implemented.  
 Ask for feature or report bugs here: https://github.com/dracoapi/nodedracoapi/issues 
