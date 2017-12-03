@@ -271,15 +271,58 @@ class Client {
         await this.event('AvatarPlayerSubmit', avatar.toString());
         return await this.call('PlayerService', 'saveUserSettings', [+avatar]);
     }
+    // Inventory
     async getUserItems() {
         return this.call('ItemService', 'getUserItems', []);
     }
     async getCreadex() {
         return this.call('UserCreatureService', 'getCreadex', []);
     }
+    async discardItem(id, count) {
+        return await this.call('ItemService', 'discardItems', [
+            { __type: 'ItemType', value: id },
+            count
+        ]);
+    }
+    // Creatures
     async getUserCreatures() {
         return this.call('UserCreatureService', 'getUserCreatures', []);
     }
+    async encounter(id, options = {}) {
+        const response = await this.call('GamePlayService', 'startCatchingCreature', [
+            new objects.FCreatureRequest({
+                id,
+            }),
+        ]);
+        if (options.delay === undefined)
+            options.delay = 1000 + Math.random() * 1500;
+        await this.delay(options.delayencounter);
+        await this.event('IsArAvailable', 'False');
+        return response;
+    }
+    async catch(id, ball, quality, spin = false, options) {
+        return await this.call('GamePlayService', 'tryCatchCreature', [
+            id,
+            { __type: 'ItemType', value: ball },
+            { __type: 'float', value: quality },
+            spin
+        ]);
+    }
+    async releaseCreatures(ids) {
+        if (!Array.isArray(ids))
+            ids = [ids];
+        return await this.call('UserCreatureService', 'convertCreaturesToCandies', [
+            { __type: 'List<>', value: ids },
+            false
+        ]);
+    }
+    async evolve(id, toType) {
+        return this.call('UserCreatureService', 'evolveCreature', [
+            id,
+            { __type: 'CreatureType', value: toType },
+        ]);
+    }
+    // Eggs
     async getHatchingInfo() {
         return this.call('UserCreatureService', 'getHatchingInfo', []);
     }
@@ -293,6 +336,7 @@ class Client {
         ]);
         return this.getHatchingInfo();
     }
+    // Map
     async getMapUpdate(latitude, longitude, horizontalAccuracy = 20) {
         return this.call('MapService', 'getUpdate', [
             new objects.FUpdateRequest({
@@ -328,40 +372,6 @@ class Client {
                 }),
                 id: buildingId,
             }),
-        ]);
-    }
-    async encounter(id, options = {}) {
-        const response = await this.call('GamePlayService', 'startCatchingCreature', [
-            new objects.FCreatureRequest({
-                id,
-            }),
-        ]);
-        if (options.delay === undefined)
-            options.delay = 1000 + Math.random() * 1500;
-        await this.delay(options.delayencounter);
-        await this.event('IsArAvailable', 'False');
-        return response;
-    }
-    async catch(id, ball, quality, spin = false, options) {
-        return await this.call('GamePlayService', 'tryCatchCreature', [
-            id,
-            { __type: 'ItemType', value: ball },
-            { __type: 'float', value: quality },
-            spin
-        ]);
-    }
-    async discardItem(id, count) {
-        return await this.call('ItemService', 'discardItems', [
-            { __type: 'ItemType', value: id },
-            count
-        ]);
-    }
-    async releaseCreatures(ids) {
-        if (!Array.isArray(ids))
-            ids = [ids];
-        return await this.call('UserCreatureService', 'convertCreaturesToCandies', [
-            { __type: 'List<>', value: ids },
-            false
         ]);
     }
     async openChest(chest) {
