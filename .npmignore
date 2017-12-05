@@ -1,3 +1,5 @@
 src/examples/*
 bin/examples/*
 .vscode
+*.map
+user*.json
