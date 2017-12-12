@@ -26,6 +26,6 @@
     "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
-    "@types/node": "^8.0.53"
+    "@types/node": "^8.0.58"
   }
 }

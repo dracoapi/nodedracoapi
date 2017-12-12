@@ -48,14 +48,16 @@ class GoogleLogin {
         return new Promise((resolve, reject) => {
             google.login(username, password, GOOGLE_LOGIN_ANDROID_ID, (err, data) => {
                 if (err) {
-                    if (err.response.statusCode === 403) {
-                        reject(Error('Received code 403 from Google login. This could be because your account has ' +
-                            '2-Step-Verification enabled. If that is the case, you need to generate an ' +
-                            'App Password and use that instead of your regular password: ' +
-                            'https://security.google.com/settings/security/apppasswords'));
-                    }
-                    else if (err.response) {
-                        reject(Error(err.response.statusCode + ': ' + err.response.statusMessage));
+                    if (err.response) {
+                        if (err.response.statusCode === 403) {
+                            reject(Error('Received code 403 from Google login. This could be because your account has ' +
+                                '2-Step-Verification enabled. If that is the case, you need to generate an ' +
+                                'App Password and use that instead of your regular password: ' +
+                                'https://security.google.com/settings/security/apppasswords'));
+                        }
+                        else {
+                            reject(Error(err.response.statusCode + ': ' + err.response.statusMessage));
+                        }
                     }
                     else {
                         reject(err);
