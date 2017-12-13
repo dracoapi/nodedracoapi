@@ -79,8 +79,8 @@ export declare class FAltarDetails {
     coords: GeoCoords;
     ownerNickname: string;
     recipeName: enums.RecipeType;
-    runeOwnerNames: Map<number, number>;
-    runeOwners: Map<number, number>;
+    runeOwnerNames: Map<number, string>;
+    runeOwners: Map<number, string>;
     constructor(init?: Partial<FAltarDetails>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
@@ -186,7 +186,7 @@ export declare class FAvaUpdate {
     artifacts: enums.ArtifactName[];
     buddy: FBuddy;
     buffs: FBuff[];
-    candies: Map<enums.CreatureType, enums.CreatureType>;
+    candies: Map<enums.CreatureType, number>;
     coins: number;
     creatureStorageSize: number;
     currentExperience: number;
@@ -234,7 +234,7 @@ export declare class FBagUpdate {
     __type: string;
     allowedItemsSize: number;
     items: FBagItem[];
-    lockedRunes: Map<enums.ItemType, enums.ItemType>;
+    lockedRunes: Map<enums.ItemType, number>;
     constructor(init?: Partial<FBagUpdate>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
@@ -303,7 +303,7 @@ export declare class FBuildingRequest {
 }
 export declare class FBuildingUpdate {
     __type: string;
-    tileBuildings: Map<FTile, FTile>;
+    tileBuildings: Map<FTile, FTileState>;
     constructor(init?: Partial<FBuildingUpdate>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
@@ -335,7 +335,7 @@ export declare class FCatchCreatureResult {
 }
 export declare class FCatchingConfig {
     __type: string;
-    catchChances: Map<enums.ItemType, enums.ItemType>;
+    catchChances: Map<enums.ItemType, number>;
     chanceToAttack: number;
     chanceToJump: number;
     distance: number;
@@ -371,7 +371,7 @@ export declare class FCatchingCreature {
     feedLeftTime: number;
     id: string;
     isCreatureStorageFull: boolean;
-    items: Map<enums.ItemType, enums.ItemType>;
+    items: Map<enums.ItemType, number>;
     name: enums.CreatureType;
     quality: number;
     constructor(init?: Partial<FCatchingCreature>);
@@ -444,7 +444,7 @@ export declare class FConfig {
     battlesEnhancedLimitPrice: number;
     buildingsVisionRadius: number;
     cameraFieldOfView: number;
-    catchPopup: Map<number, number>;
+    catchPopup: Map<number, string>;
     congratulationLayerLevels: number[];
     creaturesDelayVisibility: number;
     dailyQuestAvailableFromLevel: number;
@@ -477,7 +477,7 @@ export declare class FConfig {
     personalizationPrice: number;
     potionConfig: PotionConfig;
     radarVisionRadius: number;
-    runes: Map<enums.RecipeType, enums.RecipeType>;
+    runes: Map<enums.RecipeType, object[]>;
     serverTime: long;
     spinGain: number;
     superVisionEffectInterval: number;
@@ -945,9 +945,9 @@ export declare class FServiceError {
 }
 export declare class FShopConfig {
     __type: string;
-    artifacts: Map<enums.ArtifactName, enums.ArtifactName>;
+    artifacts: Map<enums.ArtifactName, number>;
     bagUpgrade: ProductLot;
-    coins: Map<string, string>;
+    coins: Map<string, ProductLot>;
     creatureStorageUpgrade: ProductLot;
     products: ProductGroup[];
     constructor(init?: Partial<FShopConfig>);
@@ -1021,7 +1021,7 @@ export declare class FUpdateRequest {
     blackScreen: boolean;
     clientPlatform: enums.ClientPlatform;
     clientRequest: FClientRequest;
-    tilesCache: Map<FTile, FTile>;
+    tilesCache: Map<FTile, long>;
     constructor(init?: Partial<FUpdateRequest>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
@@ -1054,7 +1054,7 @@ export declare class FUserCreature {
     mainSkillDps: number;
     mainSkillEps: number;
     name: enums.CreatureType;
-    possibleEvolutions: Map<enums.CreatureType, enums.CreatureType>;
+    possibleEvolutions: Map<enums.CreatureType, number>;
     staminaValue: number;
     totalHp: number;
     constructor(init?: Partial<FUserCreature>);
@@ -1109,7 +1109,7 @@ export declare class FWeeklyQuest {
     currentFragment: number;
     digFragments: number[];
     nextWeeklyQuestIn: number;
-    openFragments: Map<number, number>;
+    openFragments: Map<number, Buffer>;
     sideFragmentNumber: number;
     constructor(init?: Partial<FWeeklyQuest>);
     serialize(serializer: Serializer): void;
@@ -1198,8 +1198,8 @@ export declare class InAppEventInfo {
 }
 export declare class PotionConfig {
     __type: string;
-    heals: Map<enums.ItemType, enums.ItemType>;
-    resurrections: Map<enums.ItemType, enums.ItemType>;
+    heals: Map<enums.ItemType, number>;
+    resurrections: Map<enums.ItemType, number>;
     constructor(init?: Partial<PotionConfig>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;

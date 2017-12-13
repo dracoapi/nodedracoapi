@@ -144,8 +144,8 @@ class FAltarDetails {
         serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeUtf8String(this.ownerNickname);
         serializer.writeSByte(this.recipeName);
-        serializer.writeStaticMap(this.runeOwnerNames, true, true, 'Map<int, int>');
-        serializer.writeStaticMap(this.runeOwners, true, true, 'Map<int, int>');
+        serializer.writeStaticMap(this.runeOwnerNames, true, true, 'Map<int, string>');
+        serializer.writeStaticMap(this.runeOwners, true, true, 'Map<int, string>');
     }
     deserialize(deserializer) {
         this.buildingId = deserializer.readUtf8String();
@@ -346,7 +346,7 @@ class FAvaUpdate {
         serializer.writeStaticList(this.artifacts, true, 'enums.ArtifactName[]');
         serializer.writeDynamicObject(this.buddy, 'FBuddy');
         serializer.writeStaticList(this.buffs, true, 'FBuff[]');
-        serializer.writeStaticMap(this.candies, true, true, 'Map<enums.CreatureType, enums.CreatureType>');
+        serializer.writeStaticMap(this.candies, true, true, 'Map<enums.CreatureType, int>');
         serializer.writeInt32(this.coins);
         serializer.writeInt32(this.creatureStorageSize);
         serializer.writeInt32(this.currentExperience);
@@ -446,7 +446,7 @@ class FBagUpdate {
     serialize(serializer) {
         serializer.writeInt32(this.allowedItemsSize);
         serializer.writeStaticList(this.items, true, 'FBagItem[]');
-        serializer.writeStaticMap(this.lockedRunes, true, true, 'Map<enums.ItemType, enums.ItemType>');
+        serializer.writeStaticMap(this.lockedRunes, true, true, 'Map<enums.ItemType, int>');
     }
     deserialize(deserializer) {
         this.allowedItemsSize = deserializer.readInt32();
@@ -579,7 +579,7 @@ class FBuildingUpdate {
         Object.assign(this, init);
     }
     serialize(serializer) {
-        serializer.writeStaticMap(this.tileBuildings, true, true, 'Map<FTile, FTile>');
+        serializer.writeStaticMap(this.tileBuildings, true, true, 'Map<FTile, FTileState>');
     }
     deserialize(deserializer) {
         this.tileBuildings = deserializer.readStaticMap('FTile', 'FTileState', true, true);
@@ -641,7 +641,7 @@ class FCatchingConfig {
         Object.assign(this, init);
     }
     serialize(serializer) {
-        serializer.writeStaticMap(this.catchChances, true, true, 'Map<enums.ItemType, enums.ItemType>');
+        serializer.writeStaticMap(this.catchChances, true, true, 'Map<enums.ItemType, float>');
         serializer.writeFloat(this.chanceToAttack);
         serializer.writeFloat(this.chanceToJump);
         serializer.writeFloat(this.distance);
@@ -703,7 +703,7 @@ class FCatchingCreature {
         serializer.writeInt32(this.feedLeftTime);
         serializer.writeUtf8String(this.id);
         serializer.writeBoolean(this.isCreatureStorageFull);
-        serializer.writeStaticMap(this.items, true, true, 'Map<enums.ItemType, enums.ItemType>');
+        serializer.writeStaticMap(this.items, true, true, 'Map<enums.ItemType, int>');
         serializer.writeSByte(this.name);
         serializer.writeFloat(this.quality);
     }
@@ -839,7 +839,7 @@ class FConfig {
         serializer.writeInt32(this.battlesEnhancedLimitPrice);
         serializer.writeInt32(this.buildingsVisionRadius);
         serializer.writeFloat(this.cameraFieldOfView);
-        serializer.writeStaticMap(this.catchPopup, true, true, 'Map<float, float>');
+        serializer.writeStaticMap(this.catchPopup, true, true, 'Map<float, string>');
         serializer.writeStaticArray(this.congratulationLayerLevels, true, 'int[]');
         serializer.writeInt32(this.creaturesDelayVisibility);
         serializer.writeInt32(this.dailyQuestAvailableFromLevel);
@@ -872,7 +872,7 @@ class FConfig {
         serializer.writeInt32(this.personalizationPrice);
         serializer.writeStaticObject(this.potionConfig, 'PotionConfig');
         serializer.writeDouble(this.radarVisionRadius);
-        serializer.writeStaticMap(this.runes, true, true, 'Map<enums.RecipeType, enums.RecipeType>');
+        serializer.writeStaticMap(this.runes, true, true, 'Map<enums.RecipeType, object[]>');
         serializer.writeInt64(this.serverTime);
         serializer.writeFloat(this.spinGain);
         serializer.writeFloat(this.superVisionEffectInterval);
@@ -1809,9 +1809,9 @@ class FShopConfig {
         Object.assign(this, init);
     }
     serialize(serializer) {
-        serializer.writeStaticMap(this.artifacts, true, true, 'Map<enums.ArtifactName, enums.ArtifactName>');
+        serializer.writeStaticMap(this.artifacts, true, true, 'Map<enums.ArtifactName, int>');
         serializer.writeStaticObject(this.bagUpgrade, 'ProductLot');
-        serializer.writeStaticMap(this.coins, true, true, 'Map<string, string>');
+        serializer.writeStaticMap(this.coins, true, true, 'Map<string, ProductLot>');
         serializer.writeStaticObject(this.creatureStorageUpgrade, 'ProductLot');
         serializer.writeStaticList(this.products, true, 'ProductGroup[]');
     }
@@ -1949,7 +1949,7 @@ class FUpdateRequest {
         serializer.writeBoolean(this.blackScreen);
         serializer.writeSByte(this.clientPlatform);
         serializer.writeStaticObject(this.clientRequest, 'FClientRequest');
-        serializer.writeStaticMap(this.tilesCache, true, true, 'Map<FTile, FTile>');
+        serializer.writeStaticMap(this.tilesCache, true, true, 'Map<FTile, long>');
     }
     deserialize(deserializer) {
         this.blackScreen = deserializer.readBoolean();
@@ -1991,7 +1991,7 @@ class FUserCreature {
         serializer.writeFloat(this.mainSkillDps);
         serializer.writeFloat(this.mainSkillEps);
         serializer.writeSByte(this.name);
-        serializer.writeStaticMap(this.possibleEvolutions, true, true, 'Map<enums.CreatureType, enums.CreatureType>');
+        serializer.writeStaticMap(this.possibleEvolutions, true, true, 'Map<enums.CreatureType, int>');
         serializer.writeInt32(this.staminaValue);
         serializer.writeFloat(this.totalHp);
     }
@@ -2117,7 +2117,7 @@ class FWeeklyQuest {
         serializer.writeInt32(this.currentFragment);
         serializer.writeStaticList(this.digFragments, true, 'int[]');
         serializer.writeInt32(this.nextWeeklyQuestIn);
-        serializer.writeStaticMap(this.openFragments, true, true, 'Map<int, int>');
+        serializer.writeStaticMap(this.openFragments, true, true, 'Map<int, Buffer>');
         serializer.writeInt32(this.sideFragmentNumber);
     }
     deserialize(deserializer) {
@@ -2291,8 +2291,8 @@ class PotionConfig {
         Object.assign(this, init);
     }
     serialize(serializer) {
-        serializer.writeStaticMap(this.heals, true, true, 'Map<enums.ItemType, enums.ItemType>');
-        serializer.writeStaticMap(this.resurrections, true, true, 'Map<enums.ItemType, enums.ItemType>');
+        serializer.writeStaticMap(this.heals, true, true, 'Map<enums.ItemType, int>');
+        serializer.writeStaticMap(this.resurrections, true, true, 'Map<enums.ItemType, float>');
     }
     deserialize(deserializer) {
         this.heals = deserializer.readStaticMap('ItemType', 'int', true, true);

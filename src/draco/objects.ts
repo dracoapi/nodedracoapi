@@ -189,8 +189,8 @@ export class FAltarDetails {
     coords: GeoCoords; // GeoCoords
     ownerNickname: string; // string
     recipeName: enums.RecipeType; // RecipeType
-    runeOwnerNames: Map<number, number>; // Map<int, int>
-    runeOwners: Map<number, number>; // Map<int, int>
+    runeOwnerNames: Map<number, string>; // Map<int, string>
+    runeOwners: Map<number, string>; // Map<int, string>
 
     public constructor(init?: Partial<FAltarDetails>) {
         Object.assign(this, init);
@@ -201,8 +201,8 @@ export class FAltarDetails {
         serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeUtf8String(this.ownerNickname);
         serializer.writeSByte(this.recipeName);
-        serializer.writeStaticMap(this.runeOwnerNames, true, true, 'Map<int, int>');
-        serializer.writeStaticMap(this.runeOwners, true, true, 'Map<int, int>');
+        serializer.writeStaticMap(this.runeOwnerNames, true, true, 'Map<int, string>');
+        serializer.writeStaticMap(this.runeOwners, true, true, 'Map<int, string>');
     }
     deserialize(deserializer: Deserializer) {
         this.buildingId = deserializer.readUtf8String();
@@ -462,7 +462,7 @@ export class FAvaUpdate {
     artifacts: enums.ArtifactName[]; // ArtifactName[]
     buddy: FBuddy; // FBuddy
     buffs: FBuff[]; // FBuff[]
-    candies: Map<enums.CreatureType, enums.CreatureType>; // Map<enums.CreatureType, enums.CreatureType>
+    candies: Map<enums.CreatureType, number>; // Map<enums.CreatureType, int>
     coins: number; // int
     creatureStorageSize: number; // int
     currentExperience: number; // int
@@ -506,7 +506,7 @@ export class FAvaUpdate {
         serializer.writeStaticList(this.artifacts, true, 'enums.ArtifactName[]');
         serializer.writeDynamicObject(this.buddy, 'FBuddy');
         serializer.writeStaticList(this.buffs, true, 'FBuff[]');
-        serializer.writeStaticMap(this.candies, true, true, 'Map<enums.CreatureType, enums.CreatureType>');
+        serializer.writeStaticMap(this.candies, true, true, 'Map<enums.CreatureType, int>');
         serializer.writeInt32(this.coins);
         serializer.writeInt32(this.creatureStorageSize);
         serializer.writeInt32(this.currentExperience);
@@ -608,7 +608,7 @@ export class FBagUpdate {
     __type = 'FBagUpdate';
     allowedItemsSize: number; // int
     items: FBagItem[]; // FBagItem[]
-    lockedRunes: Map<enums.ItemType, enums.ItemType>; // Map<enums.ItemType, enums.ItemType>
+    lockedRunes: Map<enums.ItemType, number>; // Map<enums.ItemType, int>
 
     public constructor(init?: Partial<FBagUpdate>) {
         Object.assign(this, init);
@@ -617,7 +617,7 @@ export class FBagUpdate {
     serialize(serializer: Serializer) {
         serializer.writeInt32(this.allowedItemsSize);
         serializer.writeStaticList(this.items, true, 'FBagItem[]');
-        serializer.writeStaticMap(this.lockedRunes, true, true, 'Map<enums.ItemType, enums.ItemType>');
+        serializer.writeStaticMap(this.lockedRunes, true, true, 'Map<enums.ItemType, int>');
     }
     deserialize(deserializer: Deserializer) {
         this.allowedItemsSize = deserializer.readInt32();
@@ -784,14 +784,14 @@ export class FBuildingRequest {
 
 export class FBuildingUpdate {
     __type = 'FBuildingUpdate';
-    tileBuildings: Map<FTile, FTile>; // Map<FTile, FTile>
+    tileBuildings: Map<FTile, FTileState>; // Map<FTile, FTileState>
 
     public constructor(init?: Partial<FBuildingUpdate>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticMap(this.tileBuildings, true, true, 'Map<FTile, FTile>');
+        serializer.writeStaticMap(this.tileBuildings, true, true, 'Map<FTile, FTileState>');
     }
     deserialize(deserializer: Deserializer) {
         this.tileBuildings = deserializer.readStaticMap('FTile', 'FTileState', true, true);
@@ -870,7 +870,7 @@ export class FCatchCreatureResult {
 
 export class FCatchingConfig {
     __type = 'FCatchingConfig';
-    catchChances: Map<enums.ItemType, enums.ItemType>; // Map<enums.ItemType, enums.ItemType>
+    catchChances: Map<enums.ItemType, number>; // Map<enums.ItemType, float>
     chanceToAttack: number; // float
     chanceToJump: number; // float
     distance: number; // float
@@ -897,7 +897,7 @@ export class FCatchingConfig {
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticMap(this.catchChances, true, true, 'Map<enums.ItemType, enums.ItemType>');
+        serializer.writeStaticMap(this.catchChances, true, true, 'Map<enums.ItemType, float>');
         serializer.writeFloat(this.chanceToAttack);
         serializer.writeFloat(this.chanceToJump);
         serializer.writeFloat(this.distance);
@@ -955,7 +955,7 @@ export class FCatchingCreature {
     feedLeftTime: number; // int
     id: string; // string
     isCreatureStorageFull: boolean; // bool
-    items: Map<enums.ItemType, enums.ItemType>; // Map<enums.ItemType, enums.ItemType>
+    items: Map<enums.ItemType, number>; // Map<enums.ItemType, int>
     name: enums.CreatureType; // CreatureType
     quality: number; // float
 
@@ -973,7 +973,7 @@ export class FCatchingCreature {
         serializer.writeInt32(this.feedLeftTime);
         serializer.writeUtf8String(this.id);
         serializer.writeBoolean(this.isCreatureStorageFull);
-        serializer.writeStaticMap(this.items, true, true, 'Map<enums.ItemType, enums.ItemType>');
+        serializer.writeStaticMap(this.items, true, true, 'Map<enums.ItemType, int>');
         serializer.writeSByte(this.name);
         serializer.writeFloat(this.quality);
     }
@@ -1136,7 +1136,7 @@ export class FConfig {
     battlesEnhancedLimitPrice: number; // int
     buildingsVisionRadius: number; // int
     cameraFieldOfView: number; // float
-    catchPopup: Map<number, number>; // Map<float, float>
+    catchPopup: Map<number, string>; // Map<float, string>
     congratulationLayerLevels: number[]; // int[]
     creaturesDelayVisibility: number; // int
     dailyQuestAvailableFromLevel: number; // int
@@ -1169,7 +1169,7 @@ export class FConfig {
     personalizationPrice: number; // int
     potionConfig: PotionConfig; // PotionConfig
     radarVisionRadius: number; // double
-    runes: Map<enums.RecipeType, enums.RecipeType>; // Map<enums.RecipeType, enums.RecipeType>
+    runes: Map<enums.RecipeType, object[]>; // Map<enums.RecipeType, object[]>
     serverTime: long; // long
     spinGain: number; // float
     superVisionEffectInterval: number; // float
@@ -1205,7 +1205,7 @@ export class FConfig {
         serializer.writeInt32(this.battlesEnhancedLimitPrice);
         serializer.writeInt32(this.buildingsVisionRadius);
         serializer.writeFloat(this.cameraFieldOfView);
-        serializer.writeStaticMap(this.catchPopup, true, true, 'Map<float, float>');
+        serializer.writeStaticMap(this.catchPopup, true, true, 'Map<float, string>');
         serializer.writeStaticArray(this.congratulationLayerLevels, true, 'int[]');
         serializer.writeInt32(this.creaturesDelayVisibility);
         serializer.writeInt32(this.dailyQuestAvailableFromLevel);
@@ -1238,7 +1238,7 @@ export class FConfig {
         serializer.writeInt32(this.personalizationPrice);
         serializer.writeStaticObject(this.potionConfig, 'PotionConfig');
         serializer.writeDouble(this.radarVisionRadius);
-        serializer.writeStaticMap(this.runes, true, true, 'Map<enums.RecipeType, enums.RecipeType>');
+        serializer.writeStaticMap(this.runes, true, true, 'Map<enums.RecipeType, object[]>');
         serializer.writeInt64(this.serverTime);
         serializer.writeFloat(this.spinGain);
         serializer.writeFloat(this.superVisionEffectInterval);
@@ -2440,9 +2440,9 @@ export class FServiceError {
 
 export class FShopConfig {
     __type = 'FShopConfig';
-    artifacts: Map<enums.ArtifactName, enums.ArtifactName>; // Map<enums.ArtifactName, enums.ArtifactName>
+    artifacts: Map<enums.ArtifactName, number>; // Map<enums.ArtifactName, int>
     bagUpgrade: ProductLot; // ProductLot
-    coins: Map<string, string>; // Map<string, string>
+    coins: Map<string, ProductLot>; // Map<string, ProductLot>
     creatureStorageUpgrade: ProductLot; // ProductLot
     products: ProductGroup[]; // ProductGroup[]
 
@@ -2451,9 +2451,9 @@ export class FShopConfig {
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticMap(this.artifacts, true, true, 'Map<enums.ArtifactName, enums.ArtifactName>');
+        serializer.writeStaticMap(this.artifacts, true, true, 'Map<enums.ArtifactName, int>');
         serializer.writeStaticObject(this.bagUpgrade, 'ProductLot');
-        serializer.writeStaticMap(this.coins, true, true, 'Map<string, string>');
+        serializer.writeStaticMap(this.coins, true, true, 'Map<string, ProductLot>');
         serializer.writeStaticObject(this.creatureStorageUpgrade, 'ProductLot');
         serializer.writeStaticList(this.products, true, 'ProductGroup[]');
     }
@@ -2617,7 +2617,7 @@ export class FUpdateRequest {
     blackScreen: boolean; // bool
     clientPlatform: enums.ClientPlatform; // ClientPlatform
     clientRequest: FClientRequest; // FClientRequest
-    tilesCache: Map<FTile, FTile>; // Map<FTile, FTile>
+    tilesCache: Map<FTile, long>; // Map<FTile, long>
 
     public constructor(init?: Partial<FUpdateRequest>) {
         Object.assign(this, init);
@@ -2627,7 +2627,7 @@ export class FUpdateRequest {
         serializer.writeBoolean(this.blackScreen);
         serializer.writeSByte(this.clientPlatform);
         serializer.writeStaticObject(this.clientRequest, 'FClientRequest');
-        serializer.writeStaticMap(this.tilesCache, true, true, 'Map<FTile, FTile>');
+        serializer.writeStaticMap(this.tilesCache, true, true, 'Map<FTile, long>');
     }
     deserialize(deserializer: Deserializer) {
         this.blackScreen = deserializer.readBoolean();
@@ -2665,7 +2665,7 @@ export class FUserCreature {
     mainSkillDps: number; // float
     mainSkillEps: number; // float
     name: enums.CreatureType; // CreatureType
-    possibleEvolutions: Map<enums.CreatureType, enums.CreatureType>; // Map<enums.CreatureType, enums.CreatureType>
+    possibleEvolutions: Map<enums.CreatureType, number>; // Map<enums.CreatureType, int>
     staminaValue: number; // int
     totalHp: number; // float
 
@@ -2700,7 +2700,7 @@ export class FUserCreature {
         serializer.writeFloat(this.mainSkillDps);
         serializer.writeFloat(this.mainSkillEps);
         serializer.writeSByte(this.name);
-        serializer.writeStaticMap(this.possibleEvolutions, true, true, 'Map<enums.CreatureType, enums.CreatureType>');
+        serializer.writeStaticMap(this.possibleEvolutions, true, true, 'Map<enums.CreatureType, int>');
         serializer.writeInt32(this.staminaValue);
         serializer.writeFloat(this.totalHp);
     }
@@ -2847,7 +2847,7 @@ export class FWeeklyQuest {
     currentFragment: number; // int
     digFragments: number[]; // int[]
     nextWeeklyQuestIn: number; // int
-    openFragments: Map<number, number>; // Map<int, int>
+    openFragments: Map<number, Buffer>; // Map<int, Buffer>
     sideFragmentNumber: number; // int
 
     public constructor(init?: Partial<FWeeklyQuest>) {
@@ -2860,7 +2860,7 @@ export class FWeeklyQuest {
         serializer.writeInt32(this.currentFragment);
         serializer.writeStaticList(this.digFragments, true, 'int[]');
         serializer.writeInt32(this.nextWeeklyQuestIn);
-        serializer.writeStaticMap(this.openFragments, true, true, 'Map<int, int>');
+        serializer.writeStaticMap(this.openFragments, true, true, 'Map<int, Buffer>');
         serializer.writeInt32(this.sideFragmentNumber);
     }
     deserialize(deserializer: Deserializer) {
@@ -3079,16 +3079,16 @@ export class InAppEventInfo {
 
 export class PotionConfig {
     __type = 'PotionConfig';
-    heals: Map<enums.ItemType, enums.ItemType>; // Map<enums.ItemType, enums.ItemType>
-    resurrections: Map<enums.ItemType, enums.ItemType>; // Map<enums.ItemType, enums.ItemType>
+    heals: Map<enums.ItemType, number>; // Map<enums.ItemType, int>
+    resurrections: Map<enums.ItemType, number>; // Map<enums.ItemType, float>
 
     public constructor(init?: Partial<PotionConfig>) {
         Object.assign(this, init);
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticMap(this.heals, true, true, 'Map<enums.ItemType, enums.ItemType>');
-        serializer.writeStaticMap(this.resurrections, true, true, 'Map<enums.ItemType, enums.ItemType>');
+        serializer.writeStaticMap(this.heals, true, true, 'Map<enums.ItemType, int>');
+        serializer.writeStaticMap(this.resurrections, true, true, 'Map<enums.ItemType, float>');
     }
     deserialize(deserializer: Deserializer) {
         this.heals = deserializer.readStaticMap('ItemType', 'int', true, true);
