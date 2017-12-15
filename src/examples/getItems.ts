@@ -28,7 +28,7 @@ async function main() {
     await draco.load();
 
     console.log('Get user items...');
-    const response = await draco.getUserItems();
+    const response = await draco.inventory.getUserItems();
     for (const item of response.items) {
         console.log(`Item type ${DracoNode.enums.ItemType[item.type]}, count = ${item.count}`);
     }

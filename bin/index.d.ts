@@ -1,5 +1,7 @@
 import * as objects from './draco/objects';
 import * as enums from './draco/enums';
+import { Fight } from './fight';
+import { Inventory } from './inventory';
 export declare class User {
     id: string;
     deviceId: string;
@@ -14,6 +16,8 @@ export { objects };
 export declare class Client {
     clientInfo: objects.FClientInfo;
     user: User;
+    fight: Fight;
+    inventory: Inventory;
     eventsCounter: any;
     private request;
     private proxy;
@@ -36,10 +40,6 @@ export declare class Client {
     register(nickname: any): Promise<any>;
     generateAvatar(options?: any): number;
     setAvatar(avatar: any): Promise<any>;
-    getUserItems(): Promise<any>;
-    getCreadex(): Promise<any>;
-    discardItem(id: number, count: number): Promise<any>;
-    getUserCreatures(): Promise<objects.FUserCreaturesList>;
     encounter(id: string, options?: any): Promise<any>;
     catch(id: string, ball: number, quality: number, spin?: boolean, options?: any): Promise<any>;
     releaseCreatures(ids: string[]): Promise<objects.FUpdate>;
@@ -51,4 +51,20 @@ export declare class Client {
     useBuilding(clientLat: number, clientLng: number, buildingId: string, buildingLat: number, buildingLng: number): Promise<any>;
     openChest(chest: objects.FChest): Promise<any>;
     delay<T>(ms: number, value?: T): Promise<T>;
+    /**
+     * @deprecated please use client.inventory.getUserItems
+     */
+    getUserItems(): Promise<any>;
+    /**
+     * @deprecated please use client.inventory.getCreadex
+     */
+    getCreadex(): Promise<any>;
+    /**
+     * @deprecated please use client.inventory.discardItem
+     */
+    discardItem(id: number, count: number): Promise<any>;
+    /**
+     * @deprecated please use client.inventory.getUserCreatures
+     */
+    getUserCreatures(): Promise<objects.FUserCreaturesList>;
 }

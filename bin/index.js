@@ -9,6 +9,8 @@ exports.enums = enums;
 const serializer_1 = require("./draco/serializer");
 const deserializer_1 = require("./draco/deserializer");
 const google_1 = require("./lib/google");
+const fight_1 = require("./fight");
+const inventory_1 = require("./inventory");
 class User {
 }
 exports.User = User;
@@ -66,6 +68,8 @@ class Client {
             screenWidth: 750,
         });
         this.user = new User();
+        this.fight = new fight_1.Fight(this);
+        this.inventory = new inventory_1.Inventory(this);
     }
     async ping(throwIfError = false) {
         try {
@@ -271,23 +275,7 @@ class Client {
         await this.event('AvatarPlayerSubmit', avatar.toString());
         return await this.call('PlayerService', 'saveUserSettings', [+avatar]);
     }
-    // Inventory
-    async getUserItems() {
-        return this.call('ItemService', 'getUserItems', []);
-    }
-    async getCreadex() {
-        return this.call('UserCreatureService', 'getCreadex', []);
-    }
-    async discardItem(id, count) {
-        return await this.call('ItemService', 'discardItems', [
-            { __type: 'ItemType', value: id },
-            count
-        ]);
-    }
     // Creatures
-    async getUserCreatures() {
-        return this.call('UserCreatureService', 'getUserCreatures', []);
-    }
     async encounter(id, options = {}) {
         const response = await this.call('GamePlayService', 'startCatchingCreature', [
             new objects.FCreatureRequest({
@@ -296,7 +284,7 @@ class Client {
         ]);
         if (options.delay === undefined)
             options.delay = 1000 + Math.random() * 1500;
-        await this.delay(options.delayencounter);
+        await this.delay(options.delay);
         await this.event('IsArAvailable', 'False');
         return response;
     }
@@ -380,6 +368,35 @@ class Client {
     }
     delay(ms, value) {
         return new Promise((resolve) => setTimeout(() => resolve(value), ms));
+    }
+    // deprecated
+    /**
+     * @deprecated please use client.inventory.getUserItems
+     */
+    async getUserItems() {
+        console.log('deprecated, please use client.inventory.getUserItems');
+        return this.inventory.getUserItems();
+    }
+    /**
+     * @deprecated please use client.inventory.getCreadex
+     */
+    async getCreadex() {
+        console.log('deprecated, please use client.inventory.getCreadex');
+        return this.inventory.getCreadex();
+    }
+    /**
+     * @deprecated please use client.inventory.discardItem
+     */
+    async discardItem(id, count) {
+        console.log('deprecated, please use client.inventory.discardItem');
+        return this.inventory.discardItem(id, count);
+    }
+    /**
+     * @deprecated please use client.inventory.getUserCreatures
+     */
+    async getUserCreatures() {
+        console.log('deprecated, please use client.inventory.getUserCreatures');
+        return this.call('UserCreatureService', 'getUserCreatures', []);
     }
 }
 exports.Client = Client;

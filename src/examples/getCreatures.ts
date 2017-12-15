@@ -32,7 +32,7 @@ async function main() {
     await draco.load();
 
     console.log('Get creatures...');
-    const response = await draco.getUserCreatures();
+    const response = await draco.inventory.getUserCreatures();
     for (const creature of response.userCreatures) {
         const name = creature.alias || strings.getCreature(DracoNode.enums.CreatureType[creature.name]);
         console.log(`  ${name} lvl ${creature.level}, cp=${creature.cp}`);

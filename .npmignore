@@ -1,4 +1,4 @@
-src/examples/*
+src/*
 bin/examples/*
 .vscode
 *.map

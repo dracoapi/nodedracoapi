@@ -7,6 +7,8 @@ import * as enums from './draco/enums';
 import Serializer from './draco/serializer';
 import Deserializer from './draco/deserializer';
 import GoogleLogin from './lib/google';
+import { Fight } from './fight';
+import { Inventory } from './inventory';
 
 export class User {
     id: string;
@@ -44,7 +46,10 @@ export { objects };
 export class Client {
     public clientInfo: objects.FClientInfo;
     public user: User;
+    public fight: Fight;
+    public inventory: Inventory;
     public eventsCounter: any = {};
+
     private request: any;
     private proxy: string;
     private dcportal: string;
@@ -90,7 +95,10 @@ export class Client {
             screenHeight: 1334,
             screenWidth: 750,
         });
+
         this.user = new User();
+        this.fight = new Fight(this);
+        this.inventory = new Inventory(this);
     }
 
     async ping(throwIfError = false) {
@@ -310,28 +318,7 @@ export class Client {
         return await this.call('PlayerService', 'saveUserSettings', [ +avatar ]);
     }
 
-    // Inventory
-
-    async getUserItems() {
-        return this.call('ItemService', 'getUserItems', []);
-    }
-
-    async getCreadex() {
-        return this.call('UserCreatureService', 'getCreadex', []);
-    }
-
-    async discardItem(id: number, count: number) {
-        return await this.call('ItemService', 'discardItems', [
-            { __type: 'ItemType', value: id },
-            count
-        ]);
-    }
-
     // Creatures
-
-    async getUserCreatures(): Promise<objects.FUserCreaturesList> {
-        return this.call('UserCreatureService', 'getUserCreatures', []);
-    }
 
     async encounter(id: string, options: any = {}) {
         const response = await this.call('GamePlayService', 'startCatchingCreature', [
@@ -342,7 +329,7 @@ export class Client {
 
         if (options.delay === undefined) options.delay = 1000 + Math.random() * 1500;
 
-        await this.delay(options.delayencounter);
+        await this.delay(options.delay);
         await this.event('IsArAvailable', 'False');
 
         return response;
@@ -438,5 +425,39 @@ export class Client {
 
     delay<T>(ms: number, value?: T): Promise<T> {
         return new Promise((resolve) => setTimeout(() => resolve(value), ms));
+    }
+
+    // deprecated
+
+    /**
+     * @deprecated please use client.inventory.getUserItems
+     */
+    async getUserItems() {
+        console.log('deprecated, please use client.inventory.getUserItems');
+        return this.inventory.getUserItems();
+    }
+
+    /**
+     * @deprecated please use client.inventory.getCreadex
+     */
+    async getCreadex() {
+        console.log('deprecated, please use client.inventory.getCreadex');
+        return this.inventory.getCreadex();
+    }
+
+    /**
+     * @deprecated please use client.inventory.discardItem
+     */
+    async discardItem(id: number, count: number) {
+        console.log('deprecated, please use client.inventory.discardItem');
+        return this.inventory.discardItem(id, count);
+    }
+
+    /**
+     * @deprecated please use client.inventory.getUserCreatures
+     */
+    async getUserCreatures(): Promise<objects.FUserCreaturesList> {
+        console.log('deprecated, please use client.inventory.getUserCreatures');
+        return this.call('UserCreatureService', 'getUserCreatures', []);
     }
 }
