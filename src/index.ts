@@ -9,6 +9,7 @@ import Deserializer from './draco/deserializer';
 import GoogleLogin from './lib/google';
 import { Fight } from './fight';
 import { Inventory } from './inventory';
+import { Eggs } from './eggs';
 
 export class User {
     id: string;
@@ -48,6 +49,7 @@ export class Client {
     public user: User;
     public fight: Fight;
     public inventory: Inventory;
+    public eggs: Eggs;
     public eventsCounter: any = {};
 
     private request: any;
@@ -99,6 +101,7 @@ export class Client {
         this.user = new User();
         this.fight = new Fight(this);
         this.inventory = new Inventory(this);
+        this.eggs = new Eggs(this);
     }
 
     async ping(throwIfError = false) {
@@ -163,7 +166,7 @@ export class Client {
         const deserializer = new Deserializer(response.body);
 
         if (response.statusCode > 300) {
-            let more = response;
+            let more = response.body ? response.body.toString() : '';
             try {
                 more = deserializer.deserialize();
             } catch (e) { /* nothing */ }
@@ -318,9 +321,16 @@ export class Client {
         return await this.call('PlayerService', 'saveUserSettings', [ +avatar ]);
     }
 
+    async selectAlliance(alliance: enums.AllianceType, bonus: number) {
+        return await this.call('PlayerService', 'saveUserSettings', [
+            { __type: 'AllianceType', value: alliance },
+            bonus,
+        ]);
+    }
+
     // Creatures
 
-    async encounter(id: string, options: any = {}) {
+    async encounter(id: string, options: any = {}): Promise<objects.FCatchingCreature> {
         const response = await this.call('GamePlayService', 'startCatchingCreature', [
             new objects.FCreatureRequest({
                 id,
@@ -357,24 +367,6 @@ export class Client {
             id,
             { __type: 'CreatureType', value: toType },
         ]);
-    }
-
-    // Eggs
-
-    async getHatchingInfo(): Promise<objects.FUserHatchingInfo> {
-        return this.call('UserCreatureService', 'getHatchingInfo', []);
-    }
-
-    async openHatchedEgg(incubatorId: string) {
-        return this.call('UserCreatureService', 'openHatchedEgg', [ incubatorId ]);
-    }
-
-    async startHatchingEgg(eggId: string, incubatorId: string) {
-        await this.call('UserCreatureService', 'startHatchingEgg', [
-            eggId,
-            incubatorId,
-        ]);
-        return this.getHatchingInfo();
     }
 
     // Map
@@ -423,6 +415,22 @@ export class Client {
         return await this.call('MapService', 'openChestResult', [chest]);
     }
 
+    async leaveDungeon(latitude: number, longitude: number, horizontalAccuracy = 20) {
+        return this.call('MapService', 'leaveDungeon', [
+            new objects.FClientRequest({
+                time: 0,
+                currentUtcOffsetSeconds: 3600,
+                coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
+                    latitude,
+                    longitude,
+                    horizontalAccuracy,
+                }),
+            }),
+        ]);
+    }
+
+    // utils
+
     delay<T>(ms: number, value?: T): Promise<T> {
         return new Promise((resolve) => setTimeout(() => resolve(value), ms));
     }
@@ -458,6 +466,30 @@ export class Client {
      */
     async getUserCreatures(): Promise<objects.FUserCreaturesList> {
         console.log('deprecated, please use client.inventory.getUserCreatures');
-        return this.call('UserCreatureService', 'getUserCreatures', []);
+        return this.inventory.getUserCreatures();
+    }
+
+    /**
+     * @deprecated please use client.eggs.getHatchingInfo
+     */
+    async getHatchingInfo(): Promise<objects.FUserHatchingInfo> {
+        console.log('deprecated, please use client.eggs.getHatchingInfo');
+        return this.eggs.getHatchingInfo();
+    }
+
+    /**
+     * @deprecated please use client.eggs.openHatchedEgg
+     */
+    async openHatchedEgg(incubatorId: string) {
+        console.log('deprecated, please use client.eggs.openHatchedEgg');
+        return this.eggs.openHatchedEgg(incubatorId);
+    }
+
+    /**
+     * @deprecated please use client.eggs.startHatchingEgg
+     */
+    async startHatchingEgg(eggId: string, incubatorId: string) {
+        console.log('deprecated, please use client.eggs.startHatchingEgg');
+        return this.eggs.startHatchingEgg(eggId, incubatorId);
     }
 }

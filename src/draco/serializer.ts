@@ -147,11 +147,15 @@ export default class Serializer {
     }
     writeStaticMap(data: Map<any, any>, static1: boolean, static2: boolean, type?: string) {
         this.ensureBuffer();
-        this.writeLength(data.size);
-        data.forEach((val, key) => {
-            this.writeObject(key, static1);
-            this.writeObject(val, static2);
-        });
+        if (data) {
+            this.writeLength(data.size);
+            data.forEach((val, key) => {
+                this.writeObject(key, static1);
+                this.writeObject(val, static2);
+            });
+        } else {
+            this.writeLength(0);
+        }
     }
     writeBuffer(buffer: Buffer) {
         this.ensureBuffer(buffer.length + 4);

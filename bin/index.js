@@ -11,6 +11,7 @@ const deserializer_1 = require("./draco/deserializer");
 const google_1 = require("./lib/google");
 const fight_1 = require("./fight");
 const inventory_1 = require("./inventory");
+const eggs_1 = require("./eggs");
 class User {
 }
 exports.User = User;
@@ -70,6 +71,7 @@ class Client {
         this.user = new User();
         this.fight = new fight_1.Fight(this);
         this.inventory = new inventory_1.Inventory(this);
+        this.eggs = new eggs_1.Eggs(this);
     }
     async ping(throwIfError = false) {
         try {
@@ -131,7 +133,7 @@ class Client {
         }
         const deserializer = new deserializer_1.default(response.body);
         if (response.statusCode > 300) {
-            let more = response;
+            let more = response.body ? response.body.toString() : '';
             try {
                 more = deserializer.deserialize();
             }
@@ -275,6 +277,12 @@ class Client {
         await this.event('AvatarPlayerSubmit', avatar.toString());
         return await this.call('PlayerService', 'saveUserSettings', [+avatar]);
     }
+    async selectAlliance(alliance, bonus) {
+        return await this.call('PlayerService', 'saveUserSettings', [
+            { __type: 'AllianceType', value: alliance },
+            bonus,
+        ]);
+    }
     // Creatures
     async encounter(id, options = {}) {
         const response = await this.call('GamePlayService', 'startCatchingCreature', [
@@ -309,20 +317,6 @@ class Client {
             id,
             { __type: 'CreatureType', value: toType },
         ]);
-    }
-    // Eggs
-    async getHatchingInfo() {
-        return this.call('UserCreatureService', 'getHatchingInfo', []);
-    }
-    async openHatchedEgg(incubatorId) {
-        return this.call('UserCreatureService', 'openHatchedEgg', [incubatorId]);
-    }
-    async startHatchingEgg(eggId, incubatorId) {
-        await this.call('UserCreatureService', 'startHatchingEgg', [
-            eggId,
-            incubatorId,
-        ]);
-        return this.getHatchingInfo();
     }
     // Map
     async getMapUpdate(latitude, longitude, horizontalAccuracy = 20) {
@@ -366,6 +360,20 @@ class Client {
         await this.call('MapService', 'startOpeningChest', [chest]);
         return await this.call('MapService', 'openChestResult', [chest]);
     }
+    async leaveDungeon(latitude, longitude, horizontalAccuracy = 20) {
+        return this.call('MapService', 'leaveDungeon', [
+            new objects.FClientRequest({
+                time: 0,
+                currentUtcOffsetSeconds: 3600,
+                coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
+                    latitude,
+                    longitude,
+                    horizontalAccuracy,
+                }),
+            }),
+        ]);
+    }
+    // utils
     delay(ms, value) {
         return new Promise((resolve) => setTimeout(() => resolve(value), ms));
     }
@@ -396,7 +404,28 @@ class Client {
      */
     async getUserCreatures() {
         console.log('deprecated, please use client.inventory.getUserCreatures');
-        return this.call('UserCreatureService', 'getUserCreatures', []);
+        return this.inventory.getUserCreatures();
+    }
+    /**
+     * @deprecated please use client.eggs.getHatchingInfo
+     */
+    async getHatchingInfo() {
+        console.log('deprecated, please use client.eggs.getHatchingInfo');
+        return this.eggs.getHatchingInfo();
+    }
+    /**
+     * @deprecated please use client.eggs.openHatchedEgg
+     */
+    async openHatchedEgg(incubatorId) {
+        console.log('deprecated, please use client.eggs.openHatchedEgg');
+        return this.eggs.openHatchedEgg(incubatorId);
+    }
+    /**
+     * @deprecated please use client.eggs.startHatchingEgg
+     */
+    async startHatchingEgg(eggId, incubatorId) {
+        console.log('deprecated, please use client.eggs.startHatchingEgg');
+        return this.eggs.startHatchingEgg(eggId, incubatorId);
     }
 }
 exports.Client = Client;

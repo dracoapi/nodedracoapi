@@ -157,11 +157,16 @@ class Serializer {
     }
     writeStaticMap(data, static1, static2, type) {
         this.ensureBuffer();
-        this.writeLength(data.size);
-        data.forEach((val, key) => {
-            this.writeObject(key, static1);
-            this.writeObject(val, static2);
-        });
+        if (data) {
+            this.writeLength(data.size);
+            data.forEach((val, key) => {
+                this.writeObject(key, static1);
+                this.writeObject(val, static2);
+            });
+        }
+        else {
+            this.writeLength(0);
+        }
     }
     writeBuffer(buffer) {
         this.ensureBuffer(buffer.length + 4);
