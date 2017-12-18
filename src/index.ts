@@ -322,7 +322,7 @@ export class Client {
     }
 
     async selectAlliance(alliance: enums.AllianceType, bonus: number) {
-        return await this.call('PlayerService', 'saveUserSettings', [
+        return await this.call('PlayerService', 'selectAlliance', [
             { __type: 'AllianceType', value: alliance },
             bonus,
         ]);

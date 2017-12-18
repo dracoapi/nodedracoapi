@@ -278,7 +278,7 @@ class Client {
         return await this.call('PlayerService', 'saveUserSettings', [+avatar]);
     }
     async selectAlliance(alliance, bonus) {
-        return await this.call('PlayerService', 'saveUserSettings', [
+        return await this.call('PlayerService', 'selectAlliance', [
             { __type: 'AllianceType', value: alliance },
             bonus,
         ]);
