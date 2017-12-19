@@ -288,14 +288,18 @@ class FArtifactsUpdate {
         serializer.writeStaticList(this.artifacts, true, 'enums.ArtifactName[]');
         serializer.writeInt32(this.artifactsBagSize);
         serializer.writeInt32(this.artifactsSlots);
-        serializer.writeBoolean(this.hasDeposit);
+        serializer.writeStaticObject(this.avaUpdate, 'FAvaUpdate');
+        serializer.writeBoolean(this.hasBonusSetFirst);
+        serializer.writeBoolean(this.hasBonusSetSecond);
         serializer.writeStaticList(this.putOn, true, 'enums.ArtifactName[]');
     }
     deserialize(deserializer) {
         this.artifacts = deserializer.readStaticList('ArtifactName', true);
         this.artifactsBagSize = deserializer.readInt32();
         this.artifactsSlots = deserializer.readInt32();
-        this.hasDeposit = deserializer.readBoolean();
+        this.avaUpdate = deserializer.readStaticObject('FAvaUpdate');
+        this.hasBonusSetFirst = deserializer.readBoolean();
+        this.hasBonusSetSecond = deserializer.readBoolean();
         this.putOn = deserializer.readStaticList('ArtifactName', true);
     }
 }
@@ -339,8 +343,6 @@ class FAvaUpdate {
     }
     serialize(serializer) {
         serializer.writeDouble(this.activationRadius);
-        serializer.writeBoolean(this.activationRadiusIncreased);
-        serializer.writeInt64(this.activationRadiusIncreasedLeftTime);
         serializer.writeDynamicObject(this.alliance, 'enums.AllianceType');
         serializer.writeDynamicObject(this.altarCoords, 'GeoCoords');
         serializer.writeStaticList(this.artifacts, true, 'enums.ArtifactName[]');
@@ -350,13 +352,9 @@ class FAvaUpdate {
         serializer.writeInt32(this.coins);
         serializer.writeInt32(this.creatureStorageSize);
         serializer.writeInt32(this.currentExperience);
-        serializer.writeInt64(this.doubleDropDuration);
-        serializer.writeInt64(this.doubleDropLeftTime);
         serializer.writeDynamicObject(this.dungeonId, 'string');
         serializer.writeInt32(this.dust);
         serializer.writeFloat(this.exp);
-        serializer.writeInt64(this.experienceBoosterDuration);
-        serializer.writeInt64(this.experienceBoosterLeftTime);
         serializer.writeInt64(this.incenseDuration);
         serializer.writeUtf8String(this.incenseGenMonstersGroupName);
         serializer.writeInt64(this.incenseLeftTime);
@@ -376,11 +374,10 @@ class FAvaUpdate {
         serializer.writeInt64(this.superVisionDuration);
         serializer.writeInt64(this.superVisionLeftTime);
         serializer.writeFloat(this.totalDistanceF);
+        serializer.writeStaticList(this.wearArtifacts, true, 'enums.ArtifactName[]');
     }
     deserialize(deserializer) {
         this.activationRadius = deserializer.readDouble();
-        this.activationRadiusIncreased = deserializer.readBoolean();
-        this.activationRadiusIncreasedLeftTime = deserializer.readInt64();
         this.alliance = deserializer.readDynamicObject();
         this.altarCoords = deserializer.readDynamicObject();
         this.artifacts = deserializer.readStaticList('ArtifactName', true);
@@ -390,13 +387,9 @@ class FAvaUpdate {
         this.coins = deserializer.readInt32();
         this.creatureStorageSize = deserializer.readInt32();
         this.currentExperience = deserializer.readInt32();
-        this.doubleDropDuration = deserializer.readInt64();
-        this.doubleDropLeftTime = deserializer.readInt64();
         this.dungeonId = deserializer.readDynamicObject();
         this.dust = deserializer.readInt32();
         this.exp = deserializer.readFloat();
-        this.experienceBoosterDuration = deserializer.readInt64();
-        this.experienceBoosterLeftTime = deserializer.readInt64();
         this.incenseDuration = deserializer.readInt64();
         this.incenseGenMonstersGroupName = deserializer.readUtf8String();
         this.incenseLeftTime = deserializer.readInt64();
@@ -416,6 +409,7 @@ class FAvaUpdate {
         this.superVisionDuration = deserializer.readInt64();
         this.superVisionLeftTime = deserializer.readInt64();
         this.totalDistanceF = deserializer.readFloat();
+        this.wearArtifacts = deserializer.readStaticList('ArtifactName', true);
     }
 }
 exports.FAvaUpdate = FAvaUpdate;
@@ -515,12 +509,14 @@ class FBuff {
         serializer.writeSByte(this.buffType);
         serializer.writeInt64(this.duration);
         serializer.writeInt64(this.timeLeft);
+        serializer.writeInt64(this.timeToActivation);
         serializer.writeInt32(this.valuePercent);
     }
     deserialize(deserializer) {
         this.buffType = deserializer.readSByte();
         this.duration = deserializer.readInt64();
         this.timeLeft = deserializer.readInt64();
+        this.timeToActivation = deserializer.readInt64();
         this.valuePercent = deserializer.readInt32();
     }
 }
@@ -826,6 +822,8 @@ class FConfig {
         Object.assign(this, init);
     }
     serialize(serializer) {
+        serializer.writeInt32(this.activationRadiusDuration);
+        serializer.writeInt32(this.activationRadiusFactor);
         serializer.writeFloat(this.aggressiveChanceToAttack);
         serializer.writeFloat(this.aggressiveChanceToJump);
         serializer.writeFloat(this.aggressiveChancesCooldownTime);
@@ -833,7 +831,13 @@ class FConfig {
         serializer.writeFloat(this.angularDrag);
         serializer.writeStaticArray(this.arenaLayerLevels, true, 'int[]');
         serializer.writeStaticArray(this.arenaLevelsThreshold, true, 'int[]');
+        serializer.writeInt32(this.arenaProtectionDuration);
+        serializer.writeStaticMap(this.artifactSellPrice, true, true, 'Map<enums.ArtifactName, int>');
+        serializer.writeFloat(this.avatarMoveExtrapolationMaxRunawayDistance);
         serializer.writeInt32(this.avatarMoveMaxDistanceRun);
+        serializer.writeFloat(this.avatarMoveMaxMoveDuration);
+        serializer.writeFloat(this.avatarMoveReturnToRealPositionDuration);
+        serializer.writeFloat(this.avatarMoveReturnToRealPositionTimeout);
         serializer.writeInt32(this.avatarMoveRunSpeed);
         serializer.writeFloat(this.ballCurve);
         serializer.writeInt32(this.battlesEnhancedLimitPrice);
@@ -875,6 +879,7 @@ class FConfig {
         serializer.writeStaticMap(this.runes, true, true, 'Map<enums.RecipeType, object[]>');
         serializer.writeInt64(this.serverTime);
         serializer.writeFloat(this.spinGain);
+        serializer.writeInt32(this.stopUsageHintTillLevel);
         serializer.writeFloat(this.superVisionEffectInterval);
         serializer.writeInt32(this.superVisionRadius);
         serializer.writeFloat(this.throwSensitivity);
@@ -891,6 +896,8 @@ class FConfig {
         serializer.writeFloat(this.yVelocityFactor);
     }
     deserialize(deserializer) {
+        this.activationRadiusDuration = deserializer.readInt32();
+        this.activationRadiusFactor = deserializer.readInt32();
         this.aggressiveChanceToAttack = deserializer.readFloat();
         this.aggressiveChanceToJump = deserializer.readFloat();
         this.aggressiveChancesCooldownTime = deserializer.readFloat();
@@ -898,7 +905,13 @@ class FConfig {
         this.angularDrag = deserializer.readFloat();
         this.arenaLayerLevels = deserializer.readStaticArray('int', true);
         this.arenaLevelsThreshold = deserializer.readStaticArray('int', true);
+        this.arenaProtectionDuration = deserializer.readInt32();
+        this.artifactSellPrice = deserializer.readStaticMap('ArtifactName', 'int', true, true);
+        this.avatarMoveExtrapolationMaxRunawayDistance = deserializer.readFloat();
         this.avatarMoveMaxDistanceRun = deserializer.readInt32();
+        this.avatarMoveMaxMoveDuration = deserializer.readFloat();
+        this.avatarMoveReturnToRealPositionDuration = deserializer.readFloat();
+        this.avatarMoveReturnToRealPositionTimeout = deserializer.readFloat();
         this.avatarMoveRunSpeed = deserializer.readInt32();
         this.ballCurve = deserializer.readFloat();
         this.battlesEnhancedLimitPrice = deserializer.readInt32();
@@ -940,6 +953,7 @@ class FConfig {
         this.runes = deserializer.readStaticMap('RecipeType', 'List<object>', true, true);
         this.serverTime = deserializer.readInt64();
         this.spinGain = deserializer.readFloat();
+        this.stopUsageHintTillLevel = deserializer.readInt32();
         this.superVisionEffectInterval = deserializer.readFloat();
         this.superVisionRadius = deserializer.readInt32();
         this.throwSensitivity = deserializer.readFloat();
@@ -1092,27 +1106,6 @@ class FDefenderDetails {
     }
 }
 exports.FDefenderDetails = FDefenderDetails;
-class FDepositInfo {
-    constructor(init) {
-        this.__type = 'FDepositInfo';
-        Object.assign(this, init);
-    }
-    serialize(serializer) {
-        serializer.writeInt32(this.depositAmount);
-        serializer.writeInt32(this.duration);
-        serializer.writeBoolean(this.isOnUser);
-        serializer.writeInt64(this.leftTime);
-        serializer.writeFloat(this.percent);
-    }
-    deserialize(deserializer) {
-        this.depositAmount = deserializer.readInt32();
-        this.duration = deserializer.readInt32();
-        this.isOnUser = deserializer.readBoolean();
-        this.leftTime = deserializer.readInt64();
-        this.percent = deserializer.readFloat();
-    }
-}
-exports.FDepositInfo = FDepositInfo;
 class FDungeonUpdate {
     constructor(init) {
         this.__type = 'FDungeonUpdate';
@@ -1348,6 +1341,7 @@ class FFightRequest {
         serializer.writeStaticList(this.items, true, 'FFightItem[]');
         serializer.writeBoolean(this.leaveBattle);
         serializer.writeInt32(this.successfulDodges);
+        serializer.writeBoolean(this.timeout);
     }
     deserialize(deserializer) {
         this.chargedAttacksByAi = deserializer.readInt32();
@@ -1355,6 +1349,7 @@ class FFightRequest {
         this.items = deserializer.readStaticList('FFightItem', true);
         this.leaveBattle = deserializer.readBoolean();
         this.successfulDodges = deserializer.readInt32();
+        this.timeout = deserializer.readBoolean();
     }
 }
 exports.FFightRequest = FFightRequest;
@@ -1532,10 +1527,12 @@ class FLootItemCandy {
     serialize(serializer) {
         serializer.writeInt32(this.qty);
         serializer.writeSByte(this.candyType);
+        serializer.writeBoolean(this.fromBuddy);
     }
     deserialize(deserializer) {
         this.qty = deserializer.readInt32();
         this.candyType = deserializer.readSByte();
+        this.fromBuddy = deserializer.readBoolean();
     }
 }
 exports.FLootItemCandy = FLootItemCandy;
@@ -1627,6 +1624,23 @@ class FLootItemRecipe {
     }
 }
 exports.FLootItemRecipe = FLootItemRecipe;
+class FNewsArticle {
+    constructor(init) {
+        this.__type = 'FNewsArticle';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeUtf8String(this.body);
+        serializer.writeUtf8String(this.id);
+        serializer.writeUtf8String(this.title);
+    }
+    deserialize(deserializer) {
+        this.body = deserializer.readUtf8String();
+        this.id = deserializer.readUtf8String();
+        this.title = deserializer.readUtf8String();
+    }
+}
+exports.FNewsArticle = FNewsArticle;
 class FNicknameValidationResult {
     constructor(init) {
         this.__type = 'FNicknameValidationResult';
@@ -1722,6 +1736,7 @@ class FQuestCompleted {
     serialize(serializer) {
         serializer.writeDynamicObject(this.activeObjects, 'FActiveObjectsUpdate');
         serializer.writeDynamicObject(this.dailyQuest, 'FDailyQuest');
+        serializer.writeDynamicObject(this.goldenEgg, 'FHatchedEggs');
         serializer.writeStaticObject(this.levelUpLoot, 'FLoot');
         serializer.writeStaticObject(this.loot, 'FLoot');
         serializer.writeBoolean(this.weeklyQuest);
@@ -1729,6 +1744,7 @@ class FQuestCompleted {
     deserialize(deserializer) {
         this.activeObjects = deserializer.readDynamicObject();
         this.dailyQuest = deserializer.readDynamicObject();
+        this.goldenEgg = deserializer.readDynamicObject();
         this.levelUpLoot = deserializer.readStaticObject('FLoot');
         this.loot = deserializer.readStaticObject('FLoot');
         this.weeklyQuest = deserializer.readBoolean();
@@ -1814,6 +1830,7 @@ class FShopConfig {
         serializer.writeStaticMap(this.coins, true, true, 'Map<string, ProductLot>');
         serializer.writeStaticObject(this.creatureStorageUpgrade, 'ProductLot');
         serializer.writeStaticList(this.products, true, 'ProductGroup[]');
+        serializer.writeStaticList(this.saleSets, true, 'SaleSetConfig[]');
     }
     deserialize(deserializer) {
         this.artifacts = deserializer.readStaticMap('ArtifactName', 'int', true, true);
@@ -1821,6 +1838,7 @@ class FShopConfig {
         this.coins = deserializer.readStaticMap('string', 'ProductLot', true, true);
         this.creatureStorageUpgrade = deserializer.readStaticObject('ProductLot');
         this.products = deserializer.readStaticList('ProductGroup', true);
+        this.saleSets = deserializer.readStaticList('SaleSetConfig', true);
     }
 }
 exports.FShopConfig = FShopConfig;
@@ -2204,7 +2222,7 @@ class FWizardBattleResult {
     serialize(serializer) {
         serializer.writeStaticList(this.attackerHps, true, 'float[]');
         serializer.writeStaticList(this.attackerTypes, true, 'enums.CreatureType[]');
-        serializer.writeInt32(this.creaturesDefeated);
+        serializer.writeStaticList(this.candies, true, 'enums.CreatureType[]');
         serializer.writeStaticObject(this.levelUpLoot, 'FLoot');
         serializer.writeStaticObject(this.loot, 'FLoot');
         serializer.writeFloat(this.resultScreenDelay);
@@ -2213,7 +2231,7 @@ class FWizardBattleResult {
     deserialize(deserializer) {
         this.attackerHps = deserializer.readStaticList('float', true);
         this.attackerTypes = deserializer.readStaticList('CreatureType', true);
-        this.creaturesDefeated = deserializer.readInt32();
+        this.candies = deserializer.readStaticList('CreatureType', true);
         this.levelUpLoot = deserializer.readStaticObject('FLoot');
         this.loot = deserializer.readStaticObject('FLoot');
         this.resultScreenDelay = deserializer.readFloat();
@@ -2330,6 +2348,23 @@ class ProductLot {
     }
 }
 exports.ProductLot = ProductLot;
+class SaleSetConfig {
+    constructor(init) {
+        this.__type = 'SaleSetConfig';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeStaticMap(this.items, true, true, 'Map<enums.ItemType, int>');
+        serializer.writeInt32(this.price);
+        serializer.writeSByte(this.type);
+    }
+    deserialize(deserializer) {
+        this.items = deserializer.readStaticMap('ItemType', 'int', true, true);
+        this.price = deserializer.readInt32();
+        this.type = deserializer.readSByte();
+    }
+}
+exports.SaleSetConfig = SaleSetConfig;
 class Tile {
     constructor(init) {
         this.__type = 'Tile';

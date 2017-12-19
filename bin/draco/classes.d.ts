@@ -14,6 +14,9 @@ export declare const classIds: {
     '-116': string;
     '-115': string;
     '-114': string;
+    '-113': string;
+    '-112': string;
+    '-111': string;
     '4': string;
     '5': string;
     '6': string;
