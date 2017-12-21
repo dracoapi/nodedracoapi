@@ -14,12 +14,12 @@ export class AuthData {
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeSByte(this.authType);
+        serializer.writeByte(this.authType);
         serializer.writeUtf8String(this.profileId);
         serializer.writeDynamicObject(this.tokenId, 'string');
     }
     deserialize(deserializer: Deserializer) {
-        this.authType = deserializer.readSByte();
+        this.authType = deserializer.readByte();
         this.profileId = deserializer.readUtf8String();
         this.tokenId = deserializer.readDynamicObject();
     }
@@ -37,12 +37,12 @@ export class BuffConfig {
 
     serialize(serializer: Serializer) {
         serializer.writeInt64(this.durationMs);
-        serializer.writeSByte(this.type);
+        serializer.writeByte(this.type);
         serializer.writeInt32(this.valuePercent);
     }
     deserialize(deserializer: Deserializer) {
         this.durationMs = deserializer.readInt64();
-        this.type = deserializer.readSByte();
+        this.type = deserializer.readByte();
         this.valuePercent = deserializer.readInt32();
     }
 }
@@ -72,7 +72,7 @@ export class FActiveObject {
         serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeDynamicObject(this.creatureAlias, 'string');
         serializer.writeInt32(this.creatureCp);
-        serializer.writeSByte(this.creatureName);
+        serializer.writeByte(this.creatureName);
         serializer.writeInt32(this.level);
         serializer.writeBoolean(this.lost);
         serializer.writeFloat(this.timeLeft);
@@ -85,7 +85,7 @@ export class FActiveObject {
         this.coords = deserializer.readStaticObject('GeoCoords') as GeoCoords;
         this.creatureAlias = deserializer.readDynamicObject();
         this.creatureCp = deserializer.readInt32();
-        this.creatureName = deserializer.readSByte();
+        this.creatureName = deserializer.readByte();
         this.level = deserializer.readInt32();
         this.lost = deserializer.readBoolean();
         this.timeLeft = deserializer.readFloat();
@@ -200,7 +200,7 @@ export class FAltarDetails {
         serializer.writeUtf8String(this.buildingId);
         serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeUtf8String(this.ownerNickname);
-        serializer.writeSByte(this.recipeName);
+        serializer.writeByte(this.recipeName);
         serializer.writeStaticMap(this.runeOwnerNames, true, true, 'Map<int, string>');
         serializer.writeStaticMap(this.runeOwners, true, true, 'Map<int, string>');
     }
@@ -208,7 +208,7 @@ export class FAltarDetails {
         this.buildingId = deserializer.readUtf8String();
         this.coords = deserializer.readStaticObject('GeoCoords') as GeoCoords;
         this.ownerNickname = deserializer.readUtf8String();
-        this.recipeName = deserializer.readSByte();
+        this.recipeName = deserializer.readByte();
         this.runeOwnerNames = deserializer.readStaticMap('int', 'string', true, true);
         this.runeOwners = deserializer.readStaticMap('int', 'string', true, true);
     }
@@ -325,7 +325,7 @@ export class FArenaDetails {
 
     serialize(serializer: Serializer) {
         serializer.writeDynamicObject(this.allianceChooseRequest, 'FAllianceChooseRequest');
-        serializer.writeSByte(this.buildingType);
+        serializer.writeByte(this.buildingType);
         serializer.writeBoolean(this.canAddDefender);
         serializer.writeBoolean(this.canAttack);
         serializer.writeBoolean(this.capturableGeoPointsLimitReached);
@@ -346,7 +346,7 @@ export class FArenaDetails {
     }
     deserialize(deserializer: Deserializer) {
         this.allianceChooseRequest = deserializer.readDynamicObject();
-        this.buildingType = deserializer.readSByte();
+        this.buildingType = deserializer.readByte();
         this.canAddDefender = deserializer.readBoolean();
         this.canAttack = deserializer.readBoolean();
         this.capturableGeoPointsLimitReached = deserializer.readBoolean();
@@ -585,13 +585,13 @@ export class FBagItem {
         serializer.writeInt32(this.count);
         serializer.writeBoolean(this.removable);
         serializer.writeBoolean(this.stack);
-        serializer.writeSByte(this.type);
+        serializer.writeByte(this.type);
     }
     deserialize(deserializer: Deserializer) {
         this.count = deserializer.readInt32();
         this.removable = deserializer.readBoolean();
         this.stack = deserializer.readBoolean();
-        this.type = deserializer.readSByte();
+        this.type = deserializer.readByte();
     }
 }
 
@@ -663,8 +663,8 @@ export class FBuddy {
 
     serialize(serializer: Serializer) {
         serializer.writeDynamicObject(this.alias, 'string');
-        serializer.writeSByte(this.candyType);
-        serializer.writeSByte(this.creature);
+        serializer.writeByte(this.candyType);
+        serializer.writeByte(this.creature);
         serializer.writeFloat(this.currentWalkedF);
         serializer.writeInt32(this.distanceForCandies);
         serializer.writeUtf8String(this.id);
@@ -673,8 +673,8 @@ export class FBuddy {
     }
     deserialize(deserializer: Deserializer) {
         this.alias = deserializer.readDynamicObject();
-        this.candyType = deserializer.readSByte();
-        this.creature = deserializer.readSByte();
+        this.candyType = deserializer.readByte();
+        this.creature = deserializer.readByte();
         this.currentWalkedF = deserializer.readFloat();
         this.distanceForCandies = deserializer.readInt32();
         this.id = deserializer.readUtf8String();
@@ -696,14 +696,14 @@ export class FBuff {
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeSByte(this.buffType);
+        serializer.writeByte(this.buffType);
         serializer.writeInt64(this.duration);
         serializer.writeInt64(this.timeLeft);
         serializer.writeInt64(this.timeToActivation);
         serializer.writeInt32(this.valuePercent);
     }
     deserialize(deserializer: Deserializer) {
-        this.buffType = deserializer.readSByte();
+        this.buffType = deserializer.readByte();
         this.duration = deserializer.readInt64();
         this.timeLeft = deserializer.readInt64();
         this.timeToActivation = deserializer.readInt64();
@@ -738,7 +738,7 @@ export class FBuilding {
         serializer.writeInt64(this.expirationTime);
         serializer.writeUtf8String(this.id);
         serializer.writeDynamicObject(this.pitstop, 'FPitstop');
-        serializer.writeSByte(this.type);
+        serializer.writeByte(this.type);
     }
     deserialize(deserializer: Deserializer) {
         this.altar = deserializer.readDynamicObject();
@@ -750,7 +750,7 @@ export class FBuilding {
         this.expirationTime = deserializer.readInt64();
         this.id = deserializer.readUtf8String();
         this.pitstop = deserializer.readDynamicObject();
-        this.type = deserializer.readSByte();
+        this.type = deserializer.readByte();
     }
 }
 
@@ -959,30 +959,30 @@ export class FCatchingCreature {
 
     serialize(serializer: Serializer) {
         serializer.writeBoolean(this.aggressive);
-        serializer.writeSByte(this.candyType);
+        serializer.writeByte(this.candyType);
         serializer.writeDynamicObject(this.catching, 'FCatchingConfig');
         serializer.writeInt32(this.cp);
-        serializer.writeSByte(this.element);
+        serializer.writeByte(this.element);
         serializer.writeDynamicObject(this.feedFoodType, 'enums.ItemType');
         serializer.writeInt32(this.feedLeftTime);
         serializer.writeUtf8String(this.id);
         serializer.writeBoolean(this.isCreatureStorageFull);
         serializer.writeStaticMap(this.items, true, true, 'Map<enums.ItemType, int>');
-        serializer.writeSByte(this.name);
+        serializer.writeByte(this.name);
         serializer.writeFloat(this.quality);
     }
     deserialize(deserializer: Deserializer) {
         this.aggressive = deserializer.readBoolean();
-        this.candyType = deserializer.readSByte();
+        this.candyType = deserializer.readByte();
         this.catching = deserializer.readDynamicObject();
         this.cp = deserializer.readInt32();
-        this.element = deserializer.readSByte();
+        this.element = deserializer.readByte();
         this.feedFoodType = deserializer.readDynamicObject();
         this.feedLeftTime = deserializer.readInt32();
         this.id = deserializer.readUtf8String();
         this.isCreatureStorageFull = deserializer.readBoolean();
         this.items = deserializer.readStaticMap('ItemType', 'int', true, true);
-        this.name = deserializer.readSByte();
+        this.name = deserializer.readByte();
         this.quality = deserializer.readFloat();
     }
 }
@@ -1372,12 +1372,12 @@ export class FCreadexChain {
 
     serialize(serializer: Serializer) {
         serializer.writeBoolean(this.caught);
-        serializer.writeSByte(this.creature);
+        serializer.writeByte(this.creature);
         serializer.writeBoolean(this.seen);
     }
     deserialize(deserializer: Deserializer) {
         this.caught = deserializer.readBoolean();
-        this.creature = deserializer.readSByte();
+        this.creature = deserializer.readByte();
         this.seen = deserializer.readBoolean();
     }
 }
@@ -1398,16 +1398,16 @@ export class FCreadexEntry {
     serialize(serializer: Serializer) {
         serializer.writeInt32(this.caughtQuantity);
         serializer.writeDynamicList(this.chain, true, 'FCreadexChain[]');
-        serializer.writeSByte(this.element);
-        serializer.writeSByte(this.name);
+        serializer.writeByte(this.element);
+        serializer.writeByte(this.name);
         serializer.writeBoolean(this.seen);
         serializer.writeInt32(this.tier);
     }
     deserialize(deserializer: Deserializer) {
         this.caughtQuantity = deserializer.readInt32();
         this.chain = deserializer.readDynamicList('FCreadexChain', true);
-        this.element = deserializer.readSByte();
-        this.name = deserializer.readSByte();
+        this.element = deserializer.readByte();
+        this.name = deserializer.readByte();
         this.seen = deserializer.readBoolean();
         this.tier = deserializer.readInt32();
     }
@@ -1501,21 +1501,21 @@ export class FDefenderDetails {
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeSByte(this.allianceType);
+        serializer.writeByte(this.allianceType);
         serializer.writeDynamicObject(this.creatureAlias, 'string');
         serializer.writeInt32(this.creatureCp);
-        serializer.writeSByte(this.creatureName);
-        serializer.writeSByte(this.elementType);
+        serializer.writeByte(this.creatureName);
+        serializer.writeByte(this.elementType);
         serializer.writeInt32(this.ownerLevel);
         serializer.writeUtf8String(this.ownerName);
         serializer.writeInt32(this.userAppearance);
     }
     deserialize(deserializer: Deserializer) {
-        this.allianceType = deserializer.readSByte();
+        this.allianceType = deserializer.readByte();
         this.creatureAlias = deserializer.readDynamicObject();
         this.creatureCp = deserializer.readInt32();
-        this.creatureName = deserializer.readSByte();
-        this.elementType = deserializer.readSByte();
+        this.creatureName = deserializer.readByte();
+        this.elementType = deserializer.readByte();
         this.ownerLevel = deserializer.readInt32();
         this.ownerName = deserializer.readUtf8String();
         this.userAppearance = deserializer.readInt32();
@@ -1537,13 +1537,13 @@ export class FDungeonUpdate {
         serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeFloat(this.rotation);
         serializer.writeInt32(this.size);
-        serializer.writeSByte(this.type);
+        serializer.writeByte(this.type);
     }
     deserialize(deserializer: Deserializer) {
         this.coords = deserializer.readStaticObject('GeoCoords') as GeoCoords;
         this.rotation = deserializer.readFloat();
         this.size = deserializer.readInt32();
-        this.type = deserializer.readSByte();
+        this.type = deserializer.readByte();
     }
 }
 
@@ -1563,7 +1563,7 @@ export class FEgg {
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeSByte(this.eggType);
+        serializer.writeByte(this.eggType);
         serializer.writeUtf8String(this.id);
         serializer.writeDynamicObject(this.incubatorId, 'string');
         serializer.writeBoolean(this.isEggForRoost);
@@ -1573,7 +1573,7 @@ export class FEgg {
         serializer.writeInt64(this.totalIncubationTime);
     }
     deserialize(deserializer: Deserializer) {
-        this.eggType = deserializer.readSByte();
+        this.eggType = deserializer.readByte();
         this.id = deserializer.readUtf8String();
         this.incubatorId = deserializer.readDynamicObject();
         this.isEggForRoost = deserializer.readBoolean();
@@ -1622,16 +1622,16 @@ export class FEncounterDetails {
     serialize(serializer: Serializer) {
         serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeInt32(this.creatureCp);
-        serializer.writeSByte(this.creatureElementType);
-        serializer.writeSByte(this.creatureName);
+        serializer.writeByte(this.creatureElementType);
+        serializer.writeByte(this.creatureName);
         serializer.writeUtf8String(this.id);
         serializer.writeInt32(this.level);
     }
     deserialize(deserializer: Deserializer) {
         this.coords = deserializer.readStaticObject('GeoCoords') as GeoCoords;
         this.creatureCp = deserializer.readInt32();
-        this.creatureElementType = deserializer.readSByte();
-        this.creatureName = deserializer.readSByte();
+        this.creatureElementType = deserializer.readByte();
+        this.creatureName = deserializer.readByte();
         this.id = deserializer.readUtf8String();
         this.level = deserializer.readInt32();
     }
@@ -1727,11 +1727,11 @@ export class FFightCreature {
         serializer.writeBoolean(this.chargedSkillAim);
         serializer.writeInt32(this.chargedSkillAngle);
         serializer.writeFloat(this.chargedSkillDps);
-        serializer.writeSByte(this.chargedSkillQuality);
+        serializer.writeByte(this.chargedSkillQuality);
         serializer.writeFloat(this.chargedSkillSpeed);
         serializer.writeFloat(this.chargedSkillTtl);
         serializer.writeInt32(this.cp);
-        serializer.writeSByte(this.decreasedDmgTo);
+        serializer.writeByte(this.decreasedDmgTo);
         serializer.writeFloat(this.distance);
         serializer.writeFloat(this.dodgeAngle);
         serializer.writeFloat(this.dodgeDamageRatio);
@@ -1742,23 +1742,23 @@ export class FFightCreature {
         serializer.writeFloat(this.hp);
         serializer.writeUtf8String(this.id);
         serializer.writeFloat(this.incomingEnergyOnAttack);
-        serializer.writeSByte(this.increasedDmgTo);
+        serializer.writeByte(this.increasedDmgTo);
         serializer.writeUtf8String(this.mainSkill);
         serializer.writeBoolean(this.mainSkillAim);
         serializer.writeInt32(this.mainSkillAngle);
         serializer.writeFloat(this.mainSkillDps);
-        serializer.writeSByte(this.mainSkillQuality);
+        serializer.writeByte(this.mainSkillQuality);
         serializer.writeFloat(this.mainSkillSpeed);
         serializer.writeFloat(this.mainSkillTtl);
         serializer.writeFloat(this.maxEnergy);
-        serializer.writeSByte(this.name);
+        serializer.writeByte(this.name);
         serializer.writeFloat(this.rightElementAttackCoef);
         serializer.writeFloat(this.scale);
         serializer.writeFloat(this.specAttackCoef);
         serializer.writeFloat(this.startCamPosDistance);
         serializer.writeFloat(this.startCamPosHeight);
         serializer.writeFloat(this.totalHp);
-        serializer.writeSByte(this.type);
+        serializer.writeByte(this.type);
         serializer.writeFloat(this.wrongElementAttackCoef);
     }
     deserialize(deserializer: Deserializer) {
@@ -1769,11 +1769,11 @@ export class FFightCreature {
         this.chargedSkillAim = deserializer.readBoolean();
         this.chargedSkillAngle = deserializer.readInt32();
         this.chargedSkillDps = deserializer.readFloat();
-        this.chargedSkillQuality = deserializer.readSByte();
+        this.chargedSkillQuality = deserializer.readByte();
         this.chargedSkillSpeed = deserializer.readFloat();
         this.chargedSkillTtl = deserializer.readFloat();
         this.cp = deserializer.readInt32();
-        this.decreasedDmgTo = deserializer.readSByte();
+        this.decreasedDmgTo = deserializer.readByte();
         this.distance = deserializer.readFloat();
         this.dodgeAngle = deserializer.readFloat();
         this.dodgeDamageRatio = deserializer.readFloat();
@@ -1784,23 +1784,23 @@ export class FFightCreature {
         this.hp = deserializer.readFloat();
         this.id = deserializer.readUtf8String();
         this.incomingEnergyOnAttack = deserializer.readFloat();
-        this.increasedDmgTo = deserializer.readSByte();
+        this.increasedDmgTo = deserializer.readByte();
         this.mainSkill = deserializer.readUtf8String();
         this.mainSkillAim = deserializer.readBoolean();
         this.mainSkillAngle = deserializer.readInt32();
         this.mainSkillDps = deserializer.readFloat();
-        this.mainSkillQuality = deserializer.readSByte();
+        this.mainSkillQuality = deserializer.readByte();
         this.mainSkillSpeed = deserializer.readFloat();
         this.mainSkillTtl = deserializer.readFloat();
         this.maxEnergy = deserializer.readFloat();
-        this.name = deserializer.readSByte();
+        this.name = deserializer.readByte();
         this.rightElementAttackCoef = deserializer.readFloat();
         this.scale = deserializer.readFloat();
         this.specAttackCoef = deserializer.readFloat();
         this.startCamPosDistance = deserializer.readFloat();
         this.startCamPosHeight = deserializer.readFloat();
         this.totalHp = deserializer.readFloat();
-        this.type = deserializer.readSByte();
+        this.type = deserializer.readByte();
         this.wrongElementAttackCoef = deserializer.readFloat();
     }
 }
@@ -1996,12 +1996,12 @@ export class FJournalRecord {
     serialize(serializer: Serializer) {
         serializer.writeInt64(this.date);
         serializer.writeStaticMap(this.details, true, true, 'Map<string, string>');
-        serializer.writeSByte(this.type);
+        serializer.writeByte(this.type);
     }
     deserialize(deserializer: Deserializer) {
         this.date = deserializer.readInt64();
         this.details = deserializer.readStaticMap('string', 'string', true, true);
-        this.type = deserializer.readSByte();
+        this.type = deserializer.readByte();
     }
 }
 
@@ -2048,11 +2048,11 @@ export class FLootItemArtifact {
 
     serialize(serializer: Serializer) {
         serializer.writeInt32(this.qty);
-        serializer.writeSByte(this.artifact);
+        serializer.writeByte(this.artifact);
     }
     deserialize(deserializer: Deserializer) {
         this.qty = deserializer.readInt32();
-        this.artifact = deserializer.readSByte();
+        this.artifact = deserializer.readByte();
     }
 }
 
@@ -2087,12 +2087,12 @@ export class FLootItemCandy {
 
     serialize(serializer: Serializer) {
         serializer.writeInt32(this.qty);
-        serializer.writeSByte(this.candyType);
+        serializer.writeByte(this.candyType);
         serializer.writeBoolean(this.fromBuddy);
     }
     deserialize(deserializer: Deserializer) {
         this.qty = deserializer.readInt32();
-        this.candyType = deserializer.readSByte();
+        this.candyType = deserializer.readByte();
         this.fromBuddy = deserializer.readBoolean();
     }
 }
@@ -2159,11 +2159,11 @@ export class FLootItemInstantUseItem {
 
     serialize(serializer: Serializer) {
         serializer.writeInt32(this.qty);
-        serializer.writeSByte(this.item);
+        serializer.writeByte(this.item);
     }
     deserialize(deserializer: Deserializer) {
         this.qty = deserializer.readInt32();
-        this.item = deserializer.readSByte();
+        this.item = deserializer.readByte();
     }
 }
 
@@ -2180,12 +2180,12 @@ export class FLootItemItem {
     serialize(serializer: Serializer) {
         serializer.writeInt32(this.qty);
         serializer.writeBoolean(this.isStreak);
-        serializer.writeSByte(this.item);
+        serializer.writeByte(this.item);
     }
     deserialize(deserializer: Deserializer) {
         this.qty = deserializer.readInt32();
         this.isStreak = deserializer.readBoolean();
-        this.item = deserializer.readSByte();
+        this.item = deserializer.readByte();
     }
 }
 
@@ -2200,11 +2200,11 @@ export class FLootItemRecipe {
 
     serialize(serializer: Serializer) {
         serializer.writeInt32(this.qty);
-        serializer.writeSByte(this.recipe);
+        serializer.writeByte(this.recipe);
     }
     deserialize(deserializer: Deserializer) {
         this.qty = deserializer.readInt32();
-        this.recipe = deserializer.readSByte();
+        this.recipe = deserializer.readByte();
     }
 }
 
@@ -2504,11 +2504,11 @@ export class FSpellCastDone {
 
     serialize(serializer: Serializer) {
         serializer.writeStaticObject(this.altarCoords, 'GeoCoords');
-        serializer.writeSByte(this.spellType);
+        serializer.writeByte(this.spellType);
     }
     deserialize(deserializer: Deserializer) {
         this.altarCoords = deserializer.readStaticObject('GeoCoords') as GeoCoords;
-        this.spellType = deserializer.readSByte();
+        this.spellType = deserializer.readByte();
     }
 }
 
@@ -2652,13 +2652,13 @@ export class FUpdateRequest {
 
     serialize(serializer: Serializer) {
         serializer.writeBoolean(this.blackScreen);
-        serializer.writeSByte(this.clientPlatform);
+        serializer.writeByte(this.clientPlatform);
         serializer.writeStaticObject(this.clientRequest, 'FClientRequest');
         serializer.writeStaticMap(this.tilesCache, true, true, 'Map<FTile, long>');
     }
     deserialize(deserializer: Deserializer) {
         this.blackScreen = deserializer.readBoolean();
-        this.clientPlatform = deserializer.readSByte();
+        this.clientPlatform = deserializer.readByte();
         this.clientRequest = deserializer.readStaticObject('FClientRequest') as FClientRequest;
         this.tilesCache = deserializer.readStaticMap('FTile', 'long', true, true);
     }
@@ -2704,14 +2704,14 @@ export class FUserCreature {
         serializer.writeDynamicObject(this.alias, 'string');
         serializer.writeInt32(this.attackValue);
         serializer.writeInt32(this.baseCp);
-        serializer.writeSByte(this.candyType);
+        serializer.writeByte(this.candyType);
         serializer.writeInt32(this.chargedSegments);
         serializer.writeUtf8String(this.chargedSkill);
         serializer.writeFloat(this.chargedSkillDps);
         serializer.writeInt32(this.cp);
         serializer.writeInt32(this.creadexIndex);
         serializer.writeFloat(this.dps);
-        serializer.writeSByte(this.elementType);
+        serializer.writeByte(this.elementType);
         serializer.writeInt64(this.gotchaTime);
         serializer.writeInt32(this.group);
         serializer.writeFloat(this.hp);
@@ -2726,7 +2726,7 @@ export class FUserCreature {
         serializer.writeUtf8String(this.mainSkill);
         serializer.writeFloat(this.mainSkillDps);
         serializer.writeFloat(this.mainSkillEps);
-        serializer.writeSByte(this.name);
+        serializer.writeByte(this.name);
         serializer.writeStaticMap(this.possibleEvolutions, true, true, 'Map<enums.CreatureType, int>');
         serializer.writeInt32(this.staminaValue);
         serializer.writeFloat(this.totalHp);
@@ -2735,14 +2735,14 @@ export class FUserCreature {
         this.alias = deserializer.readDynamicObject();
         this.attackValue = deserializer.readInt32();
         this.baseCp = deserializer.readInt32();
-        this.candyType = deserializer.readSByte();
+        this.candyType = deserializer.readByte();
         this.chargedSegments = deserializer.readInt32();
         this.chargedSkill = deserializer.readUtf8String();
         this.chargedSkillDps = deserializer.readFloat();
         this.cp = deserializer.readInt32();
         this.creadexIndex = deserializer.readInt32();
         this.dps = deserializer.readFloat();
-        this.elementType = deserializer.readSByte();
+        this.elementType = deserializer.readByte();
         this.gotchaTime = deserializer.readInt64();
         this.group = deserializer.readInt32();
         this.hp = deserializer.readFloat();
@@ -2757,7 +2757,7 @@ export class FUserCreature {
         this.mainSkill = deserializer.readUtf8String();
         this.mainSkillDps = deserializer.readFloat();
         this.mainSkillEps = deserializer.readFloat();
-        this.name = deserializer.readSByte();
+        this.name = deserializer.readByte();
         this.possibleEvolutions = deserializer.readStaticMap('CreatureType', 'int', true, true);
         this.staminaValue = deserializer.readInt32();
         this.totalHp = deserializer.readFloat();
@@ -2942,7 +2942,7 @@ export class FWildCreature {
         serializer.writeUtf8String(this.id);
         serializer.writeDynamicObject(this.incenseUserId, 'string');
         serializer.writeBoolean(this.isFirstCreature);
-        serializer.writeSByte(this.name);
+        serializer.writeByte(this.name);
         serializer.writeDynamicObject(this.relatedBuildingId, 'string');
         serializer.writeFloat(this.scaleCollider);
         serializer.writeFloat(this.ttl);
@@ -2953,7 +2953,7 @@ export class FWildCreature {
         this.id = deserializer.readUtf8String();
         this.incenseUserId = deserializer.readDynamicObject();
         this.isFirstCreature = deserializer.readBoolean();
-        this.name = deserializer.readSByte();
+        this.name = deserializer.readByte();
         this.relatedBuildingId = deserializer.readDynamicObject();
         this.scaleCollider = deserializer.readFloat();
         this.ttl = deserializer.readFloat();
@@ -3094,12 +3094,12 @@ export class InAppEventInfo {
 
     serialize(serializer: Serializer) {
         serializer.writeStaticMap(this.eventItems, true, true, 'Map<string, string>');
-        serializer.writeSByte(this.eventType);
+        serializer.writeByte(this.eventType);
         serializer.writeUtf8String(this.userId);
     }
     deserialize(deserializer: Deserializer) {
         this.eventItems = deserializer.readStaticMap('string', 'string', true, true);
-        this.eventType = deserializer.readSByte();
+        this.eventType = deserializer.readByte();
         this.userId = deserializer.readUtf8String();
     }
 }
@@ -3133,11 +3133,11 @@ export class ProductGroup {
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeSByte(this.itemType);
+        serializer.writeByte(this.itemType);
         serializer.writeStaticList(this.productLots, true, 'ProductLot[]');
     }
     deserialize(deserializer: Deserializer) {
-        this.itemType = deserializer.readSByte();
+        this.itemType = deserializer.readByte();
         this.productLots = deserializer.readStaticList('ProductLot', true);
     }
 }
@@ -3174,12 +3174,12 @@ export class SaleSetConfig {
     serialize(serializer: Serializer) {
         serializer.writeStaticMap(this.items, true, true, 'Map<enums.ItemType, int>');
         serializer.writeInt32(this.price);
-        serializer.writeSByte(this.type);
+        serializer.writeByte(this.type);
     }
     deserialize(deserializer: Deserializer) {
         this.items = deserializer.readStaticMap('ItemType', 'int', true, true);
         this.price = deserializer.readInt32();
-        this.type = deserializer.readSByte();
+        this.type = deserializer.readByte();
     }
 }
 
