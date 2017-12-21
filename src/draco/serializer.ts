@@ -184,7 +184,7 @@ export default class Serializer {
             else if (objects[type]) data.serialize(this);
             else if (enums[type]) {
                 if (data.__type) data = data.value;
-                this.writeSByte(data);
+                this.writeByte(data);
             } else {
                 throw new Error('writeStaticObject: ' + type);
             }

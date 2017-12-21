@@ -174,7 +174,7 @@ class Deserializer {
             return this.readStaticHashSet(match[1], false);
         }
         else if (enums[type]) {
-            return this.readSByte();
+            return this.readByte();
         }
         else if (objects[type]) {
             const obj = new objects[type]();

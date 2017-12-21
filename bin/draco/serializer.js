@@ -209,7 +209,7 @@ class Serializer {
             else if (enums[type]) {
                 if (data.__type)
                     data = data.value;
-                this.writeSByte(data);
+                this.writeByte(data);
             }
             else {
                 throw new Error('writeStaticObject: ' + type);
