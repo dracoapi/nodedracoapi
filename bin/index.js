@@ -31,8 +31,8 @@ class Client {
     constructor(options = {}) {
         this.eventsCounter = {};
         this.checkProtocol = true;
-        this.protocolVersion = options.protocolVersion || '89382320';
-        this.clientVersion = options.clientVersion || '8659';
+        this.protocolVersion = options.protocolVersion || '3498910182';
+        this.clientVersion = options.clientVersion || '8804';
         if (options.hasOwnProperty('checkProtocol'))
             this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter'))

@@ -103,6 +103,7 @@ export enum BuffType {
     DOUBLE_DROP_FROM_STOPS,
     PERSONAL_STOP_FIELD,
     ACTIVATION_RADIUS_IMPROVE,
+    SYSTEM_MAINTENANCE,
 }
 
 export enum BuildingType {

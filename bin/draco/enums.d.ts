@@ -99,6 +99,7 @@ export declare enum BuffType {
     DOUBLE_DROP_FROM_STOPS = 8,
     PERSONAL_STOP_FIELD = 9,
     ACTIVATION_RADIUS_IMPROVE = 10,
+    SYSTEM_MAINTENANCE = 11,
 }
 export declare enum BuildingType {
     STOP = 0,

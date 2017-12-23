@@ -235,7 +235,7 @@ class FArenaDetails {
         serializer.writeBoolean(this.hasRemoteBuildingControlAction);
         serializer.writeUtf8String(this.id);
         serializer.writeInt32(this.level);
-        serializer.writeBoolean(this.libraryBlocked);
+        serializer.writeInt32(this.libraryBlockedCooldown);
         serializer.writeInt32(this.minUseLevel);
         serializer.writeInt32(this.nextLevelExp);
         serializer.writeDynamicObject(this.ownerAlliance, 'enums.AllianceType');
@@ -256,7 +256,7 @@ class FArenaDetails {
         this.hasRemoteBuildingControlAction = deserializer.readBoolean();
         this.id = deserializer.readUtf8String();
         this.level = deserializer.readInt32();
-        this.libraryBlocked = deserializer.readBoolean();
+        this.libraryBlockedCooldown = deserializer.readInt32();
         this.minUseLevel = deserializer.readInt32();
         this.nextLevelExp = deserializer.readInt32();
         this.ownerAlliance = deserializer.readDynamicObject();
@@ -345,6 +345,7 @@ class FAvaUpdate {
         serializer.writeDouble(this.activationRadius);
         serializer.writeDynamicObject(this.alliance, 'enums.AllianceType');
         serializer.writeDynamicObject(this.altarCoords, 'GeoCoords');
+        serializer.writeFloat(this.artifactDustFactor);
         serializer.writeStaticList(this.artifacts, true, 'enums.ArtifactName[]');
         serializer.writeDynamicObject(this.buddy, 'FBuddy');
         serializer.writeStaticList(this.buffs, true, 'FBuff[]');
@@ -380,6 +381,7 @@ class FAvaUpdate {
         this.activationRadius = deserializer.readDouble();
         this.alliance = deserializer.readDynamicObject();
         this.altarCoords = deserializer.readDynamicObject();
+        this.artifactDustFactor = deserializer.readFloat();
         this.artifacts = deserializer.readStaticList('ArtifactName', true);
         this.buddy = deserializer.readDynamicObject();
         this.buffs = deserializer.readStaticList('FBuff', true);
@@ -873,6 +875,7 @@ class FConfig {
         serializer.writeInt32(this.maxSpeedToPlay);
         serializer.writeFloat(this.monsterLevelPerUserLevel);
         serializer.writeInt32(this.monsterMaxLevel);
+        serializer.writeFloat(this.newsCheckIntervalSeconds);
         serializer.writeInt32(this.personalizationPrice);
         serializer.writeStaticObject(this.potionConfig, 'PotionConfig');
         serializer.writeDouble(this.radarVisionRadius);
@@ -947,6 +950,7 @@ class FConfig {
         this.maxSpeedToPlay = deserializer.readInt32();
         this.monsterLevelPerUserLevel = deserializer.readFloat();
         this.monsterMaxLevel = deserializer.readInt32();
+        this.newsCheckIntervalSeconds = deserializer.readFloat();
         this.personalizationPrice = deserializer.readInt32();
         this.potionConfig = deserializer.readStaticObject('PotionConfig');
         this.radarVisionRadius = deserializer.readDouble();
@@ -1630,11 +1634,13 @@ class FNewsArticle {
         Object.assign(this, init);
     }
     serialize(serializer) {
+        serializer.writeStaticHashSet(this.activeNewsIds, true, 'Set<string>');
         serializer.writeUtf8String(this.body);
         serializer.writeUtf8String(this.id);
         serializer.writeUtf8String(this.title);
     }
     deserialize(deserializer) {
+        this.activeNewsIds = deserializer.readStaticHashSet('string', true);
         this.body = deserializer.readUtf8String();
         this.id = deserializer.readUtf8String();
         this.title = deserializer.readUtf8String();

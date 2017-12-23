@@ -311,7 +311,7 @@ export class FArenaDetails {
     hasRemoteBuildingControlAction: boolean; // bool
     id: string; // string
     level: number; // int
-    libraryBlocked: boolean; // bool
+    libraryBlockedCooldown: number; // int
     minUseLevel: number; // int
     nextLevelExp: number; // int
     ownerAlliance: enums.AllianceType; // AllianceType
@@ -336,7 +336,7 @@ export class FArenaDetails {
         serializer.writeBoolean(this.hasRemoteBuildingControlAction);
         serializer.writeUtf8String(this.id);
         serializer.writeInt32(this.level);
-        serializer.writeBoolean(this.libraryBlocked);
+        serializer.writeInt32(this.libraryBlockedCooldown);
         serializer.writeInt32(this.minUseLevel);
         serializer.writeInt32(this.nextLevelExp);
         serializer.writeDynamicObject(this.ownerAlliance, 'enums.AllianceType');
@@ -357,7 +357,7 @@ export class FArenaDetails {
         this.hasRemoteBuildingControlAction = deserializer.readBoolean();
         this.id = deserializer.readUtf8String();
         this.level = deserializer.readInt32();
-        this.libraryBlocked = deserializer.readBoolean();
+        this.libraryBlockedCooldown = deserializer.readInt32();
         this.minUseLevel = deserializer.readInt32();
         this.nextLevelExp = deserializer.readInt32();
         this.ownerAlliance = deserializer.readDynamicObject();
@@ -463,6 +463,7 @@ export class FAvaUpdate {
     activationRadius: number; // double
     alliance: enums.AllianceType; // AllianceType
     altarCoords: GeoCoords; // GeoCoords
+    artifactDustFactor: number; // float
     artifacts: enums.ArtifactName[]; // ArtifactName[]
     buddy: FBuddy; // FBuddy
     buffs: FBuff[]; // FBuff[]
@@ -502,6 +503,7 @@ export class FAvaUpdate {
         serializer.writeDouble(this.activationRadius);
         serializer.writeDynamicObject(this.alliance, 'enums.AllianceType');
         serializer.writeDynamicObject(this.altarCoords, 'GeoCoords');
+        serializer.writeFloat(this.artifactDustFactor);
         serializer.writeStaticList(this.artifacts, true, 'enums.ArtifactName[]');
         serializer.writeDynamicObject(this.buddy, 'FBuddy');
         serializer.writeStaticList(this.buffs, true, 'FBuff[]');
@@ -537,6 +539,7 @@ export class FAvaUpdate {
         this.activationRadius = deserializer.readDouble();
         this.alliance = deserializer.readDynamicObject();
         this.altarCoords = deserializer.readDynamicObject();
+        this.artifactDustFactor = deserializer.readFloat();
         this.artifacts = deserializer.readStaticList('ArtifactName', true);
         this.buddy = deserializer.readDynamicObject();
         this.buffs = deserializer.readStaticList('FBuff', true);
@@ -1168,6 +1171,7 @@ export class FConfig {
     maxSpeedToPlay: number; // int
     monsterLevelPerUserLevel: number; // float
     monsterMaxLevel: number; // int
+    newsCheckIntervalSeconds: number; // float
     personalizationPrice: number; // int
     potionConfig: PotionConfig; // PotionConfig
     radarVisionRadius: number; // double
@@ -1246,6 +1250,7 @@ export class FConfig {
         serializer.writeInt32(this.maxSpeedToPlay);
         serializer.writeFloat(this.monsterLevelPerUserLevel);
         serializer.writeInt32(this.monsterMaxLevel);
+        serializer.writeFloat(this.newsCheckIntervalSeconds);
         serializer.writeInt32(this.personalizationPrice);
         serializer.writeStaticObject(this.potionConfig, 'PotionConfig');
         serializer.writeDouble(this.radarVisionRadius);
@@ -1320,6 +1325,7 @@ export class FConfig {
         this.maxSpeedToPlay = deserializer.readInt32();
         this.monsterLevelPerUserLevel = deserializer.readFloat();
         this.monsterMaxLevel = deserializer.readInt32();
+        this.newsCheckIntervalSeconds = deserializer.readFloat();
         this.personalizationPrice = deserializer.readInt32();
         this.potionConfig = deserializer.readStaticObject('PotionConfig') as PotionConfig;
         this.radarVisionRadius = deserializer.readDouble();
@@ -2210,6 +2216,7 @@ export class FLootItemRecipe {
 
 export class FNewsArticle {
     __type = 'FNewsArticle';
+    activeNewsIds: Set<string>; // Set<string>
     body: string; // string
     id: string; // string
     title: string; // string
@@ -2219,11 +2226,13 @@ export class FNewsArticle {
     }
 
     serialize(serializer: Serializer) {
+        serializer.writeStaticHashSet(this.activeNewsIds, true, 'Set<string>');
         serializer.writeUtf8String(this.body);
         serializer.writeUtf8String(this.id);
         serializer.writeUtf8String(this.title);
     }
     deserialize(deserializer: Deserializer) {
+        this.activeNewsIds = deserializer.readStaticHashSet('string', true);
         this.body = deserializer.readUtf8String();
         this.id = deserializer.readUtf8String();
         this.title = deserializer.readUtf8String();

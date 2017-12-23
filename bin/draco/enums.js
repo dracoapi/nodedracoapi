@@ -106,6 +106,7 @@ var BuffType;
     BuffType[BuffType["DOUBLE_DROP_FROM_STOPS"] = 8] = "DOUBLE_DROP_FROM_STOPS";
     BuffType[BuffType["PERSONAL_STOP_FIELD"] = 9] = "PERSONAL_STOP_FIELD";
     BuffType[BuffType["ACTIVATION_RADIUS_IMPROVE"] = 10] = "ACTIVATION_RADIUS_IMPROVE";
+    BuffType[BuffType["SYSTEM_MAINTENANCE"] = 11] = "SYSTEM_MAINTENANCE";
 })(BuffType = exports.BuffType || (exports.BuffType = {}));
 var BuildingType;
 (function (BuildingType) {

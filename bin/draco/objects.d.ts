@@ -130,7 +130,7 @@ export declare class FArenaDetails {
     hasRemoteBuildingControlAction: boolean;
     id: string;
     level: number;
-    libraryBlocked: boolean;
+    libraryBlockedCooldown: number;
     minUseLevel: number;
     nextLevelExp: number;
     ownerAlliance: enums.AllianceType;
@@ -183,6 +183,7 @@ export declare class FAvaUpdate {
     activationRadius: number;
     alliance: enums.AllianceType;
     altarCoords: GeoCoords;
+    artifactDustFactor: number;
     artifacts: enums.ArtifactName[];
     buddy: FBuddy;
     buffs: FBuff[];
@@ -480,6 +481,7 @@ export declare class FConfig {
     maxSpeedToPlay: number;
     monsterLevelPerUserLevel: number;
     monsterMaxLevel: number;
+    newsCheckIntervalSeconds: number;
     personalizationPrice: number;
     potionConfig: PotionConfig;
     radarVisionRadius: number;
@@ -850,6 +852,7 @@ export declare class FLootItemRecipe {
 }
 export declare class FNewsArticle {
     __type: string;
+    activeNewsIds: Set<string>;
     body: string;
     id: string;
     title: string;
