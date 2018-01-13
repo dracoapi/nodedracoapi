@@ -6,7 +6,7 @@
         {
             "type": "typescript",
             "label": "compile",
-            "tsconfig": "tsconfig.json",
+            "tsconfig": "tsconfig.dev.json",
             "problemMatcher": [
                 "$tsc"
             ],

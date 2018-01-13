@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+- node
+
+install:
+- npm i --no-save
+- npm i -g typescript --no-save
+- npm i -g tslint --no-save
+
+script:
+- npm run build
+- npm run tslint
+
+notifications:
+  email: false

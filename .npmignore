@@ -2,4 +2,8 @@ src/*
 bin/examples/*
 .vscode
 *.map
+.travis.yml
+tslint.json
+tsconfig.json
+tsconfig.dev.json
 user*.json

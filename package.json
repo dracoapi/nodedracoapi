@@ -7,6 +7,10 @@
   "engines": {
     "node": ">= 8"
   },
+  "scripts": {
+    "build": "tsc",
+    "tslint": "tslint -c tslint.json 'src/**/*.ts'",
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dracoapi/nodedracoapi.git"
