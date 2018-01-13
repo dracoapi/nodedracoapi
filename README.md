@@ -2,6 +2,7 @@
 ![downloads](https://img.shields.io/npm/dt/draconode.svg)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/niicodev)
 [![Build Status](https://travis-ci.org/dracoapi/nodedracoapi.svg?branch=master)](https://travis-ci.org/dracoapi/nodedracoapi)
+[![Known Vulnerabilities](https://snyk.io/test/github/dracoapi/nodedracoapi/badge.svg?targetFile=package.json)](https://snyk.io/test/github/dracoapi/nodedracoapi?targetFile=package.json)
 
 # DracoNode: a node draco api
 
