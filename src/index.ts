@@ -62,7 +62,7 @@ export class Client {
 
     constructor(options: any = {}) {
         this.protocolVersion = options.protocolVersion || '3498910182';
-        this.clientVersion = options.clientVersion || '8804';
+        this.clientVersion = options.clientVersion || '9184';
         if (options.hasOwnProperty('checkProtocol')) this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter')) this.eventsCounter = options.eventsCounter;
         this.proxy = options.proxy;

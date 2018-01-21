@@ -1,6 +1,6 @@
 {
   "name": "draconode",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "nodejs api for Dranonius GO",
   "main": "bin/index.js",
   "types": "bin/index.d.ts",
@@ -30,6 +30,6 @@
     "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
-    "@types/node": "^8.5.2"
+    "@types/node": "^9.3.0"
   }
 }
