@@ -21,6 +21,14 @@ export declare class BuffConfig {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
+export declare class ExtraPack {
+    __type: string;
+    price: number;
+    wizardBattles: number;
+    constructor(init?: Partial<ExtraPack>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
 export declare class FActiveObject {
     __type: string;
     allianceType: enums.AllianceType;
@@ -49,8 +57,10 @@ export declare class FActiveObjectsUpdate {
     libraryTotalCooldown: number;
     libraryWaitCooldown: number;
     loot: FLoot;
+    maxArenas: number;
     objectList: FActiveObject[];
     timeToNextTributeCollection: number;
+    totalArenas: number;
     tributeCooldown: number;
     constructor(init?: Partial<FActiveObjectsUpdate>);
     serialize(serializer: Serializer): void;
@@ -78,6 +88,7 @@ export declare class FAltarDetails {
     buildingId: string;
     coords: GeoCoords;
     ownerNickname: string;
+    recipeLevel: number;
     recipeName: enums.RecipeType;
     runeOwnerNames: Map<number, string>;
     runeOwners: Map<number, string>;
@@ -127,14 +138,17 @@ export declare class FArenaDetails {
     coords: GeoCoords;
     currentExp: number;
     defenders: FDefenderDetails[];
-    hasRemoteBuildingControlAction: boolean;
     id: string;
     level: number;
     libraryBlockedCooldown: number;
     minUseLevel: number;
     nextLevelExp: number;
     ownerAlliance: enums.AllianceType;
+    possibleDefendersCount: number;
     protectionRemainingTime: number;
+    remoteBuildingControlChargesMaxCount: number;
+    remoteBuildingControlChargesUsed: number;
+    remoteBuildingControlCooldown: number;
     restrictedForAllianceToCapture: enums.AllianceType;
     restrictedForAllianceToCaptureRemainingTime: number;
     constructor(init?: Partial<FArenaDetails>);
@@ -193,7 +207,10 @@ export declare class FAvaUpdate {
     currentExperience: number;
     dungeonId: string;
     dust: number;
+    eggsHatchedCount: number;
     exp: number;
+    freshNewsDate: long;
+    hasUnhandledAdvices: boolean;
     incenseDuration: long;
     incenseGenMonstersGroupName: string;
     incenseLeftTime: long;
@@ -201,11 +218,10 @@ export declare class FAvaUpdate {
     isBagFull: boolean;
     isEggBagFull: boolean;
     level: number;
+    monstersCaughtCount: number;
     nextLevelExperience: number;
-    recipes: enums.RecipeType[];
+    recipeLevels: Map<enums.RecipeType, number>;
     registerDate: long;
-    scoutChargesLeft: number;
-    scoutRadius: number;
     slugLeftTime: number;
     stopFieldDuration: long;
     stopFieldLeftTime: long;
@@ -430,8 +446,6 @@ export declare class FClientRequest {
 }
 export declare class FConfig {
     __type: string;
-    activationRadiusDuration: number;
-    activationRadiusFactor: number;
     aggressiveChanceToAttack: number;
     aggressiveChanceToJump: number;
     aggressiveChancesCooldownTime: number;
@@ -439,7 +453,6 @@ export declare class FConfig {
     angularDrag: number;
     arenaLayerLevels: number[];
     arenaLevelsThreshold: number[];
-    arenaProtectionDuration: number;
     artifactSellPrice: Map<enums.ArtifactName, number>;
     avatarMoveExtrapolationMaxRunawayDistance: number;
     avatarMoveMaxDistanceRun: number;
@@ -448,7 +461,6 @@ export declare class FConfig {
     avatarMoveReturnToRealPositionTimeout: number;
     avatarMoveRunSpeed: number;
     ballCurve: number;
-    battlesEnhancedLimitPrice: number;
     buildingsVisionRadius: number;
     cameraFieldOfView: number;
     catchPopup: Map<number, string>;
@@ -479,13 +491,16 @@ export declare class FConfig {
     maxClientPauseDuration: number;
     maxSpeedForUse: number;
     maxSpeedToPlay: number;
+    mentorshipEnabled: boolean;
     monsterLevelPerUserLevel: number;
     monsterMaxLevel: number;
     newsCheckIntervalSeconds: number;
+    oppositeDodgeTimeoutSeconds: number;
     personalizationPrice: number;
     potionConfig: PotionConfig;
     radarVisionRadius: number;
-    runes: Map<enums.RecipeType, object[]>;
+    recipes: Map<enums.RecipeType, object[]>;
+    requestRetryDelay: number;
     serverTime: long;
     spinGain: number;
     stopUsageHintTillLevel: number;
@@ -499,7 +514,7 @@ export declare class FConfig {
     updateRequestPeriodSeconds: number;
     weeklyQuestAvailableFromLevel: number;
     wizardAvailableFromLevel: number;
-    wizardEnhanceCount: number;
+    worldScreenBuffDisplayMaxDurationTimeSeconds: number;
     xVelocityFactor: number;
     xVelocityFactorSpin: number;
     yVelocityFactor: number;
@@ -696,6 +711,7 @@ export declare class FFightItem {
 }
 export declare class FFightRequest {
     __type: string;
+    battleId: string;
     chargedAttacksByAi: number;
     dodges: number;
     items: FFightItem[];
@@ -710,6 +726,7 @@ export declare class FFightUpdate {
     __type: string;
     attackers: FFightCreature[];
     autoChangeAttackerHpPercent: number;
+    battleId: string;
     defenderNickname: string;
     defenders: FFightCreature[];
     dodgeChance: number;
@@ -845,8 +862,35 @@ export declare class FLootItemItem {
 export declare class FLootItemRecipe {
     __type: string;
     qty: number;
+    level: number;
     recipe: enums.RecipeType;
     constructor(init?: Partial<FLootItemRecipe>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FMentorshipAwardUpdate {
+    __type: string;
+    creadex: FCreadex;
+    creatureType: enums.CreatureType;
+    gotCandiesCount: number;
+    gotDragon: boolean;
+    userCreature: FUserCreature;
+    constructor(init?: Partial<FMentorshipAwardUpdate>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FMentorshipInfo {
+    __type: string;
+    canBeMentor: boolean;
+    canChooseMentor: boolean;
+    hasParentMentor: boolean;
+    levelRequiredToBeMentor: number;
+    ownMentorCode: string;
+    parentMentorId: string;
+    parentMentorNickname: string;
+    students: FStudent[];
+    wasKickedByParentMentor: boolean;
+    constructor(init?: Partial<FMentorshipInfo>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
@@ -854,6 +898,7 @@ export declare class FNewsArticle {
     __type: string;
     activeNewsIds: Set<string>;
     body: string;
+    freshNewsDate: long;
     id: string;
     title: string;
     constructor(init?: Partial<FNewsArticle>);
@@ -927,6 +972,15 @@ export declare class FQuestUpdate {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
+export declare class FRecipeConfig {
+    __type: string;
+    duration: number;
+    percent: number;
+    runes: enums.ItemType[];
+    constructor(init?: Partial<FRecipeConfig>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
 export declare class FRegistrationInfo {
     __type: string;
     age: string;
@@ -960,6 +1014,8 @@ export declare class FShopConfig {
     bagUpgrade: ProductLot;
     coins: Map<string, ProductLot>;
     creatureStorageUpgrade: ProductLot;
+    extraPacks: Map<string, ExtraPack>;
+    marketFees: Map<string, number>;
     products: ProductGroup[];
     saleSets: SaleSetConfig[];
     constructor(init?: Partial<FShopConfig>);
@@ -989,6 +1045,16 @@ export declare class FStartEncounterRequest {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
+export declare class FStudent {
+    __type: string;
+    allianceType: enums.AllianceType;
+    level: number;
+    nickname: string;
+    userId: string;
+    constructor(init?: Partial<FStudent>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
 export declare class FTile {
     __type: string;
     dungeonId: string;
@@ -1002,6 +1068,15 @@ export declare class FTileState {
     buildings: FBuilding[];
     time: long;
     constructor(init?: Partial<FTileState>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FTips {
+    __type: string;
+    laterAvailable: boolean;
+    messages: string[];
+    nextAvailable: boolean;
+    constructor(init?: Partial<FTips>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
@@ -1109,6 +1184,7 @@ export declare class FUserInfo {
     newLicense: number;
     nickname: string;
     sendClientLog: boolean;
+    showAdvices: boolean;
     userId: string;
     constructor(init?: Partial<FUserInfo>);
     serialize(serializer: Serializer): void;
@@ -1120,8 +1196,10 @@ export declare class FWeeklyQuest {
     completed: boolean;
     currentFragment: number;
     digFragments: number[];
+    extraQuestsAvailable: number;
     nextWeeklyQuestIn: number;
     openFragments: Map<number, Buffer>;
+    shovelsAvailable: number;
     sideFragmentNumber: number;
     constructor(init?: Partial<FWeeklyQuest>);
     serialize(serializer: Serializer): void;
@@ -1152,11 +1230,11 @@ export declare class FWildCreature {
 }
 export declare class FWizardBattleInfo {
     __type: string;
-    enhanced: boolean;
-    enhancedTime: number;
+    extraBattles: number;
     limit: number;
     timeToRefresh: number;
     used: number;
+    userCoins: number;
     constructor(init?: Partial<FWizardBattleInfo>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;

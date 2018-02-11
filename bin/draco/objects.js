@@ -34,6 +34,21 @@ class BuffConfig {
     }
 }
 exports.BuffConfig = BuffConfig;
+class ExtraPack {
+    constructor(init) {
+        this.__type = 'ExtraPack';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeInt32(this.price);
+        serializer.writeInt32(this.wizardBattles);
+    }
+    deserialize(deserializer) {
+        this.price = deserializer.readInt32();
+        this.wizardBattles = deserializer.readInt32();
+    }
+}
+exports.ExtraPack = ExtraPack;
 class FActiveObject {
     constructor(init) {
         this.__type = 'FActiveObject';
@@ -82,8 +97,10 @@ class FActiveObjectsUpdate {
         serializer.writeFloat(this.libraryTotalCooldown);
         serializer.writeInt32(this.libraryWaitCooldown);
         serializer.writeStaticObject(this.loot, 'FLoot');
+        serializer.writeInt32(this.maxArenas);
         serializer.writeStaticList(this.objectList, true, 'FActiveObject[]');
         serializer.writeFloat(this.timeToNextTributeCollection);
+        serializer.writeInt32(this.totalArenas);
         serializer.writeFloat(this.tributeCooldown);
     }
     deserialize(deserializer) {
@@ -96,8 +113,10 @@ class FActiveObjectsUpdate {
         this.libraryTotalCooldown = deserializer.readFloat();
         this.libraryWaitCooldown = deserializer.readInt32();
         this.loot = deserializer.readStaticObject('FLoot');
+        this.maxArenas = deserializer.readInt32();
         this.objectList = deserializer.readStaticList('FActiveObject', true);
         this.timeToNextTributeCollection = deserializer.readFloat();
+        this.totalArenas = deserializer.readInt32();
         this.tributeCooldown = deserializer.readFloat();
     }
 }
@@ -143,6 +162,7 @@ class FAltarDetails {
         serializer.writeUtf8String(this.buildingId);
         serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeUtf8String(this.ownerNickname);
+        serializer.writeInt32(this.recipeLevel);
         serializer.writeByte(this.recipeName);
         serializer.writeStaticMap(this.runeOwnerNames, true, true, 'Map<int, string>');
         serializer.writeStaticMap(this.runeOwners, true, true, 'Map<int, string>');
@@ -151,6 +171,7 @@ class FAltarDetails {
         this.buildingId = deserializer.readUtf8String();
         this.coords = deserializer.readStaticObject('GeoCoords');
         this.ownerNickname = deserializer.readUtf8String();
+        this.recipeLevel = deserializer.readInt32();
         this.recipeName = deserializer.readByte();
         this.runeOwnerNames = deserializer.readStaticMap('int', 'string', true, true);
         this.runeOwners = deserializer.readStaticMap('int', 'string', true, true);
@@ -232,14 +253,17 @@ class FArenaDetails {
         serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeInt32(this.currentExp);
         serializer.writeStaticList(this.defenders, true, 'FDefenderDetails[]');
-        serializer.writeBoolean(this.hasRemoteBuildingControlAction);
         serializer.writeUtf8String(this.id);
         serializer.writeInt32(this.level);
         serializer.writeInt32(this.libraryBlockedCooldown);
         serializer.writeInt32(this.minUseLevel);
         serializer.writeInt32(this.nextLevelExp);
         serializer.writeDynamicObject(this.ownerAlliance, 'enums.AllianceType');
+        serializer.writeInt32(this.possibleDefendersCount);
         serializer.writeFloat(this.protectionRemainingTime);
+        serializer.writeInt32(this.remoteBuildingControlChargesMaxCount);
+        serializer.writeInt32(this.remoteBuildingControlChargesUsed);
+        serializer.writeInt32(this.remoteBuildingControlCooldown);
         serializer.writeDynamicObject(this.restrictedForAllianceToCapture, 'enums.AllianceType');
         serializer.writeFloat(this.restrictedForAllianceToCaptureRemainingTime);
     }
@@ -253,14 +277,17 @@ class FArenaDetails {
         this.coords = deserializer.readStaticObject('GeoCoords');
         this.currentExp = deserializer.readInt32();
         this.defenders = deserializer.readStaticList('FDefenderDetails', true);
-        this.hasRemoteBuildingControlAction = deserializer.readBoolean();
         this.id = deserializer.readUtf8String();
         this.level = deserializer.readInt32();
         this.libraryBlockedCooldown = deserializer.readInt32();
         this.minUseLevel = deserializer.readInt32();
         this.nextLevelExp = deserializer.readInt32();
         this.ownerAlliance = deserializer.readDynamicObject();
+        this.possibleDefendersCount = deserializer.readInt32();
         this.protectionRemainingTime = deserializer.readFloat();
+        this.remoteBuildingControlChargesMaxCount = deserializer.readInt32();
+        this.remoteBuildingControlChargesUsed = deserializer.readInt32();
+        this.remoteBuildingControlCooldown = deserializer.readInt32();
         this.restrictedForAllianceToCapture = deserializer.readDynamicObject();
         this.restrictedForAllianceToCaptureRemainingTime = deserializer.readFloat();
     }
@@ -355,7 +382,10 @@ class FAvaUpdate {
         serializer.writeInt32(this.currentExperience);
         serializer.writeDynamicObject(this.dungeonId, 'string');
         serializer.writeInt32(this.dust);
+        serializer.writeInt32(this.eggsHatchedCount);
         serializer.writeFloat(this.exp);
+        serializer.writeInt64(this.freshNewsDate);
+        serializer.writeBoolean(this.hasUnhandledAdvices);
         serializer.writeInt64(this.incenseDuration);
         serializer.writeUtf8String(this.incenseGenMonstersGroupName);
         serializer.writeInt64(this.incenseLeftTime);
@@ -363,11 +393,10 @@ class FAvaUpdate {
         serializer.writeBoolean(this.isBagFull);
         serializer.writeBoolean(this.isEggBagFull);
         serializer.writeInt32(this.level);
+        serializer.writeInt32(this.monstersCaughtCount);
         serializer.writeInt32(this.nextLevelExperience);
-        serializer.writeStaticList(this.recipes, true, 'enums.RecipeType[]');
+        serializer.writeStaticMap(this.recipeLevels, true, true, 'Map<enums.RecipeType, int>');
         serializer.writeInt64(this.registerDate);
-        serializer.writeInt32(this.scoutChargesLeft);
-        serializer.writeFloat(this.scoutRadius);
         serializer.writeInt32(this.slugLeftTime);
         serializer.writeInt64(this.stopFieldDuration);
         serializer.writeInt64(this.stopFieldLeftTime);
@@ -391,7 +420,10 @@ class FAvaUpdate {
         this.currentExperience = deserializer.readInt32();
         this.dungeonId = deserializer.readDynamicObject();
         this.dust = deserializer.readInt32();
+        this.eggsHatchedCount = deserializer.readInt32();
         this.exp = deserializer.readFloat();
+        this.freshNewsDate = deserializer.readInt64();
+        this.hasUnhandledAdvices = deserializer.readBoolean();
         this.incenseDuration = deserializer.readInt64();
         this.incenseGenMonstersGroupName = deserializer.readUtf8String();
         this.incenseLeftTime = deserializer.readInt64();
@@ -399,11 +431,10 @@ class FAvaUpdate {
         this.isBagFull = deserializer.readBoolean();
         this.isEggBagFull = deserializer.readBoolean();
         this.level = deserializer.readInt32();
+        this.monstersCaughtCount = deserializer.readInt32();
         this.nextLevelExperience = deserializer.readInt32();
-        this.recipes = deserializer.readStaticList('RecipeType', true);
+        this.recipeLevels = deserializer.readStaticMap('RecipeType', 'int', true, true);
         this.registerDate = deserializer.readInt64();
-        this.scoutChargesLeft = deserializer.readInt32();
-        this.scoutRadius = deserializer.readFloat();
         this.slugLeftTime = deserializer.readInt32();
         this.stopFieldDuration = deserializer.readInt64();
         this.stopFieldLeftTime = deserializer.readInt64();
@@ -824,8 +855,6 @@ class FConfig {
         Object.assign(this, init);
     }
     serialize(serializer) {
-        serializer.writeInt32(this.activationRadiusDuration);
-        serializer.writeInt32(this.activationRadiusFactor);
         serializer.writeFloat(this.aggressiveChanceToAttack);
         serializer.writeFloat(this.aggressiveChanceToJump);
         serializer.writeFloat(this.aggressiveChancesCooldownTime);
@@ -833,7 +862,6 @@ class FConfig {
         serializer.writeFloat(this.angularDrag);
         serializer.writeStaticArray(this.arenaLayerLevels, true, 'int[]');
         serializer.writeStaticArray(this.arenaLevelsThreshold, true, 'int[]');
-        serializer.writeInt32(this.arenaProtectionDuration);
         serializer.writeStaticMap(this.artifactSellPrice, true, true, 'Map<enums.ArtifactName, int>');
         serializer.writeFloat(this.avatarMoveExtrapolationMaxRunawayDistance);
         serializer.writeInt32(this.avatarMoveMaxDistanceRun);
@@ -842,7 +870,6 @@ class FConfig {
         serializer.writeFloat(this.avatarMoveReturnToRealPositionTimeout);
         serializer.writeInt32(this.avatarMoveRunSpeed);
         serializer.writeFloat(this.ballCurve);
-        serializer.writeInt32(this.battlesEnhancedLimitPrice);
         serializer.writeInt32(this.buildingsVisionRadius);
         serializer.writeFloat(this.cameraFieldOfView);
         serializer.writeStaticMap(this.catchPopup, true, true, 'Map<float, string>');
@@ -873,13 +900,16 @@ class FConfig {
         serializer.writeFloat(this.maxClientPauseDuration);
         serializer.writeFloat(this.maxSpeedForUse);
         serializer.writeInt32(this.maxSpeedToPlay);
+        serializer.writeBoolean(this.mentorshipEnabled);
         serializer.writeFloat(this.monsterLevelPerUserLevel);
         serializer.writeInt32(this.monsterMaxLevel);
         serializer.writeFloat(this.newsCheckIntervalSeconds);
+        serializer.writeFloat(this.oppositeDodgeTimeoutSeconds);
         serializer.writeInt32(this.personalizationPrice);
         serializer.writeStaticObject(this.potionConfig, 'PotionConfig');
         serializer.writeDouble(this.radarVisionRadius);
-        serializer.writeStaticMap(this.runes, true, true, 'Map<enums.RecipeType, object[]>');
+        serializer.writeStaticMap(this.recipes, true, true, 'Map<enums.RecipeType, object[]>');
+        serializer.writeFloat(this.requestRetryDelay);
         serializer.writeInt64(this.serverTime);
         serializer.writeFloat(this.spinGain);
         serializer.writeInt32(this.stopUsageHintTillLevel);
@@ -893,14 +923,12 @@ class FConfig {
         serializer.writeInt32(this.updateRequestPeriodSeconds);
         serializer.writeInt32(this.weeklyQuestAvailableFromLevel);
         serializer.writeInt32(this.wizardAvailableFromLevel);
-        serializer.writeInt32(this.wizardEnhanceCount);
+        serializer.writeFloat(this.worldScreenBuffDisplayMaxDurationTimeSeconds);
         serializer.writeFloat(this.xVelocityFactor);
         serializer.writeFloat(this.xVelocityFactorSpin);
         serializer.writeFloat(this.yVelocityFactor);
     }
     deserialize(deserializer) {
-        this.activationRadiusDuration = deserializer.readInt32();
-        this.activationRadiusFactor = deserializer.readInt32();
         this.aggressiveChanceToAttack = deserializer.readFloat();
         this.aggressiveChanceToJump = deserializer.readFloat();
         this.aggressiveChancesCooldownTime = deserializer.readFloat();
@@ -908,7 +936,6 @@ class FConfig {
         this.angularDrag = deserializer.readFloat();
         this.arenaLayerLevels = deserializer.readStaticArray('int', true);
         this.arenaLevelsThreshold = deserializer.readStaticArray('int', true);
-        this.arenaProtectionDuration = deserializer.readInt32();
         this.artifactSellPrice = deserializer.readStaticMap('ArtifactName', 'int', true, true);
         this.avatarMoveExtrapolationMaxRunawayDistance = deserializer.readFloat();
         this.avatarMoveMaxDistanceRun = deserializer.readInt32();
@@ -917,7 +944,6 @@ class FConfig {
         this.avatarMoveReturnToRealPositionTimeout = deserializer.readFloat();
         this.avatarMoveRunSpeed = deserializer.readInt32();
         this.ballCurve = deserializer.readFloat();
-        this.battlesEnhancedLimitPrice = deserializer.readInt32();
         this.buildingsVisionRadius = deserializer.readInt32();
         this.cameraFieldOfView = deserializer.readFloat();
         this.catchPopup = deserializer.readStaticMap('float', 'string', true, true);
@@ -948,13 +974,16 @@ class FConfig {
         this.maxClientPauseDuration = deserializer.readFloat();
         this.maxSpeedForUse = deserializer.readFloat();
         this.maxSpeedToPlay = deserializer.readInt32();
+        this.mentorshipEnabled = deserializer.readBoolean();
         this.monsterLevelPerUserLevel = deserializer.readFloat();
         this.monsterMaxLevel = deserializer.readInt32();
         this.newsCheckIntervalSeconds = deserializer.readFloat();
+        this.oppositeDodgeTimeoutSeconds = deserializer.readFloat();
         this.personalizationPrice = deserializer.readInt32();
         this.potionConfig = deserializer.readStaticObject('PotionConfig');
         this.radarVisionRadius = deserializer.readDouble();
-        this.runes = deserializer.readStaticMap('RecipeType', 'List<object>', true, true);
+        this.recipes = deserializer.readStaticMap('RecipeType', 'List<object>', true, true);
+        this.requestRetryDelay = deserializer.readFloat();
         this.serverTime = deserializer.readInt64();
         this.spinGain = deserializer.readFloat();
         this.stopUsageHintTillLevel = deserializer.readInt32();
@@ -968,7 +997,7 @@ class FConfig {
         this.updateRequestPeriodSeconds = deserializer.readInt32();
         this.weeklyQuestAvailableFromLevel = deserializer.readInt32();
         this.wizardAvailableFromLevel = deserializer.readInt32();
-        this.wizardEnhanceCount = deserializer.readInt32();
+        this.worldScreenBuffDisplayMaxDurationTimeSeconds = deserializer.readFloat();
         this.xVelocityFactor = deserializer.readFloat();
         this.xVelocityFactorSpin = deserializer.readFloat();
         this.yVelocityFactor = deserializer.readFloat();
@@ -1340,6 +1369,7 @@ class FFightRequest {
         Object.assign(this, init);
     }
     serialize(serializer) {
+        serializer.writeDynamicObject(this.battleId, 'string');
         serializer.writeInt32(this.chargedAttacksByAi);
         serializer.writeInt32(this.dodges);
         serializer.writeStaticList(this.items, true, 'FFightItem[]');
@@ -1348,6 +1378,7 @@ class FFightRequest {
         serializer.writeBoolean(this.timeout);
     }
     deserialize(deserializer) {
+        this.battleId = deserializer.readDynamicObject();
         this.chargedAttacksByAi = deserializer.readInt32();
         this.dodges = deserializer.readInt32();
         this.items = deserializer.readStaticList('FFightItem', true);
@@ -1365,6 +1396,7 @@ class FFightUpdate {
     serialize(serializer) {
         serializer.writeStaticList(this.attackers, true, 'FFightCreature[]');
         serializer.writeFloat(this.autoChangeAttackerHpPercent);
+        serializer.writeUtf8String(this.battleId);
         serializer.writeDynamicObject(this.defenderNickname, 'string');
         serializer.writeStaticList(this.defenders, true, 'FFightCreature[]');
         serializer.writeFloat(this.dodgeChance);
@@ -1372,6 +1404,7 @@ class FFightUpdate {
     deserialize(deserializer) {
         this.attackers = deserializer.readStaticList('FFightCreature', true);
         this.autoChangeAttackerHpPercent = deserializer.readFloat();
+        this.battleId = deserializer.readUtf8String();
         this.defenderNickname = deserializer.readDynamicObject();
         this.defenders = deserializer.readStaticList('FFightCreature', true);
         this.dodgeChance = deserializer.readFloat();
@@ -1620,14 +1653,66 @@ class FLootItemRecipe {
     }
     serialize(serializer) {
         serializer.writeInt32(this.qty);
+        serializer.writeInt32(this.level);
         serializer.writeByte(this.recipe);
     }
     deserialize(deserializer) {
         this.qty = deserializer.readInt32();
+        this.level = deserializer.readInt32();
         this.recipe = deserializer.readByte();
     }
 }
 exports.FLootItemRecipe = FLootItemRecipe;
+class FMentorshipAwardUpdate {
+    constructor(init) {
+        this.__type = 'FMentorshipAwardUpdate';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeDynamicObject(this.creadex, 'FCreadex');
+        serializer.writeByte(this.creatureType);
+        serializer.writeInt32(this.gotCandiesCount);
+        serializer.writeBoolean(this.gotDragon);
+        serializer.writeDynamicObject(this.userCreature, 'FUserCreature');
+    }
+    deserialize(deserializer) {
+        this.creadex = deserializer.readDynamicObject();
+        this.creatureType = deserializer.readByte();
+        this.gotCandiesCount = deserializer.readInt32();
+        this.gotDragon = deserializer.readBoolean();
+        this.userCreature = deserializer.readDynamicObject();
+    }
+}
+exports.FMentorshipAwardUpdate = FMentorshipAwardUpdate;
+class FMentorshipInfo {
+    constructor(init) {
+        this.__type = 'FMentorshipInfo';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeBoolean(this.canBeMentor);
+        serializer.writeBoolean(this.canChooseMentor);
+        serializer.writeBoolean(this.hasParentMentor);
+        serializer.writeInt32(this.levelRequiredToBeMentor);
+        serializer.writeUtf8String(this.ownMentorCode);
+        serializer.writeUtf8String(this.parentMentorId);
+        serializer.writeUtf8String(this.parentMentorNickname);
+        serializer.writeStaticList(this.students, true, 'FStudent[]');
+        serializer.writeBoolean(this.wasKickedByParentMentor);
+    }
+    deserialize(deserializer) {
+        this.canBeMentor = deserializer.readBoolean();
+        this.canChooseMentor = deserializer.readBoolean();
+        this.hasParentMentor = deserializer.readBoolean();
+        this.levelRequiredToBeMentor = deserializer.readInt32();
+        this.ownMentorCode = deserializer.readUtf8String();
+        this.parentMentorId = deserializer.readUtf8String();
+        this.parentMentorNickname = deserializer.readUtf8String();
+        this.students = deserializer.readStaticList('FStudent', true);
+        this.wasKickedByParentMentor = deserializer.readBoolean();
+    }
+}
+exports.FMentorshipInfo = FMentorshipInfo;
 class FNewsArticle {
     constructor(init) {
         this.__type = 'FNewsArticle';
@@ -1636,12 +1721,14 @@ class FNewsArticle {
     serialize(serializer) {
         serializer.writeStaticHashSet(this.activeNewsIds, true, 'Set<string>');
         serializer.writeUtf8String(this.body);
+        serializer.writeInt64(this.freshNewsDate);
         serializer.writeUtf8String(this.id);
         serializer.writeUtf8String(this.title);
     }
     deserialize(deserializer) {
         this.activeNewsIds = deserializer.readStaticHashSet('string', true);
         this.body = deserializer.readUtf8String();
+        this.freshNewsDate = deserializer.readInt64();
         this.id = deserializer.readUtf8String();
         this.title = deserializer.readUtf8String();
     }
@@ -1774,6 +1861,23 @@ class FQuestUpdate {
     }
 }
 exports.FQuestUpdate = FQuestUpdate;
+class FRecipeConfig {
+    constructor(init) {
+        this.__type = 'FRecipeConfig';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeInt32(this.duration);
+        serializer.writeInt32(this.percent);
+        serializer.writeStaticList(this.runes, true, 'enums.ItemType[]');
+    }
+    deserialize(deserializer) {
+        this.duration = deserializer.readInt32();
+        this.percent = deserializer.readInt32();
+        this.runes = deserializer.readStaticList('ItemType', true);
+    }
+}
+exports.FRecipeConfig = FRecipeConfig;
 class FRegistrationInfo {
     constructor(init) {
         this.__type = 'FRegistrationInfo';
@@ -1835,6 +1939,8 @@ class FShopConfig {
         serializer.writeStaticObject(this.bagUpgrade, 'ProductLot');
         serializer.writeStaticMap(this.coins, true, true, 'Map<string, ProductLot>');
         serializer.writeStaticObject(this.creatureStorageUpgrade, 'ProductLot');
+        serializer.writeStaticMap(this.extraPacks, true, true, 'Map<string, ExtraPack>');
+        serializer.writeStaticMap(this.marketFees, true, true, 'Map<string, float>');
         serializer.writeStaticList(this.products, true, 'ProductGroup[]');
         serializer.writeStaticList(this.saleSets, true, 'SaleSetConfig[]');
     }
@@ -1843,6 +1949,8 @@ class FShopConfig {
         this.bagUpgrade = deserializer.readStaticObject('ProductLot');
         this.coins = deserializer.readStaticMap('string', 'ProductLot', true, true);
         this.creatureStorageUpgrade = deserializer.readStaticObject('ProductLot');
+        this.extraPacks = deserializer.readStaticMap('string', 'ExtraPack', true, true);
+        this.marketFees = deserializer.readStaticMap('string', 'float', true, true);
         this.products = deserializer.readStaticList('ProductGroup', true);
         this.saleSets = deserializer.readStaticList('SaleSetConfig', true);
     }
@@ -1891,6 +1999,25 @@ class FStartEncounterRequest {
     }
 }
 exports.FStartEncounterRequest = FStartEncounterRequest;
+class FStudent {
+    constructor(init) {
+        this.__type = 'FStudent';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeDynamicObject(this.allianceType, 'enums.AllianceType');
+        serializer.writeInt32(this.level);
+        serializer.writeUtf8String(this.nickname);
+        serializer.writeUtf8String(this.userId);
+    }
+    deserialize(deserializer) {
+        this.allianceType = deserializer.readDynamicObject();
+        this.level = deserializer.readInt32();
+        this.nickname = deserializer.readUtf8String();
+        this.userId = deserializer.readUtf8String();
+    }
+}
+exports.FStudent = FStudent;
 class FTile {
     constructor(init) {
         this.__type = 'FTile';
@@ -1921,6 +2048,23 @@ class FTileState {
     }
 }
 exports.FTileState = FTileState;
+class FTips {
+    constructor(init) {
+        this.__type = 'FTips';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeBoolean(this.laterAvailable);
+        serializer.writeStaticList(this.messages, true, 'string[]');
+        serializer.writeBoolean(this.nextAvailable);
+    }
+    deserialize(deserializer) {
+        this.laterAvailable = deserializer.readBoolean();
+        this.messages = deserializer.readStaticList('string', true);
+        this.nextAvailable = deserializer.readBoolean();
+    }
+}
+exports.FTips = FTips;
 class FTransferMonsterToCandiesResponse {
     constructor(init) {
         this.__type = 'FTransferMonsterToCandiesResponse';
@@ -2117,6 +2261,7 @@ class FUserInfo {
         serializer.writeInt32(this.newLicense);
         serializer.writeUtf8String(this.nickname);
         serializer.writeBoolean(this.sendClientLog);
+        serializer.writeBoolean(this.showAdvices);
         serializer.writeUtf8String(this.userId);
     }
     deserialize(deserializer) {
@@ -2126,6 +2271,7 @@ class FUserInfo {
         this.newLicense = deserializer.readInt32();
         this.nickname = deserializer.readUtf8String();
         this.sendClientLog = deserializer.readBoolean();
+        this.showAdvices = deserializer.readBoolean();
         this.userId = deserializer.readUtf8String();
     }
 }
@@ -2140,8 +2286,10 @@ class FWeeklyQuest {
         serializer.writeBoolean(this.completed);
         serializer.writeInt32(this.currentFragment);
         serializer.writeStaticList(this.digFragments, true, 'int[]');
+        serializer.writeInt32(this.extraQuestsAvailable);
         serializer.writeInt32(this.nextWeeklyQuestIn);
         serializer.writeStaticMap(this.openFragments, true, true, 'Map<int, Buffer>');
+        serializer.writeInt32(this.shovelsAvailable);
         serializer.writeInt32(this.sideFragmentNumber);
     }
     deserialize(deserializer) {
@@ -2149,8 +2297,10 @@ class FWeeklyQuest {
         this.completed = deserializer.readBoolean();
         this.currentFragment = deserializer.readInt32();
         this.digFragments = deserializer.readStaticList('int', true);
+        this.extraQuestsAvailable = deserializer.readInt32();
         this.nextWeeklyQuestIn = deserializer.readInt32();
         this.openFragments = deserializer.readStaticMap('int', 'sbyte[]', true, true);
+        this.shovelsAvailable = deserializer.readInt32();
         this.sideFragmentNumber = deserializer.readInt32();
     }
 }
@@ -2205,18 +2355,18 @@ class FWizardBattleInfo {
         Object.assign(this, init);
     }
     serialize(serializer) {
-        serializer.writeBoolean(this.enhanced);
-        serializer.writeFloat(this.enhancedTime);
+        serializer.writeInt32(this.extraBattles);
         serializer.writeInt32(this.limit);
         serializer.writeFloat(this.timeToRefresh);
         serializer.writeInt32(this.used);
+        serializer.writeInt32(this.userCoins);
     }
     deserialize(deserializer) {
-        this.enhanced = deserializer.readBoolean();
-        this.enhancedTime = deserializer.readFloat();
+        this.extraBattles = deserializer.readInt32();
         this.limit = deserializer.readInt32();
         this.timeToRefresh = deserializer.readFloat();
         this.used = deserializer.readInt32();
+        this.userCoins = deserializer.readInt32();
     }
 }
 exports.FWizardBattleInfo = FWizardBattleInfo;
