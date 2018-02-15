@@ -193,7 +193,7 @@ export class Client {
         this.eventsCounter[name] = eventCounter + 1;
     }
 
-    async boot(clientinfo) {
+    async boot(clientinfo): Promise<objects.FConfig> {
         this.user.id = clientinfo.userId;
         this.user.deviceId = clientinfo.deviceId;
         this.user.login = (clientinfo.login || 'DEVICE').toUpperCase();
@@ -205,8 +205,9 @@ export class Client {
                 this.clientInfo[key] = clientinfo[key];
             }
         }
-        await this.event('LoadingScreenPercent', '100');
-        await this.event('Initialized');
+        // await this.event('LoadingScreenPercent', '100');
+        // await this.event('Initialized');
+        return await this.call('AuthService', 'getConfig', [ this.clientInfo.language ]);
     }
 
     async login() {
@@ -230,7 +231,7 @@ export class Client {
         } else {
             throw new Error('Unsupported login type: ' + this.user.login);
         }
-        await this.event('TrySingIn', this.auth.name);
+        // await this.event('TrySingIn', this.auth.name);
         const response = await this.call('AuthService', 'trySingIn', [
             new objects.AuthData({
                 authType: this.auth.type,
@@ -250,7 +251,7 @@ export class Client {
     }
 
     async googleLogin() {
-        await this.event('StartGoogleSignIn');
+        // await this.event('StartGoogleSignIn');
         const login = new GoogleLogin({
             proxy: this.proxy,
         });
@@ -261,21 +262,21 @@ export class Client {
     async load() {
         if (!this.user.avatar) throw new Error('Please login first.');
 
-        await this.event('LoadingScreenPercent', '100');
-        await this.event('CreateAvatarByType', 'MageMale');
-        await this.event('LoadingScreenPercent', '100');
-        await this.event('AvatarUpdateView', this.user.avatar.toString());
-        await this.event('InitPushNotifications', 'False');
+        // await this.event('LoadingScreenPercent', '100');
+        // await this.event('CreateAvatarByType', 'MageMale');
+        // await this.event('LoadingScreenPercent', '100');
+        // await this.event('AvatarUpdateView', this.user.avatar.toString());
+        // await this.event('InitPushNotifications', 'False');
     }
 
     async validateNickname(nickname) {
-        await this.event('ValidateNickname', nickname);
+        // await this.event('ValidateNickname', nickname);
         return await this.call('AuthService', 'validateNickname', [ nickname ]);
     }
 
     async acceptTos() {
-        await this.event('LicenceShown');
-        await this.event('LicenceAccepted');
+        // await this.event('LicenceShown');
+        // await this.event('LicenceAccepted');
     }
 
     async acceptLicence(licence) {
@@ -284,7 +285,7 @@ export class Client {
 
     async register(nickname) {
         this.user.nickname = nickname;
-        this.event('Register', this.auth.name, nickname);
+        // this.event('Register', this.auth.name, nickname);
         const response = await this.call('AuthService', 'register', [
             new objects.AuthData({
                 authType: this.auth.type,
@@ -297,7 +298,7 @@ export class Client {
         ]);
 
         this.user.id = response.info.userId;
-        await this.event('ServerAuthSuccess', this.user.id);
+        // await this.event('ServerAuthSuccess', this.user.id);
 
         return response;
     }
@@ -316,8 +317,8 @@ export class Client {
 
     async setAvatar(avatar) {
         this.user.avatar = +avatar;
-        await this.event('AvatarPlayerGenderRace', '1', '1');
-        await this.event('AvatarPlayerSubmit', avatar.toString());
+        // await this.event('AvatarPlayerGenderRace', '1', '1');
+        // await this.event('AvatarPlayerSubmit', avatar.toString());
         return await this.call('PlayerService', 'saveUserSettings', [ +avatar ]);
     }
 
@@ -340,7 +341,7 @@ export class Client {
         if (options.delay === undefined) options.delay = 1000 + Math.random() * 1500;
 
         await this.delay(options.delay);
-        await this.event('IsArAvailable', 'False');
+        // await this.event('IsArAvailable', 'False');
 
         return response;
     }
@@ -383,6 +384,7 @@ export class Client {
                         horizontalAccuracy,
                     }),
                 }),
+                language: this.clientInfo.language,
                 clientPlatform: enums.ClientPlatform.IOS,
                 tilesCache: new Map<objects.FTile, long>(),
             }),

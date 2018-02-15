@@ -32,7 +32,7 @@ export declare class Client {
     ping(throwIfError?: boolean): Promise<boolean>;
     call(service: string, method: string, body: any): Promise<any>;
     event(name: any, one?: any, two?: any, three?: any): Promise<void>;
-    boot(clientinfo: any): Promise<void>;
+    boot(clientinfo: any): Promise<objects.FConfig>;
     login(): Promise<any>;
     googleLogin(): Promise<void>;
     load(): Promise<void>;
