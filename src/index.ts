@@ -61,8 +61,8 @@ export class Client {
     private auth: Auth;
 
     constructor(options: any = {}) {
-        this.protocolVersion = options.protocolVersion || '854348476';
-        this.clientVersion = options.clientVersion || '9660';
+        this.protocolVersion = options.protocolVersion || '4175702580';
+        this.clientVersion = options.clientVersion || '10044';
         if (options.hasOwnProperty('checkProtocol')) this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter')) this.eventsCounter = options.eventsCounter;
         this.proxy = options.proxy;

@@ -51,9 +51,12 @@ export declare class FActiveObjectsUpdate {
     arenaQuantity: number;
     coins: number;
     dust: number;
+    increasedTribute: boolean;
+    libraryAvailableCharges: number;
     libraryPoints: number;
     libraryQuantity: number;
     libraryRequired: number;
+    libraryTotalCharges: number;
     libraryTotalCooldown: number;
     libraryWaitCooldown: number;
     loot: FLoot;
@@ -186,7 +189,6 @@ export declare class FAttackArenaRequest {
 }
 export declare class FAuthData {
     __type: string;
-    config: FConfig;
     info: FUserInfo;
     constructor(init?: Partial<FAuthData>);
     serialize(serializer: Serializer): void;
@@ -222,7 +224,6 @@ export declare class FAvaUpdate {
     nextLevelExperience: number;
     recipeLevels: Map<enums.RecipeType, number>;
     registerDate: long;
-    slugLeftTime: number;
     stopFieldDuration: long;
     stopFieldLeftTime: long;
     superVisionCenter: GeoCoords;
@@ -461,9 +462,11 @@ export declare class FConfig {
     avatarMoveReturnToRealPositionTimeout: number;
     avatarMoveRunSpeed: number;
     ballCurve: number;
+    bottomSwipeScreenPart: number;
     buildingsVisionRadius: number;
     cameraFieldOfView: number;
     catchPopup: Map<number, string>;
+    clientTexts: Map<string, string>;
     congratulationLayerLevels: number[];
     creaturesDelayVisibility: number;
     dailyQuestAvailableFromLevel: number;
@@ -474,7 +477,8 @@ export declare class FConfig {
     desiredGpsAccuracy: number;
     distanceToLoadTiles: number;
     distanceToUnloadTiles: number;
-    encounterDelaySinceStartup: number;
+    encounterDelayBeforeExtraEncounter: number;
+    encounterDelaySinceLoginOrFocus: number[];
     fogEndDistance: number;
     fogStartDistance: number;
     goOrbitDistance: number;
@@ -491,6 +495,7 @@ export declare class FConfig {
     maxClientPauseDuration: number;
     maxSpeedForUse: number;
     maxSpeedToPlay: number;
+    mentorChooseEnabled: boolean;
     mentorshipEnabled: boolean;
     monsterLevelPerUserLevel: number;
     monsterMaxLevel: number;
@@ -501,13 +506,14 @@ export declare class FConfig {
     radarVisionRadius: number;
     recipes: Map<enums.RecipeType, object[]>;
     requestRetryDelay: number;
-    serverTime: long;
+    screenDifferentSwipeDivision: number;
     spinGain: number;
     stopUsageHintTillLevel: number;
     superVisionEffectInterval: number;
     superVisionRadius: number;
     throwSensitivity: number;
     timeLimitPerDefender: number;
+    topSwipeScreenPart: number;
     updateRequestCooldownSeconds: number;
     updateRequestIgnoreWorseAccuracyCooldownSeconds: number;
     updateRequestMinimalDistance: number;
@@ -608,6 +614,7 @@ export declare class FEgg {
     eggType: enums.ItemType;
     id: string;
     incubatorId: string;
+    incubatorType: enums.ItemType;
     isEggForRoost: boolean;
     isHatching: boolean;
     passedDistance: number;
@@ -632,6 +639,7 @@ export declare class FEncounterDetails {
     creatureCp: number;
     creatureElementType: enums.ElementType;
     creatureName: enums.CreatureType;
+    extraEncounter: boolean;
     id: string;
     level: number;
     constructor(init?: Partial<FEncounterDetails>);
@@ -765,10 +773,18 @@ export declare class FIncubator {
     __type: string;
     eggId: string;
     incubatorId: string;
+    itemType: enums.ItemType;
     roostBuildingId: string;
     slotIndex: number;
     usagesLeft: number;
     constructor(init?: Partial<FIncubator>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FIngameNotifications {
+    __type: string;
+    notifications: FNotification[];
+    constructor(init?: Partial<FIngameNotifications>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
@@ -910,6 +926,15 @@ export declare class FNicknameValidationResult {
     error: enums.FNicknameValidationError;
     suggestedNickname: string;
     constructor(init?: Partial<FNicknameValidationResult>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FNotification {
+    __type: string;
+    message: string;
+    title: string;
+    type: string;
+    constructor(init?: Partial<FNotification>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
@@ -1108,6 +1133,8 @@ export declare class FUpdateRequest {
     blackScreen: boolean;
     clientPlatform: enums.ClientPlatform;
     clientRequest: FClientRequest;
+    configCacheHash: Buffer;
+    language: string;
     tilesCache: Map<FTile, long>;
     constructor(init?: Partial<FUpdateRequest>);
     serialize(serializer: Serializer): void;
@@ -1184,6 +1211,7 @@ export declare class FUserInfo {
     newLicense: number;
     nickname: string;
     sendClientLog: boolean;
+    serverTime: long;
     showAdvices: boolean;
     userId: string;
     constructor(init?: Partial<FUserInfo>);
