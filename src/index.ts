@@ -62,7 +62,7 @@ export class Client {
 
     constructor(options: any = {}) {
         this.protocolVersion = options.protocolVersion || '4175702580';
-        this.clientVersion = options.clientVersion || '10044';
+        this.clientVersion = options.clientVersion || '10165';
         if (options.hasOwnProperty('checkProtocol')) this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter')) this.eventsCounter = options.eventsCounter;
         this.proxy = options.proxy;
@@ -90,7 +90,7 @@ export class Client {
         this.clientInfo = new objects.FClientInfo({
             deviceModel: 'iPhone8,1',
             iOsAdvertisingTrackingEnabled: false,
-            language: 'English',
+            language: options.lang || 'English',
             platform: 'IPhonePlayer',
             platformVersion: 'iOS 10.3.3',
             revision: this.clientVersion,
