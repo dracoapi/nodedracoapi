@@ -10,6 +10,7 @@ import GoogleLogin from './lib/google';
 import { Fight } from './fight';
 import { Inventory } from './inventory';
 import { Eggs } from './eggs';
+import { Creatures } from './creatures';
 
 export class User {
     id: string;
@@ -50,6 +51,8 @@ export class Client {
     public fight: Fight;
     public inventory: Inventory;
     public eggs: Eggs;
+    public creatures: Creatures;
+
     public eventsCounter: any = {};
 
     private request: any;
@@ -102,6 +105,7 @@ export class Client {
         this.fight = new Fight(this);
         this.inventory = new Inventory(this);
         this.eggs = new Eggs(this);
+        this.creatures = new Creatures(this);
     }
 
     async ping(throwIfError = false) {
@@ -329,45 +333,8 @@ export class Client {
         ]);
     }
 
-    // Creatures
-
-    async encounter(id: string, options: any = {}): Promise<objects.FCatchingCreature> {
-        const response = await this.call('GamePlayService', 'startCatchingCreature', [
-            new objects.FCreatureRequest({
-                id,
-            }),
-        ]);
-
-        if (options.delay === undefined) options.delay = 1000 + Math.random() * 1500;
-
-        await this.delay(options.delay);
-        // await this.event('IsArAvailable', 'False');
-
-        return response;
-    }
-
-    async catch(id: string, ball: number, quality: number, spin = false, options?: any) {
-        return await this.call('GamePlayService', 'tryCatchCreature', [
-            id,
-            { __type: 'ItemType', value: ball },
-            { __type: 'float', value: quality },
-            spin
-        ]);
-    }
-
-    async releaseCreatures(ids: string[]): Promise<objects.FUpdate> {
-        if (!Array.isArray(ids)) ids = [ ids ];
-        return await this.call('UserCreatureService', 'convertCreaturesToCandies', [
-            { __type: 'List<>', value: ids },
-            false
-        ]);
-    }
-
-    async evolve(id: string, toType: enums.CreatureType) {
-        return this.call('UserCreatureService', 'evolveCreature', [
-            id,
-            { __type: 'CreatureType', value: toType },
-        ]);
+    async acknowledgeNotification(type: string) {
+        return await this.call('PlayerService', 'acknowledgeNotification', [ type ]);
     }
 
     // Map
@@ -493,5 +460,37 @@ export class Client {
     async startHatchingEgg(eggId: string, incubatorId: string) {
         console.log('deprecated, please use client.eggs.startHatchingEgg');
         return this.eggs.startHatchingEgg(eggId, incubatorId);
+    }
+
+    /**
+     * @deprecated please use client.creatures.encounter
+     */
+    async encounter(id: string, options: any = {}): Promise<objects.FCatchingCreature> {
+        console.log('deprecated, please use  client.creatures.encounter');
+        return this.creatures.encounter(id, options);
+    }
+
+    /**
+     * @deprecated please use client.creatures.catch
+     */
+    async catch(id: string, ball: number, quality: number, spin = false, options?: any) {
+        console.log('deprecated, please use  client.creatures.catch');
+        return this.creatures.catch(id, ball, quality, spin, options);
+    }
+
+    /**
+     * @deprecated please use client.creatures.release
+     */
+    async releaseCreatures(ids: string[]): Promise<objects.FUpdate> {
+        console.log('deprecated, please use  client.creatures.release');
+        return this.creatures.release(ids);
+    }
+
+    /**
+     * @deprecated please use client.creatures.evolve
+     */
+    async evolve(id: string, toType: enums.CreatureType) {
+        console.log('deprecated, please use  client.creatures.evolve');
+        return this.creatures.evolve(id, toType);
     }
 }

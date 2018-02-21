@@ -12,6 +12,7 @@ const google_1 = require("./lib/google");
 const fight_1 = require("./fight");
 const inventory_1 = require("./inventory");
 const eggs_1 = require("./eggs");
+const creatures_1 = require("./creatures");
 class User {
 }
 exports.User = User;
@@ -72,6 +73,7 @@ class Client {
         this.fight = new fight_1.Fight(this);
         this.inventory = new inventory_1.Inventory(this);
         this.eggs = new eggs_1.Eggs(this);
+        this.creatures = new creatures_1.Creatures(this);
     }
     async ping(throwIfError = false) {
         try {
@@ -284,40 +286,8 @@ class Client {
             bonus,
         ]);
     }
-    // Creatures
-    async encounter(id, options = {}) {
-        const response = await this.call('GamePlayService', 'startCatchingCreature', [
-            new objects.FCreatureRequest({
-                id,
-            }),
-        ]);
-        if (options.delay === undefined)
-            options.delay = 1000 + Math.random() * 1500;
-        await this.delay(options.delay);
-        // await this.event('IsArAvailable', 'False');
-        return response;
-    }
-    async catch(id, ball, quality, spin = false, options) {
-        return await this.call('GamePlayService', 'tryCatchCreature', [
-            id,
-            { __type: 'ItemType', value: ball },
-            { __type: 'float', value: quality },
-            spin
-        ]);
-    }
-    async releaseCreatures(ids) {
-        if (!Array.isArray(ids))
-            ids = [ids];
-        return await this.call('UserCreatureService', 'convertCreaturesToCandies', [
-            { __type: 'List<>', value: ids },
-            false
-        ]);
-    }
-    async evolve(id, toType) {
-        return this.call('UserCreatureService', 'evolveCreature', [
-            id,
-            { __type: 'CreatureType', value: toType },
-        ]);
+    async acknowledgeNotification(type) {
+        return await this.call('PlayerService', 'acknowledgeNotification', [type]);
     }
     // Map
     async getMapUpdate(latitude, longitude, horizontalAccuracy = 20) {
@@ -428,6 +398,34 @@ class Client {
     async startHatchingEgg(eggId, incubatorId) {
         console.log('deprecated, please use client.eggs.startHatchingEgg');
         return this.eggs.startHatchingEgg(eggId, incubatorId);
+    }
+    /**
+     * @deprecated please use client.creatures.encounter
+     */
+    async encounter(id, options = {}) {
+        console.log('deprecated, please use  client.creatures.encounter');
+        return this.creatures.encounter(id, options);
+    }
+    /**
+     * @deprecated please use client.creatures.catch
+     */
+    async catch(id, ball, quality, spin = false, options) {
+        console.log('deprecated, please use  client.creatures.catch');
+        return this.creatures.catch(id, ball, quality, spin, options);
+    }
+    /**
+     * @deprecated please use client.creatures.release
+     */
+    async releaseCreatures(ids) {
+        console.log('deprecated, please use  client.creatures.release');
+        return this.creatures.release(ids);
+    }
+    /**
+     * @deprecated please use client.creatures.evolve
+     */
+    async evolve(id, toType) {
+        console.log('deprecated, please use  client.creatures.evolve');
+        return this.creatures.evolve(id, toType);
     }
 }
 exports.Client = Client;

@@ -3,6 +3,7 @@ import * as enums from './draco/enums';
 import { Fight } from './fight';
 import { Inventory } from './inventory';
 import { Eggs } from './eggs';
+import { Creatures } from './creatures';
 export declare class User {
     id: string;
     deviceId: string;
@@ -20,6 +21,7 @@ export declare class Client {
     fight: Fight;
     inventory: Inventory;
     eggs: Eggs;
+    creatures: Creatures;
     eventsCounter: any;
     private request;
     private proxy;
@@ -43,10 +45,7 @@ export declare class Client {
     generateAvatar(options?: any): number;
     setAvatar(avatar: any): Promise<any>;
     selectAlliance(alliance: enums.AllianceType, bonus: number): Promise<any>;
-    encounter(id: string, options?: any): Promise<objects.FCatchingCreature>;
-    catch(id: string, ball: number, quality: number, spin?: boolean, options?: any): Promise<any>;
-    releaseCreatures(ids: string[]): Promise<objects.FUpdate>;
-    evolve(id: string, toType: enums.CreatureType): Promise<any>;
+    acknowledgeNotification(type: string): Promise<any>;
     getMapUpdate(latitude: number, longitude: number, horizontalAccuracy?: number): Promise<any>;
     useBuilding(clientLat: number, clientLng: number, buildingId: string, buildingLat: number, buildingLng: number): Promise<any>;
     openChest(chest: objects.FChest): Promise<any>;
@@ -80,4 +79,20 @@ export declare class Client {
      * @deprecated please use client.eggs.startHatchingEgg
      */
     startHatchingEgg(eggId: string, incubatorId: string): Promise<objects.FUserHatchingInfo>;
+    /**
+     * @deprecated please use client.creatures.encounter
+     */
+    encounter(id: string, options?: any): Promise<objects.FCatchingCreature>;
+    /**
+     * @deprecated please use client.creatures.catch
+     */
+    catch(id: string, ball: number, quality: number, spin?: boolean, options?: any): Promise<any>;
+    /**
+     * @deprecated please use client.creatures.release
+     */
+    releaseCreatures(ids: string[]): Promise<objects.FUpdate>;
+    /**
+     * @deprecated please use client.creatures.evolve
+     */
+    evolve(id: string, toType: enums.CreatureType): Promise<any>;
 }
