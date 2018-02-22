@@ -6,6 +6,8 @@
 
 # DracoNode: a node draco api
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/dracoapi/nodedracoapi.svg)](https://greenkeeper.io/)
+
 API to communicate with Draconius GO server.  
 Writing in TypeScript, compiled into full JavaScript for Node 8.x.
 
