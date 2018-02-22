@@ -3,10 +3,9 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/niicodev)
 [![Build Status](https://travis-ci.org/dracoapi/nodedracoapi.svg?branch=master)](https://travis-ci.org/dracoapi/nodedracoapi)
 [![Known Vulnerabilities](https://snyk.io/test/github/dracoapi/nodedracoapi/badge.svg?targetFile=package.json)](https://snyk.io/test/github/dracoapi/nodedracoapi?targetFile=package.json)
+[![Greenkeeper badge](https://badges.greenkeeper.io/dracoapi/nodedracoapi.svg)](https://greenkeeper.io/)
 
 # DracoNode: a node draco api
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/dracoapi/nodedracoapi.svg)](https://greenkeeper.io/)
 
 API to communicate with Draconius GO server.  
 Writing in TypeScript, compiled into full JavaScript for Node 8.x.
