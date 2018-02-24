@@ -33,7 +33,7 @@ export class Inventory {
         return this.client.call('ItemService', 'useShovel', [
             new objects.FClientRequest({
                 time: 0,
-                currentUtcOffsetSeconds: 3600,
+                currentUtcOffsetSeconds: this.client.utcOffset,
                 coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
                     latitude,
                     longitude,

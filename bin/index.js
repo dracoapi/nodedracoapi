@@ -30,14 +30,20 @@ class DracoError extends Error {
 }
 class Client {
     constructor(options = {}) {
-        this.eventsCounter = {};
         this.checkProtocol = true;
+        this.eventsCounter = {};
         this.protocolVersion = options.protocolVersion || '4175702580';
         this.clientVersion = options.clientVersion || '10165';
         if (options.hasOwnProperty('checkProtocol'))
             this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter'))
             this.eventsCounter = options.eventsCounter;
+        if (options.hasOwnProperty('utcOffset')) {
+            this.utcOffset = +options.utcOffset;
+        }
+        else {
+            this.utcOffset = Math.abs(new Date().getTimezoneOffset()) * 60;
+        }
         this.proxy = options.proxy;
         const cookies = request.jar();
         this.request = request.defaults({
@@ -295,7 +301,7 @@ class Client {
             new objects.FUpdateRequest({
                 clientRequest: new objects.FClientRequest({
                     time: 0,
-                    currentUtcOffsetSeconds: 3600,
+                    currentUtcOffsetSeconds: this.utcOffset,
                     coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
                         latitude,
                         longitude,
@@ -312,7 +318,7 @@ class Client {
         return this.call('MapService', 'tryUseBuilding', [
             new objects.FClientRequest({
                 time: 0,
-                currentUtcOffsetSeconds: 3600,
+                currentUtcOffsetSeconds: this.utcOffset,
                 coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
                     latitude: clientLat,
                     longitude: clientLng,
@@ -336,7 +342,7 @@ class Client {
         return this.call('MapService', 'leaveDungeon', [
             new objects.FClientRequest({
                 time: 0,
-                currentUtcOffsetSeconds: 3600,
+                currentUtcOffsetSeconds: this.utcOffset,
                 coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
                     latitude,
                     longitude,

@@ -53,8 +53,6 @@ export class Client {
     public eggs: Eggs;
     public creatures: Creatures;
 
-    public eventsCounter: any = {};
-
     private request: any;
     private proxy: string;
     private dcportal: string;
@@ -63,11 +61,19 @@ export class Client {
     private checkProtocol = true;
     private auth: Auth;
 
+    public eventsCounter: any = {};
+    public utcOffset: number;
+
     constructor(options: any = {}) {
         this.protocolVersion = options.protocolVersion || '4175702580';
         this.clientVersion = options.clientVersion || '10165';
         if (options.hasOwnProperty('checkProtocol')) this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter')) this.eventsCounter = options.eventsCounter;
+        if (options.hasOwnProperty('utcOffset')) {
+            this.utcOffset = +options.utcOffset;
+        } else {
+            this.utcOffset = Math.abs(new Date().getTimezoneOffset()) * 60;
+        }
         this.proxy = options.proxy;
         const cookies = request.jar();
         this.request = request.defaults({
@@ -344,7 +350,7 @@ export class Client {
             new objects.FUpdateRequest({
                 clientRequest: new objects.FClientRequest({
                     time: 0,
-                    currentUtcOffsetSeconds: 3600,
+                    currentUtcOffsetSeconds: this.utcOffset,
                     coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
                         latitude,
                         longitude,
@@ -362,7 +368,7 @@ export class Client {
         return this.call('MapService', 'tryUseBuilding', [
             new objects.FClientRequest({
                 time: 0,
-                currentUtcOffsetSeconds: 3600,
+                currentUtcOffsetSeconds: this.utcOffset,
                 coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
                     latitude: clientLat,
                     longitude: clientLng,
@@ -388,7 +394,7 @@ export class Client {
         return this.call('MapService', 'leaveDungeon', [
             new objects.FClientRequest({
                 time: 0,
-                currentUtcOffsetSeconds: 3600,
+                currentUtcOffsetSeconds: this.utcOffset,
                 coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
                     latitude,
                     longitude,

@@ -22,7 +22,6 @@ export declare class Client {
     inventory: Inventory;
     eggs: Eggs;
     creatures: Creatures;
-    eventsCounter: any;
     private request;
     private proxy;
     private dcportal;
@@ -30,6 +29,8 @@ export declare class Client {
     private clientVersion;
     private checkProtocol;
     private auth;
+    eventsCounter: any;
+    utcOffset: number;
     constructor(options?: any);
     ping(throwIfError?: boolean): Promise<boolean>;
     call(service: string, method: string, body: any): Promise<any>;
