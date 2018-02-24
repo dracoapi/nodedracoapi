@@ -24,4 +24,31 @@ export class Inventory {
     async getUserCreatures(): Promise<objects.FUserCreaturesList> {
         return this.client.call('UserCreatureService', 'getUserCreatures', []);
     }
+
+    async useIncense() {
+        return this.client.call('ItemService', 'useIncense', []);
+    }
+
+    async useShovel(latitude: number, longitude: number, horizontalAccuracy = 20) {
+        return this.client.call('ItemService', 'useShovel', [
+            new objects.FClientRequest({
+                time: 0,
+                currentUtcOffsetSeconds: 3600,
+                coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
+                    latitude,
+                    longitude,
+                    horizontalAccuracy,
+                }),
+            })
+        ]);
+    }
+
+    async useSuperVision(latitude: number, longitude: number) {
+        return this.client.call('ItemService', 'useSuperVision', [
+            new objects.GeoCoords({
+                latitude,
+                longitude,
+            })
+        ]);
+    }
 }
