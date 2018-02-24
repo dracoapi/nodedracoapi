@@ -25,11 +25,11 @@ export class Inventory {
         return this.client.call('UserCreatureService', 'getUserCreatures', []);
     }
 
-    async useIncense() {
+    async useIncense(): Promise<objects.FAvaUpdate> {
         return this.client.call('ItemService', 'useIncense', []);
     }
 
-    async useShovel(latitude: number, longitude: number, horizontalAccuracy = 20) {
+    async useShovel(latitude: number, longitude: number, horizontalAccuracy = 20): Promise<objects.FUpdate> {
         return this.client.call('ItemService', 'useShovel', [
             new objects.FClientRequest({
                 time: 0,
@@ -43,12 +43,12 @@ export class Inventory {
         ]);
     }
 
-    async useSuperVision(latitude: number, longitude: number) {
+    async useSuperVision(latitude: number, longitude: number): Promise<objects.FAvaUpdate> {
         return this.client.call('ItemService', 'useSuperVision', [
             new objects.GeoCoords({
                 latitude,
                 longitude,
-            })
+            }),
         ]);
     }
 }

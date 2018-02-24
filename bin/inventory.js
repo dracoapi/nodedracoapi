@@ -41,7 +41,7 @@ class Inventory {
             new index_1.objects.GeoCoords({
                 latitude,
                 longitude,
-            })
+            }),
         ]);
     }
 }

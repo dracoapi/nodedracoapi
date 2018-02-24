@@ -6,7 +6,7 @@ export declare class Inventory {
     getCreadex(): Promise<any>;
     discardItem(id: number, count: number): Promise<any>;
     getUserCreatures(): Promise<objects.FUserCreaturesList>;
-    useIncense(): Promise<any>;
-    useShovel(latitude: number, longitude: number, horizontalAccuracy?: number): Promise<any>;
-    useSuperVision(latitude: number, longitude: number): Promise<any>;
+    useIncense(): Promise<objects.FAvaUpdate>;
+    useShovel(latitude: number, longitude: number, horizontalAccuracy?: number): Promise<objects.FUpdate>;
+    useSuperVision(latitude: number, longitude: number): Promise<objects.FAvaUpdate>;
 }
