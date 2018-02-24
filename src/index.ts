@@ -72,7 +72,7 @@ export class Client {
         if (options.hasOwnProperty('utcOffset')) {
             this.utcOffset = +options.utcOffset;
         } else {
-            this.utcOffset = Math.abs(new Date().getTimezoneOffset()) * 60;
+            this.utcOffset = -new Date().getTimezoneOffset() * 60;
         }
         this.proxy = options.proxy;
         const cookies = request.jar();
@@ -83,7 +83,7 @@ export class Client {
                 'Accept': '*/*',
                 'Accept-Language': 'en-us',
                 'Protocol-Version': this.protocolVersion,
-                'X-Unity-Version': '2017.1.0f3',
+                'X-Unity-Version': '2017.1.3f1',
                 'Client-Version': this.clientVersion,
             },
             encoding: null,
@@ -125,7 +125,6 @@ export class Client {
             });
             return true;
         } catch (e) {
-            // console.error(e);
             if (throwIfError) throw e;
             else return false;
         }
