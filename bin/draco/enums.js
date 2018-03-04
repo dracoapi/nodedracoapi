@@ -116,6 +116,7 @@ var BuffType;
     BuffType[BuffType["TOWER_ELEMENTAL_WIND"] = 14] = "TOWER_ELEMENTAL_WIND";
     BuffType[BuffType["TOWER_ELEMENTAL_FIRE"] = 15] = "TOWER_ELEMENTAL_FIRE";
     BuffType[BuffType["TOWER_ELEMENTAL_EARTH"] = 16] = "TOWER_ELEMENTAL_EARTH";
+    BuffType[BuffType["RADAR_IMPROVE"] = 17] = "RADAR_IMPROVE";
 })(BuffType = exports.BuffType || (exports.BuffType = {}));
 var BuildingType;
 (function (BuildingType) {
@@ -355,6 +356,9 @@ var EventLogType;
     EventLogType[EventLogType["MENTORSHIP_AWARD_CREATURE"] = 19] = "MENTORSHIP_AWARD_CREATURE";
     EventLogType[EventLogType["MENTORSHIP_AWARD_CANDIES"] = 20] = "MENTORSHIP_AWARD_CANDIES";
     EventLogType[EventLogType["MENTORSHIP_STUDENT_AWARD"] = 21] = "MENTORSHIP_STUDENT_AWARD";
+    EventLogType[EventLogType["SHOP_CREATURE_BOUGHT"] = 22] = "SHOP_CREATURE_BOUGHT";
+    EventLogType[EventLogType["SHOP_ITEM_PACK_BOUGHT"] = 23] = "SHOP_ITEM_PACK_BOUGHT";
+    EventLogType[EventLogType["WIZARD_BATTLE"] = 24] = "WIZARD_BATTLE";
 })(EventLogType = exports.EventLogType || (exports.EventLogType = {}));
 var FNicknameValidationError;
 (function (FNicknameValidationError) {
@@ -414,6 +418,12 @@ var ItemType;
     ItemType[ItemType["INCUBATOR_10"] = 31] = "INCUBATOR_10";
     ItemType[ItemType["INCUBATOR_20"] = 32] = "INCUBATOR_20";
     ItemType[ItemType["INCUBATOR_50"] = 33] = "INCUBATOR_50";
+    ItemType[ItemType["EGG_BLUE"] = 34] = "EGG_BLUE";
+    ItemType[ItemType["EGG_GREEN"] = 35] = "EGG_GREEN";
+    ItemType[ItemType["EGG_LILAC"] = 36] = "EGG_LILAC";
+    ItemType[ItemType["EGG_LILAC_PREMIUM"] = 37] = "EGG_LILAC_PREMIUM";
+    ItemType[ItemType["EGG_GOLD"] = 38] = "EGG_GOLD";
+    ItemType[ItemType["EGG_GOLD_PREMIUM"] = 39] = "EGG_GOLD_PREMIUM";
 })(ItemType = exports.ItemType || (exports.ItemType = {}));
 var LogDetailsType;
 (function (LogDetailsType) {
@@ -439,6 +449,10 @@ var LogDetailsType;
     LogDetailsType[LogDetailsType["QUANTITY"] = 19] = "QUANTITY";
     LogDetailsType[LogDetailsType["COINS"] = 20] = "COINS";
     LogDetailsType[LogDetailsType["PRICE"] = 21] = "PRICE";
+    LogDetailsType[LogDetailsType["LOT_NAME"] = 22] = "LOT_NAME";
+    LogDetailsType[LogDetailsType["IS_VICTORY"] = 23] = "IS_VICTORY";
+    LogDetailsType[LogDetailsType["ENEMY_NICKNAME"] = 24] = "ENEMY_NICKNAME";
+    LogDetailsType[LogDetailsType["ENEMY_LEVEL"] = 25] = "ENEMY_LEVEL";
 })(LogDetailsType = exports.LogDetailsType || (exports.LogDetailsType = {}));
 var PersonalizedStop;
 (function (PersonalizedStop) {

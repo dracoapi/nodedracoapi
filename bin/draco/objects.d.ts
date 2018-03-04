@@ -210,6 +210,7 @@ export declare class FAvaUpdate {
     dungeonId: string;
     dust: number;
     eggsHatchedCount: number;
+    emulatorCheckDisabled: boolean;
     exp: number;
     freshNewsDate: long;
     hasUnhandledAdvices: boolean;
@@ -447,6 +448,8 @@ export declare class FClientRequest {
 }
 export declare class FConfig {
     __type: string;
+    actionInfoShowDuration: number;
+    activeTimeAllowedInBackgroundDuration: number;
     aggressiveChanceToAttack: number;
     aggressiveChanceToJump: number;
     aggressiveChancesCooldownTime: number;
@@ -477,8 +480,9 @@ export declare class FConfig {
     desiredGpsAccuracy: number;
     distanceToLoadTiles: number;
     distanceToUnloadTiles: number;
+    emulatorCheckEnabled: boolean;
     encounterDelayBeforeExtraEncounter: number;
-    encounterDelaySinceLoginOrFocus: number[];
+    encounterNeededActiveUserTime: number[];
     fogEndDistance: number;
     fogStartDistance: number;
     goOrbitDistance: number;
@@ -500,8 +504,9 @@ export declare class FConfig {
     monsterLevelPerUserLevel: number;
     monsterMaxLevel: number;
     newsCheckIntervalSeconds: number;
+    notEmulatorModelHashes: Set<Buffer>;
     oppositeDodgeTimeoutSeconds: number;
-    personalizationPrice: number;
+    personalizationPriceMap: Map<enums.PersonalizedStop, number>;
     potionConfig: PotionConfig;
     radarVisionRadius: number;
     recipes: Map<enums.RecipeType, object[]>;
@@ -788,6 +793,16 @@ export declare class FIngameNotifications {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
+export declare class FItemCreatureGroup {
+    __type: string;
+    active: boolean;
+    creature: enums.CreatureType;
+    items: Map<enums.ItemType, number>;
+    price: number;
+    constructor(init?: Partial<FItemCreatureGroup>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
 export declare class FJournalRecord {
     __type: string;
     date: long;
@@ -976,6 +991,15 @@ export declare class FPitstop {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
+export declare class FPurchaseResult {
+    __type: string;
+    avaUpdate: FAvaUpdate;
+    creadex: FCreadex;
+    creature: Map<FUserCreature, boolean>;
+    constructor(init?: Partial<FPurchaseResult>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
 export declare class FQuestCompleted {
     __type: string;
     activeObjects: FActiveObjectsUpdate;
@@ -1039,6 +1063,7 @@ export declare class FShopConfig {
     bagUpgrade: ProductLot;
     coins: Map<string, ProductLot>;
     creatureStorageUpgrade: ProductLot;
+    creatures: Map<string, FItemCreatureGroup>;
     extraPacks: Map<string, ExtraPack>;
     marketFees: Map<string, number>;
     products: ProductGroup[];
@@ -1168,6 +1193,7 @@ export declare class FUserCreature {
     mainSkillDps: number;
     mainSkillEps: number;
     name: enums.CreatureType;
+    permanent: boolean;
     possibleEvolutions: Map<enums.CreatureType, number>;
     staminaValue: number;
     totalHp: number;
@@ -1208,6 +1234,7 @@ export declare class FUserInfo {
     alliance: enums.AllianceType;
     avatarAppearanceDetails: number;
     devMode: boolean;
+    internalUser: boolean;
     newLicense: number;
     nickname: string;
     sendClientLog: boolean;
@@ -1264,6 +1291,22 @@ export declare class FWizardBattleInfo {
     used: number;
     userCoins: number;
     constructor(init?: Partial<FWizardBattleInfo>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FWizardBattleRatingRecord {
+    __type: string;
+    level: number;
+    nickName: string;
+    score: number;
+    constructor(init?: Partial<FWizardBattleRatingRecord>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FWizardBattleRatingTop {
+    __type: string;
+    topRecords: FWizardBattleRatingRecord[];
+    constructor(init?: Partial<FWizardBattleRatingTop>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }

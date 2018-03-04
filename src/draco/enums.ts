@@ -113,6 +113,7 @@ export enum BuffType {
     TOWER_ELEMENTAL_WIND,
     TOWER_ELEMENTAL_FIRE,
     TOWER_ELEMENTAL_EARTH,
+    RADAR_IMPROVE,
 }
 
 export enum BuildingType {
@@ -352,6 +353,9 @@ export enum EventLogType {
     MENTORSHIP_AWARD_CREATURE,
     MENTORSHIP_AWARD_CANDIES,
     MENTORSHIP_STUDENT_AWARD,
+    SHOP_CREATURE_BOUGHT,
+    SHOP_ITEM_PACK_BOUGHT,
+    WIZARD_BATTLE,
 }
 
 export enum FNicknameValidationError {
@@ -411,6 +415,12 @@ export enum ItemType {
     INCUBATOR_10,
     INCUBATOR_20,
     INCUBATOR_50,
+    EGG_BLUE,
+    EGG_GREEN,
+    EGG_LILAC,
+    EGG_LILAC_PREMIUM,
+    EGG_GOLD,
+    EGG_GOLD_PREMIUM,
 }
 
 export enum LogDetailsType {
@@ -436,6 +446,10 @@ export enum LogDetailsType {
     QUANTITY,
     COINS,
     PRICE,
+    LOT_NAME,
+    IS_VICTORY,
+    ENEMY_NICKNAME,
+    ENEMY_LEVEL,
 }
 
 export enum PersonalizedStop {

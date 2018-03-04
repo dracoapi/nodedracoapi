@@ -387,6 +387,7 @@ class FAvaUpdate {
         serializer.writeDynamicObject(this.dungeonId, 'string');
         serializer.writeInt32(this.dust);
         serializer.writeInt32(this.eggsHatchedCount);
+        serializer.writeBoolean(this.emulatorCheckDisabled);
         serializer.writeFloat(this.exp);
         serializer.writeInt64(this.freshNewsDate);
         serializer.writeBoolean(this.hasUnhandledAdvices);
@@ -424,6 +425,7 @@ class FAvaUpdate {
         this.dungeonId = deserializer.readDynamicObject();
         this.dust = deserializer.readInt32();
         this.eggsHatchedCount = deserializer.readInt32();
+        this.emulatorCheckDisabled = deserializer.readBoolean();
         this.exp = deserializer.readFloat();
         this.freshNewsDate = deserializer.readInt64();
         this.hasUnhandledAdvices = deserializer.readBoolean();
@@ -857,6 +859,8 @@ class FConfig {
         Object.assign(this, init);
     }
     serialize(serializer) {
+        serializer.writeFloat(this.actionInfoShowDuration);
+        serializer.writeFloat(this.activeTimeAllowedInBackgroundDuration);
         serializer.writeFloat(this.aggressiveChanceToAttack);
         serializer.writeFloat(this.aggressiveChanceToJump);
         serializer.writeFloat(this.aggressiveChancesCooldownTime);
@@ -887,8 +891,9 @@ class FConfig {
         serializer.writeFloat(this.desiredGpsAccuracy);
         serializer.writeFloat(this.distanceToLoadTiles);
         serializer.writeFloat(this.distanceToUnloadTiles);
+        serializer.writeBoolean(this.emulatorCheckEnabled);
         serializer.writeInt32(this.encounterDelayBeforeExtraEncounter);
-        serializer.writeStaticArray(this.encounterDelaySinceLoginOrFocus, true, 'int[]');
+        serializer.writeStaticArray(this.encounterNeededActiveUserTime, true, 'int[]');
         serializer.writeFloat(this.fogEndDistance);
         serializer.writeFloat(this.fogStartDistance);
         serializer.writeFloat(this.goOrbitDistance);
@@ -910,8 +915,9 @@ class FConfig {
         serializer.writeFloat(this.monsterLevelPerUserLevel);
         serializer.writeInt32(this.monsterMaxLevel);
         serializer.writeFloat(this.newsCheckIntervalSeconds);
+        serializer.writeStaticHashSet(this.notEmulatorModelHashes, true, 'Set<Buffer>');
         serializer.writeFloat(this.oppositeDodgeTimeoutSeconds);
-        serializer.writeInt32(this.personalizationPrice);
+        serializer.writeStaticMap(this.personalizationPriceMap, true, true, 'Map<enums.PersonalizedStop, int>');
         serializer.writeStaticObject(this.potionConfig, 'PotionConfig');
         serializer.writeDouble(this.radarVisionRadius);
         serializer.writeStaticMap(this.recipes, true, true, 'Map<enums.RecipeType, object[]>');
@@ -936,6 +942,8 @@ class FConfig {
         serializer.writeFloat(this.yVelocityFactor);
     }
     deserialize(deserializer) {
+        this.actionInfoShowDuration = deserializer.readFloat();
+        this.activeTimeAllowedInBackgroundDuration = deserializer.readFloat();
         this.aggressiveChanceToAttack = deserializer.readFloat();
         this.aggressiveChanceToJump = deserializer.readFloat();
         this.aggressiveChancesCooldownTime = deserializer.readFloat();
@@ -966,8 +974,9 @@ class FConfig {
         this.desiredGpsAccuracy = deserializer.readFloat();
         this.distanceToLoadTiles = deserializer.readFloat();
         this.distanceToUnloadTiles = deserializer.readFloat();
+        this.emulatorCheckEnabled = deserializer.readBoolean();
         this.encounterDelayBeforeExtraEncounter = deserializer.readInt32();
-        this.encounterDelaySinceLoginOrFocus = deserializer.readStaticArray('int', true);
+        this.encounterNeededActiveUserTime = deserializer.readStaticArray('int', true);
         this.fogEndDistance = deserializer.readFloat();
         this.fogStartDistance = deserializer.readFloat();
         this.goOrbitDistance = deserializer.readFloat();
@@ -989,8 +998,9 @@ class FConfig {
         this.monsterLevelPerUserLevel = deserializer.readFloat();
         this.monsterMaxLevel = deserializer.readInt32();
         this.newsCheckIntervalSeconds = deserializer.readFloat();
+        this.notEmulatorModelHashes = deserializer.readStaticHashSet('sbyte[]', true);
         this.oppositeDodgeTimeoutSeconds = deserializer.readFloat();
-        this.personalizationPrice = deserializer.readInt32();
+        this.personalizationPriceMap = deserializer.readStaticMap('PersonalizedStop', 'int', true, true);
         this.potionConfig = deserializer.readStaticObject('PotionConfig');
         this.radarVisionRadius = deserializer.readDouble();
         this.recipes = deserializer.readStaticMap('RecipeType', 'List<object>', true, true);
@@ -1514,6 +1524,25 @@ class FIngameNotifications {
     }
 }
 exports.FIngameNotifications = FIngameNotifications;
+class FItemCreatureGroup {
+    constructor(init) {
+        this.__type = 'FItemCreatureGroup';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeBoolean(this.active);
+        serializer.writeDynamicObject(this.creature, 'enums.CreatureType');
+        serializer.writeStaticMap(this.items, true, true, 'Map<enums.ItemType, int>');
+        serializer.writeInt32(this.price);
+    }
+    deserialize(deserializer) {
+        this.active = deserializer.readBoolean();
+        this.creature = deserializer.readDynamicObject();
+        this.items = deserializer.readStaticMap('ItemType', 'int', true, true);
+        this.price = deserializer.readInt32();
+    }
+}
+exports.FItemCreatureGroup = FItemCreatureGroup;
 class FJournalRecord {
     constructor(init) {
         this.__type = 'FJournalRecord';
@@ -1869,6 +1898,23 @@ class FPitstop {
     }
 }
 exports.FPitstop = FPitstop;
+class FPurchaseResult {
+    constructor(init) {
+        this.__type = 'FPurchaseResult';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeStaticObject(this.avaUpdate, 'FAvaUpdate');
+        serializer.writeDynamicObject(this.creadex, 'FCreadex');
+        serializer.writeStaticMap(this.creature, true, true, 'Map<FUserCreature, bool>');
+    }
+    deserialize(deserializer) {
+        this.avaUpdate = deserializer.readStaticObject('FAvaUpdate');
+        this.creadex = deserializer.readDynamicObject();
+        this.creature = deserializer.readStaticMap('FUserCreature', 'bool', true, true);
+    }
+}
+exports.FPurchaseResult = FPurchaseResult;
 class FQuestCompleted {
     constructor(init) {
         this.__type = 'FQuestCompleted';
@@ -1987,6 +2033,7 @@ class FShopConfig {
         serializer.writeStaticObject(this.bagUpgrade, 'ProductLot');
         serializer.writeStaticMap(this.coins, true, true, 'Map<string, ProductLot>');
         serializer.writeStaticObject(this.creatureStorageUpgrade, 'ProductLot');
+        serializer.writeStaticMap(this.creatures, true, true, 'Map<string, FItemCreatureGroup>');
         serializer.writeStaticMap(this.extraPacks, true, true, 'Map<string, ExtraPack>');
         serializer.writeStaticMap(this.marketFees, true, true, 'Map<string, float>');
         serializer.writeStaticList(this.products, true, 'ProductGroup[]');
@@ -1997,6 +2044,7 @@ class FShopConfig {
         this.bagUpgrade = deserializer.readStaticObject('ProductLot');
         this.coins = deserializer.readStaticMap('string', 'ProductLot', true, true);
         this.creatureStorageUpgrade = deserializer.readStaticObject('ProductLot');
+        this.creatures = deserializer.readStaticMap('string', 'FItemCreatureGroup', true, true);
         this.extraPacks = deserializer.readStaticMap('string', 'ExtraPack', true, true);
         this.marketFees = deserializer.readStaticMap('string', 'float', true, true);
         this.products = deserializer.readStaticList('ProductGroup', true);
@@ -2211,6 +2259,7 @@ class FUserCreature {
         serializer.writeFloat(this.mainSkillDps);
         serializer.writeFloat(this.mainSkillEps);
         serializer.writeByte(this.name);
+        serializer.writeBoolean(this.permanent);
         serializer.writeStaticMap(this.possibleEvolutions, true, true, 'Map<enums.CreatureType, int>');
         serializer.writeInt32(this.staminaValue);
         serializer.writeFloat(this.totalHp);
@@ -2242,6 +2291,7 @@ class FUserCreature {
         this.mainSkillDps = deserializer.readFloat();
         this.mainSkillEps = deserializer.readFloat();
         this.name = deserializer.readByte();
+        this.permanent = deserializer.readBoolean();
         this.possibleEvolutions = deserializer.readStaticMap('CreatureType', 'int', true, true);
         this.staminaValue = deserializer.readInt32();
         this.totalHp = deserializer.readFloat();
@@ -2310,6 +2360,7 @@ class FUserInfo {
         serializer.writeDynamicObject(this.alliance, 'enums.AllianceType');
         serializer.writeInt32(this.avatarAppearanceDetails);
         serializer.writeBoolean(this.devMode);
+        serializer.writeBoolean(this.internalUser);
         serializer.writeInt32(this.newLicense);
         serializer.writeUtf8String(this.nickname);
         serializer.writeBoolean(this.sendClientLog);
@@ -2321,6 +2372,7 @@ class FUserInfo {
         this.alliance = deserializer.readDynamicObject();
         this.avatarAppearanceDetails = deserializer.readInt32();
         this.devMode = deserializer.readBoolean();
+        this.internalUser = deserializer.readBoolean();
         this.newLicense = deserializer.readInt32();
         this.nickname = deserializer.readUtf8String();
         this.sendClientLog = deserializer.readBoolean();
@@ -2424,6 +2476,36 @@ class FWizardBattleInfo {
     }
 }
 exports.FWizardBattleInfo = FWizardBattleInfo;
+class FWizardBattleRatingRecord {
+    constructor(init) {
+        this.__type = 'FWizardBattleRatingRecord';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeInt32(this.level);
+        serializer.writeUtf8String(this.nickName);
+        serializer.writeFloat(this.score);
+    }
+    deserialize(deserializer) {
+        this.level = deserializer.readInt32();
+        this.nickName = deserializer.readUtf8String();
+        this.score = deserializer.readFloat();
+    }
+}
+exports.FWizardBattleRatingRecord = FWizardBattleRatingRecord;
+class FWizardBattleRatingTop {
+    constructor(init) {
+        this.__type = 'FWizardBattleRatingTop';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeStaticList(this.topRecords, true, 'FWizardBattleRatingRecord[]');
+    }
+    deserialize(deserializer) {
+        this.topRecords = deserializer.readStaticList('FWizardBattleRatingRecord', true);
+    }
+}
+exports.FWizardBattleRatingTop = FWizardBattleRatingTop;
 class FWizardBattleResult {
     constructor(init) {
         this.__type = 'FWizardBattleResult';
