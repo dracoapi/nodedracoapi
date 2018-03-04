@@ -6,12 +6,16 @@ export class Inventory {
         this.client = client;
     }
 
-    async getUserItems() {
-        return this.client.call('ItemService', 'getUserItems', []);
-    }
-
     async getCreadex() {
         return this.client.call('UserCreatureService', 'getCreadex', []);
+    }
+
+    async getUserCreatures(): Promise<objects.FUserCreaturesList> {
+        return this.client.call('UserCreatureService', 'getUserCreatures', []);
+    }
+
+    async getUserItems() {
+        return this.client.call('ItemService', 'getUserItems', []);
     }
 
     async discardItem(id: number, count: number) {
@@ -19,10 +23,6 @@ export class Inventory {
             { __type: 'ItemType', value: id },
             count
         ]);
-    }
-
-    async getUserCreatures(): Promise<objects.FUserCreaturesList> {
-        return this.client.call('UserCreatureService', 'getUserCreatures', []);
     }
 
     async useIncense(): Promise<objects.FAvaUpdate> {
@@ -50,5 +50,9 @@ export class Inventory {
                 longitude,
             }),
         ]);
+    }
+
+    async useExperienceBooster(): Promise<objects.FAvaUpdate> {
+        return this.client.call('ItemService', 'useExperienceBooster', []);
     }
 }

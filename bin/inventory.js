@@ -5,20 +5,20 @@ class Inventory {
     constructor(client) {
         this.client = client;
     }
-    async getUserItems() {
-        return this.client.call('ItemService', 'getUserItems', []);
-    }
     async getCreadex() {
         return this.client.call('UserCreatureService', 'getCreadex', []);
+    }
+    async getUserCreatures() {
+        return this.client.call('UserCreatureService', 'getUserCreatures', []);
+    }
+    async getUserItems() {
+        return this.client.call('ItemService', 'getUserItems', []);
     }
     async discardItem(id, count) {
         return await this.client.call('ItemService', 'discardItems', [
             { __type: 'ItemType', value: id },
             count
         ]);
-    }
-    async getUserCreatures() {
-        return this.client.call('UserCreatureService', 'getUserCreatures', []);
     }
     async useIncense() {
         return this.client.call('ItemService', 'useIncense', []);
@@ -43,6 +43,9 @@ class Inventory {
                 longitude,
             }),
         ]);
+    }
+    async useExperienceBooster() {
+        return this.client.call('ItemService', 'useExperienceBooster', []);
     }
 }
 exports.Inventory = Inventory;
