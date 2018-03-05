@@ -49,7 +49,7 @@ class Client {
         this.request = request.defaults({
             proxy: options.proxy,
             headers: {
-                'User-Agent': `DraconiusGO/${this.clientVersion} CFNetwork/811.5.4 Darwin/16.7.0`,
+                'User-Agent': `DraconiusGO/${this.clientVersion} CFNetwork/894 Darwin/17.4.0`,
                 'Accept': '*/*',
                 'Accept-Language': 'en-us',
                 'Protocol-Version': this.protocolVersion,
