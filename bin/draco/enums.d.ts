@@ -109,6 +109,7 @@ export declare enum BuffType {
     TOWER_ELEMENTAL_WIND = 14,
     TOWER_ELEMENTAL_FIRE = 15,
     TOWER_ELEMENTAL_EARTH = 16,
+    RADAR_IMPROVE = 17,
 }
 export declare enum BuildingType {
     STOP = 0,
@@ -342,6 +343,9 @@ export declare enum EventLogType {
     MENTORSHIP_AWARD_CREATURE = 19,
     MENTORSHIP_AWARD_CANDIES = 20,
     MENTORSHIP_STUDENT_AWARD = 21,
+    SHOP_CREATURE_BOUGHT = 22,
+    SHOP_ITEM_PACK_BOUGHT = 23,
+    WIZARD_BATTLE = 24,
 }
 export declare enum FNicknameValidationError {
     IS_EMPTY = 0,
@@ -397,6 +401,12 @@ export declare enum ItemType {
     INCUBATOR_10 = 31,
     INCUBATOR_20 = 32,
     INCUBATOR_50 = 33,
+    EGG_BLUE = 34,
+    EGG_GREEN = 35,
+    EGG_LILAC = 36,
+    EGG_LILAC_PREMIUM = 37,
+    EGG_GOLD = 38,
+    EGG_GOLD_PREMIUM = 39,
 }
 export declare enum LogDetailsType {
     CREATURE_CP = 0,
@@ -421,6 +431,10 @@ export declare enum LogDetailsType {
     QUANTITY = 19,
     COINS = 20,
     PRICE = 21,
+    LOT_NAME = 22,
+    IS_VICTORY = 23,
+    ENEMY_NICKNAME = 24,
+    ENEMY_LEVEL = 25,
 }
 export declare enum PersonalizedStop {
     BALLS = 0,

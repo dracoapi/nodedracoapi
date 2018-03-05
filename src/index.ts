@@ -65,8 +65,8 @@ export class Client {
     public utcOffset: number;
 
     constructor(options: any = {}) {
-        this.protocolVersion = options.protocolVersion || '4175702580';
-        this.clientVersion = options.clientVersion || '10165';
+        this.protocolVersion = options.protocolVersion || '1052269079';
+        this.clientVersion = options.clientVersion || '10516';
         if (options.hasOwnProperty('checkProtocol')) this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter')) this.eventsCounter = options.eventsCounter;
         if (options.hasOwnProperty('utcOffset')) {
@@ -79,7 +79,7 @@ export class Client {
         this.request = request.defaults({
             proxy: options.proxy,
             headers: {
-                'User-Agent': `DraconiusGO/${this.clientVersion} CFNetwork/811.5.4 Darwin/16.7.0`,
+                'User-Agent': `DraconiusGO/${this.clientVersion} CFNetwork/894 Darwin/17.4.0`,
                 'Accept': '*/*',
                 'Accept-Language': 'en-us',
                 'Protocol-Version': this.protocolVersion,
