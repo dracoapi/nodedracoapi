@@ -206,6 +206,8 @@ class Serializer {
                 this.writeDouble(data);
             else if (type === 'string')
                 this.writeUtf8String(data);
+            else if (type === 'Buffer')
+                this.writeBuffer(data);
             else if (objects[type])
                 data.serialize(this);
             else if (enums[type]) {

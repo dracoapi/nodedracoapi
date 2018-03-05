@@ -998,7 +998,7 @@ class FConfig {
         this.monsterLevelPerUserLevel = deserializer.readFloat();
         this.monsterMaxLevel = deserializer.readInt32();
         this.newsCheckIntervalSeconds = deserializer.readFloat();
-        this.notEmulatorModelHashes = deserializer.readStaticHashSet('sbyte[]', true);
+        this.notEmulatorModelHashes = deserializer.readStaticHashSet('Buffer', true);
         this.oppositeDodgeTimeoutSeconds = deserializer.readFloat();
         this.personalizationPriceMap = deserializer.readStaticMap('PersonalizedStop', 'int', true, true);
         this.potionConfig = deserializer.readStaticObject('PotionConfig');

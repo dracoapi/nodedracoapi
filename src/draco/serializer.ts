@@ -182,6 +182,7 @@ export default class Serializer {
             else if (type === 'float') this.writeFloat(data);
             else if (type === 'double') this.writeDouble(data);
             else if (type === 'string') this.writeUtf8String(data);
+            else if (type === 'Buffer') this.writeBuffer(data);
             else if (objects[type]) data.serialize(this);
             else if (enums[type]) {
                 if (data.__type) data = data.value;

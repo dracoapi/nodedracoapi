@@ -165,6 +165,9 @@ class Deserializer {
         else if (type === 'string') {
             return this.readUtf8String();
         }
+        else if (type === 'Buffer') {
+            return this.readBuffer(true);
+        }
         else if ((match = /List<(.*)>/.exec(type))) {
             const objtype = match[1] || 'object';
             return this.readStaticList(match[1], false);
