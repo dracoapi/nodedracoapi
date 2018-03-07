@@ -33,7 +33,7 @@ class Client {
         this.checkProtocol = true;
         this.eventsCounter = {};
         this.protocolVersion = options.protocolVersion || '1052269079';
-        this.clientVersion = options.clientVersion || '10516';
+        this.clientVersion = options.clientVersion || '10593';
         if (options.hasOwnProperty('checkProtocol'))
             this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter'))
