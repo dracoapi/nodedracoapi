@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import * as objects from './draco/objects';
 import * as enums from './draco/enums';
 import { Fight } from './fight';
@@ -22,20 +23,25 @@ export declare class Client {
     inventory: Inventory;
     eggs: Eggs;
     creatures: Creatures;
+    protocolVersion: string;
+    clientVersion: string;
     private request;
     private proxy;
     private dcportal;
-    private protocolVersion;
-    private clientVersion;
     private checkProtocol;
     private auth;
+    private configHash;
     eventsCounter: any;
     utcOffset: number;
     constructor(options?: any);
+    private getAccuracy();
     ping(throwIfError?: boolean): Promise<boolean>;
     call(service: string, method: string, body: any): Promise<any>;
+    post(url: string, data: any): Promise<void>;
     event(name: any, one?: any, two?: any, three?: any): Promise<void>;
     boot(clientinfo: any): Promise<objects.FConfig>;
+    getConfig(): Promise<objects.FConfig>;
+    buildConfigHash(config: objects.FConfig): Buffer;
     login(): Promise<any>;
     googleLogin(): Promise<void>;
     load(): Promise<void>;
@@ -47,7 +53,7 @@ export declare class Client {
     setAvatar(avatar: any): Promise<any>;
     selectAlliance(alliance: enums.AllianceType, bonus: number): Promise<any>;
     acknowledgeNotification(type: string): Promise<any>;
-    getMapUpdate(latitude: number, longitude: number, horizontalAccuracy?: number): Promise<any>;
+    getMapUpdate(latitude: number, longitude: number, horizontalAccuracy?: number): Promise<objects.FUpdate>;
     useBuilding(clientLat: number, clientLng: number, buildingId: string, buildingLat: number, buildingLng: number): Promise<any>;
     openChest(chest: objects.FChest): Promise<any>;
     leaveDungeon(latitude: number, longitude: number, horizontalAccuracy?: number): Promise<any>;

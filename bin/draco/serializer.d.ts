@@ -5,6 +5,7 @@ export default class Serializer {
     idx: number;
     constructor();
     ensureBuffer(size?: number): void;
+    guessType(data: any): string;
     writeType(type: string, data: any): string;
     writeBoolean(data: any): void;
     writeByte(data: any): void;
@@ -22,7 +23,7 @@ export default class Serializer {
     writeDynamicList(data: any[], isstatic: boolean, type?: string): void;
     writeStaticHashSet(data: Set<any>, isstatic: boolean, type?: string): void;
     writeDynamicMap(data: any, static1: boolean, static2: boolean): void;
-    writeStaticMap(data: Map<any, any>, static1: boolean, static2: boolean, type?: string): void;
+    writeStaticMap(data: Map<any, any>, static1: boolean, static2: boolean, type1?: string, type2?: string): void;
     writeBuffer(buffer: Buffer): void;
     writeObject(data: any, isstatic: boolean, type?: string): void;
     writeStaticObject(data: any, type?: string): void;

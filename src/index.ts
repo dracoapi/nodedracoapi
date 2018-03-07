@@ -1,3 +1,5 @@
+import * as crypto from 'crypto';
+
 import * as long from 'long';
 import * as request from 'request-promise-native';
 import * as jwt from 'jwt-simple';
@@ -53,13 +55,15 @@ export class Client {
     public eggs: Eggs;
     public creatures: Creatures;
 
+    public protocolVersion: string;
+    public clientVersion: string;
+
     private request: any;
     private proxy: string;
     private dcportal: string;
-    private protocolVersion: string;
-    private clientVersion: string;
     private checkProtocol = true;
     private auth: Auth;
+    private configHash: Buffer;
 
     public eventsCounter: any = {};
     public utcOffset: number;
@@ -79,12 +83,13 @@ export class Client {
         this.request = request.defaults({
             proxy: options.proxy,
             headers: {
-                'User-Agent': `DraconiusGO/${this.clientVersion} CFNetwork/894 Darwin/17.4.0`,
-                'Accept': '*/*',
-                'Accept-Language': 'en-us',
-                'Protocol-Version': this.protocolVersion,
+                'Host': 'us.draconiusgo.com',
                 'X-Unity-Version': '2017.1.3f1',
+                'Accept': '*/*',
+                'Protocol-Version': this.protocolVersion,
                 'Client-Version': this.clientVersion,
+                'Accept-Language': 'en-us',
+                'User-Agent': `DraconiusGO/${this.clientVersion} CFNetwork/894 Darwin/17.4.0`,
             },
             encoding: null,
             gzip: true,
@@ -114,12 +119,18 @@ export class Client {
         this.creatures = new Creatures(this);
     }
 
+    private getAccuracy(): number {
+        return [20, 65][Math.floor(Math.random() * 2)];
+    }
+
     async ping(throwIfError = false) {
         try {
             const response = await this.request.post({
                 url: 'https://us.draconiusgo.com/ping',
                 headers: {
                     'Content-Type': 'application /x-www-form-urlencoded',
+                    'Protocol-Version': undefined,
+                    'Client-Version': undefined,
                 },
                 simple: true,
             });
@@ -186,6 +197,16 @@ export class Client {
         return data;
     }
 
+    async post(url: string, data) {
+        const response = await this.request.post({
+            url,
+            form: data,
+            headers: {
+                dcportal: this.dcportal,
+            },
+        });
+    }
+
     async event(name, one?, two?, three?) {
         const eventCounter = this.eventsCounter[name] || 1;
         await this.call('ClientEventService', 'onEventWithCounter', [
@@ -216,7 +237,19 @@ export class Client {
         }
         // await this.event('LoadingScreenPercent', '100');
         // await this.event('Initialized');
-        return await this.call('AuthService', 'getConfig', [ this.clientInfo.language ]);
+        return this.getConfig();
+    }
+
+    async getConfig(): Promise<objects.FConfig> {
+        const config = await this.call('AuthService', 'getConfig', [ this.clientInfo.language ]);
+        this.buildConfigHash(config);
+        return config;
+    }
+
+    buildConfigHash(config: objects.FConfig): Buffer {
+        const buffer = new Serializer().serialize(config);
+        this.configHash = Buffer.from(crypto.createHash('md5').update(buffer).digest());
+        return this.configHash;
     }
 
     async login() {
@@ -249,6 +282,7 @@ export class Client {
             }),
             this.clientInfo,
             new objects.FRegistrationInfo({
+                email: this.user.username,
                 regType: this.auth.reg,
             }),
         ]);
@@ -344,8 +378,9 @@ export class Client {
 
     // Map
 
-    async getMapUpdate(latitude: number, longitude: number, horizontalAccuracy = 20) {
-        return this.call('MapService', 'getUpdate', [
+    async getMapUpdate(latitude: number, longitude: number, horizontalAccuracy?: number) {
+        horizontalAccuracy = horizontalAccuracy || this.getAccuracy();
+        const response: objects.FUpdate = await this.call('MapService', 'getUpdate', [
             new objects.FUpdateRequest({
                 clientRequest: new objects.FClientRequest({
                     time: 0,
@@ -356,11 +391,17 @@ export class Client {
                         horizontalAccuracy,
                     }),
                 }),
+                configCacheHash: this.configHash,
                 language: this.clientInfo.language,
                 clientPlatform: enums.ClientPlatform.IOS,
                 tilesCache: new Map<objects.FTile, long>(),
             }),
         ]);
+        if (response.items) {
+            const config = response.items.find(i => i.__type === 'FConfig') as objects.FConfig;
+            if (config) this.buildConfigHash(config);
+        }
+        return response;
     }
 
     async useBuilding(clientLat: number, clientLng: number, buildingId: string, buildingLat: number, buildingLng: number) {
@@ -371,7 +412,7 @@ export class Client {
                 coordsWithAccuracy: new objects.GeoCoordsWithAccuracy({
                     latitude: clientLat,
                     longitude: clientLng,
-                    horizontalAccuracy: 0,
+                    horizontalAccuracy: this.getAccuracy(),
                 }),
             }),
             new objects.FBuildingRequest({
@@ -389,7 +430,8 @@ export class Client {
         return await this.call('MapService', 'openChestResult', [chest]);
     }
 
-    async leaveDungeon(latitude: number, longitude: number, horizontalAccuracy = 20) {
+    async leaveDungeon(latitude: number, longitude: number, horizontalAccuracy?: number) {
+        horizontalAccuracy = horizontalAccuracy || this.getAccuracy();
         return this.call('MapService', 'leaveDungeon', [
             new objects.FClientRequest({
                 time: 0,
