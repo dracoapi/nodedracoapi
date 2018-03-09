@@ -322,8 +322,9 @@ class Client {
         return await this.call('PlayerService', 'acknowledgeNotification', [type]);
     }
     // Map
-    async getMapUpdate(latitude, longitude, horizontalAccuracy) {
+    async getMapUpdate(latitude, longitude, horizontalAccuracy, tilesCache) {
         horizontalAccuracy = horizontalAccuracy || this.getAccuracy();
+        tilesCache = tilesCache || new Map();
         const response = await this.call('MapService', 'getUpdate', [
             new objects.FUpdateRequest({
                 clientRequest: new objects.FClientRequest({
@@ -338,7 +339,7 @@ class Client {
                 configCacheHash: this.configHash,
                 language: this.clientInfo.language,
                 clientPlatform: enums.ClientPlatform.IOS,
-                tilesCache: new Map(),
+                tilesCache,
             }),
         ]);
         if (response.items) {
@@ -389,84 +390,6 @@ class Client {
     // utils
     delay(ms, value) {
         return new Promise((resolve) => setTimeout(() => resolve(value), ms));
-    }
-    // deprecated
-    /**
-     * @deprecated please use client.inventory.getUserItems
-     */
-    async getUserItems() {
-        console.log('deprecated, please use client.inventory.getUserItems');
-        return this.inventory.getUserItems();
-    }
-    /**
-     * @deprecated please use client.inventory.getCreadex
-     */
-    async getCreadex() {
-        console.log('deprecated, please use client.inventory.getCreadex');
-        return this.inventory.getCreadex();
-    }
-    /**
-     * @deprecated please use client.inventory.discardItem
-     */
-    async discardItem(id, count) {
-        console.log('deprecated, please use client.inventory.discardItem');
-        return this.inventory.discardItem(id, count);
-    }
-    /**
-     * @deprecated please use client.inventory.getUserCreatures
-     */
-    async getUserCreatures() {
-        console.log('deprecated, please use client.inventory.getUserCreatures');
-        return this.inventory.getUserCreatures();
-    }
-    /**
-     * @deprecated please use client.eggs.getHatchingInfo
-     */
-    async getHatchingInfo() {
-        console.log('deprecated, please use client.eggs.getHatchingInfo');
-        return this.eggs.getHatchingInfo();
-    }
-    /**
-     * @deprecated please use client.eggs.openHatchedEgg
-     */
-    async openHatchedEgg(incubatorId) {
-        console.log('deprecated, please use client.eggs.openHatchedEgg');
-        return this.eggs.openHatchedEgg(incubatorId);
-    }
-    /**
-     * @deprecated please use client.eggs.startHatchingEgg
-     */
-    async startHatchingEgg(eggId, incubatorId) {
-        console.log('deprecated, please use client.eggs.startHatchingEgg');
-        return this.eggs.startHatchingEgg(eggId, incubatorId);
-    }
-    /**
-     * @deprecated please use client.creatures.encounter
-     */
-    async encounter(id, options = {}) {
-        console.log('deprecated, please use  client.creatures.encounter');
-        return this.creatures.encounter(id, options);
-    }
-    /**
-     * @deprecated please use client.creatures.catch
-     */
-    async catch(id, ball, quality, spin = false, options) {
-        console.log('deprecated, please use  client.creatures.catch');
-        return this.creatures.catch(id, ball, quality, spin, options);
-    }
-    /**
-     * @deprecated please use client.creatures.release
-     */
-    async releaseCreatures(ids) {
-        console.log('deprecated, please use  client.creatures.release');
-        return this.creatures.release(ids);
-    }
-    /**
-     * @deprecated please use client.creatures.evolve
-     */
-    async evolve(id, toType) {
-        console.log('deprecated, please use  client.creatures.evolve');
-        return this.creatures.evolve(id, toType);
     }
 }
 exports.Client = Client;

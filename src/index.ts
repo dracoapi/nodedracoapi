@@ -378,8 +378,9 @@ export class Client {
 
     // Map
 
-    async getMapUpdate(latitude: number, longitude: number, horizontalAccuracy?: number) {
+    async getMapUpdate(latitude: number, longitude: number, horizontalAccuracy?: number, tilesCache?: Map<objects.FTile, long>) {
         horizontalAccuracy = horizontalAccuracy || this.getAccuracy();
+        tilesCache = tilesCache || new Map<objects.FTile, long>();
         const response: objects.FUpdate = await this.call('MapService', 'getUpdate', [
             new objects.FUpdateRequest({
                 clientRequest: new objects.FClientRequest({
@@ -394,7 +395,7 @@ export class Client {
                 configCacheHash: this.configHash,
                 language: this.clientInfo.language,
                 clientPlatform: enums.ClientPlatform.IOS,
-                tilesCache: new Map<objects.FTile, long>(),
+                tilesCache,
             }),
         ]);
         if (response.items) {
@@ -449,95 +450,5 @@ export class Client {
 
     delay<T>(ms: number, value?: T): Promise<T> {
         return new Promise((resolve) => setTimeout(() => resolve(value), ms));
-    }
-
-    // deprecated
-
-    /**
-     * @deprecated please use client.inventory.getUserItems
-     */
-    async getUserItems() {
-        console.log('deprecated, please use client.inventory.getUserItems');
-        return this.inventory.getUserItems();
-    }
-
-    /**
-     * @deprecated please use client.inventory.getCreadex
-     */
-    async getCreadex() {
-        console.log('deprecated, please use client.inventory.getCreadex');
-        return this.inventory.getCreadex();
-    }
-
-    /**
-     * @deprecated please use client.inventory.discardItem
-     */
-    async discardItem(id: number, count: number) {
-        console.log('deprecated, please use client.inventory.discardItem');
-        return this.inventory.discardItem(id, count);
-    }
-
-    /**
-     * @deprecated please use client.inventory.getUserCreatures
-     */
-    async getUserCreatures(): Promise<objects.FUserCreaturesList> {
-        console.log('deprecated, please use client.inventory.getUserCreatures');
-        return this.inventory.getUserCreatures();
-    }
-
-    /**
-     * @deprecated please use client.eggs.getHatchingInfo
-     */
-    async getHatchingInfo(): Promise<objects.FUserHatchingInfo> {
-        console.log('deprecated, please use client.eggs.getHatchingInfo');
-        return this.eggs.getHatchingInfo();
-    }
-
-    /**
-     * @deprecated please use client.eggs.openHatchedEgg
-     */
-    async openHatchedEgg(incubatorId: string) {
-        console.log('deprecated, please use client.eggs.openHatchedEgg');
-        return this.eggs.openHatchedEgg(incubatorId);
-    }
-
-    /**
-     * @deprecated please use client.eggs.startHatchingEgg
-     */
-    async startHatchingEgg(eggId: string, incubatorId: string) {
-        console.log('deprecated, please use client.eggs.startHatchingEgg');
-        return this.eggs.startHatchingEgg(eggId, incubatorId);
-    }
-
-    /**
-     * @deprecated please use client.creatures.encounter
-     */
-    async encounter(id: string, options: any = {}): Promise<objects.FCatchingCreature> {
-        console.log('deprecated, please use  client.creatures.encounter');
-        return this.creatures.encounter(id, options);
-    }
-
-    /**
-     * @deprecated please use client.creatures.catch
-     */
-    async catch(id: string, ball: number, quality: number, spin = false, options?: any) {
-        console.log('deprecated, please use  client.creatures.catch');
-        return this.creatures.catch(id, ball, quality, spin, options);
-    }
-
-    /**
-     * @deprecated please use client.creatures.release
-     */
-    async releaseCreatures(ids: string[]): Promise<objects.FUpdate> {
-        console.log('deprecated, please use  client.creatures.release');
-        return this.creatures.release(ids);
-    }
-
-    /**
-     * @deprecated please use client.creatures.evolve
-     */
-    async evolve(id: string, toType: enums.CreatureType) {
-        console.log('deprecated, please use  client.creatures.evolve');
-        return this.creatures.evolve(id, toType);
     }
 }
