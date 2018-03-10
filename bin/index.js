@@ -46,6 +46,10 @@ class Client {
             this.utcOffset = -new Date().getTimezoneOffset() * 60;
         }
         this.proxy = options.proxy;
+        let timeout = 20 * 1000;
+        if (options.hasOwnProperty('timeout')) {
+            timeout = +options.timeout;
+        }
         const cookies = request.jar();
         this.request = request.defaults({
             proxy: options.proxy,
@@ -63,6 +67,7 @@ class Client {
             jar: cookies,
             simple: false,
             resolveWithFullResponse: true,
+            timeout,
         });
         cookies.setCookie(request.cookie('path=/'), 'https://us.draconiusgo.com');
         cookies.setCookie(request.cookie('Path=/'), 'https://us.draconiusgo.com');
