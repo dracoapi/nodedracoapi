@@ -69,8 +69,8 @@ export class Client {
     public utcOffset: number;
 
     constructor(options: any = {}) {
-        this.protocolVersion = options.protocolVersion || '1052269079';
-        this.clientVersion = options.clientVersion || '10593';
+        this.protocolVersion = options.protocolVersion || '2748907592';
+        this.clientVersion = options.clientVersion || '10780';
         if (options.hasOwnProperty('checkProtocol')) this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter')) this.eventsCounter = options.eventsCounter;
         if (options.hasOwnProperty('utcOffset')) {

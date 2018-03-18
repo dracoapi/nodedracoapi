@@ -24,11 +24,13 @@ class BuffConfig {
     }
     serialize(serializer) {
         serializer.writeInt64(this.durationMs);
+        serializer.writeBoolean(this.isOffer);
         serializer.writeByte(this.type);
         serializer.writeInt32(this.valuePercent);
     }
     deserialize(deserializer) {
         this.durationMs = deserializer.readInt64();
+        this.isOffer = deserializer.readBoolean();
         this.type = deserializer.readByte();
         this.valuePercent = deserializer.readInt32();
     }
@@ -260,6 +262,7 @@ class FArenaDetails {
         serializer.writeInt32(this.currentExp);
         serializer.writeStaticList(this.defenders, true, 'FDefenderDetails');
         serializer.writeUtf8String(this.id);
+        serializer.writeInt64(this.lastUpdateTime);
         serializer.writeInt32(this.level);
         serializer.writeInt32(this.libraryBlockedCooldown);
         serializer.writeInt32(this.minUseLevel);
@@ -284,6 +287,7 @@ class FArenaDetails {
         this.currentExp = deserializer.readInt32();
         this.defenders = deserializer.readStaticList('FDefenderDetails', true);
         this.id = deserializer.readUtf8String();
+        this.lastUpdateTime = deserializer.readInt64();
         this.level = deserializer.readInt32();
         this.libraryBlockedCooldown = deserializer.readInt32();
         this.minUseLevel = deserializer.readInt32();
@@ -924,6 +928,7 @@ class FConfig {
         serializer.writeFloat(this.requestRetryDelay);
         serializer.writeFloat(this.screenDifferentSwipeDivision);
         serializer.writeFloat(this.spinGain);
+        serializer.writeFloat(this.stopLootStreakDuration);
         serializer.writeInt32(this.stopUsageHintTillLevel);
         serializer.writeFloat(this.superVisionEffectInterval);
         serializer.writeInt32(this.superVisionRadius);
@@ -1007,6 +1012,7 @@ class FConfig {
         this.requestRetryDelay = deserializer.readFloat();
         this.screenDifferentSwipeDivision = deserializer.readFloat();
         this.spinGain = deserializer.readFloat();
+        this.stopLootStreakDuration = deserializer.readFloat();
         this.stopUsageHintTillLevel = deserializer.readInt32();
         this.superVisionEffectInterval = deserializer.readFloat();
         this.superVisionRadius = deserializer.readInt32();
@@ -1580,9 +1586,11 @@ class FLoot {
     }
     serialize(serializer) {
         serializer.writeStaticList(this.lootList, false, 'FBaseLootItem');
+        serializer.writeDynamicObject(this.streakIndex, 'int');
     }
     deserialize(deserializer) {
         this.lootList = deserializer.readStaticList('FBaseLootItem', false);
+        this.streakIndex = deserializer.readDynamicObject();
     }
 }
 exports.FLoot = FLoot;
@@ -1780,6 +1788,8 @@ class FNewsArticle {
     }
     serialize(serializer) {
         serializer.writeStaticHashSet(this.activeNewsIds, true, 'string');
+        serializer.writeInt32(this.activeOfferCurrent);
+        serializer.writeInt32(this.activeOfferTotal);
         serializer.writeUtf8String(this.body);
         serializer.writeInt64(this.freshNewsDate);
         serializer.writeUtf8String(this.id);
@@ -1787,6 +1797,8 @@ class FNewsArticle {
     }
     deserialize(deserializer) {
         this.activeNewsIds = deserializer.readStaticHashSet('string', true);
+        this.activeOfferCurrent = deserializer.readInt32();
+        this.activeOfferTotal = deserializer.readInt32();
         this.body = deserializer.readUtf8String();
         this.freshNewsDate = deserializer.readInt64();
         this.id = deserializer.readUtf8String();
@@ -2216,6 +2228,8 @@ class FUpdateRequest {
         serializer.writeBuffer(this.configCacheHash);
         serializer.writeDynamicObject(this.language, 'string');
         serializer.writeStaticMap(this.tilesCache, true, true, 'FTile', 'long');
+        serializer.writeDynamicObject(this.updateBuilding, 'FBuildingRequest');
+        serializer.writeInt64(this.updateBuildingIfModifiedSince);
     }
     deserialize(deserializer) {
         this.blackScreen = deserializer.readBoolean();
@@ -2224,6 +2238,8 @@ class FUpdateRequest {
         this.configCacheHash = deserializer.readBuffer();
         this.language = deserializer.readDynamicObject();
         this.tilesCache = deserializer.readStaticMap('FTile', 'long', true, true);
+        this.updateBuilding = deserializer.readDynamicObject();
+        this.updateBuildingIfModifiedSince = deserializer.readInt64();
     }
 }
 exports.FUpdateRequest = FUpdateRequest;
@@ -2432,6 +2448,7 @@ class FWildCreature {
         Object.assign(this, init);
     }
     serialize(serializer) {
+        serializer.writeBoolean(this.chest);
         serializer.writeDynamicObject(this.coords, 'GeoCoords');
         serializer.writeDynamicObject(this.entry, 'FCreadexEntry');
         serializer.writeUtf8String(this.id);
@@ -2443,6 +2460,7 @@ class FWildCreature {
         serializer.writeFloat(this.ttl);
     }
     deserialize(deserializer) {
+        this.chest = deserializer.readBoolean();
         this.coords = deserializer.readDynamicObject();
         this.entry = deserializer.readDynamicObject();
         this.id = deserializer.readUtf8String();
@@ -2518,6 +2536,7 @@ class FWizardBattleResult {
         serializer.writeStaticObject(this.levelUpLoot, 'FLoot');
         serializer.writeStaticObject(this.loot, 'FLoot');
         serializer.writeFloat(this.resultScreenDelay);
+        serializer.writeFloat(this.rewardPercent);
         serializer.writeBoolean(this.victory);
     }
     deserialize(deserializer) {
@@ -2527,6 +2546,7 @@ class FWizardBattleResult {
         this.levelUpLoot = deserializer.readStaticObject('FLoot');
         this.loot = deserializer.readStaticObject('FLoot');
         this.resultScreenDelay = deserializer.readFloat();
+        this.rewardPercent = deserializer.readFloat();
         this.victory = deserializer.readBoolean();
     }
 }

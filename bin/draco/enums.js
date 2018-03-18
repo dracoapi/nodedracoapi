@@ -117,6 +117,7 @@ var BuffType;
     BuffType[BuffType["TOWER_ELEMENTAL_FIRE"] = 15] = "TOWER_ELEMENTAL_FIRE";
     BuffType[BuffType["TOWER_ELEMENTAL_EARTH"] = 16] = "TOWER_ELEMENTAL_EARTH";
     BuffType[BuffType["RADAR_IMPROVE"] = 17] = "RADAR_IMPROVE";
+    BuffType[BuffType["ENCOUNTER_EXTRA_LOOT_ITEM"] = 18] = "ENCOUNTER_EXTRA_LOOT_ITEM";
 })(BuffType = exports.BuffType || (exports.BuffType = {}));
 var BuildingType;
 (function (BuildingType) {
@@ -359,6 +360,7 @@ var EventLogType;
     EventLogType[EventLogType["SHOP_CREATURE_BOUGHT"] = 22] = "SHOP_CREATURE_BOUGHT";
     EventLogType[EventLogType["SHOP_ITEM_PACK_BOUGHT"] = 23] = "SHOP_ITEM_PACK_BOUGHT";
     EventLogType[EventLogType["WIZARD_BATTLE"] = 24] = "WIZARD_BATTLE";
+    EventLogType[EventLogType["ENCOUNTER_GIVE_UP"] = 25] = "ENCOUNTER_GIVE_UP";
 })(EventLogType = exports.EventLogType || (exports.EventLogType = {}));
 var FNicknameValidationError;
 (function (FNicknameValidationError) {
@@ -381,6 +383,7 @@ var InstantUseItem;
     InstantUseItem[InstantUseItem["LIBRARY_COOLDOWN_REDUCE"] = 0] = "LIBRARY_COOLDOWN_REDUCE";
     InstantUseItem[InstantUseItem["ARENA_TRIBUTE_COOLDOWN_REDUCE"] = 1] = "ARENA_TRIBUTE_COOLDOWN_REDUCE";
     InstantUseItem[InstantUseItem["WIZARD_BATTLE_COOLDOWN_REDUCE"] = 2] = "WIZARD_BATTLE_COOLDOWN_REDUCE";
+    InstantUseItem[InstantUseItem["WIZARD_EXTRA_BATTLE"] = 3] = "WIZARD_EXTRA_BATTLE";
 })(InstantUseItem = exports.InstantUseItem || (exports.InstantUseItem = {}));
 var ItemType;
 (function (ItemType) {

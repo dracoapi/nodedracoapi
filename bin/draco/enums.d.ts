@@ -110,6 +110,7 @@ export declare enum BuffType {
     TOWER_ELEMENTAL_FIRE = 15,
     TOWER_ELEMENTAL_EARTH = 16,
     RADAR_IMPROVE = 17,
+    ENCOUNTER_EXTRA_LOOT_ITEM = 18,
 }
 export declare enum BuildingType {
     STOP = 0,
@@ -346,6 +347,7 @@ export declare enum EventLogType {
     SHOP_CREATURE_BOUGHT = 22,
     SHOP_ITEM_PACK_BOUGHT = 23,
     WIZARD_BATTLE = 24,
+    ENCOUNTER_GIVE_UP = 25,
 }
 export declare enum FNicknameValidationError {
     IS_EMPTY = 0,
@@ -365,6 +367,7 @@ export declare enum InstantUseItem {
     LIBRARY_COOLDOWN_REDUCE = 0,
     ARENA_TRIBUTE_COOLDOWN_REDUCE = 1,
     WIZARD_BATTLE_COOLDOWN_REDUCE = 2,
+    WIZARD_EXTRA_BATTLE = 3,
 }
 export declare enum ItemType {
     MAGIC_BALL_SIMPLE = 0,

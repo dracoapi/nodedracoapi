@@ -15,6 +15,7 @@ export declare class AuthData {
 export declare class BuffConfig {
     __type: string;
     durationMs: long;
+    isOffer: boolean;
     type: enums.BuffType;
     valuePercent: number;
     constructor(init?: Partial<BuffConfig>);
@@ -142,6 +143,7 @@ export declare class FArenaDetails {
     currentExp: number;
     defenders: FDefenderDetails[];
     id: string;
+    lastUpdateTime: long;
     level: number;
     libraryBlockedCooldown: number;
     minUseLevel: number;
@@ -513,6 +515,7 @@ export declare class FConfig {
     requestRetryDelay: number;
     screenDifferentSwipeDivision: number;
     spinGain: number;
+    stopLootStreakDuration: number;
     stopUsageHintTillLevel: number;
     superVisionEffectInterval: number;
     superVisionRadius: number;
@@ -822,6 +825,7 @@ export declare class FJournalUpdate {
 export declare class FLoot {
     __type: string;
     lootList: FBaseLootItem[];
+    streakIndex: number;
     constructor(init?: Partial<FLoot>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
@@ -928,6 +932,8 @@ export declare class FMentorshipInfo {
 export declare class FNewsArticle {
     __type: string;
     activeNewsIds: Set<string>;
+    activeOfferCurrent: number;
+    activeOfferTotal: number;
     body: string;
     freshNewsDate: long;
     id: string;
@@ -1161,6 +1167,8 @@ export declare class FUpdateRequest {
     configCacheHash: Buffer;
     language: string;
     tilesCache: Map<FTile, long>;
+    updateBuilding: FBuildingRequest;
+    updateBuildingIfModifiedSince: long;
     constructor(init?: Partial<FUpdateRequest>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
@@ -1270,6 +1278,7 @@ export declare class FWeeklyQuestFragment {
 }
 export declare class FWildCreature {
     __type: string;
+    chest: boolean;
     coords: GeoCoords;
     entry: FCreadexEntry;
     id: string;
@@ -1318,6 +1327,7 @@ export declare class FWizardBattleResult {
     levelUpLoot: FLoot;
     loot: FLoot;
     resultScreenDelay: number;
+    rewardPercent: number;
     victory: boolean;
     constructor(init?: Partial<FWizardBattleResult>);
     serialize(serializer: Serializer): void;

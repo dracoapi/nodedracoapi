@@ -114,6 +114,7 @@ export enum BuffType {
     TOWER_ELEMENTAL_FIRE,
     TOWER_ELEMENTAL_EARTH,
     RADAR_IMPROVE,
+    ENCOUNTER_EXTRA_LOOT_ITEM,
 }
 
 export enum BuildingType {
@@ -356,6 +357,7 @@ export enum EventLogType {
     SHOP_CREATURE_BOUGHT,
     SHOP_ITEM_PACK_BOUGHT,
     WIZARD_BATTLE,
+    ENCOUNTER_GIVE_UP,
 }
 
 export enum FNicknameValidationError {
@@ -378,6 +380,7 @@ export enum InstantUseItem {
     LIBRARY_COOLDOWN_REDUCE,
     ARENA_TRIBUTE_COOLDOWN_REDUCE,
     WIZARD_BATTLE_COOLDOWN_REDUCE,
+    WIZARD_EXTRA_BATTLE,
 }
 
 export enum ItemType {
