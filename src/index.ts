@@ -111,7 +111,7 @@ export class Client {
             iOsAdvertisingTrackingEnabled: false,
             language: options.lang || 'English',
             platform: 'IPhonePlayer',
-            platformVersion: 'iOS 10.3.3',
+            platformVersion: 'iOS 11.2.6',
             revision: this.clientVersion,
             screenHeight: 1334,
             screenWidth: 750,
