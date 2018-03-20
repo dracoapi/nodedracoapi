@@ -91,7 +91,7 @@ class Serializer {
     writeInt64(val) {
         this.ensureBuffer();
         if (!(val instanceof long)) {
-            val = long.fromValue(val);
+            val = long.fromValue(val || 0);
         }
         this.writeInt32(val.high);
         this.writeInt32(val.low);
