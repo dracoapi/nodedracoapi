@@ -857,6 +857,44 @@ class FClientRequest {
     }
 }
 exports.FClientRequest = FClientRequest;
+class FCollectorRatingRecord {
+    constructor(init) {
+        this.__type = 'FCollectorRatingRecord';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeInt32(this.level);
+        serializer.writeUtf8String(this.nickName);
+        serializer.writeInt32(this.openCreaturesCount);
+        serializer.writeInt32(this.place);
+        serializer.writeFloat(this.score);
+        serializer.writeInt32(this.topQualityCreaturesCount);
+        serializer.writeInt32(this.topQualityPoweredupCreaturesCount);
+    }
+    deserialize(deserializer) {
+        this.level = deserializer.readInt32();
+        this.nickName = deserializer.readUtf8String();
+        this.openCreaturesCount = deserializer.readInt32();
+        this.place = deserializer.readInt32();
+        this.score = deserializer.readFloat();
+        this.topQualityCreaturesCount = deserializer.readInt32();
+        this.topQualityPoweredupCreaturesCount = deserializer.readInt32();
+    }
+}
+exports.FCollectorRatingRecord = FCollectorRatingRecord;
+class FCollectorRatingTop {
+    constructor(init) {
+        this.__type = 'FCollectorRatingTop';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeStaticList(this.topRecords, true, 'FCollectorRatingRecord');
+    }
+    deserialize(deserializer) {
+        this.topRecords = deserializer.readStaticList('FCollectorRatingRecord', true);
+    }
+}
+exports.FCollectorRatingTop = FCollectorRatingTop;
 class FConfig {
     constructor(init) {
         this.__type = 'FConfig';
@@ -885,6 +923,7 @@ class FConfig {
         serializer.writeFloat(this.cameraFieldOfView);
         serializer.writeStaticMap(this.catchPopup, true, true, 'float', 'string');
         serializer.writeStaticMap(this.clientTexts, true, true, 'string', 'string');
+        serializer.writeBoolean(this.collectorRatingButtonVisibleToAll);
         serializer.writeStaticArray(this.congratulationLayerLevels, true, 'int');
         serializer.writeInt32(this.creaturesDelayVisibility);
         serializer.writeInt32(this.dailyQuestAvailableFromLevel);
@@ -969,6 +1008,7 @@ class FConfig {
         this.cameraFieldOfView = deserializer.readFloat();
         this.catchPopup = deserializer.readStaticMap('float', 'string', true, true);
         this.clientTexts = deserializer.readStaticMap('string', 'string', true, true);
+        this.collectorRatingButtonVisibleToAll = deserializer.readBoolean();
         this.congratulationLayerLevels = deserializer.readStaticArray('int', true);
         this.creaturesDelayVisibility = deserializer.readInt32();
         this.dailyQuestAvailableFromLevel = deserializer.readInt32();

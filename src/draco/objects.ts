@@ -1173,6 +1173,56 @@ export class FClientRequest {
     }
 }
 
+export class FCollectorRatingRecord {
+    __type = 'FCollectorRatingRecord';
+    level: number; // int
+    nickName: string; // string
+    openCreaturesCount: number; // int
+    place: number; // int
+    score: number; // float
+    topQualityCreaturesCount: number; // int
+    topQualityPoweredupCreaturesCount: number; // int
+
+    public constructor(init?: Partial<FCollectorRatingRecord>) {
+        Object.assign(this, init);
+    }
+
+    serialize(serializer: Serializer) {
+        serializer.writeInt32(this.level);
+        serializer.writeUtf8String(this.nickName);
+        serializer.writeInt32(this.openCreaturesCount);
+        serializer.writeInt32(this.place);
+        serializer.writeFloat(this.score);
+        serializer.writeInt32(this.topQualityCreaturesCount);
+        serializer.writeInt32(this.topQualityPoweredupCreaturesCount);
+    }
+    deserialize(deserializer: Deserializer) {
+        this.level = deserializer.readInt32();
+        this.nickName = deserializer.readUtf8String();
+        this.openCreaturesCount = deserializer.readInt32();
+        this.place = deserializer.readInt32();
+        this.score = deserializer.readFloat();
+        this.topQualityCreaturesCount = deserializer.readInt32();
+        this.topQualityPoweredupCreaturesCount = deserializer.readInt32();
+    }
+}
+
+export class FCollectorRatingTop {
+    __type = 'FCollectorRatingTop';
+    topRecords: FCollectorRatingRecord[]; // FCollectorRatingRecord[]
+
+    public constructor(init?: Partial<FCollectorRatingTop>) {
+        Object.assign(this, init);
+    }
+
+    serialize(serializer: Serializer) {
+        serializer.writeStaticList(this.topRecords, true, 'FCollectorRatingRecord');
+    }
+    deserialize(deserializer: Deserializer) {
+        this.topRecords = deserializer.readStaticList('FCollectorRatingRecord', true);
+    }
+}
+
 export class FConfig {
     __type = 'FConfig';
     actionInfoShowDuration: number; // float
@@ -1197,6 +1247,7 @@ export class FConfig {
     cameraFieldOfView: number; // float
     catchPopup: Map<number, string>; // Map<float, string>
     clientTexts: Map<string, string>; // Map<string, string>
+    collectorRatingButtonVisibleToAll: boolean; // bool
     congratulationLayerLevels: number[]; // int[]
     creaturesDelayVisibility: number; // int
     dailyQuestAvailableFromLevel: number; // int
@@ -1285,6 +1336,7 @@ export class FConfig {
         serializer.writeFloat(this.cameraFieldOfView);
         serializer.writeStaticMap(this.catchPopup, true, true, 'float', 'string');
         serializer.writeStaticMap(this.clientTexts, true, true, 'string', 'string');
+        serializer.writeBoolean(this.collectorRatingButtonVisibleToAll);
         serializer.writeStaticArray(this.congratulationLayerLevels, true, 'int');
         serializer.writeInt32(this.creaturesDelayVisibility);
         serializer.writeInt32(this.dailyQuestAvailableFromLevel);
@@ -1369,6 +1421,7 @@ export class FConfig {
         this.cameraFieldOfView = deserializer.readFloat();
         this.catchPopup = deserializer.readStaticMap('float', 'string', true, true);
         this.clientTexts = deserializer.readStaticMap('string', 'string', true, true);
+        this.collectorRatingButtonVisibleToAll = deserializer.readBoolean();
         this.congratulationLayerLevels = deserializer.readStaticArray('int', true);
         this.creaturesDelayVisibility = deserializer.readInt32();
         this.dailyQuestAvailableFromLevel = deserializer.readInt32();

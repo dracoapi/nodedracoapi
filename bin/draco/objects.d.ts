@@ -448,6 +448,26 @@ export declare class FClientRequest {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
+export declare class FCollectorRatingRecord {
+    __type: string;
+    level: number;
+    nickName: string;
+    openCreaturesCount: number;
+    place: number;
+    score: number;
+    topQualityCreaturesCount: number;
+    topQualityPoweredupCreaturesCount: number;
+    constructor(init?: Partial<FCollectorRatingRecord>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FCollectorRatingTop {
+    __type: string;
+    topRecords: FCollectorRatingRecord[];
+    constructor(init?: Partial<FCollectorRatingTop>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
 export declare class FConfig {
     __type: string;
     actionInfoShowDuration: number;
@@ -472,6 +492,7 @@ export declare class FConfig {
     cameraFieldOfView: number;
     catchPopup: Map<number, string>;
     clientTexts: Map<string, string>;
+    collectorRatingButtonVisibleToAll: boolean;
     congratulationLayerLevels: number[];
     creaturesDelayVisibility: number;
     dailyQuestAvailableFromLevel: number;
