@@ -135,6 +135,7 @@ var BuildingType;
     BuildingType[BuildingType["ELEMENTAL_WIND"] = 11] = "ELEMENTAL_WIND";
     BuildingType[BuildingType["ELEMENTAL_EARTH"] = 12] = "ELEMENTAL_EARTH";
     BuildingType[BuildingType["ELEMENTAL_DUNGEON"] = 13] = "ELEMENTAL_DUNGEON";
+    BuildingType[BuildingType["CONTEST"] = 14] = "CONTEST";
 })(BuildingType = exports.BuildingType || (exports.BuildingType = {}));
 var ClientPlatform;
 (function (ClientPlatform) {
@@ -143,6 +144,12 @@ var ClientPlatform;
     ClientPlatform[ClientPlatform["UNITY"] = 2] = "UNITY";
     ClientPlatform[ClientPlatform["UNKNOWN"] = 3] = "UNKNOWN";
 })(ClientPlatform = exports.ClientPlatform || (exports.ClientPlatform = {}));
+var ContestStage;
+(function (ContestStage) {
+    ContestStage[ContestStage["PREPARING"] = 0] = "PREPARING";
+    ContestStage[ContestStage["PROGRESS"] = 1] = "PROGRESS";
+    ContestStage[ContestStage["COMPLETED"] = 2] = "COMPLETED";
+})(ContestStage = exports.ContestStage || (exports.ContestStage = {}));
 var CreatureType;
 (function (CreatureType) {
     CreatureType[CreatureType["MONSTER_WATER_1"] = 0] = "MONSTER_WATER_1";
@@ -314,10 +321,23 @@ var CreatureType;
     CreatureType[CreatureType["MONSTER_EARTH_LOV_3"] = 166] = "MONSTER_EARTH_LOV_3";
     CreatureType[CreatureType["MONSTER_EARTH_LOV_4"] = 167] = "MONSTER_EARTH_LOV_4";
     CreatureType[CreatureType["MONSTER_EARTH_LOV_5"] = 168] = "MONSTER_EARTH_LOV_5";
-    CreatureType[CreatureType["MONSTER_DUNGEON_LOV_1"] = 169] = "MONSTER_DUNGEON_LOV_1";
-    CreatureType[CreatureType["MONSTER_DUNGEON_LOV_2"] = 170] = "MONSTER_DUNGEON_LOV_2";
-    CreatureType[CreatureType["MONSTER_DUNGEON_LOV_3"] = 171] = "MONSTER_DUNGEON_LOV_3";
-    CreatureType[CreatureType["MONSTER_DUNGEON_LOV_4"] = 172] = "MONSTER_DUNGEON_LOV_4";
+    CreatureType[CreatureType["MONSTER_EARTH_LOV_6"] = 169] = "MONSTER_EARTH_LOV_6";
+    CreatureType[CreatureType["MONSTER_DUNGEON_LOV_1"] = 170] = "MONSTER_DUNGEON_LOV_1";
+    CreatureType[CreatureType["MONSTER_DUNGEON_LOV_2"] = 171] = "MONSTER_DUNGEON_LOV_2";
+    CreatureType[CreatureType["MONSTER_DUNGEON_LOV_3"] = 172] = "MONSTER_DUNGEON_LOV_3";
+    CreatureType[CreatureType["MONSTER_DUNGEON_LOV_4"] = 173] = "MONSTER_DUNGEON_LOV_4";
+    CreatureType[CreatureType["MONSTER_WATER_APR_1"] = 174] = "MONSTER_WATER_APR_1";
+    CreatureType[CreatureType["MONSTER_WATER_APR_2"] = 175] = "MONSTER_WATER_APR_2";
+    CreatureType[CreatureType["MONSTER_WATER_APR_3"] = 176] = "MONSTER_WATER_APR_3";
+    CreatureType[CreatureType["MONSTER_WIND_APR_1"] = 177] = "MONSTER_WIND_APR_1";
+    CreatureType[CreatureType["MONSTER_WIND_APR_2"] = 178] = "MONSTER_WIND_APR_2";
+    CreatureType[CreatureType["MONSTER_WIND_APR_3"] = 179] = "MONSTER_WIND_APR_3";
+    CreatureType[CreatureType["MONSTER_FIRE_APR_1"] = 180] = "MONSTER_FIRE_APR_1";
+    CreatureType[CreatureType["MONSTER_FIRE_APR_2"] = 181] = "MONSTER_FIRE_APR_2";
+    CreatureType[CreatureType["MONSTER_EARTH_APR_1"] = 182] = "MONSTER_EARTH_APR_1";
+    CreatureType[CreatureType["MONSTER_EARTH_APR_2"] = 183] = "MONSTER_EARTH_APR_2";
+    CreatureType[CreatureType["MONSTER_DUNGEON_APR_1"] = 184] = "MONSTER_DUNGEON_APR_1";
+    CreatureType[CreatureType["MONSTER_DUNGEON_APR_2"] = 185] = "MONSTER_DUNGEON_APR_2";
 })(CreatureType = exports.CreatureType || (exports.CreatureType = {}));
 var DungeonShapeType;
 (function (DungeonShapeType) {

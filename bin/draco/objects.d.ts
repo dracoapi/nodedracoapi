@@ -494,8 +494,10 @@ export declare class FConfig {
     clientTexts: Map<string, string>;
     collectorRatingButtonVisibleToAll: boolean;
     congratulationLayerLevels: number[];
+    contestVisibleToAll: boolean;
     creaturesDelayVisibility: number;
     dailyQuestAvailableFromLevel: number;
+    defaultAugmentedRealitySwitchState: boolean;
     defenderBaseAttackBeforeChargedMax: number;
     defenderBaseAttackBeforeChargedMin: number;
     delayForCheckMaxSpeedToPlay: number;
@@ -554,6 +556,45 @@ export declare class FConfig {
     xVelocityFactorSpin: number;
     yVelocityFactor: number;
     constructor(init?: Partial<FConfig>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FContestBattle {
+    __type: string;
+    hpPercent: number;
+    nickname: string;
+    nicknameOpponent: string;
+    victory: boolean;
+    constructor(init?: Partial<FContestBattle>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FContestStats {
+    __type: string;
+    hpPercentTotal: number;
+    lostAsOpponentCount: number;
+    lostCount: number;
+    nickname: string;
+    winAsOpponentCount: number;
+    winCount: number;
+    constructor(init?: Partial<FContestStats>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FContestUpdate {
+    __type: string;
+    battles: FContestBattle[];
+    canStart: boolean;
+    contestId: string;
+    ownerNickname: string;
+    participants: string[];
+    pendingBattle: string;
+    showContestScreen: boolean;
+    stage: enums.ContestStage;
+    stats: FContestStats[];
+    totalBattlesCount: number;
+    userBattlesCount: number;
+    constructor(init?: Partial<FContestUpdate>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
@@ -1344,6 +1385,7 @@ export declare class FWizardBattleResult {
     __type: string;
     attackerHps: number[];
     attackerTypes: enums.CreatureType[];
+    avaUpdate: FAvaUpdate;
     candies: enums.CreatureType[];
     levelUpLoot: FLoot;
     loot: FLoot;

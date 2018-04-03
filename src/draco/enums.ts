@@ -132,6 +132,7 @@ export enum BuildingType {
     ELEMENTAL_WIND,
     ELEMENTAL_EARTH,
     ELEMENTAL_DUNGEON,
+    CONTEST,
 }
 
 export enum ClientPlatform {
@@ -139,6 +140,12 @@ export enum ClientPlatform {
     IOS,
     UNITY,
     UNKNOWN,
+}
+
+export enum ContestStage {
+    PREPARING,
+    PROGRESS,
+    COMPLETED,
 }
 
 export enum CreatureType {
@@ -311,10 +318,23 @@ export enum CreatureType {
     MONSTER_EARTH_LOV_3,
     MONSTER_EARTH_LOV_4,
     MONSTER_EARTH_LOV_5,
+    MONSTER_EARTH_LOV_6,
     MONSTER_DUNGEON_LOV_1,
     MONSTER_DUNGEON_LOV_2,
     MONSTER_DUNGEON_LOV_3,
     MONSTER_DUNGEON_LOV_4,
+    MONSTER_WATER_APR_1,
+    MONSTER_WATER_APR_2,
+    MONSTER_WATER_APR_3,
+    MONSTER_WIND_APR_1,
+    MONSTER_WIND_APR_2,
+    MONSTER_WIND_APR_3,
+    MONSTER_FIRE_APR_1,
+    MONSTER_FIRE_APR_2,
+    MONSTER_EARTH_APR_1,
+    MONSTER_EARTH_APR_2,
+    MONSTER_DUNGEON_APR_1,
+    MONSTER_DUNGEON_APR_2,
 }
 
 export enum DungeonShapeType {

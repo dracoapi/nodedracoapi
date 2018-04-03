@@ -127,12 +127,18 @@ export declare enum BuildingType {
     ELEMENTAL_WIND = 11,
     ELEMENTAL_EARTH = 12,
     ELEMENTAL_DUNGEON = 13,
+    CONTEST = 14,
 }
 export declare enum ClientPlatform {
     ANDROID = 0,
     IOS = 1,
     UNITY = 2,
     UNKNOWN = 3,
+}
+export declare enum ContestStage {
+    PREPARING = 0,
+    PROGRESS = 1,
+    COMPLETED = 2,
 }
 export declare enum CreatureType {
     MONSTER_WATER_1 = 0,
@@ -304,10 +310,23 @@ export declare enum CreatureType {
     MONSTER_EARTH_LOV_3 = 166,
     MONSTER_EARTH_LOV_4 = 167,
     MONSTER_EARTH_LOV_5 = 168,
-    MONSTER_DUNGEON_LOV_1 = 169,
-    MONSTER_DUNGEON_LOV_2 = 170,
-    MONSTER_DUNGEON_LOV_3 = 171,
-    MONSTER_DUNGEON_LOV_4 = 172,
+    MONSTER_EARTH_LOV_6 = 169,
+    MONSTER_DUNGEON_LOV_1 = 170,
+    MONSTER_DUNGEON_LOV_2 = 171,
+    MONSTER_DUNGEON_LOV_3 = 172,
+    MONSTER_DUNGEON_LOV_4 = 173,
+    MONSTER_WATER_APR_1 = 174,
+    MONSTER_WATER_APR_2 = 175,
+    MONSTER_WATER_APR_3 = 176,
+    MONSTER_WIND_APR_1 = 177,
+    MONSTER_WIND_APR_2 = 178,
+    MONSTER_WIND_APR_3 = 179,
+    MONSTER_FIRE_APR_1 = 180,
+    MONSTER_FIRE_APR_2 = 181,
+    MONSTER_EARTH_APR_1 = 182,
+    MONSTER_EARTH_APR_2 = 183,
+    MONSTER_DUNGEON_APR_1 = 184,
+    MONSTER_DUNGEON_APR_2 = 185,
 }
 export declare enum DungeonShapeType {
     CIRCLE = 0,

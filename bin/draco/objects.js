@@ -925,8 +925,10 @@ class FConfig {
         serializer.writeStaticMap(this.clientTexts, true, true, 'string', 'string');
         serializer.writeBoolean(this.collectorRatingButtonVisibleToAll);
         serializer.writeStaticArray(this.congratulationLayerLevels, true, 'int');
+        serializer.writeBoolean(this.contestVisibleToAll);
         serializer.writeInt32(this.creaturesDelayVisibility);
         serializer.writeInt32(this.dailyQuestAvailableFromLevel);
+        serializer.writeBoolean(this.defaultAugmentedRealitySwitchState);
         serializer.writeInt32(this.defenderBaseAttackBeforeChargedMax);
         serializer.writeInt32(this.defenderBaseAttackBeforeChargedMin);
         serializer.writeFloat(this.delayForCheckMaxSpeedToPlay);
@@ -1010,8 +1012,10 @@ class FConfig {
         this.clientTexts = deserializer.readStaticMap('string', 'string', true, true);
         this.collectorRatingButtonVisibleToAll = deserializer.readBoolean();
         this.congratulationLayerLevels = deserializer.readStaticArray('int', true);
+        this.contestVisibleToAll = deserializer.readBoolean();
         this.creaturesDelayVisibility = deserializer.readInt32();
         this.dailyQuestAvailableFromLevel = deserializer.readInt32();
+        this.defaultAugmentedRealitySwitchState = deserializer.readBoolean();
         this.defenderBaseAttackBeforeChargedMax = deserializer.readInt32();
         this.defenderBaseAttackBeforeChargedMin = deserializer.readInt32();
         this.delayForCheckMaxSpeedToPlay = deserializer.readFloat();
@@ -1072,6 +1076,81 @@ class FConfig {
     }
 }
 exports.FConfig = FConfig;
+class FContestBattle {
+    constructor(init) {
+        this.__type = 'FContestBattle';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeFloat(this.hpPercent);
+        serializer.writeUtf8String(this.nickname);
+        serializer.writeUtf8String(this.nicknameOpponent);
+        serializer.writeBoolean(this.victory);
+    }
+    deserialize(deserializer) {
+        this.hpPercent = deserializer.readFloat();
+        this.nickname = deserializer.readUtf8String();
+        this.nicknameOpponent = deserializer.readUtf8String();
+        this.victory = deserializer.readBoolean();
+    }
+}
+exports.FContestBattle = FContestBattle;
+class FContestStats {
+    constructor(init) {
+        this.__type = 'FContestStats';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeFloat(this.hpPercentTotal);
+        serializer.writeInt32(this.lostAsOpponentCount);
+        serializer.writeInt32(this.lostCount);
+        serializer.writeUtf8String(this.nickname);
+        serializer.writeInt32(this.winAsOpponentCount);
+        serializer.writeInt32(this.winCount);
+    }
+    deserialize(deserializer) {
+        this.hpPercentTotal = deserializer.readFloat();
+        this.lostAsOpponentCount = deserializer.readInt32();
+        this.lostCount = deserializer.readInt32();
+        this.nickname = deserializer.readUtf8String();
+        this.winAsOpponentCount = deserializer.readInt32();
+        this.winCount = deserializer.readInt32();
+    }
+}
+exports.FContestStats = FContestStats;
+class FContestUpdate {
+    constructor(init) {
+        this.__type = 'FContestUpdate';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeStaticList(this.battles, true, 'FContestBattle');
+        serializer.writeBoolean(this.canStart);
+        serializer.writeUtf8String(this.contestId);
+        serializer.writeUtf8String(this.ownerNickname);
+        serializer.writeStaticList(this.participants, true, 'string');
+        serializer.writeDynamicObject(this.pendingBattle, 'string');
+        serializer.writeBoolean(this.showContestScreen);
+        serializer.writeByte(this.stage);
+        serializer.writeStaticList(this.stats, true, 'FContestStats');
+        serializer.writeInt32(this.totalBattlesCount);
+        serializer.writeInt32(this.userBattlesCount);
+    }
+    deserialize(deserializer) {
+        this.battles = deserializer.readStaticList('FContestBattle', true);
+        this.canStart = deserializer.readBoolean();
+        this.contestId = deserializer.readUtf8String();
+        this.ownerNickname = deserializer.readUtf8String();
+        this.participants = deserializer.readStaticList('string', true);
+        this.pendingBattle = deserializer.readDynamicObject();
+        this.showContestScreen = deserializer.readBoolean();
+        this.stage = deserializer.readByte();
+        this.stats = deserializer.readStaticList('FContestStats', true);
+        this.totalBattlesCount = deserializer.readInt32();
+        this.userBattlesCount = deserializer.readInt32();
+    }
+}
+exports.FContestUpdate = FContestUpdate;
 class FCreadex {
     constructor(init) {
         this.__type = 'FCreadex';
@@ -2572,6 +2651,7 @@ class FWizardBattleResult {
     serialize(serializer) {
         serializer.writeStaticList(this.attackerHps, true, 'float');
         serializer.writeStaticList(this.attackerTypes, true, 'CreatureType');
+        serializer.writeStaticObject(this.avaUpdate, 'FAvaUpdate');
         serializer.writeStaticList(this.candies, true, 'CreatureType');
         serializer.writeStaticObject(this.levelUpLoot, 'FLoot');
         serializer.writeStaticObject(this.loot, 'FLoot');
@@ -2582,6 +2662,7 @@ class FWizardBattleResult {
     deserialize(deserializer) {
         this.attackerHps = deserializer.readStaticList('float', true);
         this.attackerTypes = deserializer.readStaticList('CreatureType', true);
+        this.avaUpdate = deserializer.readStaticObject('FAvaUpdate');
         this.candies = deserializer.readStaticList('CreatureType', true);
         this.levelUpLoot = deserializer.readStaticObject('FLoot');
         this.loot = deserializer.readStaticObject('FLoot');

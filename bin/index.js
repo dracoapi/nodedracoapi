@@ -33,8 +33,8 @@ class Client {
     constructor(options = {}) {
         this.checkProtocol = true;
         this.eventsCounter = {};
-        this.protocolVersion = options.protocolVersion || '825714842';
-        this.clientVersion = options.clientVersion || '10927';
+        this.protocolVersion = options.protocolVersion || '3002248845';
+        this.clientVersion = options.clientVersion || '11141';
         if (options.hasOwnProperty('checkProtocol'))
             this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter'))
@@ -156,7 +156,7 @@ class Client {
             try {
                 more = deserializer.deserialize();
             }
-            catch (e) { }
+            catch (e) { /* nothing */ }
             throw new DracoError('Error from server: ' + response.statusCode + ' - ' + response.statusMessage, more);
         }
         const data = deserializer.deserialize();

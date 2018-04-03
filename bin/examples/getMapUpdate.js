@@ -6,7 +6,9 @@ async function main() {
     console.log('Starting...');
     console.log('Getting user info from disk...');
     const user = JSON.parse(fs.readFileSync('users.json', 'utf8'))[0];
-    const draco = new DracoNode.Client({});
+    const draco = new DracoNode.Client({
+    // proxy: 'http://localhost:8888',
+    });
     console.log('Ping...');
     await draco.ping(true);
     console.log('Boot...');
