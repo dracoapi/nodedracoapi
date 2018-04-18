@@ -270,6 +270,16 @@ export declare class FBaseLootItem {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
+export declare class FBaseRatingRecord {
+    __type: string;
+    level: number;
+    nickName: string;
+    place: number;
+    score: number;
+    constructor(init?: Partial<FBaseRatingRecord>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
 export declare class FBuddy {
     __type: string;
     alias: string;
@@ -448,23 +458,23 @@ export declare class FClientRequest {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
-export declare class FCollectorRatingRecord {
+export declare class FCollectorRating {
     __type: string;
-    level: number;
-    nickName: string;
-    openCreaturesCount: number;
-    place: number;
-    score: number;
-    topQualityCreaturesCount: number;
-    topQualityPoweredupCreaturesCount: number;
-    constructor(init?: Partial<FCollectorRatingRecord>);
+    topRecords: FCollectorRatingListRecord[];
+    constructor(init?: Partial<FCollectorRating>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
-export declare class FCollectorRatingTop {
+export declare class FCollectorRatingListRecord {
     __type: string;
-    topRecords: FCollectorRatingRecord[];
-    constructor(init?: Partial<FCollectorRatingTop>);
+    level: number;
+    nickName: string;
+    place: number;
+    score: number;
+    openCreaturesCount: number;
+    topQualityCreaturesCount: number;
+    topQualityPoweredupCreaturesCount: number;
+    constructor(init?: Partial<FCollectorRatingListRecord>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
@@ -586,6 +596,7 @@ export declare class FContestUpdate {
     battles: FContestBattle[];
     canStart: boolean;
     contestId: string;
+    hideContestScreen: boolean;
     ownerNickname: string;
     participants: string[];
     pendingBattle: string;
@@ -619,6 +630,7 @@ export declare class FCreadexEntry {
     caughtQuantity: number;
     chain: FCreadexChain[];
     element: enums.ElementType;
+    hasGolden: boolean;
     name: enums.CreatureType;
     seen: boolean;
     tier: number;
@@ -1208,7 +1220,7 @@ export declare class FTransferMonsterToCandiesResponse {
 export declare class FUpdate {
     __type: string;
     items: FBaseItemUpdate[];
-    speed: number;
+    serverTime: long;
     constructor(init?: Partial<FUpdate>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
@@ -1231,6 +1243,7 @@ export declare class FUpdateRequest {
     tilesCache: Map<FTile, long>;
     updateBuilding: FBuildingRequest;
     updateBuildingIfModifiedSince: long;
+    updateBuildingType: enums.BuildingType;
     constructor(init?: Partial<FUpdateRequest>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
@@ -1365,19 +1378,23 @@ export declare class FWizardBattleInfo {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
-export declare class FWizardBattleRatingRecord {
+export declare class FWizardBattleRating {
     __type: string;
-    level: number;
-    nickName: string;
-    score: number;
-    constructor(init?: Partial<FWizardBattleRatingRecord>);
+    topRecords: FWizardBattleRatingListRecord[];
+    constructor(init?: Partial<FWizardBattleRating>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
-export declare class FWizardBattleRatingTop {
+export declare class FWizardBattleRatingListRecord {
     __type: string;
-    topRecords: FWizardBattleRatingRecord[];
-    constructor(init?: Partial<FWizardBattleRatingTop>);
+    level: number;
+    nickName: string;
+    place: number;
+    score: number;
+    battleCount: number;
+    savedHealthRate: number;
+    winCount: number;
+    constructor(init?: Partial<FWizardBattleRatingListRecord>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }

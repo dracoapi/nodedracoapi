@@ -514,6 +514,25 @@ class FBaseLootItem {
     }
 }
 exports.FBaseLootItem = FBaseLootItem;
+class FBaseRatingRecord {
+    constructor(init) {
+        this.__type = 'FBaseRatingRecord';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeInt32(this.level);
+        serializer.writeUtf8String(this.nickName);
+        serializer.writeInt32(this.place);
+        serializer.writeFloat(this.score);
+    }
+    deserialize(deserializer) {
+        this.level = deserializer.readInt32();
+        this.nickName = deserializer.readUtf8String();
+        this.place = deserializer.readInt32();
+        this.score = deserializer.readFloat();
+    }
+}
+exports.FBaseRatingRecord = FBaseRatingRecord;
 class FBuddy {
     constructor(init) {
         this.__type = 'FBuddy';
@@ -857,44 +876,44 @@ class FClientRequest {
     }
 }
 exports.FClientRequest = FClientRequest;
-class FCollectorRatingRecord {
+class FCollectorRating {
     constructor(init) {
-        this.__type = 'FCollectorRatingRecord';
+        this.__type = 'FCollectorRating';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeStaticList(this.topRecords, true, 'FCollectorRatingListRecord');
+    }
+    deserialize(deserializer) {
+        this.topRecords = deserializer.readStaticList('FCollectorRatingListRecord', true);
+    }
+}
+exports.FCollectorRating = FCollectorRating;
+class FCollectorRatingListRecord {
+    constructor(init) {
+        this.__type = 'FCollectorRatingListRecord';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeInt32(this.level);
         serializer.writeUtf8String(this.nickName);
-        serializer.writeInt32(this.openCreaturesCount);
         serializer.writeInt32(this.place);
         serializer.writeFloat(this.score);
+        serializer.writeInt32(this.openCreaturesCount);
         serializer.writeInt32(this.topQualityCreaturesCount);
         serializer.writeInt32(this.topQualityPoweredupCreaturesCount);
     }
     deserialize(deserializer) {
         this.level = deserializer.readInt32();
         this.nickName = deserializer.readUtf8String();
-        this.openCreaturesCount = deserializer.readInt32();
         this.place = deserializer.readInt32();
         this.score = deserializer.readFloat();
+        this.openCreaturesCount = deserializer.readInt32();
         this.topQualityCreaturesCount = deserializer.readInt32();
         this.topQualityPoweredupCreaturesCount = deserializer.readInt32();
     }
 }
-exports.FCollectorRatingRecord = FCollectorRatingRecord;
-class FCollectorRatingTop {
-    constructor(init) {
-        this.__type = 'FCollectorRatingTop';
-        Object.assign(this, init);
-    }
-    serialize(serializer) {
-        serializer.writeStaticList(this.topRecords, true, 'FCollectorRatingRecord');
-    }
-    deserialize(deserializer) {
-        this.topRecords = deserializer.readStaticList('FCollectorRatingRecord', true);
-    }
-}
-exports.FCollectorRatingTop = FCollectorRatingTop;
+exports.FCollectorRatingListRecord = FCollectorRatingListRecord;
 class FConfig {
     constructor(init) {
         this.__type = 'FConfig';
@@ -1127,6 +1146,7 @@ class FContestUpdate {
         serializer.writeStaticList(this.battles, true, 'FContestBattle');
         serializer.writeBoolean(this.canStart);
         serializer.writeUtf8String(this.contestId);
+        serializer.writeBoolean(this.hideContestScreen);
         serializer.writeUtf8String(this.ownerNickname);
         serializer.writeStaticList(this.participants, true, 'string');
         serializer.writeDynamicObject(this.pendingBattle, 'string');
@@ -1140,6 +1160,7 @@ class FContestUpdate {
         this.battles = deserializer.readStaticList('FContestBattle', true);
         this.canStart = deserializer.readBoolean();
         this.contestId = deserializer.readUtf8String();
+        this.hideContestScreen = deserializer.readBoolean();
         this.ownerNickname = deserializer.readUtf8String();
         this.participants = deserializer.readStaticList('string', true);
         this.pendingBattle = deserializer.readDynamicObject();
@@ -1190,6 +1211,7 @@ class FCreadexEntry {
         serializer.writeInt32(this.caughtQuantity);
         serializer.writeDynamicList(this.chain, true, 'FCreadexChain');
         serializer.writeByte(this.element);
+        serializer.writeBoolean(this.hasGolden);
         serializer.writeByte(this.name);
         serializer.writeBoolean(this.seen);
         serializer.writeInt32(this.tier);
@@ -1198,6 +1220,7 @@ class FCreadexEntry {
         this.caughtQuantity = deserializer.readInt32();
         this.chain = deserializer.readDynamicList('FCreadexChain', true);
         this.element = deserializer.readByte();
+        this.hasGolden = deserializer.readBoolean();
         this.name = deserializer.readByte();
         this.seen = deserializer.readBoolean();
         this.tier = deserializer.readInt32();
@@ -2312,11 +2335,11 @@ class FUpdate {
     }
     serialize(serializer) {
         serializer.writeStaticList(this.items, false, 'FBaseItemUpdate');
-        serializer.writeDynamicObject(this.speed, 'float');
+        serializer.writeInt64(this.serverTime);
     }
     deserialize(deserializer) {
         this.items = deserializer.readStaticList('FBaseItemUpdate', false);
-        this.speed = deserializer.readDynamicObject();
+        this.serverTime = deserializer.readInt64();
     }
 }
 exports.FUpdate = FUpdate;
@@ -2349,6 +2372,7 @@ class FUpdateRequest {
         serializer.writeStaticMap(this.tilesCache, true, true, 'FTile', 'long');
         serializer.writeDynamicObject(this.updateBuilding, 'FBuildingRequest');
         serializer.writeInt64(this.updateBuildingIfModifiedSince);
+        serializer.writeDynamicObject(this.updateBuildingType, 'enums.BuildingType');
     }
     deserialize(deserializer) {
         this.blackScreen = deserializer.readBoolean();
@@ -2359,6 +2383,7 @@ class FUpdateRequest {
         this.tilesCache = deserializer.readStaticMap('FTile', 'long', true, true);
         this.updateBuilding = deserializer.readDynamicObject();
         this.updateBuildingIfModifiedSince = deserializer.readInt64();
+        this.updateBuildingType = deserializer.readDynamicObject();
     }
 }
 exports.FUpdateRequest = FUpdateRequest;
@@ -2613,36 +2638,44 @@ class FWizardBattleInfo {
     }
 }
 exports.FWizardBattleInfo = FWizardBattleInfo;
-class FWizardBattleRatingRecord {
+class FWizardBattleRating {
     constructor(init) {
-        this.__type = 'FWizardBattleRatingRecord';
+        this.__type = 'FWizardBattleRating';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeStaticList(this.topRecords, true, 'FWizardBattleRatingListRecord');
+    }
+    deserialize(deserializer) {
+        this.topRecords = deserializer.readStaticList('FWizardBattleRatingListRecord', true);
+    }
+}
+exports.FWizardBattleRating = FWizardBattleRating;
+class FWizardBattleRatingListRecord {
+    constructor(init) {
+        this.__type = 'FWizardBattleRatingListRecord';
         Object.assign(this, init);
     }
     serialize(serializer) {
         serializer.writeInt32(this.level);
         serializer.writeUtf8String(this.nickName);
+        serializer.writeInt32(this.place);
         serializer.writeFloat(this.score);
+        serializer.writeInt32(this.battleCount);
+        serializer.writeFloat(this.savedHealthRate);
+        serializer.writeInt32(this.winCount);
     }
     deserialize(deserializer) {
         this.level = deserializer.readInt32();
         this.nickName = deserializer.readUtf8String();
+        this.place = deserializer.readInt32();
         this.score = deserializer.readFloat();
+        this.battleCount = deserializer.readInt32();
+        this.savedHealthRate = deserializer.readFloat();
+        this.winCount = deserializer.readInt32();
     }
 }
-exports.FWizardBattleRatingRecord = FWizardBattleRatingRecord;
-class FWizardBattleRatingTop {
-    constructor(init) {
-        this.__type = 'FWizardBattleRatingTop';
-        Object.assign(this, init);
-    }
-    serialize(serializer) {
-        serializer.writeStaticList(this.topRecords, true, 'FWizardBattleRatingRecord');
-    }
-    deserialize(deserializer) {
-        this.topRecords = deserializer.readStaticList('FWizardBattleRatingRecord', true);
-    }
-}
-exports.FWizardBattleRatingTop = FWizardBattleRatingTop;
+exports.FWizardBattleRatingListRecord = FWizardBattleRatingListRecord;
 class FWizardBattleResult {
     constructor(init) {
         this.__type = 'FWizardBattleResult';
