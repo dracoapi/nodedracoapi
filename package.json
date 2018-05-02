@@ -30,6 +30,6 @@
     "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
-    "@types/node": "^9.6.5"
+    "@types/node": "^10.0.3"
   }
 }
