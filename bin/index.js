@@ -33,8 +33,8 @@ class Client {
     constructor(options = {}) {
         this.checkProtocol = true;
         this.eventsCounter = {};
-        this.protocolVersion = options.protocolVersion || '1306861932';
-        this.clientVersion = options.clientVersion || '11331';
+        this.protocolVersion = options.protocolVersion || '389771870';
+        this.clientVersion = options.clientVersion || '11808';
         if (options.hasOwnProperty('checkProtocol'))
             this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter'))
@@ -299,6 +299,9 @@ class Client {
         this.user.id = response.info.userId;
         // await this.event('ServerAuthSuccess', this.user.id);
         return response;
+    }
+    async getNews(lastSeen) {
+        return await this.call('AuthService', 'getNews', [this.clientInfo.language, lastSeen]);
     }
     generateAvatar(options = {}) {
         return (options.gender || 0) | // 0 or 1

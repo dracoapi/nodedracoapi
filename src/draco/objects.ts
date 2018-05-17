@@ -1156,6 +1156,7 @@ export class FClientInfo {
 
 export class FClientLogRecord {
     __type = 'FClientLogRecord';
+    clientStartTime: string; // string
     clientTime: number; // float
     logName: string; // string
     message: string; // string
@@ -1165,11 +1166,13 @@ export class FClientLogRecord {
     }
 
     serialize(serializer: Serializer) {
+        serializer.writeUtf8String(this.clientStartTime);
         serializer.writeFloat(this.clientTime);
         serializer.writeUtf8String(this.logName);
         serializer.writeUtf8String(this.message);
     }
     deserialize(deserializer: Deserializer) {
+        this.clientStartTime = deserializer.readUtf8String();
         this.clientTime = deserializer.readFloat();
         this.logName = deserializer.readUtf8String();
         this.message = deserializer.readUtf8String();
@@ -1268,13 +1271,16 @@ export class FConfig {
     avatarMoveRunSpeed: number; // int
     ballCurve: number; // float
     bottomSwipeScreenPart: number; // float
+    buildingsVisibilityDistanceLevels: number[]; // float[]
     buildingsVisionRadius: number; // int
     cameraFieldOfView: number; // float
     catchPopup: Map<number, string>; // Map<float, string>
     clientTexts: Map<string, string>; // Map<string, string>
     collectorRatingButtonVisibleToAll: boolean; // bool
     congratulationLayerLevels: number[]; // int[]
+    contestAvailableFromLevel: number; // int
     contestVisibleToAll: boolean; // bool
+    contestVisionRadius: number; // float
     creaturesDelayVisibility: number; // int
     dailyQuestAvailableFromLevel: number; // int
     defaultAugmentedRealitySwitchState: boolean; // bool
@@ -1298,6 +1304,7 @@ export class FConfig {
     goOrbitOffsetMax: number; // float
     goOrbitOffsetMin: number; // float
     highSpeedDurationRequiredForWarning: number; // float
+    maintenanceEnabled: boolean; // bool
     mapServer: string; // string
     mapVersion: number; // int
     maxAngularVelocity: number; // int
@@ -1306,6 +1313,8 @@ export class FConfig {
     maxSpeedToPlay: number; // int
     mentorChooseEnabled: boolean; // bool
     mentorshipEnabled: boolean; // bool
+    minFPS: number; // int
+    minFPSMeasureDurationSec: number; // float
     monsterLevelPerUserLevel: number; // float
     monsterMaxLevel: number; // int
     newsCheckIntervalSeconds: number; // float
@@ -1331,6 +1340,7 @@ export class FConfig {
     updateRequestPeriodSeconds: number; // int
     weeklyQuestAvailableFromLevel: number; // int
     wizardAvailableFromLevel: number; // int
+    wizardRatingButtonVisibleToAll: boolean; // bool
     worldScreenBuffDisplayMaxDurationTimeSeconds: number; // float
     xVelocityFactor: number; // float
     xVelocityFactorSpin: number; // float
@@ -1359,13 +1369,16 @@ export class FConfig {
         serializer.writeInt32(this.avatarMoveRunSpeed);
         serializer.writeFloat(this.ballCurve);
         serializer.writeFloat(this.bottomSwipeScreenPart);
+        serializer.writeStaticArray(this.buildingsVisibilityDistanceLevels, true, 'float');
         serializer.writeInt32(this.buildingsVisionRadius);
         serializer.writeFloat(this.cameraFieldOfView);
         serializer.writeStaticMap(this.catchPopup, true, true, 'float', 'string');
         serializer.writeStaticMap(this.clientTexts, true, true, 'string', 'string');
         serializer.writeBoolean(this.collectorRatingButtonVisibleToAll);
         serializer.writeStaticArray(this.congratulationLayerLevels, true, 'int');
+        serializer.writeInt32(this.contestAvailableFromLevel);
         serializer.writeBoolean(this.contestVisibleToAll);
+        serializer.writeFloat(this.contestVisionRadius);
         serializer.writeInt32(this.creaturesDelayVisibility);
         serializer.writeInt32(this.dailyQuestAvailableFromLevel);
         serializer.writeBoolean(this.defaultAugmentedRealitySwitchState);
@@ -1389,6 +1402,7 @@ export class FConfig {
         serializer.writeFloat(this.goOrbitOffsetMax);
         serializer.writeFloat(this.goOrbitOffsetMin);
         serializer.writeFloat(this.highSpeedDurationRequiredForWarning);
+        serializer.writeBoolean(this.maintenanceEnabled);
         serializer.writeUtf8String(this.mapServer);
         serializer.writeInt32(this.mapVersion);
         serializer.writeInt32(this.maxAngularVelocity);
@@ -1397,6 +1411,8 @@ export class FConfig {
         serializer.writeInt32(this.maxSpeedToPlay);
         serializer.writeBoolean(this.mentorChooseEnabled);
         serializer.writeBoolean(this.mentorshipEnabled);
+        serializer.writeInt32(this.minFPS);
+        serializer.writeFloat(this.minFPSMeasureDurationSec);
         serializer.writeFloat(this.monsterLevelPerUserLevel);
         serializer.writeInt32(this.monsterMaxLevel);
         serializer.writeFloat(this.newsCheckIntervalSeconds);
@@ -1422,6 +1438,7 @@ export class FConfig {
         serializer.writeInt32(this.updateRequestPeriodSeconds);
         serializer.writeInt32(this.weeklyQuestAvailableFromLevel);
         serializer.writeInt32(this.wizardAvailableFromLevel);
+        serializer.writeBoolean(this.wizardRatingButtonVisibleToAll);
         serializer.writeFloat(this.worldScreenBuffDisplayMaxDurationTimeSeconds);
         serializer.writeFloat(this.xVelocityFactor);
         serializer.writeFloat(this.xVelocityFactorSpin);
@@ -1446,13 +1463,16 @@ export class FConfig {
         this.avatarMoveRunSpeed = deserializer.readInt32();
         this.ballCurve = deserializer.readFloat();
         this.bottomSwipeScreenPart = deserializer.readFloat();
+        this.buildingsVisibilityDistanceLevels = deserializer.readStaticArray('float', true);
         this.buildingsVisionRadius = deserializer.readInt32();
         this.cameraFieldOfView = deserializer.readFloat();
         this.catchPopup = deserializer.readStaticMap('float', 'string', true, true);
         this.clientTexts = deserializer.readStaticMap('string', 'string', true, true);
         this.collectorRatingButtonVisibleToAll = deserializer.readBoolean();
         this.congratulationLayerLevels = deserializer.readStaticArray('int', true);
+        this.contestAvailableFromLevel = deserializer.readInt32();
         this.contestVisibleToAll = deserializer.readBoolean();
+        this.contestVisionRadius = deserializer.readFloat();
         this.creaturesDelayVisibility = deserializer.readInt32();
         this.dailyQuestAvailableFromLevel = deserializer.readInt32();
         this.defaultAugmentedRealitySwitchState = deserializer.readBoolean();
@@ -1476,6 +1496,7 @@ export class FConfig {
         this.goOrbitOffsetMax = deserializer.readFloat();
         this.goOrbitOffsetMin = deserializer.readFloat();
         this.highSpeedDurationRequiredForWarning = deserializer.readFloat();
+        this.maintenanceEnabled = deserializer.readBoolean();
         this.mapServer = deserializer.readUtf8String();
         this.mapVersion = deserializer.readInt32();
         this.maxAngularVelocity = deserializer.readInt32();
@@ -1484,6 +1505,8 @@ export class FConfig {
         this.maxSpeedToPlay = deserializer.readInt32();
         this.mentorChooseEnabled = deserializer.readBoolean();
         this.mentorshipEnabled = deserializer.readBoolean();
+        this.minFPS = deserializer.readInt32();
+        this.minFPSMeasureDurationSec = deserializer.readFloat();
         this.monsterLevelPerUserLevel = deserializer.readFloat();
         this.monsterMaxLevel = deserializer.readInt32();
         this.newsCheckIntervalSeconds = deserializer.readFloat();
@@ -1509,6 +1532,7 @@ export class FConfig {
         this.updateRequestPeriodSeconds = deserializer.readInt32();
         this.weeklyQuestAvailableFromLevel = deserializer.readInt32();
         this.wizardAvailableFromLevel = deserializer.readInt32();
+        this.wizardRatingButtonVisibleToAll = deserializer.readBoolean();
         this.worldScreenBuffDisplayMaxDurationTimeSeconds = deserializer.readFloat();
         this.xVelocityFactor = deserializer.readFloat();
         this.xVelocityFactorSpin = deserializer.readFloat();
@@ -1579,6 +1603,7 @@ export class FContestUpdate {
     contestId: string; // string
     hideContestScreen: boolean; // bool
     ownerNickname: string; // string
+    participantTtl: number; // float
     participants: string[]; // string[]
     pendingBattle: string; // string
     showContestScreen: boolean; // bool
@@ -1597,6 +1622,7 @@ export class FContestUpdate {
         serializer.writeUtf8String(this.contestId);
         serializer.writeBoolean(this.hideContestScreen);
         serializer.writeUtf8String(this.ownerNickname);
+        serializer.writeFloat(this.participantTtl);
         serializer.writeStaticList(this.participants, true, 'string');
         serializer.writeDynamicObject(this.pendingBattle, 'string');
         serializer.writeBoolean(this.showContestScreen);
@@ -1611,6 +1637,7 @@ export class FContestUpdate {
         this.contestId = deserializer.readUtf8String();
         this.hideContestScreen = deserializer.readBoolean();
         this.ownerNickname = deserializer.readUtf8String();
+        this.participantTtl = deserializer.readFloat();
         this.participants = deserializer.readStaticList('string', true);
         this.pendingBattle = deserializer.readDynamicObject();
         this.showContestScreen = deserializer.readBoolean();
@@ -1992,6 +2019,8 @@ export class FFightCreature {
     mainSkillTtl: number; // float
     maxEnergy: number; // float
     name: enums.CreatureType; // CreatureType
+    resistCoef: number; // float
+    resistFor: enums.ElementType; // ElementType
     rightElementAttackCoef: number; // float
     scale: number; // float
     specAttackCoef: number; // float
@@ -2038,6 +2067,8 @@ export class FFightCreature {
         serializer.writeFloat(this.mainSkillTtl);
         serializer.writeFloat(this.maxEnergy);
         serializer.writeByte(this.name);
+        serializer.writeFloat(this.resistCoef);
+        serializer.writeByte(this.resistFor);
         serializer.writeFloat(this.rightElementAttackCoef);
         serializer.writeFloat(this.scale);
         serializer.writeFloat(this.specAttackCoef);
@@ -2080,6 +2111,8 @@ export class FFightCreature {
         this.mainSkillTtl = deserializer.readFloat();
         this.maxEnergy = deserializer.readFloat();
         this.name = deserializer.readByte();
+        this.resistCoef = deserializer.readFloat();
+        this.resistFor = deserializer.readByte();
         this.rightElementAttackCoef = deserializer.readFloat();
         this.scale = deserializer.readFloat();
         this.specAttackCoef = deserializer.readFloat();
@@ -2912,6 +2945,50 @@ export class FRegistrationInfo {
     }
 }
 
+export class FResistModifyDetails {
+    __type = 'FResistModifyDetails';
+    matchingCreatures: number; // int
+    resultResistMax: number; // float
+    resultResistMin: number; // float
+
+    public constructor(init?: Partial<FResistModifyDetails>) {
+        Object.assign(this, init);
+    }
+
+    serialize(serializer: Serializer) {
+        serializer.writeInt32(this.matchingCreatures);
+        serializer.writeFloat(this.resultResistMax);
+        serializer.writeFloat(this.resultResistMin);
+    }
+    deserialize(deserializer: Deserializer) {
+        this.matchingCreatures = deserializer.readInt32();
+        this.resultResistMax = deserializer.readFloat();
+        this.resultResistMin = deserializer.readFloat();
+    }
+}
+
+export class FResistModifyResult {
+    __type = 'FResistModifyResult';
+    creature: FUserCreature; // FUserCreature
+    modifyDetails: FResistModifyDetails; // FResistModifyDetails
+    newResistValue: boolean; // bool
+
+    public constructor(init?: Partial<FResistModifyResult>) {
+        Object.assign(this, init);
+    }
+
+    serialize(serializer: Serializer) {
+        serializer.writeStaticObject(this.creature, 'FUserCreature');
+        serializer.writeStaticObject(this.modifyDetails, 'FResistModifyDetails');
+        serializer.writeBoolean(this.newResistValue);
+    }
+    deserialize(deserializer: Deserializer) {
+        this.creature = deserializer.readStaticObject('FUserCreature') as FUserCreature;
+        this.modifyDetails = deserializer.readStaticObject('FResistModifyDetails') as FResistModifyDetails;
+        this.newResistValue = deserializer.readBoolean();
+    }
+}
+
 export class FScoutRequest {
     __type = 'FScoutRequest';
     clientRequest: FClientRequest; // FClientRequest
@@ -3188,6 +3265,7 @@ export class FUpdateRequest {
     blackScreen: boolean; // bool
     clientPlatform: enums.ClientPlatform; // ClientPlatform
     clientRequest: FClientRequest; // FClientRequest
+    clientScreen: enums.ClientScreen; // ClientScreen
     configCacheHash: Buffer; // Buffer
     language: string; // string
     tilesCache: Map<FTile, long>; // Map<FTile, long>
@@ -3203,6 +3281,7 @@ export class FUpdateRequest {
         serializer.writeBoolean(this.blackScreen);
         serializer.writeByte(this.clientPlatform);
         serializer.writeStaticObject(this.clientRequest, 'FClientRequest');
+        serializer.writeDynamicObject(this.clientScreen, 'enums.ClientScreen');
         serializer.writeBuffer(this.configCacheHash);
         serializer.writeDynamicObject(this.language, 'string');
         serializer.writeStaticMap(this.tilesCache, true, true, 'FTile', 'long');
@@ -3214,6 +3293,7 @@ export class FUpdateRequest {
         this.blackScreen = deserializer.readBoolean();
         this.clientPlatform = deserializer.readByte();
         this.clientRequest = deserializer.readStaticObject('FClientRequest') as FClientRequest;
+        this.clientScreen = deserializer.readDynamicObject();
         this.configCacheHash = deserializer.readBuffer();
         this.language = deserializer.readDynamicObject();
         this.tilesCache = deserializer.readStaticMap('FTile', 'long', true, true);
@@ -3238,6 +3318,7 @@ export class FUserCreature {
     elementType: enums.ElementType; // ElementType
     gotchaTime: long; // long
     group: number; // int
+    hasMaxResist: boolean; // bool
     hp: number; // float
     id: string; // string
     improvable: boolean; // bool
@@ -3253,7 +3334,10 @@ export class FUserCreature {
     name: enums.CreatureType; // CreatureType
     permanent: boolean; // bool
     possibleEvolutions: Map<enums.CreatureType, number>; // Map<enums.CreatureType, int>
+    resist: number; // float
+    resistFor: enums.ElementType; // ElementType
     staminaValue: number; // int
+    tier: number; // int
     totalHp: number; // float
 
     public constructor(init?: Partial<FUserCreature>) {
@@ -3274,6 +3358,7 @@ export class FUserCreature {
         serializer.writeByte(this.elementType);
         serializer.writeInt64(this.gotchaTime);
         serializer.writeInt32(this.group);
+        serializer.writeBoolean(this.hasMaxResist);
         serializer.writeFloat(this.hp);
         serializer.writeUtf8String(this.id);
         serializer.writeBoolean(this.improvable);
@@ -3289,7 +3374,10 @@ export class FUserCreature {
         serializer.writeByte(this.name);
         serializer.writeBoolean(this.permanent);
         serializer.writeStaticMap(this.possibleEvolutions, true, true, 'CreatureType', 'int');
+        serializer.writeFloat(this.resist);
+        serializer.writeByte(this.resistFor);
         serializer.writeInt32(this.staminaValue);
+        serializer.writeInt32(this.tier);
         serializer.writeFloat(this.totalHp);
     }
     deserialize(deserializer: Deserializer) {
@@ -3306,6 +3394,7 @@ export class FUserCreature {
         this.elementType = deserializer.readByte();
         this.gotchaTime = deserializer.readInt64();
         this.group = deserializer.readInt32();
+        this.hasMaxResist = deserializer.readBoolean();
         this.hp = deserializer.readFloat();
         this.id = deserializer.readUtf8String();
         this.improvable = deserializer.readBoolean();
@@ -3321,7 +3410,10 @@ export class FUserCreature {
         this.name = deserializer.readByte();
         this.permanent = deserializer.readBoolean();
         this.possibleEvolutions = deserializer.readStaticMap('CreatureType', 'int', true, true);
+        this.resist = deserializer.readFloat();
+        this.resistFor = deserializer.readByte();
         this.staminaValue = deserializer.readInt32();
+        this.tier = deserializer.readInt32();
         this.totalHp = deserializer.readFloat();
     }
 }

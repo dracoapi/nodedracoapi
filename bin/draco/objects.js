@@ -848,11 +848,13 @@ class FClientLogRecord {
         Object.assign(this, init);
     }
     serialize(serializer) {
+        serializer.writeUtf8String(this.clientStartTime);
         serializer.writeFloat(this.clientTime);
         serializer.writeUtf8String(this.logName);
         serializer.writeUtf8String(this.message);
     }
     deserialize(deserializer) {
+        this.clientStartTime = deserializer.readUtf8String();
         this.clientTime = deserializer.readFloat();
         this.logName = deserializer.readUtf8String();
         this.message = deserializer.readUtf8String();
@@ -938,13 +940,16 @@ class FConfig {
         serializer.writeInt32(this.avatarMoveRunSpeed);
         serializer.writeFloat(this.ballCurve);
         serializer.writeFloat(this.bottomSwipeScreenPart);
+        serializer.writeStaticArray(this.buildingsVisibilityDistanceLevels, true, 'float');
         serializer.writeInt32(this.buildingsVisionRadius);
         serializer.writeFloat(this.cameraFieldOfView);
         serializer.writeStaticMap(this.catchPopup, true, true, 'float', 'string');
         serializer.writeStaticMap(this.clientTexts, true, true, 'string', 'string');
         serializer.writeBoolean(this.collectorRatingButtonVisibleToAll);
         serializer.writeStaticArray(this.congratulationLayerLevels, true, 'int');
+        serializer.writeInt32(this.contestAvailableFromLevel);
         serializer.writeBoolean(this.contestVisibleToAll);
+        serializer.writeFloat(this.contestVisionRadius);
         serializer.writeInt32(this.creaturesDelayVisibility);
         serializer.writeInt32(this.dailyQuestAvailableFromLevel);
         serializer.writeBoolean(this.defaultAugmentedRealitySwitchState);
@@ -968,6 +973,7 @@ class FConfig {
         serializer.writeFloat(this.goOrbitOffsetMax);
         serializer.writeFloat(this.goOrbitOffsetMin);
         serializer.writeFloat(this.highSpeedDurationRequiredForWarning);
+        serializer.writeBoolean(this.maintenanceEnabled);
         serializer.writeUtf8String(this.mapServer);
         serializer.writeInt32(this.mapVersion);
         serializer.writeInt32(this.maxAngularVelocity);
@@ -976,6 +982,8 @@ class FConfig {
         serializer.writeInt32(this.maxSpeedToPlay);
         serializer.writeBoolean(this.mentorChooseEnabled);
         serializer.writeBoolean(this.mentorshipEnabled);
+        serializer.writeInt32(this.minFPS);
+        serializer.writeFloat(this.minFPSMeasureDurationSec);
         serializer.writeFloat(this.monsterLevelPerUserLevel);
         serializer.writeInt32(this.monsterMaxLevel);
         serializer.writeFloat(this.newsCheckIntervalSeconds);
@@ -1001,6 +1009,7 @@ class FConfig {
         serializer.writeInt32(this.updateRequestPeriodSeconds);
         serializer.writeInt32(this.weeklyQuestAvailableFromLevel);
         serializer.writeInt32(this.wizardAvailableFromLevel);
+        serializer.writeBoolean(this.wizardRatingButtonVisibleToAll);
         serializer.writeFloat(this.worldScreenBuffDisplayMaxDurationTimeSeconds);
         serializer.writeFloat(this.xVelocityFactor);
         serializer.writeFloat(this.xVelocityFactorSpin);
@@ -1025,13 +1034,16 @@ class FConfig {
         this.avatarMoveRunSpeed = deserializer.readInt32();
         this.ballCurve = deserializer.readFloat();
         this.bottomSwipeScreenPart = deserializer.readFloat();
+        this.buildingsVisibilityDistanceLevels = deserializer.readStaticArray('float', true);
         this.buildingsVisionRadius = deserializer.readInt32();
         this.cameraFieldOfView = deserializer.readFloat();
         this.catchPopup = deserializer.readStaticMap('float', 'string', true, true);
         this.clientTexts = deserializer.readStaticMap('string', 'string', true, true);
         this.collectorRatingButtonVisibleToAll = deserializer.readBoolean();
         this.congratulationLayerLevels = deserializer.readStaticArray('int', true);
+        this.contestAvailableFromLevel = deserializer.readInt32();
         this.contestVisibleToAll = deserializer.readBoolean();
+        this.contestVisionRadius = deserializer.readFloat();
         this.creaturesDelayVisibility = deserializer.readInt32();
         this.dailyQuestAvailableFromLevel = deserializer.readInt32();
         this.defaultAugmentedRealitySwitchState = deserializer.readBoolean();
@@ -1055,6 +1067,7 @@ class FConfig {
         this.goOrbitOffsetMax = deserializer.readFloat();
         this.goOrbitOffsetMin = deserializer.readFloat();
         this.highSpeedDurationRequiredForWarning = deserializer.readFloat();
+        this.maintenanceEnabled = deserializer.readBoolean();
         this.mapServer = deserializer.readUtf8String();
         this.mapVersion = deserializer.readInt32();
         this.maxAngularVelocity = deserializer.readInt32();
@@ -1063,6 +1076,8 @@ class FConfig {
         this.maxSpeedToPlay = deserializer.readInt32();
         this.mentorChooseEnabled = deserializer.readBoolean();
         this.mentorshipEnabled = deserializer.readBoolean();
+        this.minFPS = deserializer.readInt32();
+        this.minFPSMeasureDurationSec = deserializer.readFloat();
         this.monsterLevelPerUserLevel = deserializer.readFloat();
         this.monsterMaxLevel = deserializer.readInt32();
         this.newsCheckIntervalSeconds = deserializer.readFloat();
@@ -1088,6 +1103,7 @@ class FConfig {
         this.updateRequestPeriodSeconds = deserializer.readInt32();
         this.weeklyQuestAvailableFromLevel = deserializer.readInt32();
         this.wizardAvailableFromLevel = deserializer.readInt32();
+        this.wizardRatingButtonVisibleToAll = deserializer.readBoolean();
         this.worldScreenBuffDisplayMaxDurationTimeSeconds = deserializer.readFloat();
         this.xVelocityFactor = deserializer.readFloat();
         this.xVelocityFactorSpin = deserializer.readFloat();
@@ -1148,6 +1164,7 @@ class FContestUpdate {
         serializer.writeUtf8String(this.contestId);
         serializer.writeBoolean(this.hideContestScreen);
         serializer.writeUtf8String(this.ownerNickname);
+        serializer.writeFloat(this.participantTtl);
         serializer.writeStaticList(this.participants, true, 'string');
         serializer.writeDynamicObject(this.pendingBattle, 'string');
         serializer.writeBoolean(this.showContestScreen);
@@ -1162,6 +1179,7 @@ class FContestUpdate {
         this.contestId = deserializer.readUtf8String();
         this.hideContestScreen = deserializer.readBoolean();
         this.ownerNickname = deserializer.readUtf8String();
+        this.participantTtl = deserializer.readFloat();
         this.participants = deserializer.readStaticList('string', true);
         this.pendingBattle = deserializer.readDynamicObject();
         this.showContestScreen = deserializer.readBoolean();
@@ -1465,6 +1483,8 @@ class FFightCreature {
         serializer.writeFloat(this.mainSkillTtl);
         serializer.writeFloat(this.maxEnergy);
         serializer.writeByte(this.name);
+        serializer.writeFloat(this.resistCoef);
+        serializer.writeByte(this.resistFor);
         serializer.writeFloat(this.rightElementAttackCoef);
         serializer.writeFloat(this.scale);
         serializer.writeFloat(this.specAttackCoef);
@@ -1507,6 +1527,8 @@ class FFightCreature {
         this.mainSkillTtl = deserializer.readFloat();
         this.maxEnergy = deserializer.readFloat();
         this.name = deserializer.readByte();
+        this.resistCoef = deserializer.readFloat();
+        this.resistFor = deserializer.readByte();
         this.rightElementAttackCoef = deserializer.readFloat();
         this.scale = deserializer.readFloat();
         this.specAttackCoef = deserializer.readFloat();
@@ -2147,6 +2169,40 @@ class FRegistrationInfo {
     }
 }
 exports.FRegistrationInfo = FRegistrationInfo;
+class FResistModifyDetails {
+    constructor(init) {
+        this.__type = 'FResistModifyDetails';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeInt32(this.matchingCreatures);
+        serializer.writeFloat(this.resultResistMax);
+        serializer.writeFloat(this.resultResistMin);
+    }
+    deserialize(deserializer) {
+        this.matchingCreatures = deserializer.readInt32();
+        this.resultResistMax = deserializer.readFloat();
+        this.resultResistMin = deserializer.readFloat();
+    }
+}
+exports.FResistModifyDetails = FResistModifyDetails;
+class FResistModifyResult {
+    constructor(init) {
+        this.__type = 'FResistModifyResult';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeStaticObject(this.creature, 'FUserCreature');
+        serializer.writeStaticObject(this.modifyDetails, 'FResistModifyDetails');
+        serializer.writeBoolean(this.newResistValue);
+    }
+    deserialize(deserializer) {
+        this.creature = deserializer.readStaticObject('FUserCreature');
+        this.modifyDetails = deserializer.readStaticObject('FResistModifyDetails');
+        this.newResistValue = deserializer.readBoolean();
+    }
+}
+exports.FResistModifyResult = FResistModifyResult;
 class FScoutRequest {
     constructor(init) {
         this.__type = 'FScoutRequest';
@@ -2367,6 +2423,7 @@ class FUpdateRequest {
         serializer.writeBoolean(this.blackScreen);
         serializer.writeByte(this.clientPlatform);
         serializer.writeStaticObject(this.clientRequest, 'FClientRequest');
+        serializer.writeDynamicObject(this.clientScreen, 'enums.ClientScreen');
         serializer.writeBuffer(this.configCacheHash);
         serializer.writeDynamicObject(this.language, 'string');
         serializer.writeStaticMap(this.tilesCache, true, true, 'FTile', 'long');
@@ -2378,6 +2435,7 @@ class FUpdateRequest {
         this.blackScreen = deserializer.readBoolean();
         this.clientPlatform = deserializer.readByte();
         this.clientRequest = deserializer.readStaticObject('FClientRequest');
+        this.clientScreen = deserializer.readDynamicObject();
         this.configCacheHash = deserializer.readBuffer();
         this.language = deserializer.readDynamicObject();
         this.tilesCache = deserializer.readStaticMap('FTile', 'long', true, true);
@@ -2406,6 +2464,7 @@ class FUserCreature {
         serializer.writeByte(this.elementType);
         serializer.writeInt64(this.gotchaTime);
         serializer.writeInt32(this.group);
+        serializer.writeBoolean(this.hasMaxResist);
         serializer.writeFloat(this.hp);
         serializer.writeUtf8String(this.id);
         serializer.writeBoolean(this.improvable);
@@ -2421,7 +2480,10 @@ class FUserCreature {
         serializer.writeByte(this.name);
         serializer.writeBoolean(this.permanent);
         serializer.writeStaticMap(this.possibleEvolutions, true, true, 'CreatureType', 'int');
+        serializer.writeFloat(this.resist);
+        serializer.writeByte(this.resistFor);
         serializer.writeInt32(this.staminaValue);
+        serializer.writeInt32(this.tier);
         serializer.writeFloat(this.totalHp);
     }
     deserialize(deserializer) {
@@ -2438,6 +2500,7 @@ class FUserCreature {
         this.elementType = deserializer.readByte();
         this.gotchaTime = deserializer.readInt64();
         this.group = deserializer.readInt32();
+        this.hasMaxResist = deserializer.readBoolean();
         this.hp = deserializer.readFloat();
         this.id = deserializer.readUtf8String();
         this.improvable = deserializer.readBoolean();
@@ -2453,7 +2516,10 @@ class FUserCreature {
         this.name = deserializer.readByte();
         this.permanent = deserializer.readBoolean();
         this.possibleEvolutions = deserializer.readStaticMap('CreatureType', 'int', true, true);
+        this.resist = deserializer.readFloat();
+        this.resistFor = deserializer.readByte();
         this.staminaValue = deserializer.readInt32();
+        this.tier = deserializer.readInt32();
         this.totalHp = deserializer.readFloat();
     }
 }

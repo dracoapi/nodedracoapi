@@ -50,6 +50,7 @@ export declare class Client {
     acceptTos(): Promise<void>;
     acceptLicence(licence: any): Promise<any>;
     register(nickname: any): Promise<any>;
+    getNews(lastSeen: string): Promise<any>;
     generateAvatar(options?: any): number;
     setAvatar(avatar: any): Promise<any>;
     selectAlliance(alliance: enums.AllianceType, bonus: number): Promise<any>;

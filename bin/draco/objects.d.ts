@@ -442,6 +442,7 @@ export declare class FClientInfo {
 }
 export declare class FClientLogRecord {
     __type: string;
+    clientStartTime: string;
     clientTime: number;
     logName: string;
     message: string;
@@ -498,13 +499,16 @@ export declare class FConfig {
     avatarMoveRunSpeed: number;
     ballCurve: number;
     bottomSwipeScreenPart: number;
+    buildingsVisibilityDistanceLevels: number[];
     buildingsVisionRadius: number;
     cameraFieldOfView: number;
     catchPopup: Map<number, string>;
     clientTexts: Map<string, string>;
     collectorRatingButtonVisibleToAll: boolean;
     congratulationLayerLevels: number[];
+    contestAvailableFromLevel: number;
     contestVisibleToAll: boolean;
+    contestVisionRadius: number;
     creaturesDelayVisibility: number;
     dailyQuestAvailableFromLevel: number;
     defaultAugmentedRealitySwitchState: boolean;
@@ -528,6 +532,7 @@ export declare class FConfig {
     goOrbitOffsetMax: number;
     goOrbitOffsetMin: number;
     highSpeedDurationRequiredForWarning: number;
+    maintenanceEnabled: boolean;
     mapServer: string;
     mapVersion: number;
     maxAngularVelocity: number;
@@ -536,6 +541,8 @@ export declare class FConfig {
     maxSpeedToPlay: number;
     mentorChooseEnabled: boolean;
     mentorshipEnabled: boolean;
+    minFPS: number;
+    minFPSMeasureDurationSec: number;
     monsterLevelPerUserLevel: number;
     monsterMaxLevel: number;
     newsCheckIntervalSeconds: number;
@@ -561,6 +568,7 @@ export declare class FConfig {
     updateRequestPeriodSeconds: number;
     weeklyQuestAvailableFromLevel: number;
     wizardAvailableFromLevel: number;
+    wizardRatingButtonVisibleToAll: boolean;
     worldScreenBuffDisplayMaxDurationTimeSeconds: number;
     xVelocityFactor: number;
     xVelocityFactorSpin: number;
@@ -598,6 +606,7 @@ export declare class FContestUpdate {
     contestId: string;
     hideContestScreen: boolean;
     ownerNickname: string;
+    participantTtl: number;
     participants: string[];
     pendingBattle: string;
     showContestScreen: boolean;
@@ -777,6 +786,8 @@ export declare class FFightCreature {
     mainSkillTtl: number;
     maxEnergy: number;
     name: enums.CreatureType;
+    resistCoef: number;
+    resistFor: enums.ElementType;
     rightElementAttackCoef: number;
     scale: number;
     specAttackCoef: number;
@@ -1121,6 +1132,24 @@ export declare class FRegistrationInfo {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
+export declare class FResistModifyDetails {
+    __type: string;
+    matchingCreatures: number;
+    resultResistMax: number;
+    resultResistMin: number;
+    constructor(init?: Partial<FResistModifyDetails>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FResistModifyResult {
+    __type: string;
+    creature: FUserCreature;
+    modifyDetails: FResistModifyDetails;
+    newResistValue: boolean;
+    constructor(init?: Partial<FResistModifyResult>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
 export declare class FScoutRequest {
     __type: string;
     clientRequest: FClientRequest;
@@ -1238,6 +1267,7 @@ export declare class FUpdateRequest {
     blackScreen: boolean;
     clientPlatform: enums.ClientPlatform;
     clientRequest: FClientRequest;
+    clientScreen: enums.ClientScreen;
     configCacheHash: Buffer;
     language: string;
     tilesCache: Map<FTile, long>;
@@ -1263,6 +1293,7 @@ export declare class FUserCreature {
     elementType: enums.ElementType;
     gotchaTime: long;
     group: number;
+    hasMaxResist: boolean;
     hp: number;
     id: string;
     improvable: boolean;
@@ -1278,7 +1309,10 @@ export declare class FUserCreature {
     name: enums.CreatureType;
     permanent: boolean;
     possibleEvolutions: Map<enums.CreatureType, number>;
+    resist: number;
+    resistFor: enums.ElementType;
     staminaValue: number;
+    tier: number;
     totalHp: number;
     constructor(init?: Partial<FUserCreature>);
     serialize(serializer: Serializer): void;

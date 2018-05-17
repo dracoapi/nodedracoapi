@@ -144,6 +144,20 @@ var ClientPlatform;
     ClientPlatform[ClientPlatform["UNITY"] = 2] = "UNITY";
     ClientPlatform[ClientPlatform["UNKNOWN"] = 3] = "UNKNOWN";
 })(ClientPlatform = exports.ClientPlatform || (exports.ClientPlatform = {}));
+var ClientScreen;
+(function (ClientScreen) {
+    ClientScreen[ClientScreen["LOGIN"] = 0] = "LOGIN";
+    ClientScreen[ClientScreen["LOADING"] = 1] = "LOADING";
+    ClientScreen[ClientScreen["WORLD"] = 2] = "WORLD";
+    ClientScreen[ClientScreen["AVATAR"] = 3] = "AVATAR";
+    ClientScreen[ClientScreen["BATTLE"] = 4] = "BATTLE";
+    ClientScreen[ClientScreen["GOTCHA"] = 5] = "GOTCHA";
+    ClientScreen[ClientScreen["CREATURE_DETAILS"] = 6] = "CREATURE_DETAILS";
+    ClientScreen[ClientScreen["ACCOUNT"] = 7] = "ACCOUNT";
+    ClientScreen[ClientScreen["CREADEX"] = 8] = "CREADEX";
+    ClientScreen[ClientScreen["REGISTER_CREATURE"] = 9] = "REGISTER_CREATURE";
+    ClientScreen[ClientScreen["WIZARD"] = 10] = "WIZARD";
+})(ClientScreen = exports.ClientScreen || (exports.ClientScreen = {}));
 var ContestStage;
 (function (ContestStage) {
     ContestStage[ContestStage["PREPARING"] = 0] = "PREPARING";

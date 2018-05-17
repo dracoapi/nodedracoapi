@@ -135,6 +135,19 @@ export declare enum ClientPlatform {
     UNITY = 2,
     UNKNOWN = 3,
 }
+export declare enum ClientScreen {
+    LOGIN = 0,
+    LOADING = 1,
+    WORLD = 2,
+    AVATAR = 3,
+    BATTLE = 4,
+    GOTCHA = 5,
+    CREATURE_DETAILS = 6,
+    ACCOUNT = 7,
+    CREADEX = 8,
+    REGISTER_CREATURE = 9,
+    WIZARD = 10,
+}
 export declare enum ContestStage {
     PREPARING = 0,
     PROGRESS = 1,

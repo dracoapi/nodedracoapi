@@ -69,8 +69,8 @@ export class Client {
     public utcOffset: number;
 
     constructor(options: any = {}) {
-        this.protocolVersion = options.protocolVersion || '1306861932';
-        this.clientVersion = options.clientVersion || '11331';
+        this.protocolVersion = options.protocolVersion || '389771870';
+        this.clientVersion = options.clientVersion || '11808';
         if (options.hasOwnProperty('checkProtocol')) this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter')) this.eventsCounter = options.eventsCounter;
         if (options.hasOwnProperty('utcOffset')) {
@@ -349,6 +349,10 @@ export class Client {
         // await this.event('ServerAuthSuccess', this.user.id);
 
         return response;
+    }
+
+    async getNews(lastSeen: string) {
+        return await this.call('AuthService', 'getNews', [ this.clientInfo.language, lastSeen ]);
     }
 
     generateAvatar(options: any = {}) {
