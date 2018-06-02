@@ -24,6 +24,7 @@ export declare class BuffConfig {
 }
 export declare class ExtraPack {
     __type: string;
+    isOfferPrice: boolean;
     price: number;
     wizardBattles: number;
     constructor(init?: Partial<ExtraPack>);
@@ -311,6 +312,7 @@ export declare class FBuilding {
     arena: FArena;
     available: boolean;
     casted: boolean;
+    contest: FContest;
     coords: GeoCoords;
     dungeonId: string;
     expirationTime: long;
@@ -506,7 +508,9 @@ export declare class FConfig {
     clientTexts: Map<string, string>;
     collectorRatingButtonVisibleToAll: boolean;
     congratulationLayerLevels: number[];
+    contestAcceptStartPeriod: number;
     contestAvailableFromLevel: number;
+    contestBattleTimeout: number;
     contestVisibleToAll: boolean;
     contestVisionRadius: number;
     creaturesDelayVisibility: number;
@@ -548,7 +552,7 @@ export declare class FConfig {
     newsCheckIntervalSeconds: number;
     notEmulatorModelHashes: Set<Buffer>;
     oppositeDodgeTimeoutSeconds: number;
-    personalizationPriceMap: Map<enums.PersonalizedStop, number>;
+    personalizationPrices: Map<enums.PersonalizedStop, FPrice>;
     potionConfig: PotionConfig;
     radarVisionRadius: number;
     recipes: Map<enums.RecipeType, object[]>;
@@ -577,19 +581,43 @@ export declare class FConfig {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
+export declare class FContest {
+    __type: string;
+    emptyPassword: boolean;
+    ownerId: string;
+    constructor(init?: Partial<FContest>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
 export declare class FContestBattle {
     __type: string;
     hpPercent: number;
+    isMyBattle: boolean;
     nickname: string;
     nicknameOpponent: string;
+    timeout: boolean;
     victory: boolean;
     constructor(init?: Partial<FContestBattle>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
+export declare class FContestParticipant {
+    __type: string;
+    buffLevel: number;
+    isMaxLevel: boolean;
+    isMyself: boolean;
+    level: number;
+    nickname: string;
+    startAccepted: boolean;
+    constructor(init?: Partial<FContestParticipant>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
 export declare class FContestStats {
     __type: string;
+    completed: boolean;
     hpPercentTotal: number;
+    isMyself: boolean;
     lostAsOpponentCount: number;
     lostCount: number;
     nickname: string;
@@ -605,9 +633,10 @@ export declare class FContestUpdate {
     canStart: boolean;
     contestId: string;
     hideContestScreen: boolean;
+    isOwner: boolean;
     ownerNickname: string;
+    participantList: FContestParticipant[];
     participantTtl: number;
-    participants: string[];
     pendingBattle: string;
     showContestScreen: boolean;
     stage: enums.ContestStage;
@@ -885,6 +914,7 @@ export declare class FItemCreatureGroup {
     __type: string;
     active: boolean;
     creature: enums.CreatureType;
+    isOfferPrice: boolean;
     items: Map<enums.ItemType, number>;
     price: number;
     constructor(init?: Partial<FItemCreatureGroup>);
@@ -1082,6 +1112,14 @@ export declare class FPitstop {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
+export declare class FPrice {
+    __type: string;
+    isOffer: boolean;
+    price: number;
+    constructor(init?: Partial<FPrice>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
 export declare class FPurchaseResult {
     __type: string;
     avaUpdate: FAvaUpdate;
@@ -1168,7 +1206,7 @@ export declare class FServiceError {
 }
 export declare class FShopConfig {
     __type: string;
-    artifacts: Map<enums.ArtifactName, number>;
+    artifactsPrice: Map<enums.ArtifactName, FPrice>;
     bagUpgrade: ProductLot;
     coins: Map<string, ProductLot>;
     creatureStorageUpgrade: ProductLot;
@@ -1178,6 +1216,13 @@ export declare class FShopConfig {
     products: ProductGroup[];
     saleSets: SaleSetConfig[];
     constructor(init?: Partial<FShopConfig>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FShopConfigRequest {
+    __type: string;
+    shopConfigHash: Buffer;
+    constructor(init?: Partial<FShopConfigRequest>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
@@ -1499,6 +1544,7 @@ export declare class ProductGroup {
 }
 export declare class ProductLot {
     __type: string;
+    isOfferPrice: boolean;
     price: number;
     qty: number;
     constructor(init?: Partial<ProductLot>);

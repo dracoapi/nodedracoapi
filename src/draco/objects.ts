@@ -52,6 +52,7 @@ export class BuffConfig {
 
 export class ExtraPack {
     __type = 'ExtraPack';
+    isOfferPrice: boolean; // bool
     price: number; // int
     wizardBattles: number; // int
 
@@ -60,10 +61,12 @@ export class ExtraPack {
     }
 
     serialize(serializer: Serializer) {
+        serializer.writeBoolean(this.isOfferPrice);
         serializer.writeInt32(this.price);
         serializer.writeInt32(this.wizardBattles);
     }
     deserialize(deserializer: Deserializer) {
+        this.isOfferPrice = deserializer.readBoolean();
         this.price = deserializer.readInt32();
         this.wizardBattles = deserializer.readInt32();
     }
@@ -800,6 +803,7 @@ export class FBuilding {
     arena: FArena; // FArena
     available: boolean; // bool
     casted: boolean; // bool
+    contest: FContest; // FContest
     coords: GeoCoords; // GeoCoords
     dungeonId: string; // string
     expirationTime: long; // long
@@ -816,6 +820,7 @@ export class FBuilding {
         serializer.writeDynamicObject(this.arena, 'FArena');
         serializer.writeBoolean(this.available);
         serializer.writeBoolean(this.casted);
+        serializer.writeDynamicObject(this.contest, 'FContest');
         serializer.writeStaticObject(this.coords, 'GeoCoords');
         serializer.writeDynamicObject(this.dungeonId, 'string');
         serializer.writeInt64(this.expirationTime);
@@ -828,6 +833,7 @@ export class FBuilding {
         this.arena = deserializer.readDynamicObject();
         this.available = deserializer.readBoolean();
         this.casted = deserializer.readBoolean();
+        this.contest = deserializer.readDynamicObject();
         this.coords = deserializer.readStaticObject('GeoCoords') as GeoCoords;
         this.dungeonId = deserializer.readDynamicObject();
         this.expirationTime = deserializer.readInt64();
@@ -1278,7 +1284,9 @@ export class FConfig {
     clientTexts: Map<string, string>; // Map<string, string>
     collectorRatingButtonVisibleToAll: boolean; // bool
     congratulationLayerLevels: number[]; // int[]
+    contestAcceptStartPeriod: number; // float
     contestAvailableFromLevel: number; // int
+    contestBattleTimeout: number; // float
     contestVisibleToAll: boolean; // bool
     contestVisionRadius: number; // float
     creaturesDelayVisibility: number; // int
@@ -1320,7 +1328,7 @@ export class FConfig {
     newsCheckIntervalSeconds: number; // float
     notEmulatorModelHashes: Set<Buffer>; // Set<Buffer>
     oppositeDodgeTimeoutSeconds: number; // float
-    personalizationPriceMap: Map<enums.PersonalizedStop, number>; // Map<enums.PersonalizedStop, int>
+    personalizationPrices: Map<enums.PersonalizedStop, FPrice>; // Map<enums.PersonalizedStop, FPrice>
     potionConfig: PotionConfig; // PotionConfig
     radarVisionRadius: number; // double
     recipes: Map<enums.RecipeType, object[]>; // Map<enums.RecipeType, object[]>
@@ -1376,7 +1384,9 @@ export class FConfig {
         serializer.writeStaticMap(this.clientTexts, true, true, 'string', 'string');
         serializer.writeBoolean(this.collectorRatingButtonVisibleToAll);
         serializer.writeStaticArray(this.congratulationLayerLevels, true, 'int');
+        serializer.writeFloat(this.contestAcceptStartPeriod);
         serializer.writeInt32(this.contestAvailableFromLevel);
+        serializer.writeFloat(this.contestBattleTimeout);
         serializer.writeBoolean(this.contestVisibleToAll);
         serializer.writeFloat(this.contestVisionRadius);
         serializer.writeInt32(this.creaturesDelayVisibility);
@@ -1418,7 +1428,7 @@ export class FConfig {
         serializer.writeFloat(this.newsCheckIntervalSeconds);
         serializer.writeStaticHashSet(this.notEmulatorModelHashes, true, 'Buffer');
         serializer.writeFloat(this.oppositeDodgeTimeoutSeconds);
-        serializer.writeStaticMap(this.personalizationPriceMap, true, true, 'PersonalizedStop', 'int');
+        serializer.writeStaticMap(this.personalizationPrices, true, true, 'PersonalizedStop', 'FPrice');
         serializer.writeStaticObject(this.potionConfig, 'PotionConfig');
         serializer.writeDouble(this.radarVisionRadius);
         serializer.writeStaticMap(this.recipes, true, true, 'RecipeType', 'List<>');
@@ -1470,7 +1480,9 @@ export class FConfig {
         this.clientTexts = deserializer.readStaticMap('string', 'string', true, true);
         this.collectorRatingButtonVisibleToAll = deserializer.readBoolean();
         this.congratulationLayerLevels = deserializer.readStaticArray('int', true);
+        this.contestAcceptStartPeriod = deserializer.readFloat();
         this.contestAvailableFromLevel = deserializer.readInt32();
+        this.contestBattleTimeout = deserializer.readFloat();
         this.contestVisibleToAll = deserializer.readBoolean();
         this.contestVisionRadius = deserializer.readFloat();
         this.creaturesDelayVisibility = deserializer.readInt32();
@@ -1512,7 +1524,7 @@ export class FConfig {
         this.newsCheckIntervalSeconds = deserializer.readFloat();
         this.notEmulatorModelHashes = deserializer.readStaticHashSet('Buffer', true);
         this.oppositeDodgeTimeoutSeconds = deserializer.readFloat();
-        this.personalizationPriceMap = deserializer.readStaticMap('PersonalizedStop', 'int', true, true);
+        this.personalizationPrices = deserializer.readStaticMap('PersonalizedStop', 'FPrice', true, true);
         this.potionConfig = deserializer.readStaticObject('PotionConfig') as PotionConfig;
         this.radarVisionRadius = deserializer.readDouble();
         this.recipes = deserializer.readStaticMap('RecipeType', 'List<>', true, true);
@@ -1540,11 +1552,32 @@ export class FConfig {
     }
 }
 
+export class FContest {
+    __type = 'FContest';
+    emptyPassword: boolean; // bool
+    ownerId: string; // string
+
+    public constructor(init?: Partial<FContest>) {
+        Object.assign(this, init);
+    }
+
+    serialize(serializer: Serializer) {
+        serializer.writeBoolean(this.emptyPassword);
+        serializer.writeUtf8String(this.ownerId);
+    }
+    deserialize(deserializer: Deserializer) {
+        this.emptyPassword = deserializer.readBoolean();
+        this.ownerId = deserializer.readUtf8String();
+    }
+}
+
 export class FContestBattle {
     __type = 'FContestBattle';
     hpPercent: number; // float
+    isMyBattle: boolean; // bool
     nickname: string; // string
     nicknameOpponent: string; // string
+    timeout: boolean; // bool
     victory: boolean; // bool
 
     public constructor(init?: Partial<FContestBattle>) {
@@ -1553,21 +1586,58 @@ export class FContestBattle {
 
     serialize(serializer: Serializer) {
         serializer.writeFloat(this.hpPercent);
+        serializer.writeBoolean(this.isMyBattle);
         serializer.writeUtf8String(this.nickname);
         serializer.writeUtf8String(this.nicknameOpponent);
+        serializer.writeBoolean(this.timeout);
         serializer.writeBoolean(this.victory);
     }
     deserialize(deserializer: Deserializer) {
         this.hpPercent = deserializer.readFloat();
+        this.isMyBattle = deserializer.readBoolean();
         this.nickname = deserializer.readUtf8String();
         this.nicknameOpponent = deserializer.readUtf8String();
+        this.timeout = deserializer.readBoolean();
         this.victory = deserializer.readBoolean();
+    }
+}
+
+export class FContestParticipant {
+    __type = 'FContestParticipant';
+    buffLevel: number; // int
+    isMaxLevel: boolean; // bool
+    isMyself: boolean; // bool
+    level: number; // int
+    nickname: string; // string
+    startAccepted: boolean; // bool
+
+    public constructor(init?: Partial<FContestParticipant>) {
+        Object.assign(this, init);
+    }
+
+    serialize(serializer: Serializer) {
+        serializer.writeDynamicObject(this.buffLevel, 'int');
+        serializer.writeBoolean(this.isMaxLevel);
+        serializer.writeBoolean(this.isMyself);
+        serializer.writeInt32(this.level);
+        serializer.writeUtf8String(this.nickname);
+        serializer.writeDynamicObject(this.startAccepted, 'bool');
+    }
+    deserialize(deserializer: Deserializer) {
+        this.buffLevel = deserializer.readDynamicObject();
+        this.isMaxLevel = deserializer.readBoolean();
+        this.isMyself = deserializer.readBoolean();
+        this.level = deserializer.readInt32();
+        this.nickname = deserializer.readUtf8String();
+        this.startAccepted = deserializer.readDynamicObject();
     }
 }
 
 export class FContestStats {
     __type = 'FContestStats';
+    completed: boolean; // bool
     hpPercentTotal: number; // float
+    isMyself: boolean; // bool
     lostAsOpponentCount: number; // int
     lostCount: number; // int
     nickname: string; // string
@@ -1579,7 +1649,9 @@ export class FContestStats {
     }
 
     serialize(serializer: Serializer) {
+        serializer.writeBoolean(this.completed);
         serializer.writeFloat(this.hpPercentTotal);
+        serializer.writeBoolean(this.isMyself);
         serializer.writeInt32(this.lostAsOpponentCount);
         serializer.writeInt32(this.lostCount);
         serializer.writeUtf8String(this.nickname);
@@ -1587,7 +1659,9 @@ export class FContestStats {
         serializer.writeInt32(this.winCount);
     }
     deserialize(deserializer: Deserializer) {
+        this.completed = deserializer.readBoolean();
         this.hpPercentTotal = deserializer.readFloat();
+        this.isMyself = deserializer.readBoolean();
         this.lostAsOpponentCount = deserializer.readInt32();
         this.lostCount = deserializer.readInt32();
         this.nickname = deserializer.readUtf8String();
@@ -1602,9 +1676,10 @@ export class FContestUpdate {
     canStart: boolean; // bool
     contestId: string; // string
     hideContestScreen: boolean; // bool
+    isOwner: boolean; // bool
     ownerNickname: string; // string
+    participantList: FContestParticipant[]; // FContestParticipant[]
     participantTtl: number; // float
-    participants: string[]; // string[]
     pendingBattle: string; // string
     showContestScreen: boolean; // bool
     stage: enums.ContestStage; // ContestStage
@@ -1621,9 +1696,10 @@ export class FContestUpdate {
         serializer.writeBoolean(this.canStart);
         serializer.writeUtf8String(this.contestId);
         serializer.writeBoolean(this.hideContestScreen);
+        serializer.writeBoolean(this.isOwner);
         serializer.writeUtf8String(this.ownerNickname);
+        serializer.writeStaticList(this.participantList, true, 'FContestParticipant');
         serializer.writeFloat(this.participantTtl);
-        serializer.writeStaticList(this.participants, true, 'string');
         serializer.writeDynamicObject(this.pendingBattle, 'string');
         serializer.writeBoolean(this.showContestScreen);
         serializer.writeByte(this.stage);
@@ -1636,9 +1712,10 @@ export class FContestUpdate {
         this.canStart = deserializer.readBoolean();
         this.contestId = deserializer.readUtf8String();
         this.hideContestScreen = deserializer.readBoolean();
+        this.isOwner = deserializer.readBoolean();
         this.ownerNickname = deserializer.readUtf8String();
+        this.participantList = deserializer.readStaticList('FContestParticipant', true);
         this.participantTtl = deserializer.readFloat();
-        this.participants = deserializer.readStaticList('string', true);
         this.pendingBattle = deserializer.readDynamicObject();
         this.showContestScreen = deserializer.readBoolean();
         this.stage = deserializer.readByte();
@@ -2331,6 +2408,7 @@ export class FItemCreatureGroup {
     __type = 'FItemCreatureGroup';
     active: boolean; // bool
     creature: enums.CreatureType; // CreatureType
+    isOfferPrice: boolean; // bool
     items: Map<enums.ItemType, number>; // Map<enums.ItemType, int>
     price: number; // int
 
@@ -2341,12 +2419,14 @@ export class FItemCreatureGroup {
     serialize(serializer: Serializer) {
         serializer.writeBoolean(this.active);
         serializer.writeDynamicObject(this.creature, 'enums.CreatureType');
+        serializer.writeBoolean(this.isOfferPrice);
         serializer.writeStaticMap(this.items, true, true, 'ItemType', 'int');
         serializer.writeInt32(this.price);
     }
     deserialize(deserializer: Deserializer) {
         this.active = deserializer.readBoolean();
         this.creature = deserializer.readDynamicObject();
+        this.isOfferPrice = deserializer.readBoolean();
         this.items = deserializer.readStaticMap('ItemType', 'int', true, true);
         this.price = deserializer.readInt32();
     }
@@ -2820,6 +2900,25 @@ export class FPitstop {
     }
 }
 
+export class FPrice {
+    __type = 'FPrice';
+    isOffer: boolean; // bool
+    price: number; // int
+
+    public constructor(init?: Partial<FPrice>) {
+        Object.assign(this, init);
+    }
+
+    serialize(serializer: Serializer) {
+        serializer.writeBoolean(this.isOffer);
+        serializer.writeInt32(this.price);
+    }
+    deserialize(deserializer: Deserializer) {
+        this.isOffer = deserializer.readBoolean();
+        this.price = deserializer.readInt32();
+    }
+}
+
 export class FPurchaseResult {
     __type = 'FPurchaseResult';
     avaUpdate: FAvaUpdate; // FAvaUpdate
@@ -3029,7 +3128,7 @@ export class FServiceError {
 
 export class FShopConfig {
     __type = 'FShopConfig';
-    artifacts: Map<enums.ArtifactName, number>; // Map<enums.ArtifactName, int>
+    artifactsPrice: Map<enums.ArtifactName, FPrice>; // Map<enums.ArtifactName, FPrice>
     bagUpgrade: ProductLot; // ProductLot
     coins: Map<string, ProductLot>; // Map<string, ProductLot>
     creatureStorageUpgrade: ProductLot; // ProductLot
@@ -3044,7 +3143,7 @@ export class FShopConfig {
     }
 
     serialize(serializer: Serializer) {
-        serializer.writeStaticMap(this.artifacts, true, true, 'ArtifactName', 'int');
+        serializer.writeStaticMap(this.artifactsPrice, true, true, 'ArtifactName', 'FPrice');
         serializer.writeStaticObject(this.bagUpgrade, 'ProductLot');
         serializer.writeStaticMap(this.coins, true, true, 'string', 'ProductLot');
         serializer.writeStaticObject(this.creatureStorageUpgrade, 'ProductLot');
@@ -3055,7 +3154,7 @@ export class FShopConfig {
         serializer.writeStaticList(this.saleSets, true, 'SaleSetConfig');
     }
     deserialize(deserializer: Deserializer) {
-        this.artifacts = deserializer.readStaticMap('ArtifactName', 'int', true, true);
+        this.artifactsPrice = deserializer.readStaticMap('ArtifactName', 'FPrice', true, true);
         this.bagUpgrade = deserializer.readStaticObject('ProductLot') as ProductLot;
         this.coins = deserializer.readStaticMap('string', 'ProductLot', true, true);
         this.creatureStorageUpgrade = deserializer.readStaticObject('ProductLot') as ProductLot;
@@ -3064,6 +3163,22 @@ export class FShopConfig {
         this.marketFees = deserializer.readStaticMap('string', 'float', true, true);
         this.products = deserializer.readStaticList('ProductGroup', true);
         this.saleSets = deserializer.readStaticList('SaleSetConfig', true);
+    }
+}
+
+export class FShopConfigRequest {
+    __type = 'FShopConfigRequest';
+    shopConfigHash: Buffer; // Buffer
+
+    public constructor(init?: Partial<FShopConfigRequest>) {
+        Object.assign(this, init);
+    }
+
+    serialize(serializer: Serializer) {
+        serializer.writeBuffer(this.shopConfigHash);
+    }
+    deserialize(deserializer: Deserializer) {
+        this.shopConfigHash = deserializer.readBuffer();
     }
 }
 
@@ -3872,6 +3987,7 @@ export class ProductGroup {
 
 export class ProductLot {
     __type = 'ProductLot';
+    isOfferPrice: boolean; // bool
     price: number; // int
     qty: number; // int
 
@@ -3880,10 +3996,12 @@ export class ProductLot {
     }
 
     serialize(serializer: Serializer) {
+        serializer.writeBoolean(this.isOfferPrice);
         serializer.writeInt32(this.price);
         serializer.writeInt32(this.qty);
     }
     deserialize(deserializer: Deserializer) {
+        this.isOfferPrice = deserializer.readBoolean();
         this.price = deserializer.readInt32();
         this.qty = deserializer.readInt32();
     }
