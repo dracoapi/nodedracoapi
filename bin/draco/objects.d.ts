@@ -511,6 +511,7 @@ export declare class FConfig {
     contestAcceptStartPeriod: number;
     contestAvailableFromLevel: number;
     contestBattleTimeout: number;
+    contestRatingButtonVisibleToAll: boolean;
     contestVisibleToAll: boolean;
     contestVisionRadius: number;
     creaturesDelayVisibility: number;
@@ -613,9 +614,40 @@ export declare class FContestParticipant {
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;
 }
+export declare class FContestRating {
+    __type: string;
+    topRecords: FContestRatingListRecord[];
+    constructor(init?: Partial<FContestRating>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FContestRatingAward {
+    __type: string;
+    dust: number;
+    month: number;
+    place: number;
+    runes: number;
+    constructor(init?: Partial<FContestRatingAward>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
+export declare class FContestRatingListRecord {
+    __type: string;
+    level: number;
+    nickName: string;
+    place: number;
+    score: number;
+    awardDust: number;
+    awardRunes: number;
+    contestCount: number;
+    constructor(init?: Partial<FContestRatingListRecord>);
+    serialize(serializer: Serializer): void;
+    deserialize(deserializer: Deserializer): void;
+}
 export declare class FContestStats {
     __type: string;
     completed: boolean;
+    gainedScore: number;
     hpPercentTotal: number;
     isMyself: boolean;
     lostAsOpponentCount: number;
@@ -1175,6 +1207,7 @@ export declare class FResistModifyDetails {
     matchingCreatures: number;
     resultResistMax: number;
     resultResistMin: number;
+    tier: number;
     constructor(init?: Partial<FResistModifyDetails>);
     serialize(serializer: Serializer): void;
     deserialize(deserializer: Deserializer): void;

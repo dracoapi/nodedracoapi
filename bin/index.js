@@ -33,8 +33,8 @@ class Client {
     constructor(options = {}) {
         this.checkProtocol = true;
         this.eventsCounter = {};
-        this.protocolVersion = options.protocolVersion || '1440475418';
-        this.clientVersion = options.clientVersion || '12047';
+        this.protocolVersion = options.protocolVersion || '3053618417';
+        this.clientVersion = options.clientVersion || '12556';
         if (options.hasOwnProperty('checkProtocol'))
             this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter'))
@@ -60,7 +60,7 @@ class Client {
                 'Protocol-Version': this.protocolVersion,
                 'Client-Version': this.clientVersion,
                 'Accept-Language': 'en-us',
-                'User-Agent': `DraconiusGO/${this.clientVersion} CFNetwork/897.15 Darwin/17.5.0`,
+                'User-Agent': `DraconiusGO/${this.clientVersion} CFNetwork/901.1 Darwin/17.6.0`,
             },
             encoding: null,
             gzip: true,
@@ -77,7 +77,7 @@ class Client {
             iOsAdvertisingTrackingEnabled: false,
             language: options.lang || 'English',
             platform: 'IPhonePlayer',
-            platformVersion: 'iOS 11.2.6',
+            platformVersion: 'iOS 11.4',
             revision: this.clientVersion,
             screenHeight: 1334,
             screenWidth: 750,

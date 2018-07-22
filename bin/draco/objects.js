@@ -954,6 +954,7 @@ class FConfig {
         serializer.writeFloat(this.contestAcceptStartPeriod);
         serializer.writeInt32(this.contestAvailableFromLevel);
         serializer.writeFloat(this.contestBattleTimeout);
+        serializer.writeBoolean(this.contestRatingButtonVisibleToAll);
         serializer.writeBoolean(this.contestVisibleToAll);
         serializer.writeFloat(this.contestVisionRadius);
         serializer.writeInt32(this.creaturesDelayVisibility);
@@ -1050,6 +1051,7 @@ class FConfig {
         this.contestAcceptStartPeriod = deserializer.readFloat();
         this.contestAvailableFromLevel = deserializer.readInt32();
         this.contestBattleTimeout = deserializer.readFloat();
+        this.contestRatingButtonVisibleToAll = deserializer.readBoolean();
         this.contestVisibleToAll = deserializer.readBoolean();
         this.contestVisionRadius = deserializer.readFloat();
         this.creaturesDelayVisibility = deserializer.readInt32();
@@ -1180,6 +1182,63 @@ class FContestParticipant {
     }
 }
 exports.FContestParticipant = FContestParticipant;
+class FContestRating {
+    constructor(init) {
+        this.__type = 'FContestRating';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeStaticList(this.topRecords, true, 'FContestRatingListRecord');
+    }
+    deserialize(deserializer) {
+        this.topRecords = deserializer.readStaticList('FContestRatingListRecord', true);
+    }
+}
+exports.FContestRating = FContestRating;
+class FContestRatingAward {
+    constructor(init) {
+        this.__type = 'FContestRatingAward';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeInt32(this.dust);
+        serializer.writeInt32(this.month);
+        serializer.writeInt32(this.place);
+        serializer.writeInt32(this.runes);
+    }
+    deserialize(deserializer) {
+        this.dust = deserializer.readInt32();
+        this.month = deserializer.readInt32();
+        this.place = deserializer.readInt32();
+        this.runes = deserializer.readInt32();
+    }
+}
+exports.FContestRatingAward = FContestRatingAward;
+class FContestRatingListRecord {
+    constructor(init) {
+        this.__type = 'FContestRatingListRecord';
+        Object.assign(this, init);
+    }
+    serialize(serializer) {
+        serializer.writeInt32(this.level);
+        serializer.writeUtf8String(this.nickName);
+        serializer.writeInt32(this.place);
+        serializer.writeFloat(this.score);
+        serializer.writeInt32(this.awardDust);
+        serializer.writeInt32(this.awardRunes);
+        serializer.writeInt32(this.contestCount);
+    }
+    deserialize(deserializer) {
+        this.level = deserializer.readInt32();
+        this.nickName = deserializer.readUtf8String();
+        this.place = deserializer.readInt32();
+        this.score = deserializer.readFloat();
+        this.awardDust = deserializer.readInt32();
+        this.awardRunes = deserializer.readInt32();
+        this.contestCount = deserializer.readInt32();
+    }
+}
+exports.FContestRatingListRecord = FContestRatingListRecord;
 class FContestStats {
     constructor(init) {
         this.__type = 'FContestStats';
@@ -1187,6 +1246,7 @@ class FContestStats {
     }
     serialize(serializer) {
         serializer.writeBoolean(this.completed);
+        serializer.writeFloat(this.gainedScore);
         serializer.writeFloat(this.hpPercentTotal);
         serializer.writeBoolean(this.isMyself);
         serializer.writeInt32(this.lostAsOpponentCount);
@@ -1197,6 +1257,7 @@ class FContestStats {
     }
     deserialize(deserializer) {
         this.completed = deserializer.readBoolean();
+        this.gainedScore = deserializer.readFloat();
         this.hpPercentTotal = deserializer.readFloat();
         this.isMyself = deserializer.readBoolean();
         this.lostAsOpponentCount = deserializer.readInt32();
@@ -2251,11 +2312,13 @@ class FResistModifyDetails {
         serializer.writeInt32(this.matchingCreatures);
         serializer.writeFloat(this.resultResistMax);
         serializer.writeFloat(this.resultResistMin);
+        serializer.writeInt32(this.tier);
     }
     deserialize(deserializer) {
         this.matchingCreatures = deserializer.readInt32();
         this.resultResistMax = deserializer.readFloat();
         this.resultResistMin = deserializer.readFloat();
+        this.tier = deserializer.readInt32();
     }
 }
 exports.FResistModifyDetails = FResistModifyDetails;

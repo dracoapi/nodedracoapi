@@ -1,6 +1,6 @@
 {
   "name": "draconode",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "nodejs api for Dranonius GO",
   "main": "bin/index.js",
   "types": "bin/index.d.ts",
@@ -26,10 +26,10 @@
     "gpsoauth": "^1.0.1",
     "jwt-simple": "^0.5.1",
     "long": "^4.0.0",
-    "request": "^2.86.0",
+    "request": "^2.87.0",
     "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
-    "@types/node": "^10.0.3"
+    "@types/node": "^10.5.2"
   }
 }
