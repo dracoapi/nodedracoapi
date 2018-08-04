@@ -1,6 +1,6 @@
 export declare enum AllianceType {
     RED = 0,
-    BLUE = 1,
+    BLUE = 1
 }
 export declare enum ArtifactName {
     NONE = 0,
@@ -59,7 +59,7 @@ export declare enum ArtifactName {
     ARTIFACT_DUST_BONUS_5 = 53,
     ARTIFACT_BUFFS_FREEZE_DURING_SUPER_VISION_1 = 54,
     ARTIFACT_ARENA_TAX_FOR_ADDITIONAL_MONSTER_1 = 55,
-    ARTIFACT_DURATION_EXTENDER_1 = 56,
+    ARTIFACT_DURATION_EXTENDER_1 = 56
 }
 export declare enum ArtifactType {
     ARTIFACT_REMOTE_BUILDING_CONTROL = 0,
@@ -83,13 +83,13 @@ export declare enum ArtifactType {
     ARTIFACT_DUST_BONUS = 18,
     ARTIFACT_BUFFS_FREEZE_DURING_SUPER_VISION = 19,
     ARTIFACT_ARENA_TAX_FOR_ADDITIONAL_MONSTER = 20,
-    ARTIFACT_DURATION_EXTENDER = 21,
+    ARTIFACT_DURATION_EXTENDER = 21
 }
 export declare enum AuthType {
     DEVICE = 0,
     GOOGLE = 1,
     FACEBOOK = 2,
-    DEV = 3,
+    DEV = 3
 }
 export declare enum BuffType {
     ATTACKER_CP_BOOST = 0,
@@ -110,7 +110,7 @@ export declare enum BuffType {
     TOWER_ELEMENTAL_FIRE = 15,
     TOWER_ELEMENTAL_EARTH = 16,
     RADAR_IMPROVE = 17,
-    ENCOUNTER_EXTRA_LOOT_ITEM = 18,
+    ENCOUNTER_EXTRA_LOOT_ITEM = 18
 }
 export declare enum BuildingType {
     STOP = 0,
@@ -127,13 +127,13 @@ export declare enum BuildingType {
     ELEMENTAL_WIND = 11,
     ELEMENTAL_EARTH = 12,
     ELEMENTAL_DUNGEON = 13,
-    CONTEST = 14,
+    CONTEST = 14
 }
 export declare enum ClientPlatform {
     ANDROID = 0,
     IOS = 1,
     UNITY = 2,
-    UNKNOWN = 3,
+    UNKNOWN = 3
 }
 export declare enum ClientScreen {
     LOGIN = 0,
@@ -146,12 +146,12 @@ export declare enum ClientScreen {
     ACCOUNT = 7,
     CREADEX = 8,
     REGISTER_CREATURE = 9,
-    WIZARD = 10,
+    WIZARD = 10
 }
 export declare enum ContestStage {
     PREPARING = 0,
     PROGRESS = 1,
-    COMPLETED = 2,
+    COMPLETED = 2
 }
 export declare enum CreatureType {
     MONSTER_WATER_1 = 0,
@@ -397,19 +397,19 @@ export declare enum CreatureType {
     MONSTER_DUNGEON_SPR_2 = 240,
     MONSTER_DUNGEON_SPR_3 = 241,
     MONSTER_DUNGEON_WIN_1 = 242,
-    MONSTER_DUNGEON_WIN_2 = 243,
+    MONSTER_DUNGEON_WIN_2 = 243
 }
 export declare enum DungeonShapeType {
     CIRCLE = 0,
     SQUARE = 1,
-    RECTANGLE = 2,
+    RECTANGLE = 2
 }
 export declare enum ElementType {
     WATER = 0,
     WIND = 1,
     FIRE = 2,
     EARTH = 3,
-    DUNGEON = 4,
+    DUNGEON = 4
 }
 export declare enum EventLogType {
     CREATURE_CAUGHT = 0,
@@ -439,27 +439,27 @@ export declare enum EventLogType {
     WIZARD_BATTLE = 24,
     ENCOUNTER_GIVE_UP = 25,
     CONTEST_COMPLETED = 26,
-    CONTEST_RATING = 27,
+    CONTEST_RATING = 27
 }
 export declare enum FNicknameValidationError {
     IS_EMPTY = 0,
     TOO_SHORT = 1,
     TOO_LONG = 2,
     INVALID_CHAR = 3,
-    DUPLICATE = 4,
+    DUPLICATE = 4
 }
 export declare enum InAppEventType {
     APP_FIRST_START = 0,
     EVENT_1_NEAR_AIM = 1,
     EVENT_2_FAR_AIM = 2,
     PURCHASE_SUCCESS = 3,
-    PURCHASE_FAIL = 4,
+    PURCHASE_FAIL = 4
 }
 export declare enum InstantUseItem {
     LIBRARY_COOLDOWN_REDUCE = 0,
     ARENA_TRIBUTE_COOLDOWN_REDUCE = 1,
     WIZARD_BATTLE_COOLDOWN_REDUCE = 2,
-    WIZARD_EXTRA_BATTLE = 3,
+    WIZARD_EXTRA_BATTLE = 3
 }
 export declare enum ItemType {
     MAGIC_BALL_SIMPLE = 0,
@@ -501,7 +501,7 @@ export declare enum ItemType {
     EGG_LILAC = 36,
     EGG_LILAC_PREMIUM = 37,
     EGG_GOLD = 38,
-    EGG_GOLD_PREMIUM = 39,
+    EGG_GOLD_PREMIUM = 39
 }
 export declare enum LogDetailsType {
     CREATURE_CP = 0,
@@ -533,19 +533,19 @@ export declare enum LogDetailsType {
     CONTEST_PLACE = 26,
     CONTEST_SCORE = 27,
     RATING_MONTH = 28,
-    RATING_PLACE = 29,
+    RATING_PLACE = 29
 }
 export declare enum PersonalizedStop {
     BALLS = 0,
     HEALS = 1,
     RESURRECTIONS = 2,
     EGGS = 3,
-    FOODS = 4,
+    FOODS = 4
 }
 export declare enum QuestComplexity {
     EASY = 0,
     MIDDLE = 1,
-    HARD = 2,
+    HARD = 2
 }
 export declare enum QuestType {
     WIN_ARENA_MONSTER = 0,
@@ -557,7 +557,7 @@ export declare enum QuestType {
     FIND_DUNGEON_WITH_ROOST = 6,
     CAPTURE_ALL_IN_DUNGEON = 7,
     OPEN_CHEST = 8,
-    CHAIN_OF_STOP = 9,
+    CHAIN_OF_STOP = 9
 }
 export declare enum RecipeType {
     RECIPE_ACTIVATION_RADIUS_IMPROVE_1 = 0,
@@ -570,17 +570,17 @@ export declare enum RecipeType {
     RECIPE_TOWER_ELEMENTAL_WATER = 7,
     RECIPE_TOWER_ELEMENTAL_WIND = 8,
     RECIPE_TOWER_ELEMENTAL_EARTH = 9,
-    RECIPE_TOWER_ELEMENTAL_DUNGEON = 10,
+    RECIPE_TOWER_ELEMENTAL_DUNGEON = 10
 }
 export declare enum SaleSetType {
     SET_1 = 0,
     SET_2 = 1,
-    SET_3 = 2,
+    SET_3 = 2
 }
 export declare enum SkillQuality {
     NORMAL = 0,
     GOOD = 1,
-    BEST = 2,
+    BEST = 2
 }
 export declare enum SpellType {
     ACTIVATION_RADIUS = 0,
@@ -593,5 +593,5 @@ export declare enum SpellType {
     TOWER_ELEMENTAL_WATER = 7,
     TOWER_ELEMENTAL_WIND = 8,
     TOWER_ELEMENTAL_EARTH = 9,
-    TOWER_ELEMENTAL_DUNGEON = 10,
+    TOWER_ELEMENTAL_DUNGEON = 10
 }
