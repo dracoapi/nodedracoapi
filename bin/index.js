@@ -34,7 +34,7 @@ class Client {
         this.checkProtocol = true;
         this.eventsCounter = {};
         this.protocolVersion = options.protocolVersion || '3053618417';
-        this.clientVersion = options.clientVersion || '12583';
+        this.clientVersion = options.clientVersion || '12626';
         if (options.hasOwnProperty('checkProtocol'))
             this.checkProtocol = options.checkProtocol;
         if (options.hasOwnProperty('eventsCounter'))
@@ -60,7 +60,7 @@ class Client {
                 'Protocol-Version': this.protocolVersion,
                 'Client-Version': this.clientVersion,
                 'Accept-Language': 'en-us',
-                'User-Agent': `DraconiusGO/${this.clientVersion} CFNetwork/901.1 Darwin/17.6.0`,
+                'User-Agent': `DraconiusGO/${this.clientVersion} CFNetwork/902.2 Darwin/17.7.0`,
             },
             encoding: null,
             gzip: true,
@@ -77,7 +77,7 @@ class Client {
             iOsAdvertisingTrackingEnabled: false,
             language: options.lang || 'English',
             platform: 'IPhonePlayer',
-            platformVersion: 'iOS 11.4',
+            platformVersion: 'iOS 11.4.1',
             revision: this.clientVersion,
             screenHeight: 1334,
             screenWidth: 750,
@@ -93,14 +93,21 @@ class Client {
     }
     async ping(throwIfError = false) {
         try {
-            const response = await this.request.post({
+            const response = await request.post({
+                proxy: this.proxy,
                 url: 'https://us.draconiusgo.com/ping',
                 headers: {
+                    'Host': 'us.draconiusgo.com',
+                    'Accept': '*/*',
                     'Content-Type': 'application /x-www-form-urlencoded',
-                    'Protocol-Version': undefined,
-                    'Client-Version': undefined,
+                    'Content-Length': 0,
+                    'Accept-Language': 'en-us',
+                    'User-Agent': `DraconiusGO/${this.clientVersion} CFNetwork/902.2 Darwin/17.7.0`,
+                    'X-Unity-Version': '2017.1.3f1',
                 },
                 simple: true,
+                encoding: null,
+                gzip: true,
             });
             return true;
         }
