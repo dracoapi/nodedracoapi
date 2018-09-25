@@ -35,7 +35,7 @@ export declare class Client {
     eventsCounter: any;
     utcOffset: number;
     constructor(options?: any);
-    private getAccuracy;
+    private getAccuracy();
     ping(throwIfError?: boolean): Promise<boolean>;
     call(service: string, method: string, body: any): Promise<any>;
     post(url: string, data: any): Promise<void>;
