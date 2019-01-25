@@ -102,8 +102,8 @@ export default class Serializer {
         if (ln < 32767) {
             this.writeShort(ln);
         } else {
-            this.writeShort((length & (-65536)) >> 16 | 32768);
-            this.writeShort(length & 65535);
+            this.writeShort((ln & (-65536)) >> 16 | 32768);
+            this.writeShort(ln & 65535);
         }
     }
     writeUtf8String(str) {
