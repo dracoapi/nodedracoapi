@@ -1,6 +1,6 @@
 {
   "name": "draconode",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "nodejs api for Dranonius GO",
   "main": "bin/index.js",
   "types": "bin/index.d.ts",
@@ -22,14 +22,17 @@
     "url": "https://github.com/dracoapi/nodedracoapi/issues"
   },
   "homepage": "https://github.com/dracoapi/nodedracoapi#readme",
+  "prettier": {
+    "singleQuote": true
+  },
   "dependencies": {
     "gpsoauth": "^1.0.1",
-    "jwt-simple": "^0.5.3",
+    "jwt-simple": "^0.5.5",
     "long": "^4.0.0",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.5"
+    "request-promise-native": "^1.0.7"
   },
   "devDependencies": {
-    "@types/node": "^10.11.0"
+    "@types/node": "^11.9.5"
   }
 }
