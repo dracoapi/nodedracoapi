@@ -70,7 +70,7 @@ export class Client {
 
   constructor(options: any = {}) {
     this.protocolVersion = options.protocolVersion || '1946277628';
-    this.clientVersion = options.clientVersion || '12901';
+    this.clientVersion = options.clientVersion || '12883';
     if (options.hasOwnProperty('checkProtocol'))
       this.checkProtocol = options.checkProtocol;
     if (options.hasOwnProperty('eventsCounter'))
