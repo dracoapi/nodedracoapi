@@ -9,7 +9,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "tslint": "tslint -c tslint.json 'src/**/*.ts'"
+    "tslint": "tslint -c tslint.json 'src/**/*.ts'",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -30,9 +32,11 @@
     "jwt-simple": "^0.5.5",
     "long": "^4.0.0",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.7"
+    "request-promise-native": "^1.0.7",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@types/node": "^11.9.5"
-  }
+  },
+  "snyk": true
 }
